@@ -7,9 +7,9 @@ const SearchBar = () => {
   return (
     <div className="flex w-full max-w-sm items-center space-x-2">
       <Input
-        type="text"
-        className="px-3 py-2 w-[200px] tablet:min-w-72"
-        placeholder="Tìm kiếm..."
+        type="search"
+        className="px-3 py-2 mobile:w-[100px] tablet:w-[300px]"
+        placeholder="Tìm kiếm chiến dịch..." 
       />
       <Button className="px-2" size="icon">
         <Search className="h-5 w-5" />
