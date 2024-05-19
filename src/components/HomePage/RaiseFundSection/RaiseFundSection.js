@@ -1,5 +1,5 @@
 import React from "react";
-import { PaletteIcon, Users, HeartHandshake, HandHeart } from "lucide-react";
+import { Users, HeartHandshake, HandHeart } from "lucide-react";
 import CustomCard from "./CustomCard";
 import { Button } from "../../ui/button";
 

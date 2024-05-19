@@ -2,9 +2,6 @@ import React from "react";
 import {
   BrainCogIcon,
   PackageIcon,
-  ThumbsUpIcon,
-  TrophyIcon,
-  UsersIcon,
   ZapIcon,
 } from "lucide-react";
 
