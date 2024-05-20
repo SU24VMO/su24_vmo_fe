@@ -16,6 +16,11 @@ module.exports = {
       'mobile': '768px',
       'desktop': '1920px',
     },
+    colors:{
+      'vmo': '#21c478',
+     
+  
+    },
     container: {
       center: true,
       padding: "2rem",

@@ -1,8 +1,9 @@
 import "./App.css";
-import EditProfilePage from "./components/EditProfilePage/EditProfilePage";
+// import EditProfilePage from "./components/EditProfilePage/EditProfilePage";
 import Footer from "./components/Footer/Footer";
 // import HomePage from "./components/HomePage/HomePage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
+import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
 // import ViewCampaignsPage from "./components/ViewCampaignsPage/ViewCampaignsPage";
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <NavigationBar />
       {/* <HomePage /> */}
       {/* <ViewCampaignsPage /> */}
-      <EditProfilePage></EditProfilePage>
+      {/* <EditProfilePage></EditProfilePage> */}
+      <SignUpVerifyUserPage></SignUpVerifyUserPage>
       <Footer />
     </div>
   );
