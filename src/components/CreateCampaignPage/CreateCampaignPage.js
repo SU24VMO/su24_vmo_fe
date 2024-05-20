@@ -21,38 +21,37 @@ export default function CreateCampaignPage() {
     return <form>
 
         <div className="bg-orange-300 w-full h-14 flex justify-center items-center  ">
-            <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Đăng kí tài khoản thiện nguyện tổ chức</h1>
+            <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Tạo chiến dịch của bạn!</h1>
         </div>
 
         <div className="w-4/5 mx-auto bg-vmo rounded-xl">
-            <div className="grid gap-6 tablet:grid-cols-3 ">
+            <div className="grid gap-6 grid-cols-1 laptop:grid-cols-3 ">
 
                 <div className=" col-span-2 laptop:col-span-1  bg-gray-400 rounded-xl">
-                    <div>
+                    <div >
                         <div className="bg-gray-500 mb-6  rounded-tl-xl rounded-tr-xl">
-                            <h1 className="text-center py-3 font-semibold">Ảnh chiến dịch</h1>
+                            <h1 className="text-center py-3 font-semibold text-sm mobile:text-xl">Ảnh chiến dịch</h1>
                         </div>
 
 
                         <div class="flex items-center justify-center w-full laptop:w-4/5 mx-auto">
 
+                            {file ? <div className=" flex flex-col justify-center items-center">
+                                <img className="mb-6 w-2/4 h-2/4 laptop:w-full laptop:h-full rounded-xl" src={file} width={220} height={220} alt="avatar" />
+                                <div className="w-full">
 
-                            {file ? <div className=" flex flex-col justify-center ">
-                                <img className="" src={file} width={220} height={220} alt="avatar" />
-                                <div>
-
-                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" onChange={handleChange} />
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                                    <input class="block mx-auto w-4/5 laptop:w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" onChange={handleChange} />
+                                    <p class="mt-1 text-center  text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
 
                                 </div>
 
-                            </div> : <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            </div> : <label for="dropzone-file" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                     <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                     </svg>
-                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 w-3/4 mobile:w-full"><span class="font-semibold">Nhấp vào đây</span> hoặc kéo thả file ảnh</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 w-3/4 mobile:w-full">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                 </div>
                                 <input id="dropzone-file" type="file" class="hidden" onChange={handleChange} />
                             </label>}
@@ -63,12 +62,12 @@ export default function CreateCampaignPage() {
                             <p className="text-sm italic font-thin">Chọn ảnh chiến dịch của bạn</p>
                         </div>
 
-                        <div className="bg-blue-500 m-4 rounded-xl">
-                            <div className="p-4 flex justify-center gap-3 items-center">
-                                <img class="w-16 h-16 rounded-full" src="https://i.pinimg.com/564x/86/a2/31/86a231836008cca4d4a613a021ab90a1.jpg" alt="Rounded avatar" />
+                        <div className="bg-blue-500 m-4 rounded-xl w-3/5 mx-auto laptop:w-4/5">
+                            <div className="p-4 mobile:flex mobile:justify-center gap-3 items-center">
+                                <img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src="https://i.pinimg.com/564x/86/a2/31/86a231836008cca4d4a613a021ab90a1.jpg" alt="Rounded avatar" />
                                 <div>
-                                    <label className="text-gray-400">Tài khoản người dùng:</label>
-                                    <h2 className="font-semibold">Bocchi desu</h2>
+                                    <p className="text-gray-400 text-center mobile:text-left">Tài khoản người dùng:</p>
+                                    <h2 className="font-semibold text-center mobile:text-left">Bocchi desu</h2>
                                 </div>
                             </div>
 
@@ -98,9 +97,9 @@ export default function CreateCampaignPage() {
 
                 </div>
 
-                <div className=" col-span-2 bg-red-400 rounded-xl">
+                <div className=" col-span-2 laptop:col-span-2 bg-red-400 rounded-xl">
                     <div className="bg-black mb-6 rounded-tl-xl rounded-tr-xl">
-                        <h1 className="text-white text-center py-3 font-semibold ">Hoàn thành các thông tin bên dưới để chúng tôi xét duyệt chiến dịch của bạn </h1>
+                        <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Hoàn thành các thông tin bên dưới để chúng tôi xét duyệt chiến dịch của bạn </h1>
                     </div>
                     <div className="w-4/5 mx-auto">
                         <div class="mb-6">
@@ -122,7 +121,7 @@ export default function CreateCampaignPage() {
                             <div className="laptop:w-2/5">
                                 <label for="dateFrom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diễn ra từ</label>
 
-                                <div class="relative max-w-xl">
+                                <div class="relative tablet:w-full mb-6 laptop:mb-0">
                                     <input
                                         datepicker
                                         datepicker-autohide
@@ -159,7 +158,7 @@ export default function CreateCampaignPage() {
                             <div className="laptop:w-2/5">
                                 <label for="dateTo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">đến ngày</label>
 
-                                <div class="relative max-w-xl">
+                                <div class="relative  tablet:w-full">
                                     <input
                                         datepicker
                                         datepicker-autohide
@@ -194,7 +193,21 @@ export default function CreateCampaignPage() {
 
                         <div className="mb-6">
                             <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mục tiêu chiến dịch:</label>
-                            <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0 vnd" required />
+                            <div className="relative mt-2 rounded-md shadow-sm">
+                                <input
+                                    type="text"
+                                    name="price"
+                                    id="price"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 font-semibold text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="0"
+                                    aria-describedby="price-currency"
+                                />
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
+                                        VND
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div className="mb-6">
                             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loại chiến dịch</label>
