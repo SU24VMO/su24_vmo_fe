@@ -6,7 +6,7 @@ import CustomComboboxStatus from "./Feature/CustomComboboxStatus";
 
 const HeroSection = () => {
   return (
-    <>
+    <div className="flex-col items-center justify-center">
       {/* Hero */}
       <div className="relative overflow-hidden">
         <div className="container py-24 tablet:py-32">
@@ -21,7 +21,7 @@ const HeroSection = () => {
               {/* Search chiến dịch */}
               <SearchBar />
               {/* Đề mục & trạng thái của chiến dịch */}
-              <div className="relative z-10 flex items-center flex-col mobile:flex-row justify-between p-3 border bg-background rounded-lg shadow-lg mt-5">
+              <div className="relative z-10 flex items-center flex-col mobile:flex-row justify-around p-3 border bg-background rounded-lg shadow-lg mt-5">
                 <CustomComboboxCategory />
                 <CustomComboboxStatus />
               </div>
@@ -81,7 +81,7 @@ const HeroSection = () => {
         </div>
       </div>
       {/* End Hero */}
-    </>
+    </div>
   );
 };
 
