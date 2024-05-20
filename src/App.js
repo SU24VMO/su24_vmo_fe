@@ -3,7 +3,8 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 // import HomePage from "./components/HomePage/HomePage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
-import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
+import SignUpVerifyOrganizePage from "./components/SignUpVerifyOrganizePage/SignUpVerifyOrganizePage";
+// import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
 // import ViewCampaignsPage from "./components/ViewCampaignsPage/ViewCampaignsPage";
 
 function App() {
@@ -13,7 +14,9 @@ function App() {
       {/* <HomePage /> */}
       {/* <ViewCampaignsPage /> */}
       {/* <EditProfilePage></EditProfilePage> */}
-      <SignUpVerifyUserPage></SignUpVerifyUserPage>
+      {/* <SignUpVerifyUserPage></SignUpVerifyUserPage>
+       */}
+       <SignUpVerifyOrganizePage></SignUpVerifyOrganizePage>
       <Footer />
     </div>
   );
