@@ -6,6 +6,7 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
+  
   ],
   prefix: "",
   theme: {
@@ -14,6 +15,11 @@ module.exports = {
       'laptop': '1440px',
       'mobile': '768px',
       'desktop': '1920px',
+    },
+    colors:{
+      'vmo': '#21c478',
+     
+  
     },
     container: {
       center: true,
@@ -84,5 +90,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+  require('flowbite/plugin')
+  ],
 }
