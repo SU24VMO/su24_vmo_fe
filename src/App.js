@@ -1,9 +1,8 @@
 import "./App.css";
-import CreateCampaignPage from "./components/CreateCampaignPage/CreateCampaignPage";
-// import EditProfilePage from "./components/EditProfilePage/EditProfilePage";
 import Footer from "./components/Footer/Footer";
 // import HomePage from "./components/HomePage/HomePage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
+import ViewProfilePage from "./components/ViewProfilePage/ViewProfilePage";
 
 
 function App() {
@@ -11,8 +10,8 @@ function App() {
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
       <NavigationBar />
       {/* <HomePage /> */}
+ <ViewProfilePage></ViewProfilePage>
  
-       <CreateCampaignPage></CreateCampaignPage>
       <Footer />
     </div>
   );
