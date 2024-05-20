@@ -38,7 +38,7 @@ const data = [
   {
     imgSrc: "https://via.placeholder.com/360x150",
     daysLeft: "00",
-    campaignName: "Chiến dịch 456",
+    campaignName: "Chiến dịch 789",
     organizerName: "Nguyễn Văn Dũng",
     progressValue: 40,
     achievedAmount: "10.000.000 VND",
@@ -46,8 +46,32 @@ const data = [
   {
     imgSrc: "https://via.placeholder.com/360x150",
     daysLeft: "00",
-    campaignName: "Chiến dịch 456",
-    organizerName: "Nguyễn Văn Dũng",
+    campaignName: "Chiến dịch ...",
+    organizerName: "Tổ Chức Truongmagnus",
+    progressValue: 40,
+    achievedAmount: "10.000.000 VND",
+  },
+  {
+    imgSrc: "https://via.placeholder.com/360x150",
+    daysLeft: "00",
+    campaignName: "Chiến dịch ...",
+    organizerName: "Tổ Chức Truongmagnus",
+    progressValue: 40,
+    achievedAmount: "10.000.000 VND",
+  },
+  {
+    imgSrc: "https://via.placeholder.com/360x150",
+    daysLeft: "00",
+    campaignName: "Chiến dịch ...",
+    organizerName: "Tổ Chức Truongmagnus",
+    progressValue: 40,
+    achievedAmount: "10.000.000 VND",
+  },
+  {
+    imgSrc: "https://via.placeholder.com/360x150",
+    daysLeft: "00",
+    campaignName: "Chiến dịch ...",
+    organizerName: "Tổ Chức Truongmagnus",
     progressValue: 40,
     achievedAmount: "10.000.000 VND",
   },
@@ -56,6 +80,11 @@ const data = [
 const CampaignsSection = () => {
   return (
     <>
+      <div className="flex items-center justify-center my-10">
+        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        <p className="text-lg font-bold px-4">Chiến dịch gây quỹ nổi bật</p>
+        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+      </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
         {data.map((item, index) => (
           <CustomCardCampaign
@@ -69,8 +98,11 @@ const CampaignsSection = () => {
           />
         ))}
       </div>
+      {/* Button Xem thêm */}
       <div className="flex items-center justify-center my-10">
-        <Button variant="default" className="tablet:text-lg">Xem Thêm</Button>
+        <Button variant="default" className="tablet:text-lg">
+          Xem Thêm
+        </Button>
       </div>
     </>
   );
