@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "../../lib/utils"
-import { buttonVariants } from "@/src/components/ui/button";
+import { buttonVariants } from "./button";
 
 const Pagination = ({
   className,
