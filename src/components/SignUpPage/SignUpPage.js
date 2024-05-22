@@ -14,6 +14,7 @@ import {
 } from "../ui/card";
 import BirthDayPicker from "./BirthDayPicker/BirthDayPicker";
 import GenderSelect from "./GenderSelect/GenderSelect";
+import SignUpForm from "./SignUpForm/SignUpForm";
 
 const SignUpPage = () => {
   return (
@@ -37,72 +38,7 @@ const SignUpPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            {/* FirstName & LastName */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="first-name">Họ</Label>
-                <Input id="first-name" placeholder="Nguyen" required />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="last-name">Tên</Label>
-                <Input id="last-name" placeholder="Van A" required />
-              </div>
-            </div>
-            {/* BirthDay & Gender */}
-            <div className="grid tablet:grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <BirthDayPicker />
-              </div>
-              <div className="grid gap-2">
-                <GenderSelect />
-              </div>
-            </div>
-            {/* UserName */}
-            <div className="grid gap-2">
-              <Label htmlFor="username">Tên đăng nhập</Label>
-              <Input
-                id="username"
-                type="text"
-                placeholder="Nhập tên đăng nhập của bạn"
-                required
-              />
-            </div>
-            {/* Email */}
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            {/* Password */}
-            <div className="grid gap-2">
-              <Label htmlFor="password">Mật khẩu</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Nhập mật khẩu của bạn"
-              />
-            </div>
-            {/* PhoneNumber */}
-            <div className="grid gap-2">
-              <Label htmlFor="phoneNumber">Số điện thoại</Label>
-              <Input
-                id="phoneNumber"
-                type="numberic"
-                placeholder="Nhập số điện thoại của bạn"
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Tạo tài khoản
-            </Button>
-            {/* <Button variant="outline" className="w-full">
-              Sign up with GitHub
-            </Button> */}
-          </div>
+          <SignUpForm />
           <div className="mt-4 text-center text-sm">
             Bạn đã có tài khoản ư?{" "}
             <a href="#" className="underline">
