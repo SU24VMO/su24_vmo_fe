@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,11 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { Label } from "../../ui/label";
 
-const GenderSelect = () => {
+const GenderSelect = ({ setFieldValue, selectTriggerId }) => {
+  const handleSelectGender = (gender) => {
+    setFieldValue("gender", gender);
+  };
   return (
-    <Select>
-      <SelectTrigger className="w-[180px]">
+    <Select onValueChange={handleSelectGender}>
+      <SelectTrigger className="w-[180px]" id={selectTriggerId}>
         <SelectValue placeholder="Giới tính" />
       </SelectTrigger>
       <SelectContent>

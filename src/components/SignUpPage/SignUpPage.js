@@ -29,10 +29,10 @@ const SignUpPage = () => {
         />
       </div>
       {/* RIGHT */}
-      <Card className="mx-auto max-w-sm tablet:max-w-screen-tablet tablet:w-[600px] border-none shadow-none flex flex-col justify-center">
+      <Card className="mx-auto max-w-sm tablet:max-w-screen-tablet laptop:w-[600px] border-none shadow-none flex flex-col justify-center">
         <CardHeader>
-          <CardTitle className="text-2xl">Đăng Ký</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold">Đăng Ký</CardTitle>
+          <CardDescription className="text-base">
             Điền vào thông tin của bạn để tạo tài khoản
           </CardDescription>
         </CardHeader>
