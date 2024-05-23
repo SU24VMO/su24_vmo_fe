@@ -56,17 +56,21 @@ const SignUpForm = () => {
           } else if (values.phoneNumber.length < 10) {
             errors.phoneNumber = "Số điện thoại không hợp lệ";
           } else if (
-            !/((09|03|07|08|05)+([0-9]{8})\b)/g.test(values.phoneNumber)
+            !/((09|03|07|08|05)+([0-9]{8})\b$)/g.test(values.phoneNumber)
           ) {
             errors.phoneNumber = "Số điện thoại không hợp lệ";
           }
           // FirstName validation
           if (!values.firstName) {
             errors.firstName = "Không được để trống!";
+          }else if(!/^[a-zA-Z ]+$/.test(values.firstName)){
+            errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
           }
           // LastName validation
           if (!values.lastName) {
             errors.lastName = "Không được để trống!";
+          }else if(!/^[a-zA-Z ]+$/.test(values.lastName)){
+            errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
           }
           // UserName validation
           if (!values.username) {
