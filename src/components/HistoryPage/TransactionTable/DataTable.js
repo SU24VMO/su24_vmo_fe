@@ -66,7 +66,7 @@ export function DataTable({ columns, data }) {
       <div className="flex items-center py-4">
         <Input
           type="search"
-          placeholder="Tìm kiếm ..."
+          placeholder="Tìm kiếm tên người nhận ..."
           value={table.getColumn("receiverName")?.getFilterValue() || ""}
           onChange={(event) =>
             table.getColumn("receiverName")?.setFilterValue(event.target.value)
