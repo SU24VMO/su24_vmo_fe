@@ -14,8 +14,8 @@ const DonateForm = () => {
     const numberValue = Number(value);
     if (isNaN(numberValue)) return "";
     return new Intl.NumberFormat("it-IT", {
-      style: "currency",
-      currency: "VND",
+      // style: "currency",
+      // currency: "VND",
     }).format(numberValue);
   };
   const handleButtonClick = (value, setFieldValue) => {
@@ -40,6 +40,7 @@ const DonateForm = () => {
     },
     validate: (values) => {
       const errors = {};
+      const maxAmount = 500000000;
       // Email validation
       if (!values.email) {
         errors.email = "Không được để trống!";
@@ -63,6 +64,13 @@ const DonateForm = () => {
       // moneyDonate validation
       if (!values.moneyDonate) {
         errors.moneyDonate = "Không được để trống!";
+      } else {
+        const moneyDonateValue = Number(values.moneyDonate);
+        if (isNaN(moneyDonateValue)) {
+          errors.moneyDonate = "Số tiền không hợp lệ!";
+        } else if (moneyDonateValue > maxAmount) {
+          errors.moneyDonate = `Số tiền không được lớn hơn ${maxAmount.toLocaleString('it-IT')} VND!`;
+        }
       }
 
       return errors;
@@ -91,16 +99,24 @@ const DonateForm = () => {
               <Label htmlFor="moneyDonate">
                 Nhập số tiền ủng hộ <span className="text-destructive">*</span>
               </Label>
-              <Input
-                id="moneyDonate"
-                type="text"
-                inputMode="numeric"
-                maxLength="15"
-                placeholder="Nhập số tiền ủng hộ của bạn"
-                onChange={handleMoneyDonateChange}
-                onBlur={formik.handleBlur}
-                value={formattedValue}
-              />
+              <div className="relative ">
+                <Input
+                  id="moneyDonate"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength="15"
+                  placeholder="Nhập số tiền ủng hộ của bạn"
+                  onChange={handleMoneyDonateChange}
+                  onBlur={formik.handleBlur}
+                  value={formattedValue}
+                />
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
+                    VND
+                  </span>
+                </div>
+              </div>
+
               <p className={cn("text-sm font-medium text-destructive")}>
                 {formik.errors.moneyDonate &&
                   formik.touched.moneyDonate &&
@@ -110,41 +126,37 @@ const DonateForm = () => {
             <div className="flex items-center justify-between">
               <div
                 onClick={() => handleButtonClick(50000, formik.setFieldValue)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  selectedAmount === 50000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-                } h-10 px-4 py-2 cursor-pointer`}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${selectedAmount === 50000
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+                  } h-10 px-4 py-2 cursor-pointer`}
               >
                 50.000
               </div>
               <div
                 onClick={() => handleButtonClick(100000, formik.setFieldValue)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  selectedAmount === 100000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-                } h-10 px-4 py-2 cursor-pointer`}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${selectedAmount === 100000
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+                  } h-10 px-4 py-2 cursor-pointer`}
               >
                 100.000
               </div>
               <div
                 onClick={() => handleButtonClick(200000, formik.setFieldValue)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  selectedAmount === 200000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-                } h-10 px-4 py-2 cursor-pointer`}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${selectedAmount === 200000
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+                  } h-10 px-4 py-2 cursor-pointer`}
               >
                 200.000
               </div>
               <div
                 onClick={() => handleButtonClick(500000, formik.setFieldValue)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  selectedAmount === 500000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-                } h-10 px-4 py-2 cursor-pointer`}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${selectedAmount === 500000
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+                  } h-10 px-4 py-2 cursor-pointer`}
               >
                 500.000
               </div>
