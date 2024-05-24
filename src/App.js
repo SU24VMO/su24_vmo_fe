@@ -9,6 +9,7 @@ import SignUpForm from "./components/SignUpPage/SignUpForm/SignUpForm";
 import CreatNewsPage from "./components/CreateNewsPage/CreateNewsPage";
 import Routing from "./routes/Routing";
 import {  BrowserRouter } from "react-router-dom";
+import HistoryPage from "./components/HistoryPage/HistoryPage";
 // import SignUpVerifyOrganizePage from "./components/SignUpVerifyOrganizePage/SignUpVerifyOrganizePage";
 // import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
 // import ViewCampaignsPage from "./components/ViewCampaignsPage/ViewCampaignsPage";
@@ -29,7 +30,9 @@ function App() {
         {/* <NewsDetailPage></NewsDetailPage> */}
         {/* <SignUpVerifyOrganizePage></SignUpVerifyOrganizePage> */}
         {/* <CreatNewsPage></CreatNewsPage> */}
-        <Routing></Routing>
+        
+        <HistoryPage></HistoryPage>
+
         <Footer />
       </BrowserRouter>
     </div>
