@@ -7,6 +7,8 @@ import NewsDetailPage from "./components/NewsDetailPage/NewsDetailPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import SignUpForm from "./components/SignUpPage/SignUpForm/SignUpForm";
 import CreatNewsPage from "./components/CreateNewsPage/CreateNewsPage";
+import Routing from "./routes/Routing";
+import {  BrowserRouter } from "react-router-dom";
 // import SignUpVerifyOrganizePage from "./components/SignUpVerifyOrganizePage/SignUpVerifyOrganizePage";
 // import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
 // import ViewCampaignsPage from "./components/ViewCampaignsPage/ViewCampaignsPage";
@@ -14,19 +16,22 @@ import CreatNewsPage from "./components/CreateNewsPage/CreateNewsPage";
 function App() {
   return (
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
-      <NavigationBar />
-      {/* <HomePage /> */}
-      {/* <ViewCampaignDetailPage/> */}
-      {/* <SignUpPage /> */}
-      {/* <SignUpForm /> */}
-      {/* <ViewCampaignsPage /> */}
-      {/* <EditProfilePage></EditProfilePage> */}
-      {/* <SignUpVerifyUserPage></SignUpVerifyUserPage>
+      <BrowserRouter>
+        <NavigationBar />
+        {/* <HomePage /> */}
+        {/* <ViewCampaignDetailPage/> */}
+        {/* <SignUpPage /> */}
+        {/* <SignUpForm /> */}
+        {/* <ViewCampaignsPage /> */}
+        {/* <EditProfilePage></EditProfilePage> */}
+        {/* <SignUpVerifyUserPage></SignUpVerifyUserPage>
        */}
-      {/* <NewsDetailPage></NewsDetailPage> */}
-      {/* <SignUpVerifyOrganizePage></SignUpVerifyOrganizePage> */}
-      <CreatNewsPage></CreatNewsPage>
-      <Footer />
+        {/* <NewsDetailPage></NewsDetailPage> */}
+        {/* <SignUpVerifyOrganizePage></SignUpVerifyOrganizePage> */}
+        {/* <CreatNewsPage></CreatNewsPage> */}
+        <Routing></Routing>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }
