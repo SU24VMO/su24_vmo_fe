@@ -22,7 +22,7 @@ const LeftDonatePage = () => {
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-x-3">
+          <div className="flex flex-col flex-row items-center gap-x-3">
             <Avatar className="w-20 h-20">
               <AvatarImage src={avatar_img} />
               <AvatarFallback>Bi</AvatarFallback>
