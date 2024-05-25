@@ -1,6 +1,6 @@
 import "./App.css";
+import DonatePage from "./components/DonatePage/DonatePage";
 import Footer from "./components/Footer/Footer";
-// import HomePage from "./components/HomePage/HomePage";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
 import NewsDetailPage from "./components/NewsDetailPage/NewsDetailPage";
@@ -17,6 +17,9 @@ import HistoryPage from "./components/HistoryPage/HistoryPage";
 function App() {
   return (
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
+      <NavigationBar />
+      <DonatePage />
+      <Footer />
       <BrowserRouter>
         <NavigationBar />
         {/* <HomePage /> */}
@@ -30,9 +33,7 @@ function App() {
         {/* <NewsDetailPage></NewsDetailPage> */}
         {/* <SignUpVerifyOrganizePage></SignUpVerifyOrganizePage> */}
         {/* <CreatNewsPage></CreatNewsPage> */}
-        
         <HistoryPage></HistoryPage>
-
         <Footer />
       </BrowserRouter>
     </div>
