@@ -27,6 +27,7 @@ import logo_vietQR from "../../../../assets/images/logo_vietqr.png";
 import logo_napas from "../../../../assets/images/logo_napas.png";
 import { Separator } from "../../../ui/separator";
 import { CopyButton } from "./CopyButton";
+import { ButtonStatusDonate } from "./ButtonStatusDonate";
 
 const DonateForm = () => {
   const [selectedAmount, setSelectedAmount] = React.useState(null);
@@ -356,7 +357,8 @@ const DonateForm = () => {
                 </div>
                 <p className="text-sm text-center text-muted-foreground italic">
                   Vui lòng sao chép mã này vào nội dung chuyển khoản để chúng
-                  tôi nhận ra ủng hộ của bạn
+                  tôi nhận ra ủng hộ của bạn <br />
+                  <b>Lưu ý: Mã chỉ hoạt động một lần trên mỗi chuyển khoản</b>
                 </p>
               </div>
               <div className="col-span-1 place-self-center">
@@ -392,6 +394,9 @@ const DonateForm = () => {
                   </p>
                 </div>
               </div>
+            </div>
+            <div className="flex items-center justify-center">
+              <ButtonStatusDonate />
             </div>
           </DialogContent>
         </Dialog>
@@ -470,7 +475,12 @@ const DonateForm = () => {
                 <p className="text-sm text-center text-muted-foreground italic">
                   Vui lòng sao chép mã này vào nội dung chuyển khoản để chúng
                   tôi nhận ra ủng hộ của bạn
+                  <br />
+                  <b>Lưu ý: Mã chỉ hoạt động một lần trên mỗi chuyển khoản</b>
                 </p>
+              </div>
+              <div className="my-3">
+                <ButtonStatusDonate />
               </div>
             </div>
           </DrawerContent>
