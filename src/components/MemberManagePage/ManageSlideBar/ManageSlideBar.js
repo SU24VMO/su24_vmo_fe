@@ -10,32 +10,44 @@ import { Link } from "react-router-dom";
 export default function ManageSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   
-
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
   return (
     <div>
-     {isDrawerOpen ? "" :  <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-50 ">
-        <div
-          className="w-16 h-16 rounded-tr-full rounded-br-full p-3 border-4 bg-white flex items-center justify-center cursor-pointer"
-          onClick={toggleDrawer}
-        >
-         <IconSlidebar></IconSlidebar>
+      {isDrawerOpen ? "" : (
+        <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-50 ">
+          <div
+            className="w-16 h-16 rounded-tr-full rounded-br-full p-3 border-x-2  drop-shadow-xl bg-white flex items-center justify-center cursor-pointer "
+            onClick={toggleDrawer}
+          >
+            <IconSlidebar />
+          </div>
         </div>
-      </div>}
+      )}
+
+      {/* Overlay */}
+      {isDrawerOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 "
+          onClick={toggleDrawer}
+        ></div>
+      )}
 
       <div
         id="drawer-navigation"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform ${
-          isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 left-0 z-50 w-64 h-screen p-4 overflow-y-auto transition-transform rounded-tr-xl rounded-br-xl shadow ${
+          isDrawerOpen ? "translate-x-0" : "-translate-x-full "
         } bg-white dark:bg-gray-800`}
         tabIndex="-1"
         aria-labelledby="drawer-navigation-label"
       >
-        <h5 id="drawer-navigation-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
-       MEMBER'S MANAGEMENT SPACE
+        <h5
+          id="drawer-navigation-label"
+          className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
+        >
+          MEMBER'S MANAGEMENT SPACE
         </h5>
         <button
           type="button"
@@ -61,43 +73,30 @@ export default function ManageSlideBar() {
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
             <li>
-            <Link to="/manage/allCampaigns">
-            <AllCampaignsButton/>
-            </Link>
-
+              <Link to="/manage/allCampaigns">
+                <AllCampaignsButton />
+              </Link>
             </li>
             <li>
-          <Link to="/manage/allPhase1">
-          <Phase1Button/>
-
-          </Link>
-
+              <Link to="/manage/allPhase1">
+                <Phase1Button />
+              </Link>
             </li>
             <li>
-            <Link to="/manage/allPhase2">
-            <Phase2Button/>
-
-            </Link>
-
-            
+              <Link to="/manage/allPhase2">
+                <Phase2Button />
+              </Link>
             </li>
             <li>
-            <Link to="/manage/allPhase3">
-             <Phase3Button/>
-                
-            </Link>
-
-             
+              <Link to="/manage/allPhase3">
+                <Phase3Button />
+              </Link>
             </li>
             <li>
-            
-            <Link to="/manage/allActivities">
-            <AllActivitiesButton/>
-            </Link>
-
-           
+              <Link to="/manage/allActivities">
+                <AllActivitiesButton />
+              </Link>
             </li>
-         
           </ul>
         </div>
       </div>

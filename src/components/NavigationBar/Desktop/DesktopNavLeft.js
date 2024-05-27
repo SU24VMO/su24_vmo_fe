@@ -17,6 +17,9 @@ const DesktopNavLeft = () => {
       <Link to="/viewCampaigns">
         <Button variant="ghost" >Chiến dịch</Button>
       </Link>
+      <Link to="/manage/allCampaigns">
+        <Button variant="ghost" >Quản lí</Button>
+      </Link>
     </div>
   );
 };
