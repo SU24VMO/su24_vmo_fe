@@ -8,20 +8,20 @@ const FundraisingCampaignSection = () => {
     <div className="flex-col items-center justify-center">
       {/* Separator */}
       <div className="flex items-center justify-center">
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
-        <p className="text-lg font-bold px-4">Chiến dịch gây quỹ nổi bật</p>
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        <p className="text-[10px] mobile:text-lg font-bold px-4">Chiến dịch gây quỹ nổi bật</p>
+        <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
       </div>
       {/* Vertical carousel */}
-      <div className="flex flex-col items-center flex-wrap justify-center py-10">
+      <div className="flex flex-col items-center flex-wrap justify-center my-10">
         <CarouselAutoScrollDonator />
       </div>
       {/* Tạo bởi Tổ chức */}
       <div className="flex items-center justify-between mb-5">
-        <p>
+        <p className="text-sm mobile:text-base">
           Tạo bởi <b>Tổ Chức</b>
         </p>
-        <Button variant="link" className="text-base">
+        <Button variant="link" className="text-sm mobile:text-base">
           Xem thêm
         </Button>
       </div>
@@ -33,10 +33,10 @@ const FundraisingCampaignSection = () => {
 
       {/* Tạo bởi cá nhân */}
       <div className="flex items-center justify-between mb-5">
-        <p>
+        <p className="text-sm mobile:text-base">
           Tạo bởi <b>Cá nhân</b>
         </p>
-        <Button variant="link" className="text-base">
+        <Button variant="link" className="text-sm mobile:text-base">
           Xem thêm
         </Button>
       </div>

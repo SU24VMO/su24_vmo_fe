@@ -6,12 +6,12 @@ import { Button } from "../../ui/button";
 const RaiseFundSection = () => {
   return (
     <div className="flex-col items-center justify-center mb-10">
-      <div className="flex items-center justify-center mb-10">
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
-        <p className="text-lg font-bold px-4">
+      <div className="flex items-center justify-center">
+        <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        <p className="text-[10px] mobile:text-lg font-bold px-4 text-center">
           Gây quỹ từ tài khoản thiện nguyện
         </p>
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
       </div>
       <div className="grid sm:grid-cols-2 tablet:grid-cols-3 items-center gap-6 md:gap-10">
         <CustomCard

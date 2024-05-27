@@ -13,14 +13,14 @@ const CallForActionSection = () => {
         <div className="max-w-screen-desktop mx-auto">
           {/* Grid */}
           <div className="grid tablet:grid-cols-3 gap-6 lg:gap-12">
-            <div className="space-y-6 col-span-1 lg:space-y-10">
+            <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
               <img src="https://via.placeholder.com/360x150" alt="Ảnh" />
             </div>
-            <div className="space-y-6 col-span-1 lg:space-y-10">
+            <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
               <div>
                 {/* Icon Block */}
                 <div className="flex">
-                  <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Số lượng tổ chức thiện nguyện
@@ -31,7 +31,7 @@ const CallForActionSection = () => {
                 {/* End Icon Block */}
                 {/* Icon Block */}
                 <div className="flex">
-                  <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Số lượng chiến dịch thiện nguyện
@@ -42,7 +42,7 @@ const CallForActionSection = () => {
                 {/* End Icon Block */}
                 {/* Icon Block */}
                 <div className="flex">
-                  <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Số lượng cá nhân thiện nguyện
@@ -52,10 +52,10 @@ const CallForActionSection = () => {
                 </div>
               </div>
             </div>
-            <div className="space-y-6 col-span-1 lg:space-y-10">
+            <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
               <div>
                 <div className="flex">
-                  <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Tổng giá trị đổi ra tiền đã ủng hộ
@@ -64,7 +64,7 @@ const CallForActionSection = () => {
                   </div>
                 </div>
                 <div className="flex">
-                  <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Số lượng thành viên tham gia
@@ -73,7 +73,7 @@ const CallForActionSection = () => {
                   </div>
                 </div>
                 <div className="flex">
-                  <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" />
+                  {/* <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
                   <div className="ms-5 sm:ms-8">
                     <h3 className="text-base sm:text-lg font-semibold">
                       Tổng số lượt đã ủng hộ của người dùng
