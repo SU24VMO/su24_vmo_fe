@@ -12,6 +12,8 @@ function App() {
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
       <BrowserRouter>
         <NavigationBar />
+        {/* <HomePage></HomePage> */}
+        {/* <ViewNewsPage></ViewNewsPage> */}
         <Routing></Routing>
         <Footer />
       </BrowserRouter>

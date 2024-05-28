@@ -17,7 +17,7 @@ export function CarouselAutoScroll() {
       }}
       autoplay
       interval={500}
-      className="w-full max-w-sm"
+      className="w-full mobile:max-w-sm max-w-[300px]"
     >
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (

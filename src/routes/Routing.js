@@ -4,6 +4,8 @@ import HomePage from "../components/HomePage/HomePage";
 import ViewCampaignsPage from "../components/ViewCampaignsPage/ViewCampaignsPage";
 import LoginPage from "../components/LoginPage/LoginPage";
 import NotFound from "./NotFound";
+import NewsDetailPage from "../components/NewsDetailPage/NewsDetailPage";
+import ViewNewsPage from "../components/ViewsNewsPage/ViewNewsPage";
 import ManageAllCampaignsTable from "../components/MemberManagePage/ManageAllCampaignsTable/ManageAllCampaignsTable";
 import ManagePhase1Table from "../components/MemberManagePage/ManagePhase1Table/ManagePhase1Table";
 import ManagePhase2Table from "../components/MemberManagePage/ManagePhase2Table/ManagePhase2Table";
@@ -18,6 +20,11 @@ export default function Routing() {
       <Route path="/home" element={<HomePage></HomePage>} />
       <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
       <Route path="/login" element={<LoginPage></LoginPage>} />
+      <Route path="/news" element={<ViewNewsPage></ViewNewsPage>}>
+
+      </Route>
+        <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
+
       <Route path="*" element={<NotFound></NotFound>} />
       <Route path="/manage/allCampaigns" element={<ManageAllCampaignsTable />} />
       <Route path="/manage/allPhase1" element={<ManagePhase1Table></ManagePhase1Table>} />
@@ -28,6 +35,6 @@ export default function Routing() {
 
 
 
-   </Routes>
+    </Routes>
   );
 }
