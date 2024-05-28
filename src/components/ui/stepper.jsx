@@ -757,6 +757,7 @@ const StepIcon = React.forwardRef((props, ref) => {
         {(index || 0) + 1}
       </span>
     )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCompletedStep,
     isCurrentStep,

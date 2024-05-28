@@ -20,7 +20,7 @@ const NewPasswordInput = () => {
       if (!values.newPassword) {
         errors.newPassword = "Không được để trống!";
       } else if (
-        !/(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/.test(
+        !/(?=(.*[0-9]))(?=.*[@#$%^&*()[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/.test(
           values.newPassword
         )
       ) {

@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import img_src from "../../assets/images/placeholder.svg";
 import {
   Card,
@@ -12,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import BirthDayPicker from "./BirthDayPicker/BirthDayPicker";
-import GenderSelect from "./GenderSelect/GenderSelect";
 import SignUpForm from "./SignUpForm/SignUpForm";
 
 const SignUpPage = () => {
@@ -41,7 +36,7 @@ const SignUpPage = () => {
           <SignUpForm />
           <div className="mt-4 text-center text-sm">
             Bạn đã có tài khoản ư?{" "}
-            <a href="#" className="underline">
+            <a href="/login" className="underline">
               Đăng nhập
             </a>
           </div>
