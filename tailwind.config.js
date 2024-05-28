@@ -2,24 +2,21 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
-  
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
-    screens:{
-      'tablet': '1000px',
-      'laptop': '1440px',
-      'mobile': '768px',
-      'desktop': '1920px',
+    screens: {
+      tablet: "1000px",
+      laptop: "1440px",
+      mobile: "768px",
+      desktop: "1920px",
     },
-    colors:{
-      'vmo': '#21c478',
-     
-  
+    colors: {
+      vmo: "#21c478",
     },
     container: {
       center: true,
@@ -82,15 +79,23 @@ module.exports = {
           "0%,70%,100%": { opacity: "1" },
           "20%,50%": { opacity: "0" },
         },
+        "collapsible-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-up": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
+        "collapsible-down": "collapsible-down 0.2s ease-out",
+        "collapsible-up": "collapsible-up 0.2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),
-  require('flowbite/plugin')
-  ],
-}
+  plugins: [require("tailwindcss-animate"), require("flowbite/plugin")],
+};

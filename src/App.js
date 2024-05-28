@@ -1,6 +1,11 @@
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
+import { BrowserRouter } from "react-router-dom";
+// import HomePage from "./components/HomePage/HomePage";
+import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
+// import DemoStepper from "./components/ResetPasswordPage/DemoStepper";
+import { Toaster } from "./components/ui/toaster";
 import {  BrowserRouter } from "react-router-dom";
 import HomePage from "./components/HomePage/HomePage";
 import ViewNewsPage from "./components/ViewsNewsPage/ViewNewsPage";
@@ -15,9 +20,12 @@ function App() {
       <BrowserRouter>
         <NavigationBar />
         {/* <HomePage></HomePage> */}
+        <ResetPasswordPage />
+        {/* <DemoStepper /> */}
         {/* <ViewNewsPage></ViewNewsPage> */}
         <Routing></Routing>
         <Footer />
+        <Toaster />
       </BrowserRouter>
     </div>
   );
