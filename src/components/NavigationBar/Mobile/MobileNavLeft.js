@@ -77,7 +77,7 @@ const MobileNavLeft = () => {
             </Link>
           </div>
           <Separator className="mb-5" />
-          <div className="w-full">
+          <div className="w-full mb-5">
             <Link to="/manage/allCampaigns">
               <Button
                 variant="feature"
