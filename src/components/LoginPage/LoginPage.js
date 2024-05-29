@@ -44,7 +44,7 @@ const LoginPage = () => {
               <div className="flex items-center">
                 <Label htmlFor="password">Mật khẩu</Label>
                 <a
-                  href="/forgot-password"
+                  href="/resetPassword"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Quên mật khẩu?
@@ -58,7 +58,7 @@ const LoginPage = () => {
           </div>
           <div className="mt-4 text-center text-sm">
             Bạn chưa có tài khoản ư?&nbsp;
-            <a href="#" className="underline">
+            <a href="/signup" className="underline">
               Đăng ký ngay
             </a>
           </div>

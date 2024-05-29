@@ -15,6 +15,8 @@ import CreateCampaignPage from "../components/CreateCampaignPage/CreateCampaignP
 import ViewProfilePage from "../components/ViewProfilePage/ViewProfilePage";
 
 
+import SignUpPage from "../components/SignUpPage/SignUpPage";
+import ResetPasswordPage from "../components/ResetPasswordPage/ResetPasswordPage";
 export default function Routing() {
   return (
     <Routes>
@@ -22,6 +24,10 @@ export default function Routing() {
       <Route path="/home" element={<HomePage></HomePage>} />
       <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
       <Route path="/login" element={<LoginPage></LoginPage>} />
+      <Route path="/signup" element={<SignUpPage></SignUpPage>} />
+      <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
+      <Route path="/news" element={<ViewNewsPage></ViewNewsPage>}/>
+      <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
       <Route path="/news" element={<ViewNewsPage></ViewNewsPage>}/>
       <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
 
