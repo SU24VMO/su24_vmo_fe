@@ -8,7 +8,7 @@ const SearchBar = () => {
     <div className="flex w-full max-w-sm items-center space-x-2">
       <Input
         type="search"
-        className="px-3 py-2 mobile:w-[100px] tablet:w-[300px]"
+        className="px-3 py-2 mobile:w-[300px] tablet:w-[300px]"
         placeholder="Tìm kiếm chiến dịch..." 
       />
       <Button className="px-2" size="icon">
