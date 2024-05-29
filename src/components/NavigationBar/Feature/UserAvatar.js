@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import avatar_image from "../../../assets/avatars/02.png";
+import { Link } from "react-router-dom";
 
 const UserAvatar = () => {
   return (
@@ -34,7 +35,13 @@ const UserAvatar = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Xem trang cá nhân</DropdownMenuItem>
+          <DropdownMenuItem>
+
+            <Link to="/viewProfile">
+              Xem trang cá nhân
+            </Link>
+
+          </DropdownMenuItem>
           <DropdownMenuItem>Chỉnh sửa thông tin cá nhân</DropdownMenuItem>
           <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
           <DropdownMenuItem>Đổi mật khẩu</DropdownMenuItem>

@@ -20,6 +20,9 @@ const DesktopNavLeft = () => {
       <Link to="/news">
         <Button variant="ghost" >Tin tức</Button>
       </Link>
+      <Link to="/manage/allCampaigns">
+        <Button variant="ghost" >Quản lí</Button>
+      </Link>
     </div>
   );
 };
