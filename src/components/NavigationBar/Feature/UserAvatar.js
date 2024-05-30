@@ -42,7 +42,11 @@ const UserAvatar = () => {
             </Link>
 
           </DropdownMenuItem>
-          <DropdownMenuItem>Chỉnh sửa thông tin cá nhân</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/editProfile">
+            Chỉnh sửa thông tin cá nhân
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
           <DropdownMenuItem>Đổi mật khẩu</DropdownMenuItem>
         </DropdownMenuGroup>

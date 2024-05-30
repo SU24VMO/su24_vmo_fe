@@ -18,6 +18,7 @@ import ViewProfilePage from "../components/ViewProfilePage/ViewProfilePage";
 import SignUpPage from "../components/SignUpPage/SignUpPage";
 import ResetPasswordPage from "../components/ResetPasswordPage/ResetPasswordPage";
 import CreateActivityPage from "../components/CreateActivityPage/CreateActivityPage";
+import EditProfilePage from "../components/EditProfilePage/EditProfilePage";
 export default function Routing() {
   return (
     <Routes>
@@ -31,6 +32,8 @@ export default function Routing() {
       <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
       <Route path="/news" element={<ViewNewsPage></ViewNewsPage>}/>
       <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
+      <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
+
 
         <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
         <Route path="/createCampaign" element={<CreateCampaignPage></CreateCampaignPage>} />
