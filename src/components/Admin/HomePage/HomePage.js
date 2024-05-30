@@ -34,8 +34,9 @@ import avatar_5 from "../../../assets/avatars/05.png";
 const HomePage = () => {
   return (
     <>
+      <p className="font-bold text-2xl">Dashboard</p>
       {/* CARD FULL*/}
-      <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 tablet:grid-cols-4">
+      <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -86,8 +87,8 @@ const HomePage = () => {
         </Card>
       </div>
       {/* CARD 2 */}
-      <div className="grid gap-4 mobile:gap-8 tablet:grid-cols-2 xl:grid-cols-3">
-        <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
+      <div className="grid gap-4 mobile:gap-8 laptop:grid-cols-3">
+        <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
               <CardTitle>Transactions</CardTitle>
@@ -107,11 +108,15 @@ const HomePage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Customer</TableHead>
-                  <TableHead className="hidden xl:table-column">Type</TableHead>
-                  <TableHead className="hidden xl:table-column">
+                  <TableHead className="hidden laptop:table-column">
+                    Type
+                  </TableHead>
+                  <TableHead className="hidden laptop:table-column">
                     Status
                   </TableHead>
-                  <TableHead className="hidden xl:table-column">Date</TableHead>
+                  <TableHead className="hidden laptop:table-column">
+                    Date
+                  </TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
@@ -123,13 +128,15 @@ const HomePage = () => {
                       liam@example.com
                     </div>
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">Sale</TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
+                    Sale
+                  </TableCell>
+                  <TableCell className="hidden laptop:table-column">
                     <Badge className="text-xs" variant="outline">
                       Approved
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden xl:table-column">
+                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
                     2023-06-23
                   </TableCell>
                   <TableCell className="text-right">$250.00</TableCell>
@@ -141,15 +148,15 @@ const HomePage = () => {
                       olivia@example.com
                     </div>
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
                     Refund
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
                     <Badge className="text-xs" variant="outline">
                       Declined
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden xl:table-column">
+                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
                     2023-06-24
                   </TableCell>
                   <TableCell className="text-right">$150.00</TableCell>
@@ -161,15 +168,15 @@ const HomePage = () => {
                       noah@example.com
                     </div>
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
                     Subscription
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
                     <Badge className="text-xs" variant="outline">
                       Approved
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden xl:table-column">
+                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
                     2023-06-25
                   </TableCell>
                   <TableCell className="text-right">$350.00</TableCell>
@@ -181,13 +188,15 @@ const HomePage = () => {
                       emma@example.com
                     </div>
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">Sale</TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
+                    Sale
+                  </TableCell>
+                  <TableCell className="hidden laptop:table-column">
                     <Badge className="text-xs" variant="outline">
                       Approved
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden xl:table-column">
+                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
                     2023-06-26
                   </TableCell>
                   <TableCell className="text-right">$450.00</TableCell>
@@ -199,13 +208,15 @@ const HomePage = () => {
                       liam@example.com
                     </div>
                   </TableCell>
-                  <TableCell className="hidden xl:table-column">Sale</TableCell>
-                  <TableCell className="hidden xl:table-column">
+                  <TableCell className="hidden laptop:table-column">
+                    Sale
+                  </TableCell>
+                  <TableCell className="hidden laptop:table-column">
                     <Badge className="text-xs" variant="outline">
                       Approved
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden xl:table-column">
+                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
                     2023-06-27
                   </TableCell>
                   <TableCell className="text-right">$550.00</TableCell>
