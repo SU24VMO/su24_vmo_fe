@@ -84,7 +84,7 @@ export const columns = [
     accessorKey: "donationAmount",
     header: ({ column }) => (
       <Button
-        className="w-full px-0 py-0"
+        className="px-0 py-0"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
@@ -99,7 +99,7 @@ export const columns = [
         currency: "VND",
       }).format(donationAmount);
 
-      return <div className="text-center font-medium">{formatted}</div>;
+      return <div className="text-start font-medium">{formatted}</div>;
     },
   },
   {

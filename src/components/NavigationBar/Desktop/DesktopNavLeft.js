@@ -29,7 +29,7 @@ const DesktopNavLeft = () => {
       </Link>
       <NavigationMenu className="list-none">
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Mở Rộng</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Mở rộng</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="p-6 mobile:w-[400px]">
               <ListItem to="/introduction" title="Giới thiệu" icon={HandHeart}>
