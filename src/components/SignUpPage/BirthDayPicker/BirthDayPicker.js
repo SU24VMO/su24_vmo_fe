@@ -6,14 +6,16 @@ import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { cn } from "../../../lib/utils";
 import { Calendar } from "../../ui/calendar";
+import { Label } from "../../ui/label";
 
-const BirthDayPicker = () => {
+const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
   const [date, setDate] = React.useState(null);
   const [formattedDate, setFormattedDate] = React.useState(null); // Sử dụng cái state này để  truyền về Backend thay cho date
   const handleSetDate = (date) => {
     setDate(date);
     const formatted = date ? format(date, "yyyy/MM/dd") : null;
     setFormattedDate(formatted);
+    setFieldValue("birthday", formatted);
     console.log(date);
   };
   console.log("Formatted date: ", formattedDate);
@@ -21,7 +23,7 @@ const BirthDayPicker = () => {
   return (
     <>
       <Popover>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild id={popOverTriggerId}>
           <Button
             variant={"outline"}
             className={cn(

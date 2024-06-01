@@ -10,7 +10,7 @@ const SearchBar = () => {
                 <div className="flex-[1_0_0%]">
                   <Input
                     className="h-full"
-                    placeholder="Tìm kiếm chiến dịch..."
+                    placeholder="Tìm kiếm..."
                   />
                 </div>
                 <div className="flex-[0_0_auto]">

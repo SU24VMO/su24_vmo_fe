@@ -52,7 +52,7 @@ export function CarouselAutoScrollDonator() {
       orientation="vertical"
       className="w-full max-w-lg"
     >
-      <CarouselContent className="-mt-1 h-[100px]">
+      <CarouselContent className="-mt-1 h-[200px] max-w-lg">
         {cardData.map((item, index) => (
           <CarouselItem key={index} className="pt-1 md:basis-1/2">
             <div className="p-1">

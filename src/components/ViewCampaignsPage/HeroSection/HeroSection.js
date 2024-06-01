@@ -9,10 +9,10 @@ const HeroSection = () => {
     <div className="flex-col items-center justify-center">
       {/* Hero */}
       <div className="relative overflow-hidden">
-        <div className="container py-24 tablet:py-32">
+        <div className="container tablet:mt-10 py-24 tablet:py-32">
           <div className="text-center">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight tablet:text-5xl">
-              Các Chiến Dịch Thiện Nguyện
+              CÁC CHIẾN DỊCH THIỆN NGUYỆN
             </h1>
             <p className="mt-3 text-xl text-muted-foreground">
               Hành trình thiện nguyện, chắp cánh ước mơ
@@ -21,7 +21,7 @@ const HeroSection = () => {
               {/* Search chiến dịch */}
               <SearchBar />
               {/* Đề mục & trạng thái của chiến dịch */}
-              <div className="relative z-10 flex items-center flex-col mobile:flex-row justify-around p-3 border bg-background rounded-lg shadow-lg mt-5">
+              <div className="relative z-10 flex items-center flex-col space-y-3 mobile:space-y-0 mobile:flex-row justify-between p-3 border bg-background rounded-lg shadow-lg mt-5">
                 <CustomComboboxCategory />
                 <CustomComboboxStatus />
               </div>

@@ -9,7 +9,7 @@ export default function ViewProfilePage() {
 
     return <div className="w-4/5 mx-auto rounded-xl">
 
-        <div className="grid gap-6 tablet:grid-cols-2 bg-vmo rounded-xl p-10">
+        <div className="grid gap-6 tablet:grid-cols-2 bg-vmo rounded-xl p-10 drop-shadow-lg ">
             <div className=" justify-center mobile:justify-evenly mobile:flex  gap-4 items-center">
                 <div className="rounded-full flex justify-center">
                     <img className="rounded-full" src="https://i.pinimg.com/736x/98/24/03/982403255d6d3641004fb044cfcaac07.jpg" alt="avatar" width={180} height={180} />
