@@ -12,7 +12,7 @@ const HeroSection = () => {
         <div className="container tablet:mt-10 py-24 tablet:py-32">
           <div className="text-center">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight tablet:text-5xl">
-              Các Chiến Dịch Thiện Nguyện
+              CÁC CHIẾN DỊCH THIỆN NGUYỆN
             </h1>
             <p className="mt-3 text-xl text-muted-foreground">
               Hành trình thiện nguyện, chắp cánh ước mơ

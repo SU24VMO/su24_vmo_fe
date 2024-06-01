@@ -74,9 +74,6 @@ function MyStepperSuccess() {
   }
   return (
     <div className="flex flex-col items-center justify-center gap-2 mt-5">
-      <p className="text-balance text-muted-foreground">
-        🎉Chúc mừng bạn đã đặt lại mật khẩu thành công!
-      </p>
       {/* test only */}
       <Button onClick={resetSteps}>Quay lại đăng nhập</Button>
     </div>
