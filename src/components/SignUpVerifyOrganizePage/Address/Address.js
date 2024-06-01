@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Demo.css";
+import "./Address.css";
 
-const Demo = () => {
+const Address = () => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -78,4 +78,4 @@ const Demo = () => {
   );
 };
 
-export default Demo;
+export default Address;

@@ -135,7 +135,7 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.socialMediaLink}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đường dẫn tài khoản mạng xã hội..."  />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đường dẫn tài khoản mạng xã hội..." />
                     </div>
 
                     <div class="mb-5">
@@ -147,7 +147,7 @@ export default function SignUpVerifyUserForm() {
                             onBlur={handleBlur}
                             value={values.address}
                             autocomplete="off"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.address && touched.address && errors.address}</p>
 
                     </div>
@@ -159,10 +159,10 @@ export default function SignUpVerifyUserForm() {
                                 <input
                                     id="founder"
                                     type="radio"
-                                    value="founder" 
+                                    value="founder"
                                     name="role"
-                                    checked={values.role === "founder"} 
-                                    onChange={() => setFieldValue("role", "founder")} 
+                                    checked={values.role === "founder"}
+                                    onChange={() => setFieldValue("role", "founder")}
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
                             </div>
@@ -173,10 +173,10 @@ export default function SignUpVerifyUserForm() {
                                 <input
                                     id="leader"
                                     type="radio"
-                                    value="leader" 
+                                    value="leader"
                                     name="role"
-                                    checked={values.role === "leader"} 
-                                    onChange={() => setFieldValue("role", "leader")} 
+                                    checked={values.role === "leader"}
+                                    onChange={() => setFieldValue("role", "leader")}
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 />
                             </div>
@@ -184,7 +184,7 @@ export default function SignUpVerifyUserForm() {
                         </div>
                     </div>
                     <div class="mb-5">
-                    <label for="nameOfClub" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên CLB/Đội/Nhóm của bạn  </label>
+                        <label for="nameOfClub" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên CLB/Đội/Nhóm của bạn  </label>
                         <input type="text"
                             id="nameOfClub"
                             name="nameOfClub"
@@ -195,24 +195,24 @@ export default function SignUpVerifyUserForm() {
                     </div>
                     <div class="mb-5">
                         <label for="linkOfInfo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Đường dẫn/link facebook, website, youtube, instagram, tiktok . . .mô tả, giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện nguyện, cộng đồng đã triển khai*</label>
-                        <input type="text" 
-                      id="linkOfInfo"
-                      name="linkOfInfo"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.linkOfInfo}
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                        <input type="text"
+                            id="linkOfInfo"
+                            name="linkOfInfo"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.linkOfInfo}
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     <div class="mb-5">
                         <label for="linkOfAchievement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Thành tích, khen thưởng, được ghi nhận trong hoạt động tình nguyện, cộng đồng, xã hội (Đoạn văn ngắn bao gồm đường dẫn/link hoặc đính kèm hình ảnh minh hoạ)*</label>
                         <span className="text-xs mobile:text-sm">(Chấp nhận các file ảnh, MS Word, MS Excel. Tối đa 5 file, mỗi file dung lượng tối đa 20MB)</span>
                         <input type="text"
-                         id="linkOfAchievement"
-                         name="linkOfAchievement"
-                         onChange={handleChange}
-                         onBlur={handleBlur}
-                         value={values.linkOfAchievement}
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                            id="linkOfAchievement"
+                            name="linkOfAchievement"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.linkOfAchievement}
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     <div class="mb-5 bg-orange-400 p-5 rounded-xl">
                         <span className="text-white text-sm mobile:text-xl font-semibold text-justify">Cam kết mục đích sử dụng Tài khoản thanh toán minh bạch   </span>
@@ -238,13 +238,13 @@ export default function SignUpVerifyUserForm() {
                         <span class="block mb-2 text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">Mọi hành vi thiện nguyện trái với mục tiêu đạo đức hoặc vi phạm pháp luật phải chịu trách nhiệm bạn có:</span>
                         <div class="flex items-start mb-5">
                             <div class="flex items-center h-5">
-                                <input 
-                                id="agree"
-                                 type="checkbox" 
-                                 name="agree"
-                                 checked={values.agree} 
-                                 onChange={() => setFieldValue("agree", !values.agree)} 
-                                 class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"  />
+                                <input
+                                    id="agree"
+                                    type="checkbox"
+                                    name="agree"
+                                    checked={values.agree}
+                                    onChange={() => setFieldValue("agree", !values.agree)}
+                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
                             </div>
                             <label for="agree" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Đồng ý </label>
                         </div>
@@ -252,24 +252,24 @@ export default function SignUpVerifyUserForm() {
                     </div>
 
                     <div className="flex justify-end">
-    {values.agree ? (
-        <button
-            type="submit"
-            disabled={isSubmitting}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-4"
-        >
-            Gửi
-        </button>
-    ) : (
-        <button
-            type="button"
-            disabled
-            className="text-white bg-gray-400 cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-gray-500 dark:focus:ring-gray-700 my-4"
-        >
-            Gửi
-        </button>
-    )}
-</div>
+                        {values.agree ? (
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-4"
+                            >
+                                Gửi
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                disabled
+                                className="text-white bg-gray-400 cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-gray-500 dark:focus:ring-gray-700 my-4"
+                            >
+                                Gửi
+                            </button>
+                        )}
+                    </div>
                 </form>
             )}
         </Formik>
