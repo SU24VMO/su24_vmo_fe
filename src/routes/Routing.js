@@ -21,6 +21,7 @@ import CreateActivityPage from "../components/CreateActivityPage/CreateActivityP
 import EditProfilePage from "../components/EditProfilePage/EditProfilePage";
 import CreatNewsPage from "../components/CreateNewsPage/CreateNewsPage";
 import SignUpVerifyUserPage from "../components/SignUpVerifyUserPage/SignUpVerifyUserPage";
+import SignUpVerifyOrganizePage from "../components/SignUpVerifyOrganizePage/SignUpVerifyOrganizePage";
 export default function Routing() {
   return (
     <Routes>
@@ -36,7 +37,8 @@ export default function Routing() {
       <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
       <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
       <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
-
+      
+      <Route path="/sigupVerifyOrganizeForm" element={<SignUpVerifyOrganizePage></SignUpVerifyOrganizePage>} />
 
 
         <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
