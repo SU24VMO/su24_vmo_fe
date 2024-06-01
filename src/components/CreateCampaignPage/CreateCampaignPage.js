@@ -6,11 +6,32 @@ import { Formik } from "formik";
 
 export default function CreateCampaignPage() {
 
-    const [file, setFile] = useState();
-    function handleImageChange(e) {
+    const [fileImageBackground, setFileImageBackground] = useState();
+
+    function handleImageBackgroundChange(e, setFieldValue) {
         console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
+        setFileImageBackground(URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageBackgroundFile", URL.createObjectURL(e.target.files[0]));
+
     }
+    function handleImageQRCode(e, setFieldValue) {
+        console.log(e.target.files);
+        setFieldValue("imageQRCode", URL.createObjectURL(e.target.files[0]));
+
+    }
+    function handleImageLocalDocument(e, setFieldValue) {
+        console.log(e.target.files);
+        setFieldValue("imageLocalDocument", URL.createObjectURL(e.target.files[0]));
+
+    }
+    function removeImage(e, setFieldValue) {
+        setFileImageBackground('');
+        setFieldValue("imageBackgroundFile", null);
+
+    }
+
+
+
     const formatAmount = (value) => {
         // Remove non-digit characters from the input value
         const cleanValue = value.replace(/\D/g, '');
@@ -37,20 +58,50 @@ export default function CreateCampaignPage() {
                 targetAmount: "",
                 nameOfCampaign: "",
                 address: "",
+                imageBackgroundFile: null,
                 description: "",
-                file: ""
+                imageQRCode: null,
+                imageLocalDocument: null
+
 
             }}
             validate={(values) => {
                 const errors = {};
-                // startDate validation
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0 để so sánh chính xác hơn
+                var startDate = new Date(values.startDate);
+                var endDate = new Date(values.endDate);
+                var thirtyDaysFromToday = new Date();
+                thirtyDaysFromToday.setDate(today.getDate() + 30);
+
+                // Kiểm tra ngày bắt đầu
                 if (!values.startDate) {
                     errors.startDate = "Không được để trống!";
+                } else {
+                    if (startDate < today) {
+                        errors.startDate = "Ngày không được nằm trong quá khứ!";
+                    }
                 }
 
-                // endDate validation
+                // Kiểm tra ngày kết thúc
                 if (!values.endDate) {
                     errors.endDate = "Không được để trống!";
+                } else {
+                    if (endDate <= today) {
+                        errors.endDate = "Ngày kết thúc phải diễn ra trong tương lai!";
+                    } else if (endDate <= startDate) {
+                        errors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu!";
+                    } else if (endDate < thirtyDaysFromToday) {
+                        errors.endDate = "Ngày kết thúc phải lớn hơn ngày hiện tại ít nhất 30 ngày!";
+                    } else if ((endDate - startDate) / (1000 * 60 * 60 * 24) < 30) {
+                        errors.endDate = "Ngày kết thúc và ngày bắt đầu phải cách nhau ít nhất 30 ngày!";
+                    }
+                }
+
+                // Kiểm tra sự khác biệt giữa ngày bắt đầu và ngày kết thúc ít nhất 30 ngày
+                if (startDate && endDate && (endDate - startDate) / (1000 * 60 * 60 * 24) < 30) {
+                    errors.startDate = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc ít nhất 30 ngày!";
+                    errors.endDate = "Ngày kết thúc và ngày bắt đầu phải cách nhau ít nhất 30 ngày!";
                 }
                 // typeOfCampaign validation
                 if (!values.typeOfCampaign) {
@@ -69,6 +120,12 @@ export default function CreateCampaignPage() {
                 // numberOfBankAccount validation
                 if (!values.numberOfBankAccount) {
                     errors.numberOfBankAccount = "Không được để trống!";
+                } else {
+                    // Biểu thức chính quy để kiểm tra ký tự đặc biệt và dấu âm dương
+                    var specialCharAndSignRegex = /[!@#$%^&*(),.?":{}|<>+-]/g;
+                    if (specialCharAndSignRegex.test(values.numberOfBankAccount)) {
+                        errors.numberOfBankAccount = "Không được chứa ký tự đặc biệt!";
+                    }
                 }
 
                 // nameOfCampaign validation
@@ -83,7 +140,14 @@ export default function CreateCampaignPage() {
                 if (!values.description) {
                     errors.description = "Không được để trống!";
                 }
-
+                // imageBackgroundFile validation
+                if (!values.imageBackgroundFile) {
+                    errors.imageBackgroundFile = "Không được để trống!";
+                }
+                // imageQRCode validation
+                if (!values.imageQRCode) {
+                    errors.imageQRCode = "Không được để trống!";
+                }
                 // targetAmount validation
                 if (!values.targetAmount) {
                     errors.targetAmount = "Không được để trống!";
@@ -103,6 +167,7 @@ export default function CreateCampaignPage() {
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                     alert(JSON.stringify(values, null, 2));
+                    console.log(values);
                     setSubmitting(false);
                 }, 400);
             }}
@@ -116,6 +181,7 @@ export default function CreateCampaignPage() {
                 handleSubmit,
                 isSubmitting,
                 setFieldValue,
+
             }) => (
                 <form onSubmit={handleSubmit}>
                     <div className="bg-orange-300 w-full h-14 flex justify-center items-center  ">
@@ -134,32 +200,17 @@ export default function CreateCampaignPage() {
 
                                     <div class="flex items-center justify-center w-full laptop:w-4/5 mx-auto">
 
-                                        {file ? <div className=" flex flex-col justify-center items-center">
-                                            <img className="mb-6 w-2/4 h-2/4 laptop:w-2/3 laptop:h-2/3 rounded-xl"
-                                                id="file"
-                                                // onChange={handleChange}
-                                                // onBlur={handleBlur}
-                                                value={values.file}
-                                                src={values.file} width={220} height={220} alt="avatar" />
-                                            <div className="w-full">
+                                        {fileImageBackground ? <div className=" flex flex-col justify-center items-center">
+                                            <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
+                                                id="image"
 
-                                                <input
-                                                    class="block mx-auto w-4/5 laptop:w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                value={fileImageBackground}
+                                                src={fileImageBackground} width={220} height={220} alt="avatar" />
+                                            <button type="button"
+                                                onClick={(e) => { removeImage(e, setFieldValue) }}
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove Image</button>
 
-                                                    aria-describedby="file_input_help"
-                                                    id="file"
-                                                    name="file"
-                                                    type="file"
-                                                    onChange={handleImageChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.file}
-                                                // onChange={(e) => handleImageChange(e)}
-                                                />
-                                                <p class="mt-1 text-center  text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-
-                                            </div>
-
-                                        </div> : <label for="dropzone-file" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                        </div> : <label for="imageBackgroundFile" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                                 <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
@@ -167,12 +218,17 @@ export default function CreateCampaignPage() {
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 w-3/4 mobile:w-full"><span class="font-semibold">Nhấp vào đây</span> hoặc kéo thả file ảnh</p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400 w-3/4 mobile:w-full">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                             </div>
-                                            <input id="dropzone-file" type="file" class="hidden" onChange={handleChange} />
+                                            <input id="imageBackgroundFile" type="file" name="imageBackgroundFile" class="hidden"
+                                                onChange={(e) => { handleImageBackgroundChange(e, setFieldValue) }}
+                                                value={values.imageBackgroundFile}
+
+                                            />
                                         </label>}
 
 
                                     </div>
                                     <div className="text-center mt-2">
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.imageBackgroundFile && touched.imageBackgroundFile && errors.imageBackgroundFile}</p>
                                         <p className="text-sm italic font-thin">Chọn ảnh chiến dịch của bạn</p>
                                     </div>
 
@@ -214,7 +270,7 @@ export default function CreateCampaignPage() {
                                         </div>
                                         <label for="numberOfBankAccount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Số tài khoản:</label>
                                         <div class="relative mb-6">
-                                            <input type="text"
+                                            <input type="number"
                                                 id="numberOfBankAccount"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -229,8 +285,16 @@ export default function CreateCampaignPage() {
                                         </div>
 
                                         <div className="mb-6 mt-10">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">QR code tài khoản(ảnh)</label>
-                                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" />
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                for="imageQRCode">QR code tài khoản(ảnh)</label>
+                                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                aria-describedby="imageQRCode"
+                                                id="imageQRCode"
+                                                name="imageQRCode"
+                                                onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
+                                                type="file" />
+                                            <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
+
                                         </div>
                                     </div>
 
@@ -295,7 +359,7 @@ export default function CreateCampaignPage() {
 
                                         </div>
 
-                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-gray-100 border-0 rounded  dark:bg-gray-700"></hr>
+                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-black border-0 rounded  dark:bg-gray-700"></hr>
 
                                         <div className="laptop:w-2/5">
                                             <label for="dateTo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">đến ngày</label>
@@ -350,7 +414,15 @@ export default function CreateCampaignPage() {
                                     </div>
                                     <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương(ảnh)</label>
-                                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" />
+                                        <input
+                                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                            aria-describedby="imageLocalDocument"
+                                            id="imageLocalDocument"
+                                            name="imageLocalDocument"
+                                            onChange={(e) => { handleImageLocalDocument(e, setFieldValue) }}
+                                            type="file" />
+                                        <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageLocalDocument && touched.imageLocalDocument && errors.imageLocalDocument}</p>
+
                                     </div>
                                 </div>
                                 <div className="flex justify-center">
