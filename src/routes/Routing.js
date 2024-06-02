@@ -22,6 +22,13 @@ import EditProfilePage from "../components/EditProfilePage/EditProfilePage";
 import CreatNewsPage from "../components/CreateNewsPage/CreateNewsPage";
 import SignUpVerifyUserPage from "../components/SignUpVerifyUserPage/SignUpVerifyUserPage";
 import SignUpVerifyOrganizePage from "../components/SignUpVerifyOrganizePage/SignUpVerifyOrganizePage";
+import ManageOrganizeAllCampaignsTable from "../components/OrganizeManagePage/ManageOrganizeAllCampaignsTable/ManageOrganizeAllCampaignsTable";
+import ManageOrganizePhase1Table from "../components/OrganizeManagePage/ManageOrganizePhase1Table/ManageOrganizePhase1Table";
+import ManageOrganizePhase2Table from "../components/OrganizeManagePage/ManageOrganizePhase2Table/ManageOrganizePhase2Table";
+import ManageOrganizePhase3Table from "../components/OrganizeManagePage/ManageOrganizePhase3Table/ManageOrganizePhase3Table";
+import ManageOrganizeAllActivitiesTable from "../components/OrganizeManagePage/ManageOrganizeAllActivitiesTable/ManageOrganizeAllActivitiesTable";
+import ManageOrganizeOrganizationsTable from "../components/OrganizeManagePage/ManageOrganizeOrganizationsTable/ManageOrganizeOrganizationsTable";
+import ManageOrganizeNewsTable from "../components/OrganizeManagePage/ManageOrganizeNewsTable/ManageOrganizeNewsTable";
 export default function Routing() {
   return (
     <Routes>
@@ -53,6 +60,14 @@ export default function Routing() {
       <Route path="/manage/allPhase3" element={<ManagePhase3Table></ManagePhase3Table>} />
       <Route path="/manage/allActivities" element={<ManageAllActivitiesTable/>} />
       
+      {/* Organize manager */}
+      <Route path="/manage/organize/allOrganizations" element={<ManageOrganizeOrganizationsTable/>}/>
+      <Route path="/manage/organize/allCampaigns" element={<ManageOrganizeAllCampaignsTable></ManageOrganizeAllCampaignsTable>}/>
+      <Route path="/manage/organize/allNews" element={<ManageOrganizeNewsTable></ManageOrganizeNewsTable>}/>
+      <Route path="/manage/organize/allPhase1" element={<ManageOrganizePhase1Table></ManageOrganizePhase1Table>} />
+      <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
+      <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
+      <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable/>} />
 
 
 
