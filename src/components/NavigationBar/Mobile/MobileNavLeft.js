@@ -89,7 +89,7 @@ const MobileNavLeft = () => {
           </div>
           <Separator className="mb-5" />
           <div className="w-full mb-5">
-            <Link to="/manage/organize/allCampaigns">
+            <Link to="/manage/organize/allOrganizations">
               <Button
                 variant="feature"
                 className="w-full items-start justify-start"
