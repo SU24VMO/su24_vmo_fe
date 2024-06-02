@@ -84,11 +84,11 @@ export function DataTable({ columns, data }) {
       <div className="flex items-center py-4">
         <Input
           type="search"
-          placeholder="Tìm kiếm ..."
-          value={table.getColumn("nameOfCampaign")?.getFilterValue() || ""}
+          placeholder="Tìm kiếm tên tổ chức ..."
+          value={table.getColumn("organizeName")?.getFilterValue() || ""}
           onChange={(event) =>
             table
-              .getColumn("nameOfCampaign")
+              .getColumn("organizeName")
               ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"

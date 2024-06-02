@@ -118,10 +118,10 @@ export const columns = [
             <DropdownMenuLabel>Hành Động</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(infoRow.nameOfCampaign)
+                navigator.clipboard.writeText(infoRow.organizeName)
               }
             >
-              Copy tên chiến dịch
+              Copy tên tổ chức
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
