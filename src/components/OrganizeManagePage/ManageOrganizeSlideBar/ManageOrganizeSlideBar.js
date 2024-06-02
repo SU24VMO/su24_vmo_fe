@@ -6,8 +6,10 @@ import Phase2Button from "./Phase2Button";
 import Phase3Button from "./Phase3Button";
 import AllActivitiesButton from "./AllActivitiesButton";
 import { Link } from "react-router-dom";
+import AllOrganizationsButton from "./AllOrganizationsButton";
+import AllNewsButton from "./AllNewsButton";
 
-export default function ManageSlideBar() {
+export default function ManageOrganizeSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -49,7 +51,7 @@ export default function ManageSlideBar() {
           id="drawer-navigation-label"
           className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
         >
-          MEMBER'S MANAGEMENT SPACE
+          ORGANIZATION MANAGEMENT SPACE
         </h5>
         <button
           type="button"
@@ -75,28 +77,38 @@ export default function ManageSlideBar() {
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
             <li>
-              <Link to="/manage/allCampaigns">
+              <Link to="/manage/organize/allOrganizations">
+                <AllOrganizationsButton />
+              </Link>
+            </li>
+            <li>
+              <Link to="/manage/organize/allCampaigns">
                 <AllCampaignsButton />
               </Link>
             </li>
             <li>
-              <Link to="/manage/allPhase1">
+              <Link to="/manage/organize/allActivities">
+                <AllActivitiesButton />
+              </Link>
+            </li>
+            <li>
+              <Link to="/manage/organize/allNews">
+                <AllNewsButton />
+              </Link>
+            </li>
+            <li>
+              <Link to="/manage/organize/allPhase1">
                 <Phase1Button />
               </Link>
             </li>
             <li>
-              <Link to="/manage/allPhase2">
+              <Link to="/manage/organize/allPhase2">
                 <Phase2Button />
               </Link>
             </li>
             <li>
-              <Link to="/manage/allPhase3">
+              <Link to="/manage/organize/allPhase3">
                 <Phase3Button />
-              </Link>
-            </li>
-            <li>
-              <Link to="/manage/allActivities">
-                <AllActivitiesButton />
               </Link>
             </li>
           </ul>

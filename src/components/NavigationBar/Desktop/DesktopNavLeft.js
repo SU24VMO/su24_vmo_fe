@@ -48,6 +48,9 @@ const DesktopNavLeft = () => {
       <Link to="/manage/allCampaigns">
         <Button variant="feature">Quản lí</Button>
       </Link>
+      <Link to="/manage/organize/allCampaigns">
+        <Button variant="feature">Quản lí tổ chức</Button>
+      </Link>
     </div>
   );
 };
