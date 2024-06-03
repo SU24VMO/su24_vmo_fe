@@ -82,7 +82,7 @@ const CampaignsSection = () => {
     <>
       <div className="flex items-center justify-center my-10">
         <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
-        <p className="text-lg font-bold px-4">Chiến dịch gây quỹ nổi bật</p>
+        <p className="text-lg font-bold px-4">Các chiến dịch gần đây</p>
         <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
       </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">

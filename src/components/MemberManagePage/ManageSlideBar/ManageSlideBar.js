@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ReactComponent as IconSlidebar } from '../../../assets/images/button-slidebar.svg';
+import { ReactComponent as IconSlidebar } from "../../../assets/images/button-slidebar.svg";
 import AllCampaignsButton from "./AllCampaignsButton";
 import Phase1Button from "./Phase1Button";
 import Phase2Button from "./Phase2Button";
@@ -9,14 +9,16 @@ import { Link } from "react-router-dom";
 
 export default function ManageSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
   return (
     <div>
-      {isDrawerOpen ? "" : (
+      {isDrawerOpen ? (
+        ""
+      ) : (
         <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-50 ">
           <div
             className="w-16 h-16 rounded-tr-full rounded-br-full p-3 border-x-2  drop-shadow-xl bg-white flex items-center justify-center cursor-pointer "

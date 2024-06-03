@@ -6,6 +6,7 @@ import { Label } from "../../ui/label";
 import { cn } from "../../../lib/utils";
 import BirthDayPicker from "../BirthDayPicker/BirthDayPicker";
 import GenderSelect from "../GenderSelect/GenderSelect";
+import AccountTypeSelect from "../AccountTypeSelect/AccountTypeSelect";
 
 const SignUpForm = () => {
   return (
@@ -20,6 +21,7 @@ const SignUpForm = () => {
           firstName: "",
           lastName: "",
           username: "",
+          accountType: "",
         }}
         validate={(values) => {
           const errors = {};
@@ -50,6 +52,10 @@ const SignUpForm = () => {
           if (!values.gender) {
             errors.gender = "Không được để trống!";
           }
+          // AccountType validation
+          if (!values.accountType) {
+            errors.accountType = "Không được để trống!";
+          }
           // PhoneNumber validation
           if (!values.phoneNumber) {
             errors.phoneNumber = "Không được để trống!";
@@ -63,13 +69,13 @@ const SignUpForm = () => {
           // FirstName validation
           if (!values.firstName) {
             errors.firstName = "Không được để trống!";
-          }else if(!/^[a-zA-Z ]+$/.test(values.firstName)){
+          } else if (!/^[a-zA-Z ]+$/.test(values.firstName)) {
             errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
           }
           // LastName validation
           if (!values.lastName) {
             errors.lastName = "Không được để trống!";
-          }else if(!/^[a-zA-Z ]+$/.test(values.lastName)){
+          } else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
             errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
           }
           // UserName validation
@@ -157,6 +163,19 @@ const SignUpForm = () => {
                     {errors.gender && touched.gender && errors.gender}
                   </p>
                 </div>
+              </div>
+              {/* Account Type */}
+              <div className="grid gap-2">
+                <Label htmlFor="selectAccountType">Loại tài khoản</Label>
+                <AccountTypeSelect
+                  setFieldValue={setFieldValue}
+                  selectTriggerId="selectAccountType"
+                />
+                <p className={cn("text-sm font-medium text-destructive")}>
+                  {errors.accountType &&
+                    touched.accountType &&
+                    errors.accountType}
+                </p>
               </div>
               {/* UserName */}
               <div className="grid gap-2">

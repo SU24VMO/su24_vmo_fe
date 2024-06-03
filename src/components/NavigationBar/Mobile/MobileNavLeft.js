@@ -88,6 +88,17 @@ const MobileNavLeft = () => {
             </Link>
           </div>
           <Separator className="mb-5" />
+          <div className="w-full mb-5">
+            <Link to="/manage/organize/allOrganizations">
+              <Button
+                variant="feature"
+                className="w-full items-start justify-start"
+              >
+                Quản lí tổ chức
+              </Button>
+            </Link>
+          </div>
+          <Separator className="mb-5" />
           <div className="w-full">
             <SearchBar />
           </div>

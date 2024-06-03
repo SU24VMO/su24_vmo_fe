@@ -41,7 +41,7 @@ const CustomComboboxStatus = () => {
           >
             {value
               ? data.find((item) => item.value === value)?.label
-              : "Chọn trạng thái chiến dịch"}
+              : "Chọn trạng thái"}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

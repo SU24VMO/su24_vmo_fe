@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import SignUpForm from "./SignUpForm/SignUpForm";
+import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
   return (
@@ -27,7 +28,7 @@ const SignUpPage = () => {
       {/* RIGHT */}
       <Card className="mx-auto max-w-sm tablet:max-w-screen-tablet laptop:w-[600px] border-none shadow-none flex flex-col justify-center">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Đăng Ký</CardTitle>
+          <CardTitle className="text-2xl font-bold">Đăng ký</CardTitle>
           <CardDescription className="text-base">
             Điền vào thông tin của bạn để tạo tài khoản
           </CardDescription>
@@ -36,9 +37,9 @@ const SignUpPage = () => {
           <SignUpForm />
           <div className="mt-4 text-center text-sm">
             Bạn đã có tài khoản ư?{" "}
-            <a href="/login" className="underline">
+            <Link to="/login" className="underline">
               Đăng nhập
-            </a>
+            </Link>
           </div>
         </CardContent>
       </Card>
