@@ -5,7 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 import Routing from "./routes/Routing";
 
-
 function App() {
   return (
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
