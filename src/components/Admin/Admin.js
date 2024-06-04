@@ -4,6 +4,7 @@ import DesktopNav from "./NavigationBar/Desktop/DesktopNav";
 import MobileNav from "./NavigationBar/Mobile/MobileNav";
 import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
+import ManageUsersPage from "./ManageUsersPage/ManageUsersPage";
 
 const Admin = () => {
   return (
@@ -20,7 +21,8 @@ const Admin = () => {
         </header>
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
-          <HomePage />
+          {/* <HomePage /> */}
+          <ManageUsersPage />
         </main>
       </div>
     </div>
