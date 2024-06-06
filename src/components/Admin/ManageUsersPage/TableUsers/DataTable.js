@@ -51,6 +51,17 @@ export function DataTable({ columns, data }) {
       columnVisibility,
     },
   });
+  //Name of column dropdown
+  const columnHeaders =  {
+    userAvatar: "Avatar",
+    userName: "Tên người dùng",
+    userEmail: "Email",
+    userPassword: "Mật khẩu",
+    isActive: "Đang hoạt động",
+    isBlocked: "Dừng hoạt động",
+    createAt: "Ngày tạo",
+    actions: "Thao tác",
+  };
 
   return (
     <div>
@@ -90,7 +101,7 @@ export function DataTable({ columns, data }) {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {columnHeaders[column.id] || column.id}
                   </DropdownMenuCheckboxItem>
                 );
               })}
