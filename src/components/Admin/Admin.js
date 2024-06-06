@@ -6,6 +6,7 @@ import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
 import ManageUsersPage from "./ManageUsersPage/ManageUsersPage";
 import ManageOrganizationManagers from "./ManageOrganizationManagersPage/ManageOrganizationManagersPage";
+import ManageRequestManagersPage from "./ManageRequestManagersPage/ManageRequestManagersPage";
 
 const Admin = () => {
   return (
@@ -24,7 +25,8 @@ const Admin = () => {
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
           {/* <HomePage /> */}
           {/* <ManageUsersPage /> */}
-          <ManageOrganizationManagers/>
+          {/* <ManageOrganizationManagers/> */}
+          <ManageRequestManagersPage></ManageRequestManagersPage>
         </main>
       </div>
     </div>
