@@ -7,6 +7,7 @@ import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
 import ManageUsersPage from "./ManageUsersPage/ManageUsersPage";
 import ManageOrganizationManagers from "./ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageRequestManagersPage from "./ManageRequestManagersPage/ManageRequestManagersPage";
+import ManageMembersPage from "./ManageMembersPage/ManageMembersPage";
 
 const Admin = () => {
   return (
@@ -26,7 +27,8 @@ const Admin = () => {
           {/* <HomePage /> */}
           {/* <ManageUsersPage /> */}
           {/* <ManageOrganizationManagers/> */}
-          <ManageRequestManagersPage></ManageRequestManagersPage>
+          {/* <ManageRequestManagersPage></ManageRequestManagersPage> */}
+          <ManageMembersPage/>
         </main>
       </div>
     </div>
