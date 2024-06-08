@@ -29,6 +29,7 @@ import ManageOrganizePhase3Table from "../components/OrganizeManagePage/ManageOr
 import ManageOrganizeAllActivitiesTable from "../components/OrganizeManagePage/ManageOrganizeAllActivitiesTable/ManageOrganizeAllActivitiesTable";
 import ManageOrganizeOrganizationsTable from "../components/OrganizeManagePage/ManageOrganizeOrganizationsTable/ManageOrganizeOrganizationsTable";
 import ManageOrganizeNewsTable from "../components/OrganizeManagePage/ManageOrganizeNewsTable/ManageOrganizeNewsTable";
+import CreateOrganizePage from "../components/CreateOrganizePage/CreateOrganizePage";
 export default function Routing() {
   return (
     <Routes>
@@ -41,6 +42,7 @@ export default function Routing() {
       <Route path="/news" element={<ViewNewsPage></ViewNewsPage>}/>
       <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
       <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>}/>
+      <Route path="/createOrganizeForm" element={<CreateOrganizePage></CreateOrganizePage>}/>
       <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
       <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
       <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
