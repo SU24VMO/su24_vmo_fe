@@ -60,36 +60,36 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "isActive",
-    header: () => <div>Đang hoạt động</div>,
+    header: () => <div>Trạng thái</div>,
     cell: ({ row }) => {
       const isActive = row.getValue("isActive");
       return (
         <div>
           {isActive === true ? (
-            <Badge variant="success">Có</Badge>
+            <Badge variant="success">Đang hoạt động</Badge>
           ) : (
-            <Badge variant="destructive">Không</Badge>
+            <Badge variant="destructive">Tạm dừng</Badge>
           )}
         </div>
       );
     },
   },
-  {
-    accessorKey: "isBlocked",
-    header: () => <div>Dừng hoạt động</div>,
-    cell: ({ row }) => {
-      const isBlocked = row.getValue("isBlocked");
-      return (
-        <div>
-          {isBlocked === true ? (
-            <Badge variant="success">Có</Badge>
-          ) : (
-            <Badge variant="destructive">Không</Badge>
-          )}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "isBlocked",
+  //   header: () => <div>Dừng hoạt động</div>,
+  //   cell: ({ row }) => {
+  //     const isBlocked = row.getValue("isBlocked");
+  //     return (
+  //       <div>
+  //         {isBlocked === true ? (
+  //           <Badge variant="success">Có</Badge>
+  //         ) : (
+  //           <Badge variant="destructive">Không</Badge>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "createAt",
     header: () => <div>Ngày tạo</div>,

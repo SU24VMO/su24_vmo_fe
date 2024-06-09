@@ -57,8 +57,8 @@ export function DataTable({ columns, data }) {
     userName: "Tên người dùng",
     userEmail: "Email",
     userPassword: "Mật khẩu",
-    isActive: "Đang hoạt động",
-    isBlocked: "Dừng hoạt động",
+    isActive: "Trạng thái",
+    // isBlocked: "Dừng hoạt động",
     createAt: "Ngày tạo",
     actions: "Thao tác",
   };

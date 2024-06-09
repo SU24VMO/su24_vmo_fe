@@ -80,9 +80,9 @@ export const columns = ({ onEdit, onDelete }) => [
       return (
         <div>
           {is_verified === true ? (
-            <Badge variant="success">Có</Badge>
+            <Badge variant="success">Đồng ý</Badge>
           ) : (
-            <Badge variant="destructive">Không</Badge>
+            <Badge variant="destructive">Từ chối</Badge>
           )}
         </div>
       );
@@ -96,7 +96,7 @@ export const columns = ({ onEdit, onDelete }) => [
       return (
         <div className="max-w-[100px] min-w-[100px] truncate">
           {facebookUrl === "" ? (
-            <Badge variant="destructive">Không</Badge>
+            <p className="truncate"></p>
           ) : (
             <p className="truncate">{facebookUrl}</p>
           )}
@@ -112,7 +112,7 @@ export const columns = ({ onEdit, onDelete }) => [
       return (
         <div className="max-w-[100px] min-w-[100px] truncate">
           {youtubeUrl === "" ? (
-            <Badge variant="destructive">Không</Badge>
+            <p className="truncate"></p>
           ) : (
             <p className="truncate">{youtubeUrl}</p>
           )}
@@ -128,7 +128,7 @@ export const columns = ({ onEdit, onDelete }) => [
       return (
         <div className="max-w-[100px] min-w-[100px] truncate">
           {tiktokUrl === "" ? (
-            <Badge variant="destructive">Không</Badge>
+            <p className="truncate"></p>
           ) : (
             <p className="truncate">{tiktokUrl}</p>
           )}

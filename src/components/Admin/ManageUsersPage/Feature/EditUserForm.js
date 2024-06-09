@@ -146,9 +146,9 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
                 checked={formik.values.isActive}
                 onCheckedChange={handleSwitchChange("isActive")}
               />
-              <Label htmlFor="isActive">Đang hoạt động</Label>
+              <Label htmlFor="isActive">Trạng thái</Label>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="items-center space-x-2 hidden">
               <Switch
                 id="isBlocked"
                 checked={formik.values.isBlocked}
