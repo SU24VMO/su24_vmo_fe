@@ -66,22 +66,30 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
-  // {
-  //   accessorKey: "isBlocked",
-  //   header: () => <div>Dừng hoạt động</div>,
-  //   cell: ({ row }) => {
-  //     const isBlocked = row.getValue("isBlocked");
-  //     return (
-  //       <div>
-  //         {isBlocked === true ? (
-  //           <Badge variant="success">Có</Badge>
-  //         ) : (
-  //           <Badge variant="destructive">Không</Badge>
-  //         )}
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "role",
+    header: () => <div>Role</div>,
+    cell: ({ row }) => {
+      const role = row.getValue("role");
+      return (
+        <div>
+          {role === "Admin" ? (
+            <Badge variant="success">Admin</Badge>
+          ) : role === "User" ? (
+            <Badge variant="primary">User</Badge>
+          ) : role === "Member" ? (
+            <Badge variant="info">Member</Badge>
+          ) : role === "OrganizationManager" ? (
+            <Badge variant="warning">Organization Manager</Badge>
+          ) : role === "RequestManager" ? (
+            <Badge variant="danger">Request Manager</Badge>
+          ) : (
+            <Badge variant="secondary">Unknown</Badge>
+          )}
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "createAt",
     header: () => <div>Ngày tạo</div>,

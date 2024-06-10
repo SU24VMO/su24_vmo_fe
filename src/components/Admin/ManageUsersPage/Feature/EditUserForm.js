@@ -16,6 +16,7 @@ import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React from "react";
+import { Badge } from "../../../ui/badge";
 const EditUserForm = ({ isOpen, onOpenChange, user }) => {
   const { toast } = useToast();
   // Formik setup
@@ -134,6 +135,31 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
                 defaultValue={user ? user.createAt : ""}
               />
               <CopyButton code={user ? user.createAt : ""} />
+            </div>
+          </div>
+        </div>
+        {/* Show role thành viên */}
+        <div className="flex">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="role">Role</Label>
+            <div className="flex items-center space-x-2">
+              {user ? (
+                user.role === "Admin" ? (
+                  <Badge variant="success">Admin</Badge>
+                ) : user.role === "User" ? (
+                  <Badge variant="primary">User</Badge>
+                ) : user.role === "Member" ? (
+                  <Badge variant="info">Member</Badge>
+                ) : user.role === "OrganizationManager" ? (
+                  <Badge variant="warning">Organization Manager</Badge>
+                ) : user.role === "RequestManager" ? (
+                  <Badge variant="danger">Request Manager</Badge>
+                ) : (
+                  <Badge variant="secondary">Unknown</Badge>
+                )
+              ) : (
+                "No user"
+              )}
             </div>
           </div>
         </div>
