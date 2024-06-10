@@ -14,20 +14,41 @@ import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "avatar",
-    header: () => <div>Ảnh đại diện</div>,
+    accessorKey: "first_name",
+    header: () => <div>Họ</div>,
     cell: ({ row }) => {
-      const organizationManagerAvatar = row.getValue("avatar");
+      const first_name = row.getValue("first_name");
+      return <div>{first_name}</div>;
+    },
+  },
+  {
+    accessorKey: "last_name",
+    header: () => <div>Tên</div>,
+    cell: ({ row }) => {
+      const last_name = row.getValue("last_name");
+      return <div>{last_name}</div>;
+    },
+  },
+  {
+    accessorKey: "gender",
+    header: () => <div>Giới tính</div>,
+    cell: ({ row }) => {
+      const gender = row.getValue("gender");
       return (
-        <Avatar>
-          <AvatarImage src={organizationManagerAvatar} />
-          <AvatarFallback>A</AvatarFallback>
-        </Avatar>
+        <div>
+          {gender === "Male" ? (
+            <Badge variant="outline">Nam</Badge>
+          ) : gender === "Female" ? (
+            <Badge variant="outline">Nữ</Badge>
+          ) : (
+            <Badge variant="outline">Khác</Badge>
+          )}
+        </div>
       );
     },
   },
   {
-    accessorKey: "username",
+    accessorKey: "phone_number",
     header: ({ column }) => {
       return (
         <Button
@@ -35,22 +56,7 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên người dùng
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tên tổ chức
+          Số điện thoại
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -69,30 +75,28 @@ export const columns = ({ onEdit, onDelete }) => [
       </Button>
     ),
   },
-
   {
-    accessorKey: "is_block",
-    header: () => <div>Đang hoạt động</div>,
+    accessorKey: "is_verified",
+    header: () => <div>Xác thực</div>,
     cell: ({ row }) => {
-      const is_block = row.getValue("is_block");
+      const is_verified = row.getValue("is_verified");
       return (
         <div>
-          {is_block === true ? (
-            <Badge variant="success">Có</Badge>
+          {is_verified === true ? (
+            <Badge variant="success">Đồng ý</Badge>
           ) : (
-            <Badge variant="destructive">Không</Badge>
+            <Badge variant="destructive">Từ chối</Badge>
           )}
         </div>
       );
     },
   },
-
   {
-    accessorKey: "create_at",
-    header: () => <div>Ngày tạo</div>,
+    accessorKey: "birthday",
+    header: () => <div>Sinh nhật</div>,
     cell: ({ row }) => {
-      const create_at = row.getValue("create_at");
-      return <div>{create_at}</div>;
+      const birthday = row.getValue("birthday");
+      return <div>{birthday}</div>;
     },
   },
   // Thêm Actions vào columns

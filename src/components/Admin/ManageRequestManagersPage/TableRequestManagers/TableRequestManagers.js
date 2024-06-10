@@ -9,142 +9,114 @@ async function getData() {
   return [
     {
       "account_id": "2",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0938466579",
-      "username": "Van A",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Van",
+      "last_name": "A", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "3",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0949466570",
-      "username": "Thi B",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Thi",
+      "last_name": "B", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "4",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0959466571",
-      "username": "Duc C",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": false,
+      "first_name": "Duc",
+      "last_name": "C", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "5",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0969466572",
-      "username": "Minh D",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
-      "is_block": true
+      "first_name": "Minh",
+      "last_name": "D", 
+      "is_active": true,
+      "is_block": false
     },
     {
       "account_id": "6",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0979466573",
-      "username": "Thi E",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Thi",
+      "last_name": "E", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "7",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0989466574",
-      "username": "Thi F",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": false,
+      "first_name": "Thi",
+      "last_name": "F", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "8",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0999466575",
-      "username": "Quang G",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Quang",
+      "last_name": "G", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "9",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0910466576",
-      "username": "Thi H",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Thi",
+      "last_name": "H", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "10",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0921466577",
-      "username": "Duy I",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": false,
+      "first_name": "Duy",
+      "last_name": "I", 
+      "is_active": false,
       "is_block": true
     },
     {
       "account_id": "11",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0932466578",
-      "username": "Khoa J",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Khoa",
+      "last_name": "J", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "12",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0943466579",
-      "username": "Thi K",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Thi",
+      "last_name": "K", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "13",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0954466580",
-      "username": "Lam L",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Lam",
+      "last_name": "L", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "14",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0965466581",
-      "username": "Thi M",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": false,
+      "first_name": "Thi",
+      "last_name": "M", 
+      "is_active": true,
       "is_block": false
     },
     {
       "account_id": "15",
-      "avatar": avatar1,
-      "create_at": "5/6/2024",
       "phone_number": "0976466582",
-      "username": "Nhat N",
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "is_verified": true,
+      "first_name": "Nhat",
+      "last_name": "N", 
+      "is_active": true,
       "is_block": false
     },
 
@@ -165,7 +137,7 @@ const TableRequestManagers = () => {
 
   const onDelete = React.useCallback((row) => {
     // Implement delete logic here.
-    alert(`Deleting user with ID: ${row.id}`);
+    alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
   useEffect(() => {

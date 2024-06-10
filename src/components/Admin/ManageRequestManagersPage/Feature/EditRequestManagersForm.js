@@ -13,7 +13,6 @@ import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React from "react";
 const EditRequestManagerForm = ({ isOpen, onOpenChange, requestManager }) => {
@@ -21,6 +20,7 @@ const EditRequestManagerForm = ({ isOpen, onOpenChange, requestManager }) => {
   // Formik setup
   const formik = useFormik({
     initialValues: {
+      is_active: requestManager ? requestManager.is_active : false,
       is_block: requestManager ? requestManager.is_block : false,
     },
     onSubmit: (values, { setSubmitting }) => {
@@ -46,76 +46,77 @@ const EditRequestManagerForm = ({ isOpen, onOpenChange, requestManager }) => {
   // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
+      is_active: requestManager ? requestManager.is_active : false,
       is_block: requestManager ? requestManager.is_block : false,
     });
   }, [requestManager]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
-   
+    formik.setFieldValue(
+      field === "is_active" ? "is_block" : "is_active",
+      !isChecked
+    );
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-md flex flex-col">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa thông tin người dùng</DialogTitle>
+          <DialogTitle>Chỉnh sửa thông tin "người quản lý yêu cầu"</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của "người quản lý yêu cầu"!
           </DialogDescription>
         </DialogHeader>
-        {/* Show avatar người dùng */}
+        {/* Show họ người dùng */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="avatar">Avatar</Label>
+            <Label htmlFor="first_name">Họ</Label>
             <div className="flex items-center space-x-2">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={requestManager ? requestManager.avatar : ""} alt="@avatar" />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
+              <Input
+                id="first_name"
+                defaultValue={requestManager ? requestManager.first_name : ""}
+                disabled
+              />
+              <CopyButton
+                code={requestManager ? requestManager.first_name : ""}
+              />
             </div>
           </div>
         </div>
         {/* Show tên người dùng */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="username">Tên người dùng</Label>
+            <Label htmlFor="last_name">Tên</Label>
             <div className="flex items-center space-x-2">
               <Input
-                id="username"
-                defaultValue={requestManager ? requestManager.username : ""}
+                id="last_name"
+                defaultValue={requestManager ? requestManager.last_name : ""}
                 disabled
               />
-              <CopyButton code={requestManager ? requestManager.username : ""} />
+              <CopyButton
+                code={requestManager ? requestManager.last_name : ""}
+              />
             </div>
           </div>
         </div>
-        {/* Show email */}
-        <div className="flex">
+          {/* Show số điện thoại người dùng */}
+          <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="phone_number">Số điện thoại</Label>
             <div className="flex items-center space-x-2">
               <Input
-                id="email"
-                defaultValue={requestManager ? requestManager.email : ""}
+                id="phone_number"
+                defaultValue={
+                  requestManager ? requestManager.phone_number : ""
+                }
                 disabled
               />
-              <CopyButton code={requestManager ? requestManager.email : ""} />
-            </div>
-          </div>
-        </div>
-       
-        {/* Show ngày tạo */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="create_at">Ngày tạo</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="create_at"
-                disabled
-                defaultValue={requestManager ? requestManager.create_at : ""}
+              <CopyButton
+                code={
+                  requestManager ? requestManager.phone_number : ""
+                }
               />
-              <CopyButton code={requestManager ? requestManager.create_at : ""} />
             </div>
           </div>
         </div>
@@ -124,13 +125,12 @@ const EditRequestManagerForm = ({ isOpen, onOpenChange, requestManager }) => {
             {/*  */}
             <div className="flex items-center space-x-2">
               <Switch
-                id="is_block"
-                checked={formik.values.is_block}
-                onCheckedChange={handleSwitchChange("is_block")}
+                id="is_active"
+                checked={formik.values.is_active}
+                onCheckedChange={handleSwitchChange("is_active")}
               />
-              <Label htmlFor="is_block">Đang hoạt động</Label>
+              <Label htmlFor="is_active">Trạng thái</Label>
             </div>
-           
           </form>
         )}
 

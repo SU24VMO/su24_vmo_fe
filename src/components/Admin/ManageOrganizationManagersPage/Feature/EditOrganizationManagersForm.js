@@ -13,10 +13,14 @@ import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React from "react";
-const EditOrganizationManagerForm = ({ isOpen, onOpenChange, organizationManager }) => {
+import { Badge } from "../../../ui/badge";
+const EditOrganizationManagerForm = ({
+  isOpen,
+  onOpenChange,
+  organizationManager,
+}) => {
   const { toast } = useToast();
   // Formik setup
   const formik = useFormik({
@@ -52,7 +56,6 @@ const EditOrganizationManagerForm = ({ isOpen, onOpenChange, organizationManager
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
-   
   };
 
   return (
@@ -64,29 +67,87 @@ const EditOrganizationManagerForm = ({ isOpen, onOpenChange, organizationManager
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
-        {/* Show avatar người dùng */}
+        {/* Show họ người dùng */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="avatar">Avatar</Label>
+            <Label htmlFor="first_name">Họ</Label>
             <div className="flex items-center space-x-2">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={organizationManager ? organizationManager.avatar : ""} alt="@avatar" />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
+              <Input
+                id="first_name"
+                defaultValue={
+                  organizationManager ? organizationManager.first_name : ""
+                }
+                disabled
+              />
+              <CopyButton
+                code={organizationManager ? organizationManager.first_name : ""}
+              />
             </div>
           </div>
         </div>
         {/* Show tên người dùng */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="username">Tên người dùng</Label>
+            <Label htmlFor="last_name">Tên</Label>
             <div className="flex items-center space-x-2">
               <Input
-                id="username"
-                defaultValue={organizationManager ? organizationManager.username : ""}
+                id="last_name"
+                defaultValue={
+                  organizationManager ? organizationManager.last_name : ""
+                }
                 disabled
               />
-              <CopyButton code={organizationManager ? organizationManager.username : ""} />
+              <CopyButton
+                code={organizationManager ? organizationManager.last_name : ""}
+              />
+            </div>
+          </div>
+        </div>
+        {/* Show giới tính */}
+        <div className="flex">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="gender">Giới tính</Label>
+            <div className="flex items-center space-x-2">
+              <Badge variant={"outline"}>
+                {organizationManager
+                  ? organizationManager.gender === "Male"
+                    ? "Nam"
+                    : organizationManager.gender === "Female"
+                    ? "Nữ"
+                    : "Khác"
+                  : ""}
+              </Badge>
+              <CopyButton
+                code={
+                  organizationManager
+                    ? organizationManager.gender === "Male"
+                      ? "Nam"
+                      : organizationManager.gender === "Female"
+                      ? "Nữ"
+                      : "Khác"
+                    : ""
+                }
+              />
+            </div>
+          </div>
+        </div>
+        {/* Show số điện thoại người dùng */}
+        <div className="flex">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="phone_number">Số điện thoại</Label>
+            <div className="flex items-center space-x-2">
+              <Input
+                id="phone_number"
+                defaultValue={
+                  organizationManager ? organizationManager.phone_number : ""
+                }
+                disabled
+              />
+              <CopyButton
+                code={
+                  organizationManager ? organizationManager.phone_number : ""
+                }
+              />
             </div>
           </div>
         </div>
@@ -97,38 +158,32 @@ const EditOrganizationManagerForm = ({ isOpen, onOpenChange, organizationManager
             <div className="flex items-center space-x-2">
               <Input
                 id="email"
-                defaultValue={organizationManager ? organizationManager.email : ""}
+                defaultValue={
+                  organizationManager ? organizationManager.email : ""
+                }
                 disabled
               />
-              <CopyButton code={organizationManager ? organizationManager.email : ""} />
+              <CopyButton
+                code={organizationManager ? organizationManager.email : ""}
+              />
             </div>
           </div>
         </div>
-        {/* Tên công ty */}
+        {/* Show birthday */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="name">Tên công ty</Label>
+            <Label htmlFor="birthday">Sinh nhật</Label>
             <div className="flex items-center space-x-2">
               <Input
-                id="name"
-                defaultValue={organizationManager ? organizationManager.name : ""}
+                id="birthday"
                 disabled
+                defaultValue={
+                  organizationManager ? organizationManager.birthday : ""
+                }
               />
-              <CopyButton code={organizationManager ? organizationManager.name : ""} />
-            </div>
-          </div>
-        </div>
-        {/* Show ngày tạo */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="create_at">Ngày tạo</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="create_at"
-                disabled
-                defaultValue={organizationManager ? organizationManager.create_at : ""}
+              <CopyButton
+                code={organizationManager ? organizationManager.birthday : ""}
               />
-              <CopyButton code={organizationManager ? organizationManager.create_at : ""} />
             </div>
           </div>
         </div>
@@ -137,13 +192,12 @@ const EditOrganizationManagerForm = ({ isOpen, onOpenChange, organizationManager
             {/*  */}
             <div className="flex items-center space-x-2">
               <Switch
-                id="is_block"
-                checked={formik.values.is_block}
-                onCheckedChange={handleSwitchChange("is_block")}
+                id="is_verified"
+                checked={formik.values.is_verified}
+                onCheckedChange={handleSwitchChange("is_verified")}
               />
-              <Label htmlFor="is_block">Đang hoạt động</Label>
+              <Label htmlFor="is_verified">Xác thực</Label>
             </div>
-           
           </form>
         )}
 

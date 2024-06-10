@@ -53,25 +53,28 @@ export function DataTable({ columns, data }) {
   });
   // Name of column dropdown
   const columnHeaders = {
-    avatar: "Ảnh đại diện",
-    username: "Tên người dùng",
-    name: "Tên tổ chức",
-    email: "Email",
-    is_block: "Đang hoạt động",
-    create_at: "Ngày tạo",
+    // avatar: "Ảnh đại diện",
+    // username: "Tên người dùng",
+    // name: "Tên tổ chức",
+    // email: "Email",
+    first_name: "Họ",
+    last_name: "Tên",
+    phone_number: "Số điện thoại",
+    is_active: "Trạng thái",
+    // create_at: "Ngày tạo",
     actions: "Thao tác",
   };
 
   return (
     <div>
       <div className="flex items-center py-4">
-      {/* Search filter tên người dùng */}
+      {/* Search filter */}
         <Input
           type="search"
-          placeholder="Nhập tên người dùng cần tìm ..."
-          value={table.getColumn("username")?.getFilterValue() || ""}
+          placeholder="Nhập số điện thoại cần tìm ..."
+          value={table.getColumn("phone_number")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("username")?.setFilterValue(event.target.value)
+            table.getColumn("phone_number")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

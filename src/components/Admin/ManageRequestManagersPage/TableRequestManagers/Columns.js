@@ -1,33 +1,19 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../ui/dropdown-menu";
 import { Button } from "../../../ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
+import { ArrowUpDown } from "lucide-react";
 import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "avatar",
-    header: () => <div>Ảnh đại diện</div>,
+    accessorKey: "first_name",
+    header: () => <div>Họ</div>,
     cell: ({ row }) => {
-      const organizationManagerAvatar = row.getValue("avatar");
-      return (
-        <Avatar>
-          <AvatarImage src={organizationManagerAvatar} />
-          <AvatarFallback>A</AvatarFallback>
-        </Avatar>
-      );
+      const first_name = row.getValue("first_name");
+      return <div>{first_name}</div>;
     },
   },
   {
-    accessorKey: "username",
+    accessorKey: "last_name",
     header: ({ column }) => {
       return (
         <Button
@@ -35,50 +21,41 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên người dùng
+          Tên
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-  
   {
-    accessorKey: "email",
-    header: ({ column }) => (
-      <Button
-        className="px-0 py-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Email
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-
-  {
-    accessorKey: "is_block",
-    header: () => <div>Đang hoạt động</div>,
-    cell: ({ row }) => {
-      const is_block = row.getValue("is_block");
+    accessorKey: "phone_number",
+    header: ({ column }) => {
       return (
-        <div>
-          {is_block === true ? (
-            <Badge variant="success">Có</Badge>
-          ) : (
-            <Badge variant="destructive">Không</Badge>
-          )}
-        </div>
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Số điện thoại
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
-
   {
-    accessorKey: "create_at",
-    header: () => <div>Ngày tạo</div>,
+    accessorKey: "is_active",
+    header: () => <div>Trạng thái</div>,
     cell: ({ row }) => {
-      const create_at = row.getValue("create_at");
-      return <div>{create_at}</div>;
+      const is_active = row.getValue("is_active");
+      return (
+        <div>
+          {is_active === true ? (
+            <Badge variant="success">Đang hoạt động</Badge>
+          ) : (
+            <Badge variant="destructive">Tạm dừng</Badge>
+          )}
+        </div>
+      );
     },
   },
   // Thêm Actions vào columns
