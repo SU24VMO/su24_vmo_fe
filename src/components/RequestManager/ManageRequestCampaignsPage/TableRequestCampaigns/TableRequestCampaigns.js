@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
-import EditMemberForm from "../Feature/EditMemberForm";
+import EditStatusForm from "../Feature/EditStatusForm";
 
 async function getData() {
   // Fetch data from your API here.
@@ -260,9 +260,9 @@ const TableMembers = () => {
   return (
     <div className="flex flex-col">
       <div>
-        <EditMemberForm
+        <EditStatusForm
           isOpen={isDialogOpen}
-          member={selectedRow}
+          campaign={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {
