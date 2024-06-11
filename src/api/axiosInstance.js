@@ -1,16 +1,16 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 // const BASE_URL = "https://localhost:7173";
 
-const BASE_URL = "https://url-backend-api";
+const BASE_URL = "https://vmo.azurewebsites.net";
 
 const axiosPublic = axios.create({
   baseURL: BASE_URL,
 });
 
-let token = localStorage.getItem("token")
-  ? localStorage.getItem("token")
+let token = localStorage.getItem("accessToken")
+  ? localStorage.getItem("accessToken")
   : null;
 
 const axiosPrivate = axios.create({
@@ -23,29 +23,27 @@ const axiosPrivate = axios.create({
 axiosPrivate.interceptors.request.use(async (req) => {
   if (!token) {
     // eslint-disable-next-line no-const-assign
-    token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    token = localStorage.getItem("accessToken")
+      ? localStorage.getItem("accessToken")
       : null;
     req.headers.Authorization = `Bearer ${token}`;
   } else {
     req.headers.Authorization = `Bearer ${token}`;
   }
 
-  const user = jwtDecode(token);
+  const time = jwtDecode(token);
   let date = new Date();
 
   // Check if the token is expired
-  const isExpired = user.exp < date.getTime() / 1000;
+  const isExpired = time.exp < date.getTime() / 1000;
   const params = {
-    accessToken: token.accessToken,
-    refreshToken: token.refreshToken,
-    expires: token.expires,
+    refreshToken: localStorage.getItem("refreshToken"),
   };
 
   if (!isExpired) {
     return req;
   }
- else {
+  else {
     console.log(req);
 
     const response = await axios.post(
@@ -53,8 +51,12 @@ axiosPrivate.interceptors.request.use(async (req) => {
       params
     );
 
-    localStorage.setItem("loginInfo", JSON.stringify(response.data));
+    const user = jwtDecode(response.data.accessToken)
 
+    // localStorage.setItem("loginInfo", JSON.stringify(response.data));
+    localStorage.setItem("accessToken", response.data.data.accessToken);
+    localStorage.setItem("refreshToken", response.data.data.refreshToken);
+    localStorage.setItem("user", JSON.stringify(user));
     req.headers.Authorization = `Bearer ${response.data.accessToken}`;
 
     // Return the updated request
@@ -62,16 +64,42 @@ axiosPrivate.interceptors.request.use(async (req) => {
   }
 });
 
-// Add a response interceptor
+// Add a response interceptor to handle 401 errors
 axiosPrivate.interceptors.response.use(
-  response => {
+  (response) => {
     // If the response is successful, just return it
     return response;
   },
-  error => {
-    // If the error message includes "Cannot read 'CancelToken'", log a specific message
-    if (error.message.includes("Cannot read 'CancelToken'")) {
-      console.error('Error with cancelToken:', error);
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If the error response status is 401, attempt to refresh the token
+    if (error.response && error.response.status === 401) {
+      try {
+        const params = {
+          refreshToken: localStorage.getItem("refreshToken"),
+        };
+
+        const response = await axios.post(`${BASE_URL}/api/v1/auths/refresh`, params);
+
+        const newToken = response.data.data.accessToken;
+        const newRefreshToken = response.data.data.refreshToken;
+        const user = jwtDecode(newToken);
+
+        localStorage.setItem("accessToken", newToken);
+        localStorage.setItem("refreshToken", newRefreshToken);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Update the original request with the new token
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+        // Retry the original request
+        return axiosPrivate(originalRequest);
+      } catch (refreshError) {
+        // Handle refresh token error, e.g., logout the user or redirect to login
+        console.error("Failed to refresh token:", refreshError);
+        return Promise.reject(refreshError);
+      }
     }
 
     // If it's a different error, just throw it

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
@@ -6,9 +6,12 @@ import { useFormik } from "formik";
 import { useToast } from "../../ui/use-toast";
 import { Link } from "react-router-dom";
 import { cn } from "../../../lib/utils";
+import { AuthContext } from "../../../context/AuthContext";
 
 const LoginForm = () => {
   const { toast } = useToast();
+  const { loginAction } = useContext(AuthContext);
+
   const formik = useFormik({
     initialValues: {
       account: "",
@@ -102,7 +105,17 @@ const LoginForm = () => {
                 formik.errors.password}
             </p>
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit"
+            className="w-full"
+            onClick={() => {
+              if (formik.errors > 0) {
+                console.log("lỗi rồi ông nội !");
+              } else {
+                loginAction(formik.values.account, formik.values.password)
+              }
+
+            }}
+          >
             Đăng nhập
           </Button>
         </div>
