@@ -29,6 +29,7 @@ import ManageOrganizePhase3Table from "../components/OrganizeManagePage/ManageOr
 import ManageOrganizeAllActivitiesTable from "../components/OrganizeManagePage/ManageOrganizeAllActivitiesTable/ManageOrganizeAllActivitiesTable";
 import ManageOrganizeOrganizationsTable from "../components/OrganizeManagePage/ManageOrganizeOrganizationsTable/ManageOrganizeOrganizationsTable";
 import ManageOrganizeNewsTable from "../components/OrganizeManagePage/ManageOrganizeNewsTable/ManageOrganizeNewsTable";
+import RequestManager from "../components/RequestManager/RequestManager";
 export default function Routing() {
   return (
     <Routes>
@@ -68,6 +69,10 @@ export default function Routing() {
       <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
       <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
       <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable/>} />
+      
+
+      <Route path="/requestManager" element={<RequestManager/>} />
+
 
 
 
