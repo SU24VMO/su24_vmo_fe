@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "../../ui/button";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
@@ -12,8 +12,12 @@ import {
   NavigationMenuTrigger,
 } from "../../ui/navigation-menu";
 import { cn } from "../../../lib/utils";
+import { AuthContext } from "../../../context/AuthContext";
 
 const DesktopNavLeft = () => {
+  const { user } = useContext(AuthContext)
+
+
   return (
     <div className="mr-4 gap-2 flex items-center">
       <Link to="/">
@@ -45,12 +49,23 @@ const DesktopNavLeft = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenu>
-      <Link to="/manage/allCampaigns">
-        <Button variant="feature">Quản lí</Button>
-      </Link>
-      <Link to="/manage/organize/allOrganizations">
-        <Button variant="feature">Quản lí tổ chức</Button>
-      </Link>
+
+      {/* check role có phải Member không mới hiển thị */}
+      {user?.role === "Member"
+        ? <Link to="/manage/allCampaigns">
+          <Button variant="feature">Quản lí</Button>
+        </Link>
+        : ""
+
+      }
+      {/* check role có phải OrganizationManager không mới hiển thị */}
+      {user?.role === "OrganizationManager"
+        ? <Link to="/manage/organize/allOrganizations">
+          <Button variant="feature">Quản lí tổ chức</Button>
+        </Link>
+        : ""
+
+      }
     </div>
   );
 };
