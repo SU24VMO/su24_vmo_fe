@@ -85,7 +85,7 @@ export const columns = ({ onEdit, onDelete }) => [
       const is_approved = row.getValue("is_approved");
 
       return (
-        <div>
+        <div className="w-max">
           {is_approved === true ? (
             <Badge variant="success">Đồng ý</Badge>
           ) : (
