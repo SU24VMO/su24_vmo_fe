@@ -71,10 +71,10 @@ export function DataTable({ columns, data }) {
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập số điện thoại cần tìm ..."
-          value={table.getColumn("phone_number")?.getFilterValue() || ""}
+          placeholder="Nhập tên chiến dịch cần tìm ..."
+          value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("phone_number")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

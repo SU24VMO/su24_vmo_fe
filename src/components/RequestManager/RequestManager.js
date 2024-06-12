@@ -8,9 +8,11 @@ import ManageRequestCampaignsPage from "./ManageRequestCampaignsPage/ManageReque
 
 const RequestManager = () => {
   return (
-    <div className="grid min-h-screen w-full mobile:grid-cols-[220px_1fr] tablet:grid-cols-[280px_1fr]">
-      <DesktopNav />
-      <div className="flex flex-col">
+    <div className="grid min-h-screen w-full grid-cols-1 tablet:grid-cols-4">
+      <div className="col-span-1 border-r bg-muted/40">
+        <DesktopNav />
+      </div>
+      <div className="flex flex-col tablet:col-span-3">
         {/* Nav Mobile */}
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 tablet:h-[60px] tablet:px-6">
           <MobileNav />
