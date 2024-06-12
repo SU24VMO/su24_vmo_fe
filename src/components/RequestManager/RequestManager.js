@@ -5,6 +5,7 @@ import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
 import HomePage from "./HomePage/HomePage";
 import ManageRequestCampaignsPage from "./ManageRequestCampaignsPage/ManageRequestCampaignsPage";
+import ManageRequestNewsPage from "./ManageRequestNewsPage/ManageRequestNewsPage";
 
 const RequestManager = () => {
   return (
@@ -23,8 +24,9 @@ const RequestManager = () => {
         </header>
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
-          <HomePage></HomePage>
+          {/* <HomePage></HomePage> */}
           {/* <ManageRequestCampaignsPage></ManageRequestCampaignsPage> */}
+          <ManageRequestNewsPage/>
         </main>
       </div>
     </div>
