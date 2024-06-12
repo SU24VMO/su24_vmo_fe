@@ -97,7 +97,7 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "is_pending",
-    header: () => <div>Trạng thái chờ</div>,
+    header: () => <div className="w-max">Trạng thái chờ</div>,
     cell: ({ row }) => {
       const is_pending = row.getValue("is_pending");
       return (
@@ -114,7 +114,7 @@ export const columns = ({ onEdit, onDelete }) => [
 
   {
     accessorKey: "is_locked",
-    header: () => <div>Trạng thái khóa</div>,
+    header: () => <div className="w-max">Trạng thái khóa</div>,
     cell: ({ row }) => {
       const is_locked = row.getValue("is_locked");
       return (
