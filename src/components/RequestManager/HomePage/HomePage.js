@@ -31,7 +31,7 @@ import avatar_3 from "../../../assets/avatars/03.png";
 import avatar_4 from "../../../assets/avatars/04.png";
 import avatar_5 from "../../../assets/avatars/05.png";
 
-const HomePageRequestManager = () => {
+const HomePage = () => {
   return (
     <>
       <p className="font-bold text-2xl">Dashboard</p>
@@ -304,4 +304,4 @@ const HomePageRequestManager = () => {
   );
 };
 
-export default HomePageRequestManager;
+export default HomePage;
