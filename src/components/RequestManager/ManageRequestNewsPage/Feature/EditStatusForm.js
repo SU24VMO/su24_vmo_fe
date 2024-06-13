@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -57,7 +58,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-md flex flex-col">
+      <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
           <DialogTitle>Chi tiết bài viết</DialogTitle>
           <DialogDescription>
@@ -65,165 +66,169 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
           </DialogDescription>
         </DialogHeader>
 
-        {/* Show tên chiến dịch */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="title">Tiêu đề</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="title"
-                defaultValue={post ? post.title : ""}
-                disabled
-              />
-              <CopyButton code={post ? post.title : ""} />
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+          <div className="flex flex-col gap-5">
+            {/* Show tên chiến dịch */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="title">Tiêu đề</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="title"
+                    defaultValue={post ? post.title : ""}
+                    disabled
+                  />
+                  <CopyButton code={post ? post.title : ""} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {/* Show bài đăng được tạo bởi*/}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="create_by">Tạo bởi</Label>
-            <div className="flex items-center space-x-2">
-              {post &&
-              post.create_by_user == null &&
-              post.create_by_om != null ? (
-                <Badge variant="outline">Tạo bởi tổ chức</Badge>
-              ) : (
-                <Badge variant="outline">Tạo bởi người dùng</Badge>
-              )}
-              <CopyButton
-                code={
-                  post &&
+            {/* Show bài đăng được tạo bởi*/}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_by">Tạo bởi</Label>
+                <div className="flex items-center space-x-2">
+                  {post &&
                   post.create_by_user == null &&
-                  post.create_by_om != null
-                    ? "Tạo bởi tổ chức"
-                    : "Tạo bởi người dùng "
-                }
-              />
+                  post.create_by_om != null ? (
+                    <Badge variant="outline">Tạo bởi tổ chức</Badge>
+                  ) : (
+                    <Badge variant="outline">Tạo bởi người dùng</Badge>
+                  )}
+                  <CopyButton
+                    code={
+                      post &&
+                      post.create_by_user == null &&
+                      post.create_by_om != null
+                        ? "Tạo bởi tổ chức"
+                        : "Tạo bởi người dùng "
+                    }
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {/* Show nội dung bài đăng*/}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="content">Nội dung</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="content"
-                defaultValue={post ? post.content : ""}
-                disabled
-              />
-              <CopyButton code={post ? post.content : ""} />
+            {/* Show nội dung bài đăng*/}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="content">Nội dung</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="content"
+                    defaultValue={post ? post.content : ""}
+                    disabled
+                  />
+                  <CopyButton code={post ? post.content : ""} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {/* Show cover bài đăng*/}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="cover">Cover</Label>
-            <div className="max-w-40">
-              <img
-                src={post ? post.cover : ""}
-                alt="cover"
-                width="160"
-                height="160"
-                className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-              />
+            {/* Show cover bài đăng*/}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="cover">Cover</Label>
+                <div className="max-w-40">
+                  <img
+                    src={post ? post.cover : ""}
+                    alt="cover"
+                    width="160"
+                    height="160"
+                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                  />
+                </div>
+                {post && post.cover && (
+                  <a href={post.cover} download>
+                    <Button
+                      variant="outline"
+                      className="flex items-center space-x-1"
+                    >
+                      <ImageDown className="h-6 w-6" />
+                      Tải về
+                    </Button>
+                  </a>
+                )}
+              </div>
             </div>
-            {post && post.cover && (
-              <a href={post.cover} download>
-                <Button
-                  variant="outline"
-                  className="flex items-center space-x-1"
-                >
-                  <ImageDown className="h-6 w-6" />
-                  Tải về
-                </Button>
-              </a>
+            {/* Show ảnh bài đăng*/}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="image">Ảnh</Label>
+                <div className="max-w-40">
+                  <img
+                    src={post ? post.image : ""}
+                    alt="image_volunteer"
+                    width="160"
+                    height="160"
+                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                  />
+                </div>
+                {post && post.image && (
+                  <a href={post.image} download>
+                    <Button
+                      variant="outline"
+                      className="flex items-center space-x-1"
+                    >
+                      <ImageDown className="h-6 w-6" />
+                      Tải về
+                    </Button>
+                  </a>
+                )}
+              </div>
+            </div>
+            {/* Show Ngày duyệt */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approved_date">Ngày duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="approved_date"
+                    defaultValue={post ? post.approved_date : ""}
+                    disabled
+                  />
+                  <CopyButton code={post ? post.approved_date : ""} />
+                </div>
+              </div>
+            </div>
+            {/* Show ngày Ngày cập nhật */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="update_date">Ngày cập nhật</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="update_date"
+                    defaultValue={post ? post.update_date : ""}
+                    disabled
+                  />
+                  <CopyButton code={post ? post.update_date : ""} />
+                </div>
+              </div>
+            </div>
+            {/* Show ngày tạo */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_date">Ngày tạo</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="create_date"
+                    defaultValue={post ? post.create_date : ""}
+                    disabled
+                  />
+                  <CopyButton code={post ? post.create_date : ""} />
+                </div>
+              </div>
+            </div>
+            {post && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="is_approved"
+                    checked={formik.values.is_approved}
+                    onCheckedChange={handleSwitchChange("is_approved")}
+                  />
+                  <Label htmlFor="is_approved">Chấp thuận</Label>
+                </div>
+              </form>
             )}
           </div>
-        </div>
-        {/* Show ảnh bài đăng*/}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="image">Ảnh</Label>
-            <div className="max-w-40">
-              <img
-                src={post ? post.image : ""}
-                alt="image_volunteer"
-                width="160"
-                height="160"
-                className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-              />
-            </div>
-            {post && post.image && (
-              <a href={post.image} download>
-                <Button
-                  variant="outline"
-                  className="flex items-center space-x-1"
-                >
-                  <ImageDown className="h-6 w-6" />
-                  Tải về
-                </Button>
-              </a>
-            )}
-          </div>
-        </div>
-        {/* Show Ngày duyệt */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="approved_date">Ngày duyệt</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="approved_date"
-                defaultValue={post ? post.approved_date : ""}
-                disabled
-              />
-              <CopyButton code={post ? post.approved_date : ""} />
-            </div>
-          </div>
-        </div>
-        {/* Show ngày Ngày cập nhật */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="update_date">Ngày cập nhật</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="update_date"
-                defaultValue={post ? post.update_date : ""}
-                disabled
-              />
-              <CopyButton code={post ? post.update_date : ""} />
-            </div>
-          </div>
-        </div>
-        {/* Show ngày tạo */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="create_date">Ngày tạo</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="create_date"
-                defaultValue={post ? post.create_date : ""}
-                disabled
-              />
-              <CopyButton code={post ? post.create_date : ""} />
-            </div>
-          </div>
-        </div>
-        {post && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="is_approved"
-                checked={formik.values.is_approved}
-                onCheckedChange={handleSwitchChange("is_approved")}
-              />
-              <Label htmlFor="is_approved">Chấp thuận</Label>
-            </div>
-          </form>
-        )}
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
