@@ -1,42 +1,47 @@
 import xlsx from "json-as-xlsx";
 
-export function exportToExcel({ member }) {
+export function exportToExcel({ post }) {
   let columns = [
     {
       sheet: "Persons",
       columns: [
-        { label: "ID", value: "account_id" },
-        { label: "Họ", value: "first_name" },
-        { label: "Tên", value: "last_name" },
-        { label: "Số điện thoại", value: "phone_number" },
+        { label: "Id yêu cầu tạo bài viết", value: "create_post_request_id" },
+        { label: "Id bài đăng", value: "post_id" },
+        { label: "Tiêu đề", value: "title" },
         {
-          label: "Giới tính",
+          label: "Tạo bởi",
           value: (row) =>
-            row.gender === "Male"
-              ? "Nam"
-              : row.gender === "Female"
-              ? "Nữ"
-              : "Khác",
+            row.create_by_user == null && row.create_by_om != null
+              ? "Tạo bởi tổ chức"
+              : "Tạo bởi người dùng",
         },
-        { label: "Sinh nhật", value: "birthday" },
-        { label: "Link facebook", value: "facebook_url" },
-        { label: "Link youtube", value: "youtube_url" },
-        { label: "Link tiktok", value: "tiktok_url" },
+        {
+          label: "Cover",
+          value: "cover",
+        },
+        {
+          label: "Ảnh",
+          value: "image",
+        },
+        { label: "Nội dung", value: "content" },
+        { label: "Ngày duyệt", value: "approved_date" },
+        { label: "Ngày cập nhật", value: "update_date" },
+        { label: "Ngày tạo", value: "create_date" },
         {
           label: "Xác thực",
-          value: (row) => (row.is_verified === true ? "Có" : "Không"),
+          value: (row) => (row.is_approved === true ? "Đồng ý" : "Từ chối"),
         },
         // {
         //   label: "Date of Birth",
         //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
         // },
       ],
-      content: member,
+      content: post,
     },
   ];
 
   let settings = {
-    fileName: "Bảng thành viên",
+    fileName: "Danh sách yêu cầu tạo bài viết",
   };
 
   xlsx(columns, settings);

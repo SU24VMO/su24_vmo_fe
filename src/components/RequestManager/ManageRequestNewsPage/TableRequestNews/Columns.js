@@ -6,7 +6,7 @@ import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
@@ -21,51 +21,41 @@ export const columns = ({ onEdit, onDelete }) => [
     },
   },
   {
-    accessorKey: "create_by",
-    header: ({ column }) => {
+    id: "create_by",
+    header: () => <div className="w-max">Tạo bởi</div>,
+    cell: ({ row }) => {
+      const create_by_user = row.getValue("create_by_user");
+      const create_by_om = row.getValue("create_by_om");
+
       return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tạo bởi người dùng
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="w-max">
+          {create_by_user == null && create_by_om != null ? (
+            <Badge variant="outline">Tạo bởi tổ chức</Badge>
+          ) : (
+            <Badge variant="outline">Tạo bởi người dùng</Badge>
+          )}
+        </div>
       );
     },
   },
- 
+  // Ẩn cột create_by_user
   {
-    accessorKey: "approved_by_user",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Thành viên duyệt
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "create_by_user",
+    header: () => <div className="hidden"></div>,
+    cell: ({ row }) => {
+      const create_by_user = row.getValue("create_by_user");
+      return <div className="hidden">{create_by_user}</div>;
     },
   },
+  // Ẩn cột create_by_om
   {
-    accessorKey: "approved_by_om",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tổ chức duyệt
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "create_by_om",
+    header: () => <div className="hidden"></div>,
+    cell: ({ row }) => {
+      const create_by_om = row.getValue("create_by_om");
+      return <div className="hidden">{create_by_om}</div>;
     },
-  },  
+  },
   {
     accessorKey: "approved_date",
     header: () => <div className="w-max">Ngày duyệt</div>,
@@ -95,39 +85,38 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
-  {
-    accessorKey: "is_pending",
-    header: () => <div className="w-max">Trạng thái chờ</div>,
-    cell: ({ row }) => {
-      const is_pending = row.getValue("is_pending");
-      return (
-        <div>
-          {is_pending === true ? (
-            <Badge variant="success">Đang chờ</Badge>
-          ) : (
-            <Badge variant="destructive">Chưa chờ</Badge>
-          )}
-        </div>
-      );
-    },
-  },
-
-  {
-    accessorKey: "is_locked",
-    header: () => <div className="w-max">Trạng thái khóa</div>,
-    cell: ({ row }) => {
-      const is_locked = row.getValue("is_locked");
-      return (
-        <div>
-          {is_locked === true ? (
-            <Badge variant="success">Đã khóa</Badge>
-          ) : (
-            <Badge variant="destructive">Chưa khóa</Badge>
-          )}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "is_pending",
+  //   header: () => <div className="w-max">Trạng thái chờ</div>,
+  //   cell: ({ row }) => {
+  //     const is_pending = row.getValue("is_pending");
+  //     return (
+  //       <div>
+  //         {is_pending === true ? (
+  //           <Badge variant="success">Đang chờ</Badge>
+  //         ) : (
+  //           <Badge variant="destructive">Chưa chờ</Badge>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: "is_locked",
+  //   header: () => <div className="w-max">Trạng thái khóa</div>,
+  //   cell: ({ row }) => {
+  //     const is_locked = row.getValue("is_locked");
+  //     return (
+  //       <div>
+  //         {is_locked === true ? (
+  //           <Badge variant="success">Đã khóa</Badge>
+  //         ) : (
+  //           <Badge variant="destructive">Chưa khóa</Badge>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // },
   // Thêm Actions vào columns
   {
     id: "actions",

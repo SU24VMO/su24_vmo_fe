@@ -52,35 +52,37 @@ export function DataTable({ columns, data }) {
     },
   });
   //Name of column dropdown
-  const columnHeaders =  {
-    name: "Tên bài viết",
-    create_by: "Tạo bởi người dùng",
-    approved_by_user: "Thành viên duyệt",
-    approved_by_om: "Tổ chức duyệt",
+  const columnHeaders = {
+    title: "Tên bài viết",
+    create_by: "Tạo bởi",
     approved_date: "Ngày duyệt",
     update_date: "Ngày cập nhật",
     create_date: "Ngày tạo",
-    is_approved: "Trạng thái chấp thuận",
+    is_approved: "Xác thực",
     is_pending: "Trạng thái chờ",
     is_locked: "Trạng thái khóa",
-    actions: "Thao tác"
+    actions: "Thao tác",
   };
 
   return (
     <div>
       <div className="flex items-center py-4">
-      {/* Search filter tên người dùng */}
+        {/* Search filter tên người dùng */}
         <Input
           type="search"
           placeholder="Nhập tên bài viết cần tìm ..."
-          value={table.getColumn("name")?.getFilterValue() || ""}
+          value={table.getColumn("title")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button
+          onClick={() => exportToExcel({ post: data })}
+          className="ml-4"
+          variant="outline"
+        >
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -93,7 +95,10 @@ export function DataTable({ columns, data }) {
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
-              .filter((column) => column.getCanHide())
+              .filter(
+                (column) =>
+                  column.getCanHide() && columnHeaders.hasOwnProperty(column.id)
+              )
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
@@ -104,7 +109,7 @@ export function DataTable({ columns, data }) {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {columnHeaders[column.id] || column.id}
+                    {columnHeaders[column.id]}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -139,7 +144,7 @@ export function DataTable({ columns, data }) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="truncate max-w-14">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
