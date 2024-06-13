@@ -103,39 +103,7 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
-  {
-    accessorKey: "is_pending",
-    header: () => <div>Trạng thái chờ</div>,
-    cell: ({ row }) => {
-      const is_pending = row.getValue("is_pending");
-      return (
-        <div>
-          {is_pending === true ? (
-            <Badge variant="success">Đang chờ</Badge>
-          ) : (
-            <Badge variant="destructive">Chưa chờ</Badge>
-          )}
-        </div>
-      );
-    },
-  },
-
-  {
-    accessorKey: "is_locked",
-    header: () => <div>Trạng thái khóa</div>,
-    cell: ({ row }) => {
-      const is_locked = row.getValue("is_locked");
-      return (
-        <div>
-          {is_locked === true ? (
-            <Badge variant="success">Đã khóa</Badge>
-          ) : (
-            <Badge variant="destructive">Chưa khóa</Badge>
-          )}
-        </div>
-      );
-    },
-  },
+ 
   // Thêm Actions vào columns
   {
     id: "actions",

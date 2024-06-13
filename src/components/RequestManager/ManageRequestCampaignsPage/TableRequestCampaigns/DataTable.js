@@ -59,9 +59,7 @@ export function DataTable({ columns, data }) {
     approved_by: "Người duyệt",
     update_by: "Cập nhật bởi",
     create_date: "Ngày tạo",
-    is_approved: "Trạng thái chấp thuận",
-    is_pending: "Trạng thái chờ",
-    is_locked: "Trạng thái khóa",
+    is_approved: "Xác thực",
     actions: "Thao tác"
   };
 
@@ -71,10 +69,10 @@ export function DataTable({ columns, data }) {
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập số điện thoại cần tìm ..."
-          value={table.getColumn("phone_number")?.getFilterValue() || ""}
+          placeholder="Nhập tên chiến dịch cần tìm ..."
+          value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("phone_number")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
