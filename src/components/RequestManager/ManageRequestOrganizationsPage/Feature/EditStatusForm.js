@@ -67,7 +67,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo tổ chức!
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 rounded-xl shadow-inner "> {/* Set a specific height for ScrollArea */}
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner "> {/* Set a specific height for ScrollArea */}
          <div className="flex flex-col gap-5">
            {/* Show tên tổ chức */}
            <div className="flex">

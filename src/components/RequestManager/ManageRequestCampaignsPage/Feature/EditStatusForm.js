@@ -16,6 +16,8 @@ import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
+import { ScrollArea } from "../../../ui/scroll-area"
+
 import React from "react";
 const EditStatusForm = ({ isOpen, onOpenChange, campaign }) => {
   const { toast } = useToast();
@@ -59,16 +61,73 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaign }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-md flex flex-col">
+      <DialogContent className="mobile:max-w-screen-tablet ">
         <DialogHeader>
-          <DialogTitle>Tổng duyệt trạng thái</DialogTitle>
+          <DialogTitle>Thông tin đơn duyệt chiến dịch</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của chiến dịch!
           </DialogDescription>
         </DialogHeader>
      
-     
-        {campaign && (
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+         <div className="flex flex-col gap-5">
+          {/* show tên chiến dịch */}
+         <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="name">Tên chiến dịch</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="name"
+                  defaultValue={campaign ? campaign.name : ""}
+                  disabled
+                />
+                <CopyButton code={campaign ? campaign.name : ""} />
+              </div>
+            </div>
+          </div>
+            {/* show thành viên tạo chiến dịch */}
+         <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="create_by_user">Tạo bởi thành viên</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="create_by_user"
+                  defaultValue={campaign ? campaign.create_by_user : ""}
+                  disabled
+                />
+                <CopyButton code={campaign ? campaign.create_by_user : ""} />
+              </div>
+            </div>
+          </div>
+           {/* show tổ chức tạo chiến dịch */}
+         <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="create_by_om">Tạo bởi tổ chức</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="create_by_om"
+                  defaultValue={campaign ? campaign.create_by_om : ""}
+                  disabled
+                />
+                <CopyButton code={campaign ? campaign.create_by_om : ""} />
+              </div>
+            </div>
+          </div>
+          {/* Show ngày tạo đơn */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="create_date">Ngày thành lập</Label>
+              <div className="flex items-center space-x-2">
+                <Badge variant={"outline"}>
+                  {campaign ? campaign.create_date : ""}
+                </Badge>
+                <CopyButton
+                  code={campaign ? campaign.create_date : ""}
+                />
+              </div>
+            </div>
+          </div>
+          {campaign && (
           <form onSubmit={formik.handleSubmit} className="space-y-3">
             {/*  */}
             <div className="flex items-center space-x-2">
@@ -82,6 +141,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaign }) => {
             
           </form>
         )}
+         </div>
+          </ScrollArea>
+      
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
