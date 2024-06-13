@@ -18,12 +18,12 @@ import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
 import { ImageDown } from "lucide-react";
 import React from "react";
-const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, activity }) => {
   const { toast } = useToast();
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      is_approved: post ? post.is_approved : false,
+      is_approved: activity ? activity.is_approved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
       toast({
@@ -45,12 +45,12 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
   Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when post changes
+  // Update formik initialValues when activity changes
   React.useEffect(() => {
     setValuesRef.current({
-      is_approved: post ? post.is_approved : false,
+      is_approved: activity ? activity.is_approved : false,
     });
-  }, [post]);
+  }, [activity]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
@@ -60,7 +60,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
-          <DialogTitle>Chi tiết bài viết</DialogTitle>
+          <DialogTitle>Chi tiết hoạt động</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của chiến dịch!
           </DialogDescription>
@@ -75,10 +75,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="title"
-                    defaultValue={post ? post.title : ""}
+                    defaultValue={activity ? activity.title : ""}
                     disabled
                   />
-                  <CopyButton code={post ? post.title : ""} />
+                  <CopyButton code={activity ? activity.title : ""} />
                 </div>
               </div>
             </div>
@@ -87,18 +87,18 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="create_by">Tạo bởi</Label>
                 <div className="flex items-center space-x-2">
-                  {post &&
-                  post.create_by_user == null &&
-                  post.create_by_om != null ? (
+                  {activity &&
+                  activity.create_by_user == null &&
+                  activity.create_by_om != null ? (
                     <Badge variant="outline">Tạo bởi tổ chức</Badge>
                   ) : (
                     <Badge variant="outline">Tạo bởi người dùng</Badge>
                   )}
                   <CopyButton
                     code={
-                      post &&
-                      post.create_by_user == null &&
-                      post.create_by_om != null
+                      activity &&
+                      activity.create_by_user == null &&
+                      activity.create_by_om != null
                         ? "Tạo bởi tổ chức"
                         : "Tạo bởi người dùng "
                     }
@@ -111,12 +111,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="content">Nội dung</Label>
                 <div className="flex items-center space-x-2">
-                  <Input
-                    id="content"
-                    defaultValue={post ? post.content : ""}
-                    disabled
-                  />
-                  <CopyButton code={post ? post.content : ""} />
+                  <p>
+                    {activity ? activity.content : ""}
+                    <CopyButton code={activity ? activity.content : ""} />
+                  </p>
                 </div>
               </div>
             </div>
@@ -126,15 +124,15 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <Label htmlFor="cover">Cover</Label>
                 <div className="max-w-40">
                   <img
-                    src={post ? post.cover : ""}
+                    src={activity ? activity.cover : ""}
                     alt="cover"
                     width="160"
                     height="160"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
-                {post && post.cover && (
-                  <a href={post.cover} download>
+                {activity && activity.cover && (
+                  <a href={activity.cover} download>
                     <Button
                       variant="outline"
                       className="flex items-center space-x-1"
@@ -152,15 +150,15 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <Label htmlFor="image">Ảnh</Label>
                 <div className="max-w-40">
                   <img
-                    src={post ? post.image : ""}
+                    src={activity ? activity.image : ""}
                     alt="image_volunteer"
                     width="160"
                     height="160"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
-                {post && post.image && (
-                  <a href={post.image} download>
+                {activity && activity.image && (
+                  <a href={activity.image} download>
                     <Button
                       variant="outline"
                       className="flex items-center space-x-1"
@@ -179,10 +177,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="approved_date"
-                    defaultValue={post ? post.approved_date : ""}
+                    defaultValue={activity ? activity.approved_date : ""}
                     disabled
                   />
-                  <CopyButton code={post ? post.approved_date : ""} />
+                  <CopyButton code={activity ? activity.approved_date : ""} />
                 </div>
               </div>
             </div>
@@ -193,10 +191,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="update_date"
-                    defaultValue={post ? post.update_date : ""}
+                    defaultValue={activity ? activity.update_date : ""}
                     disabled
                   />
-                  <CopyButton code={post ? post.update_date : ""} />
+                  <CopyButton code={activity ? activity.update_date : ""} />
                 </div>
               </div>
             </div>
@@ -207,14 +205,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, post }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_date"
-                    defaultValue={post ? post.create_date : ""}
+                    defaultValue={activity ? activity.create_date : ""}
                     disabled
                   />
-                  <CopyButton code={post ? post.create_date : ""} />
+                  <CopyButton code={activity ? activity.create_date : ""} />
                 </div>
               </div>
             </div>
-            {post && (
+            {activity && (
               <form onSubmit={formik.handleSubmit} className="space-y-3">
                 {/*  */}
                 <div className="flex items-center space-x-2">
