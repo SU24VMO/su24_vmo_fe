@@ -59,9 +59,7 @@ export function DataTable({ columns, data }) {
     approved_by: "Người duyệt",
     update_by: "Cập nhật bởi",
     create_date: "Ngày tạo",
-    is_approved: "Trạng thái chấp thuận",
-    is_pending: "Trạng thái chờ",
-    is_locked: "Trạng thái khóa",
+    is_approved: "Xác thực",
     actions: "Thao tác"
   };
 

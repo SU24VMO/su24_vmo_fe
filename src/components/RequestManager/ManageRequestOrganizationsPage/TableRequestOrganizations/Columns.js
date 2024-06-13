@@ -6,7 +6,7 @@ import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "name",
+    accessorKey: "organization_name",
     header: ({ column }) => {
       return (
         <Button
@@ -14,14 +14,14 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên chiến dịch
+          Tên tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "create_by_user",
+    accessorKey: "organization_manager_email",
     header: ({ column }) => {
       return (
         <Button
@@ -29,7 +29,7 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tạo bởi thành viên
+          Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -37,7 +37,7 @@ export const columns = ({ onEdit, onDelete }) => [
   },
  
   {
-    accessorKey: "create_by_om",
+    accessorKey: "organization_tax_code",
     header: ({ column }) => {
       return (
         <Button
@@ -45,7 +45,37 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tạo bởi tổ chức
+          Mã số thuế
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "area_of_activity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Lĩnh vực hoạt động
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "address",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Địa chỉ tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -60,14 +90,14 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Người duyệt
+          Được duyệt bởi
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "update_by",
+    accessorKey: "create_date",
     header: ({ column }) => {
       return (
         <Button
@@ -75,16 +105,26 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Đã cập nhật từ
+         Ngày tạo chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
-    
   {
-    accessorKey: "create_date",
-    header: () => <div>Ngày tạo</div>,
+    accessorKey: "approved_date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+         Ngày duyệt
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "is_approved",
@@ -94,16 +134,18 @@ export const columns = ({ onEdit, onDelete }) => [
 
       return (
         <div>
-          {is_approved === true ? (
+          {is_approved === true  ? (
             <Badge variant="success">Đồng ý</Badge>
           ) : (
             <Badge variant="destructive">Từ chối</Badge>
           )}
+          
         </div>
       );
     },
   },
  
+
   // Thêm Actions vào columns
   {
     id: "actions",
