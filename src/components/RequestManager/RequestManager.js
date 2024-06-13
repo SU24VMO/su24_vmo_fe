@@ -5,7 +5,7 @@ import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
 import HomePage from "./HomePage/HomePage";
 import ManageRequestCampaignsPage from "./ManageRequestCampaignsPage/ManageRequestCampaignsPage";
-import ManageRequestNewsPage from "./ManageRequestNewsPage/ManageRequestNewsPage";
+import ManageRequestOrganizationsPage from "./ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
 
 const RequestManager = () => {
   return (
@@ -25,9 +25,9 @@ const RequestManager = () => {
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
           {/* <HomePage></HomePage> */}
-          {/* <ManageRequestCampaignsPage></ManageRequestCampaignsPage> */}
-          <ManageRequestNewsPage/>
-        </main>
+          <ManageRequestCampaignsPage></ManageRequestCampaignsPage>
+          {/* <ManageRequestOrganizationsPage/> */}
+       </main>
       </div>
     </div>
   );
