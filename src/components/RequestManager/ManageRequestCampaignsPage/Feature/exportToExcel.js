@@ -1,42 +1,30 @@
 import xlsx from "json-as-xlsx";
 
-export function exportToExcel({ member }) {
+export function exportToExcel({ campaign }) {
   let columns = [
     {
-      sheet: "Persons",
+      sheet: "RequestCampaigns",
       columns: [
-        { label: "ID", value: "account_id" },
-        { label: "Họ", value: "first_name" },
-        { label: "Tên", value: "last_name" },
-        { label: "Số điện thoại", value: "phone_number" },
-        {
-          label: "Giới tính",
-          value: (row) =>
-            row.gender === "Male"
-              ? "Nam"
-              : row.gender === "Female"
-              ? "Nữ"
-              : "Khác",
-        },
-        { label: "Sinh nhật", value: "birthday" },
-        { label: "Link facebook", value: "facebook_url" },
-        { label: "Link youtube", value: "youtube_url" },
-        { label: "Link tiktok", value: "tiktok_url" },
+        { label: "Mã số đơn tạo chiến dịch", value: "create_campaign_request_id" },
+        { label: "Mã chiến dịch", value: "campaign_id" },
+        { label: "Tên chiến dịch", value: "name" },
+        { label: "Tạo bởi thành viên", value: "create_by_user" },
+        { label: "Tạo bởi tổ chức", value: "create_by_om" },
+        { label: "Duyệt bởi", value: "approved_by" },
+        { label: "Cập nhật bởi", value: "update_by" },
+        { label: "Ngày tạo đơn duyệt", value: "create_date" },
         {
           label: "Xác thực",
-          value: (row) => (row.is_verified === true ? "Có" : "Không"),
+          value: (row) => (row.is_verified === true ? "Đồng ý" : "Từ chối"),
         },
-        // {
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
+        
       ],
-      content: member,
+      content: campaign,
     },
   ];
 
   let settings = {
-    fileName: "Bảng thành viên",
+    fileName: "Bảng danh sách yêu cầu tạo chiến dịch",
   };
 
   xlsx(columns, settings);

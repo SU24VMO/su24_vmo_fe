@@ -25,8 +25,8 @@ const RequestManager = () => {
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
           {/* <HomePage></HomePage> */}
-          {/* <ManageRequestCampaignsPage></ManageRequestCampaignsPage> */}
-          <ManageRequestOrganizationsPage/>
+          <ManageRequestCampaignsPage></ManageRequestCampaignsPage>
+          {/* <ManageRequestOrganizationsPage/> */}
        </main>
       </div>
     </div>
