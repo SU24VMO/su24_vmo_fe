@@ -9,11 +9,11 @@ import ManageRequestOrganizationsPage from "./ManageRequestOrganizationsPage/Man
 
 const RequestManager = () => {
   return (
-    <div className="grid min-h-screen w-full grid-cols-1 tablet:grid-cols-4">
+    <div className="grid min-h-screen w-full grid-cols-1 tablet:grid-cols-5">
       <div className="col-span-1 border-r bg-muted/40">
         <DesktopNav />
       </div>
-      <div className="flex flex-col tablet:col-span-3">
+      <div className="flex flex-col tablet:col-span-4">
         {/* Nav Mobile */}
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 tablet:h-[60px] tablet:px-6">
           <MobileNav />
