@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 const steps = [
   { label: "Email", description: "Nhập Email" },
   { label: "OTP", description: "Nhập mã OTP" },
-  { label: "New Password", description: "Đặt lại mật khẩu" },
+  { label: "Mật khẩu mới", description: "Đặt lại mật khẩu" },
 ];
 
 const ResetPasswordPage = () => {

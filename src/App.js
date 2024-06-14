@@ -58,6 +58,7 @@ function App() {
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
+            <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
             <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
 
