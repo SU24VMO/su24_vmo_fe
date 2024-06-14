@@ -10,11 +10,11 @@ async function getData() {
     {
       create_activity_request_id: "1",
       activity_id: "1",
+      processing_phase_id: "1",
       title: "Chiến dịch gây dựng cây xanh cho một trái đất XANH",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -28,11 +28,11 @@ async function getData() {
     {
       create_activity_request_id: "2",
       activity_id: "2",
+      processing_phase_id: "2",
       title: "Chiến dịch bảo vệ rừng già",
       create_by: "",
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -46,11 +46,11 @@ async function getData() {
     {
       create_activity_request_id: "3",
       activity_id: "3",
+      processing_phase_id: "3",
       title: "Chiến dịch làm sạch biển xanh",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -64,11 +64,11 @@ async function getData() {
     {
       create_activity_request_id: "4",
       activity_id: "4",
+      processing_phase_id: "4",
       title: "Chiến dịch giảm thiểu rác thải nhựa",
       create_by: "",
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -82,11 +82,11 @@ async function getData() {
     {
       create_activity_request_id: "5",
       activity_id: "5",
+      processing_phase_id: "5",
       title: "Chiến dịch tiết kiệm năng lượng",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -100,11 +100,11 @@ async function getData() {
     {
       create_activity_request_id: "6",
       activity_id: "6",
+      processing_phase_id: "6",
       title: "Chiến dịch bảo vệ động vật hoang dã",
       create_by_user: null,
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -118,11 +118,11 @@ async function getData() {
     {
       create_activity_request_id: "7",
       activity_id: "7",
+      processing_phase_id: "7",
       title: "Chiến dịch sử dụng năng lượng tái tạo",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -136,11 +136,11 @@ async function getData() {
     {
       create_activity_request_id: "8",
       activity_id: "8",
+      processing_phase_id: "8",
       title: "Chiến dịch bảo vệ nguồn nước",
       create_by_user: null,
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -154,11 +154,11 @@ async function getData() {
     {
       create_activity_request_id: "9",
       activity_id: "9",
+      processing_phase_id: "9",
       title: "Chiến dịch giảm thiểu khí thải",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -172,11 +172,11 @@ async function getData() {
     {
       create_activity_request_id: "10",
       activity_id: "10",
+      processing_phase_id: "10",
       title: "Chiến dịch bảo vệ tầng ozone",
       create_by_user: null,
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -190,11 +190,11 @@ async function getData() {
     {
       create_activity_request_id: "10",
       activity_id: "10",
+      processing_phase_id: "10",
       title: "Chiến dịch bảo vệ tầng ozone",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -208,11 +208,11 @@ async function getData() {
     {
       create_activity_request_id: "11",
       activity_id: "11",
+      processing_phase_id: "11",
       title: "Chiến dịch giáo dục môi trường",
       create_by_user: null,
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -226,11 +226,11 @@ async function getData() {
     {
       create_activity_request_id: "12",
       activity_id: "12",
+      processing_phase_id: "12",
       title: "Chiến dịch trồng cây xanh",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -244,11 +244,11 @@ async function getData() {
     {
       create_activity_request_id: "13",
       activity_id: "13",
+      processing_phase_id: "13",
       title: "Chiến dịch tái chế rác thải",
       create_by_user: null,
       create_by_om: "3123213asdf",
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -262,11 +262,11 @@ async function getData() {
     {
       create_activity_request_id: "14",
       activity_id: "14",
+      processing_phase_id: "14",
       title: "Chiến dịch chống ô nhiễm môi trường",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",
@@ -281,11 +281,11 @@ async function getData() {
     {
       create_activity_request_id: "15",
       activity_id: "15",
+      processing_phase_id: "15",
       title: "Chiến dịch bảo vệ đất",
       create_by_user: "3123213asdf",
       create_by_om: null,
-      cover: img_placeholder,
-      image: img_placeholder,
+      link: img_placeholder,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       approved_date: "2024/09/30",

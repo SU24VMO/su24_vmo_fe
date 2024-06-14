@@ -118,47 +118,21 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity }) => {
                 </div>
               </div>
             </div>
-            {/* Show cover bài đăng*/}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="cover">Cover</Label>
-                <div className="max-w-40">
-                  <img
-                    src={activity ? activity.cover : ""}
-                    alt="cover"
-                    width="160"
-                    height="160"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {activity && activity.cover && (
-                  <a href={activity.cover} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )}
-              </div>
-            </div>
             {/* Show ảnh bài đăng*/}
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="image">Ảnh</Label>
+                <Label htmlFor="link">Ảnh</Label>
                 <div className="max-w-40">
                   <img
-                    src={activity ? activity.image : ""}
-                    alt="image_volunteer"
+                    src={activity ? activity.link : ""}
+                    alt="link"
                     width="160"
                     height="160"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
-                {activity && activity.image && (
-                  <a href={activity.image} download>
+                {activity && activity.link && (
+                  <a href={activity.link} download>
                     <Button
                       variant="outline"
                       className="flex items-center space-x-1"
