@@ -59,6 +59,7 @@ export function DataTable({ columns, data }) {
     userPassword: "Mật khẩu",
     isActive: "Trạng thái",
     // isBlocked: "Dừng hoạt động",
+    role: "Vai trò",
     createAt: "Ngày tạo",
     actions: "Thao tác",
   };

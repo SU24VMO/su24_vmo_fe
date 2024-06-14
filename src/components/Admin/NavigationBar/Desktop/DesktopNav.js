@@ -32,14 +32,14 @@ const DesktopNav = () => {
                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
-                Dashboard
+                Home
               </Link>
               <Link
                 to="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
-                Orders
+                Manage members
                 {/* Chỉ bỏ comment khi muốn dùng để hiện số lượng thông báo */}
                 {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   6
@@ -50,21 +50,21 @@ const DesktopNav = () => {
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Package className="h-4 w-4" />
-                Products{" "}
+                Manage organization managers
               </Link>
               <Link
                 to="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Users className="h-4 w-4" />
-                Customers
+                Manage request managers
               </Link>
               <Link
                 to="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <LineChart className="h-4 w-4" />
-                Analytics
+                Manage users
               </Link>
             </nav>
           </div>

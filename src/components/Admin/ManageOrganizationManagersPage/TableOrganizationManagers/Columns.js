@@ -31,11 +31,11 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "gender",
-    header: () => <div>Giới tính</div>,
+    header: () => <div className="w-max">Giới tính</div>,
     cell: ({ row }) => {
       const gender = row.getValue("gender");
       return (
-        <div>
+        <div className="w-max">
           {gender === "Male" ? (
             <Badge variant="outline">Nam</Badge>
           ) : gender === "Female" ? (
@@ -77,11 +77,11 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "is_verified",
-    header: () => <div>Xác thực</div>,
+    header: () => <div className="w-max">Xác thực</div>,
     cell: ({ row }) => {
       const is_verified = row.getValue("is_verified");
       return (
-        <div>
+        <div className="w-max">
           {is_verified === true ? (
             <Badge variant="success">Đồng ý</Badge>
           ) : (
@@ -93,10 +93,10 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "birthday",
-    header: () => <div>Sinh nhật</div>,
+    header: () => <div className="w-max">Sinh nhật</div>,
     cell: ({ row }) => {
       const birthday = row.getValue("birthday");
-      return <div>{birthday}</div>;
+      return <div className="w-max">{birthday}</div>;
     },
   },
   // Thêm Actions vào columns

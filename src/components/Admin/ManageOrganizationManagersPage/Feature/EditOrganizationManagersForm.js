@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -62,11 +63,12 @@ const EditOrganizationManagerForm = ({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-md flex flex-col">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa thông tin người dùng</DialogTitle>
+          <DialogTitle>Chỉnh sửa thông tin quản lý tổ chức</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
         {/* Show họ người dùng */}
         <div className="flex">
           <div className="grid flex-1 gap-2">
@@ -200,7 +202,7 @@ const EditOrganizationManagerForm = ({
             </div>
           </form>
         )}
-
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

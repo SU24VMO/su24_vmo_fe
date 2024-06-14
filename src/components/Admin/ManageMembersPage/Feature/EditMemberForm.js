@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -64,145 +65,145 @@ const EditMemberForm = ({ isOpen, onOpenChange, member }) => {
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của thành viên!
           </DialogDescription>
         </DialogHeader>
-        {/* Show họ thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="first_name">Họ</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="first_name"
-                defaultValue={member ? member.first_name : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.first_name : ""} />
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+          {/* Show họ thành viên */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="first_name">Họ</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="first_name"
+                  defaultValue={member ? member.first_name : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.first_name : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show tên thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="last_name">Tên</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="last_name"
-                defaultValue={member ? member.last_name : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.last_name : ""} />
+          {/* Show tên thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="last_name">Tên</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="last_name"
+                  defaultValue={member ? member.last_name : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.last_name : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show số điện thoại thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="phone_number">Số điện thoại</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="phone_number"
-                defaultValue={member ? member.phone_number : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.phone_number : ""} />
+          {/* Show số điện thoại thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="phone_number">Số điện thoại</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="phone_number"
+                  defaultValue={member ? member.phone_number : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.phone_number : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show giới tính thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="gender">Giới tính</Label>
-            <div className="flex items-center space-x-2">
-              <Badge variant={"outline"}>
-                {member
-                  ? member.gender === "Male"
-                    ? "Nam"
-                    : member.gender === "Female"
-                    ? "Nữ"
-                    : "Khác"
-                  : ""}
-              </Badge>
-              <CopyButton
-                code={
-                  member
+          {/* Show giới tính thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="gender">Giới tính</Label>
+              <div className="flex items-center space-x-2">
+                <Badge variant={"outline"}>
+                  {member
                     ? member.gender === "Male"
                       ? "Nam"
                       : member.gender === "Female"
                       ? "Nữ"
                       : "Khác"
-                    : ""
-                }
-              />
+                    : ""}
+                </Badge>
+                <CopyButton
+                  code={
+                    member
+                      ? member.gender === "Male"
+                        ? "Nam"
+                        : member.gender === "Female"
+                        ? "Nữ"
+                        : "Khác"
+                      : ""
+                  }
+                />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show năm sinh thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="birthday">Năm sinh</Label>
-            <div className="flex items-center space-x-2">
-              <Badge variant={"outline"}>
-              {member ? member.birthday : ""}
-              </Badge>
-              <CopyButton
-                code={member ? member.birthday : ""}
-              />
+          {/* Show năm sinh thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="birthday">Năm sinh</Label>
+              <div className="flex items-center space-x-2">
+                <Badge variant={"outline"}>
+                  {member ? member.birthday : ""}
+                </Badge>
+                <CopyButton code={member ? member.birthday : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link facebook thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="facebook_url">Link facebook</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="facebook_url"
-                defaultValue={member ? member.facebook_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.facebook_url : ""} />
+          {/* Show link facebook thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="facebook_url">Link facebook</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="facebook_url"
+                  defaultValue={member ? member.facebook_url : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.facebook_url : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link youtube thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="youtube_url">Link youtube</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="youtube_url"
-                defaultValue={member ? member.youtube_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.youtube_url : ""} />
+          {/* Show link youtube thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="youtube_url">Link youtube</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="youtube_url"
+                  defaultValue={member ? member.youtube_url : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.youtube_url : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link tiktok thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="tiktok_url">Link tiktok</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="tiktok_url"
-                defaultValue={member ? member.tiktok_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.tiktok_url : ""} />
+          {/* Show link tiktok thành viên */}
+          <div className="flex my-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="tiktok_url">Link tiktok</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="tiktok_url"
+                  defaultValue={member ? member.tiktok_url : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.tiktok_url : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {member && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="is_verified"
-                checked={formik.values.is_verified}
-                onCheckedChange={handleSwitchChange("is_verified")}
-              />
-              <Label htmlFor="is_verified">Xác thực</Label>
-            </div>
-          </form>
-        )}
+          {member && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              {/*  */}
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="is_verified"
+                  checked={formik.values.is_verified}
+                  onCheckedChange={handleSwitchChange("is_verified")}
+                />
+                <Label htmlFor="is_verified">Xác thực</Label>
+              </div>
+            </form>
+          )}
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

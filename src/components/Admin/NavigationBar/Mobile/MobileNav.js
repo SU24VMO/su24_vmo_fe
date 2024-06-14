@@ -1,3 +1,4 @@
+import { Separator } from "../../../ui/separator";
 import { Button } from "../../../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../../ui/sheet";
 import {
@@ -15,13 +16,13 @@ import { Link } from "react-router-dom";
 const MobileNav = () => {
   return (
     <>
-    {/* MOBILE NAV */}
+      {/* MOBILE NAV */}
       <Sheet>
         <SheetTrigger asChild>
           <Button
             variant="outline"
             size="icon"
-            className="shrink-0 mobile:hidden"
+            className="shrink-0 tablet:hidden"
           >
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle navigation menu</span>
@@ -34,21 +35,22 @@ const MobileNav = () => {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <p>VMO Admin</p>
             </Link>
+            <Separator />
             <Link
               to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
-              Dashboard
+              Home
             </Link>
             <Link
               to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <ShoppingCart className="h-5 w-5" />
-              Orders
+              Manage members
               {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
               {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                     6
@@ -59,21 +61,21 @@ const MobileNav = () => {
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Package className="h-5 w-5" />
-              Products
+              Manage organization managers
             </Link>
             <Link
               to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Users className="h-5 w-5" />
-              Customers
+              Manage request managers
             </Link>
             <Link
               to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <LineChart className="h-5 w-5" />
-              Analytics
+              Manage users
             </Link>
           </nav>
           {/* <div className="mt-auto">

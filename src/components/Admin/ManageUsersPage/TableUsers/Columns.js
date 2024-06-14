@@ -52,11 +52,11 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "isActive",
-    header: () => <div>Trạng thái</div>,
+    header: () => <div className="w-max">Trạng thái</div>,
     cell: ({ row }) => {
       const isActive = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {isActive === true ? (
             <Badge variant="success">Đang hoạt động</Badge>
           ) : (
@@ -68,11 +68,11 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "role",
-    header: () => <div>Role</div>,
+    header: () => <div className="w-max">Vai trò</div>,
     cell: ({ row }) => {
       const role = row.getValue("role");
       return (
-        <div>
+        <div className="w-max">
           {role === "Admin" ? (
             <Badge variant="success">Admin</Badge>
           ) : role === "User" ? (
@@ -92,10 +92,10 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "createAt",
-    header: () => <div>Ngày tạo</div>,
+    header: () => <div className="w-max">Ngày tạo</div>,
     cell: ({ row }) => {
       const createAt = row.getValue("createAt");
-      return <div>{createAt}</div>;
+      return <div className="w-max">{createAt}</div>;
     },
   },
   // Thêm Actions vào columns

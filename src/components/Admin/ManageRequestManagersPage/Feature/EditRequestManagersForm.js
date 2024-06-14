@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -65,75 +66,75 @@ const EditRequestManagerForm = ({ isOpen, onOpenChange, requestManager }) => {
         <DialogHeader>
           <DialogTitle>Chỉnh sửa thông tin "người quản lý yêu cầu"</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của "người quản lý yêu cầu"!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của "người quản lý yêu
+            cầu"!
           </DialogDescription>
         </DialogHeader>
-        {/* Show họ người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="first_name">Họ</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="first_name"
-                defaultValue={requestManager ? requestManager.first_name : ""}
-                disabled
-              />
-              <CopyButton
-                code={requestManager ? requestManager.first_name : ""}
-              />
-            </div>
-          </div>
-        </div>
-        {/* Show tên người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="last_name">Tên</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="last_name"
-                defaultValue={requestManager ? requestManager.last_name : ""}
-                disabled
-              />
-              <CopyButton
-                code={requestManager ? requestManager.last_name : ""}
-              />
-            </div>
-          </div>
-        </div>
-          {/* Show số điện thoại người dùng */}
+        <ScrollArea className="px-10 py-5 shadow-inner ">
+          {/* Show họ người dùng */}
           <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="phone_number">Số điện thoại</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="phone_number"
-                defaultValue={
-                  requestManager ? requestManager.phone_number : ""
-                }
-                disabled
-              />
-              <CopyButton
-                code={
-                  requestManager ? requestManager.phone_number : ""
-                }
-              />
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="first_name">Họ</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="first_name"
+                  defaultValue={requestManager ? requestManager.first_name : ""}
+                  disabled
+                />
+                <CopyButton
+                  code={requestManager ? requestManager.first_name : ""}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        {requestManager && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="is_active"
-                checked={formik.values.is_active}
-                onCheckedChange={handleSwitchChange("is_active")}
-              />
-              <Label htmlFor="is_active">Trạng thái</Label>
+          {/* Show tên người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="last_name">Tên</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="last_name"
+                  defaultValue={requestManager ? requestManager.last_name : ""}
+                  disabled
+                />
+                <CopyButton
+                  code={requestManager ? requestManager.last_name : ""}
+                />
+              </div>
             </div>
-          </form>
-        )}
-
+          </div>
+          {/* Show số điện thoại người dùng */}
+          <div className="flex mb-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="phone_number">Số điện thoại</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="phone_number"
+                  defaultValue={
+                    requestManager ? requestManager.phone_number : ""
+                  }
+                  disabled
+                />
+                <CopyButton
+                  code={requestManager ? requestManager.phone_number : ""}
+                />
+              </div>
+            </div>
+          </div>
+          {requestManager && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              {/*  */}
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="is_active"
+                  checked={formik.values.is_active}
+                  onCheckedChange={handleSwitchChange("is_active")}
+                />
+                <Label htmlFor="is_active">Trạng thái</Label>
+              </div>
+            </form>
+          )}
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

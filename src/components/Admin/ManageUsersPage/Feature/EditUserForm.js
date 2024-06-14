@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -70,121 +71,125 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
-        {/* Show avatar người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="userName">Avatar</Label>
-            <div className="flex items-center space-x-2">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={user ? user.userAvatar : ""} alt="@avatar" />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+          {/* Show avatar người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="userName">Avatar</Label>
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src={user ? user.userAvatar : ""}
+                    alt="@avatar"
+                  />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show tên người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="userName">Tên người dùng</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="userName"
-                defaultValue={user ? user.userName : ""}
-                disabled
-              />
-              <CopyButton code={user ? user.userName : ""} />
+          {/* Show tên người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="userName">Tên người dùng</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="userName"
+                  defaultValue={user ? user.userName : ""}
+                  disabled
+                />
+                <CopyButton code={user ? user.userName : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show email */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="userEmail">Email</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="userEmail"
-                defaultValue={user ? user.userEmail : ""}
-                disabled
-              />
-              <CopyButton code={user ? user.userEmail : ""} />
+          {/* Show email */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="userEmail">Email</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="userEmail"
+                  defaultValue={user ? user.userEmail : ""}
+                  disabled
+                />
+                <CopyButton code={user ? user.userEmail : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show mật khẩu */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="userPassword">Mật khẩu</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="userPassword"
-                defaultValue={user ? user.userPassword : ""}
-                disabled
-              />
-              <CopyButton code={user ? user.userPassword : ""} />
+          {/* Show mật khẩu */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="userPassword">Mật khẩu</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="userPassword"
+                  defaultValue={user ? user.userPassword : ""}
+                  disabled
+                />
+                <CopyButton code={user ? user.userPassword : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show ngày tạo */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="createAt">Ngày tạo</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="createAt"
-                disabled
-                defaultValue={user ? user.createAt : ""}
-              />
-              <CopyButton code={user ? user.createAt : ""} />
+          {/* Show ngày tạo */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="createAt">Ngày tạo</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="createAt"
+                  disabled
+                  defaultValue={user ? user.createAt : ""}
+                />
+                <CopyButton code={user ? user.createAt : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show role thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="role">Role</Label>
-            <div className="flex items-center space-x-2">
-              {user ? (
-                user.role === "Admin" ? (
-                  <Badge variant="success">Admin</Badge>
-                ) : user.role === "User" ? (
-                  <Badge variant="primary">User</Badge>
-                ) : user.role === "Member" ? (
-                  <Badge variant="info">Member</Badge>
-                ) : user.role === "OrganizationManager" ? (
-                  <Badge variant="warning">Organization Manager</Badge>
-                ) : user.role === "RequestManager" ? (
-                  <Badge variant="danger">Request Manager</Badge>
+          {/* Show role thành viên */}
+          <div className="flex mb-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="role">Role</Label>
+              <div className="flex items-center space-x-2">
+                {user ? (
+                  user.role === "Admin" ? (
+                    <Badge variant="success">Admin</Badge>
+                  ) : user.role === "User" ? (
+                    <Badge variant="primary">User</Badge>
+                  ) : user.role === "Member" ? (
+                    <Badge variant="info">Member</Badge>
+                  ) : user.role === "OrganizationManager" ? (
+                    <Badge variant="warning">Organization Manager</Badge>
+                  ) : user.role === "RequestManager" ? (
+                    <Badge variant="danger">Request Manager</Badge>
+                  ) : (
+                    <Badge variant="secondary">Unknown</Badge>
+                  )
                 ) : (
-                  <Badge variant="secondary">Unknown</Badge>
-                )
-              ) : (
-                "No user"
-              )}
+                  "No user"
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        {user && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isActive"
-                checked={formik.values.isActive}
-                onCheckedChange={handleSwitchChange("isActive")}
-              />
-              <Label htmlFor="isActive">Trạng thái</Label>
-            </div>
-            <div className="items-center space-x-2 hidden">
-              <Switch
-                id="isBlocked"
-                checked={formik.values.isBlocked}
-                onCheckedChange={handleSwitchChange("isBlocked")}
-              />
-              <Label htmlFor="isBlocked">Dừng hoạt động</Label>
-            </div>
-          </form>
-        )}
-
+          {user && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              {/*  */}
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isActive"
+                  checked={formik.values.isActive}
+                  onCheckedChange={handleSwitchChange("isActive")}
+                />
+                <Label htmlFor="isActive">Trạng thái</Label>
+              </div>
+              <div className="items-center space-x-2 hidden">
+                <Switch
+                  id="isBlocked"
+                  checked={formik.values.isBlocked}
+                  onCheckedChange={handleSwitchChange("isBlocked")}
+                />
+                <Label htmlFor="isBlocked">Dừng hoạt động</Label>
+              </div>
+            </form>
+          )}
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
