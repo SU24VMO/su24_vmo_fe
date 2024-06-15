@@ -3,14 +3,13 @@ import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { useFormik } from "formik";
-import { useToast } from "../../ui/use-toast";
 import { Link } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { AuthContext } from "../../../context/AuthContext";
+import { Loader2 } from "lucide-react";
 
 const LoginForm = () => {
-  const { toast } = useToast();
-  const { loginAction } = useContext(AuthContext);
+  const { loginAction, loading } = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -34,17 +33,7 @@ const LoginForm = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin đăng nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      loginAction(formik.values.account, formik.values.password);
       setSubmitting(false);
     },
   });
@@ -105,18 +94,15 @@ const LoginForm = () => {
                 formik.errors.password}
             </p>
           </div>
-          <Button type="submit"
-            className="w-full"
-            onClick={() => {
-              if (formik.errors > 0) {
-                console.log("lỗi rồi ông nội !");
-              } else {
-                loginAction(formik.values.account, formik.values.password)
-              }
-
-            }}
-          >
-            Đăng nhập
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Đăng nhập
+              </>
+            ) : (
+              "Đăng nhập"
+            )}
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
