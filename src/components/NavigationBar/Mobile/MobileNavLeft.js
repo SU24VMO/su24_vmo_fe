@@ -11,7 +11,7 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, isLogin } = useContext(AuthContext);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -59,25 +59,32 @@ const MobileNavLeft = () => {
               </Button>
             </Link>
           </div>
-          <Separator className="mb-5" />
-          <div className="w-full">
-            <Link to="/login">
-              <Button
-                variant="ghost"
-                className="w-full items-start justify-start"
-              >
-                Đăng nhập
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button
-                variant="ghost"
-                className="w-full items-start justify-start"
-              >
-                Đăng ký
-              </Button>
-            </Link>
-          </div>
+          {isLogin ? (
+            ""
+          ) : (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full">
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    className="w-full items-start justify-start"
+                  >
+                    Đăng nhập
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button
+                    variant="ghost"
+                    className="w-full items-start justify-start"
+                  >
+                    Đăng ký
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
+
           {user?.role === "Member" ? (
             <>
               <Separator className="mb-5" />
