@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Button } from "../../ui/button";
 import { Menu as MenuIcon } from "lucide-react";
@@ -7,9 +7,11 @@ import SearchBar from "../Feature/SearchBar";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo_img from "../../../assets/images/logo1.svg";
+import { AuthContext } from "../../../context/AuthContext";
 
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
+  const { user } = useContext(AuthContext);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -76,28 +78,40 @@ const MobileNavLeft = () => {
               </Button>
             </Link>
           </div>
-          <Separator className="mb-5" />
-          <div className="w-full mb-5">
-            <Link to="/manage/allCampaigns">
-              <Button
-                variant="feature"
-                className="w-full items-start justify-start"
-              >
-                Quản lý
-              </Button>
-            </Link>
-          </div>
-          <Separator className="mb-5" />
-          <div className="w-full mb-5">
-            <Link to="/manage/organize/allOrganizations">
-              <Button
-                variant="feature"
-                className="w-full items-start justify-start"
-              >
-                Quản lí tổ chức
-              </Button>
-            </Link>
-          </div>
+          {user?.role === "Member" ? (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full mb-5">
+                <Link to="/manage/allCampaigns">
+                  <Button
+                    variant="feature"
+                    className="w-full items-start justify-start"
+                  >
+                    Quản lý
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {user?.role === "OrganizationManager" ? (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full mb-5">
+                <Link to="/manage/organize/allOrganizations">
+                  <Button
+                    variant="feature"
+                    className="w-full items-start justify-start"
+                  >
+                    Quản lí tổ chức
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <Separator className="mb-5" />
           <div className="w-full">
             <SearchBar />
