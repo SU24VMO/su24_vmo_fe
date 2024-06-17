@@ -51,7 +51,11 @@ const UserAvatar = () => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
-          <DropdownMenuItem>Đổi mật khẩu</DropdownMenuItem>
+          <DropdownMenuItem>
+          
+          <Link to="/changePassword">Đổi mật khẩu</Link>
+
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-red-500" onClick={() => {
