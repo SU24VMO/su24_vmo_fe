@@ -39,6 +39,7 @@ import AuthProvider from "./context/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import ShowNavBarFooter from "./components/ShowNavBarFooter/ShowNavBarFooter";
 import Loading from "./components/Loading/Loading";
+import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswordPage";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
             <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} />}>
               <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
+              <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
             </Route>
 
