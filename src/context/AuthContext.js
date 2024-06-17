@@ -87,7 +87,10 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("isLogin");
     localStorage.removeItem("user");
-
+    toast({
+      title: "Đăng xuất thành công!",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
     navigate("/login");
   };
 
