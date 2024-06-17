@@ -39,28 +39,24 @@ const UserAvatar = () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-
-            <Link to="/viewProfile">
-              Xem trang cá nhân
-            </Link>
-
+            <Link to="/viewProfile">Xem trang cá nhân</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to="/editProfile">
-              Chỉnh sửa thông tin cá nhân
-            </Link>
+            <Link to="/editProfile">Chỉnh sửa thông tin cá nhân</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
           <DropdownMenuItem>
-          
-          <Link to="/changePassword">Đổi mật khẩu</Link>
-
+            <Link to="/changePassword">Đổi mật khẩu</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-500" onClick={() => {
-          logOut()
-        }}>Đăng xuất</DropdownMenuItem>
+        <DropdownMenuItem
+          className="text-red-500"
+          onClick={() => {
+            logOut();
+          }}
+        >
+          Đăng xuất
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

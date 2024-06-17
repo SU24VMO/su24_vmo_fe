@@ -10,7 +10,9 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const { toast } = useToast();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+  );
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
