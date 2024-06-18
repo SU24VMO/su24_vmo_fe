@@ -40,6 +40,14 @@ import PrivateRoute from "./routes/PrivateRoute";
 import ShowNavBarFooter from "./components/ShowNavBarFooter/ShowNavBarFooter";
 import Loading from "./components/Loading/Loading";
 import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswordPage";
+import LoginAdminPage from "./components/Admin/LoginAdminPage/LoginAdminPage";
+import AdminHomePage from "./components/Admin/AdminHomePage/AdminHomePage";
+import Admin from "./components/Admin/Admin";
+import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMembersPage";
+import ManageOrganizationManagers from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
+import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
+import ManageRequestManagersPage from "./components/Admin/ManageRequestManagersPage/ManageRequestManagersPage";
+import ManageUsersPage from "./components/Admin/ManageUsersPage/ManageUsersPage";
 
 
 function App() {
@@ -47,14 +55,15 @@ function App() {
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
       <BrowserRouter>
         <AuthProvider>
-          <ShowNavBarFooter> 
-{/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
+          <ShowNavBarFooter>
+            {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
             <NavigationBar />
           </ShowNavBarFooter>
           <Routes>
             {/* Guest */}
-            
+
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
@@ -87,6 +96,7 @@ function App() {
               <Route path="/manage/allActivities" element={<ManageAllActivitiesTable />} />
               <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
             </Route>
+
             <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} />}>
 
               {/* Only Organize manager */}
@@ -103,6 +113,19 @@ function App() {
 
             </Route>
             {/* Other routes */}
+
+
+            <Route element={<PrivateRoute allowedRoles={["Admin"]} />}>
+              <Route path="/admin" element={<Admin />}>
+                <Route index element={<AdminHomePage />} />
+                <Route path="manageMembers" element={<ManageMembersPage />} />
+                <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
+                <Route path="manageRequestManagers" element={<ManageRequestManagersPage />} />
+                <Route path="manageUsers" element={<ManageUsersPage />} />
+              </Route>
+            </Route>
+
+
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
           <ShowNavBarFooter>

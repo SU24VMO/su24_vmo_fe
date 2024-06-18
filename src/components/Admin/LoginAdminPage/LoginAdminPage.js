@@ -2,9 +2,9 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import img_src from "../../../assets/images/placeholder.svg";
-import LoginForm from "./LoginForm/LoginForm";
+import LoginForm from "./LoginAdminForm/LoginAdminForm";
 
-const LoginPage = () => {
+const LoginAdminPage = () => {
   return (
     <>
       <LoginForm />
@@ -12,4 +12,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginAdminPage;

@@ -1,13 +1,10 @@
 import React from "react";
-import HomePage from "./HomePage/HomePage";
 import DesktopNav from "./NavigationBar/Desktop/DesktopNav";
 import MobileNav from "./NavigationBar/Mobile/MobileNav";
 import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
-import ManageUsersPage from "./ManageUsersPage/ManageUsersPage";
-import ManageOrganizationManagers from "./ManageOrganizationManagersPage/ManageOrganizationManagersPage";
-import ManageRequestManagersPage from "./ManageRequestManagersPage/ManageRequestManagersPage";
-import ManageMembersPage from "./ManageMembersPage/ManageMembersPage";
+
+import { Outlet } from "react-router-dom";
 
 const Admin = () => {
   return (
@@ -26,11 +23,8 @@ const Admin = () => {
         </header>
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
-          {/* <HomePage /> */}
-          {/* <ManageUsersPage /> */}
-          {/* <ManageOrganizationManagers/> */}
-          {/* <ManageRequestManagersPage></ManageRequestManagersPage> */}
-          <ManageMembersPage />
+        <Outlet />
+        
         </main>
       </div>
     </div>

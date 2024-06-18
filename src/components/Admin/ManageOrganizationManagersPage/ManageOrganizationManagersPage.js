@@ -1,7 +1,7 @@
 import React from "react";
 import TableOrganizationManagers from "./TableOrganizationManagers/TableOrganizationManagers";
 
-const ManageOrganizationManagers = () => {
+const ManageOrganizationManagersPage = () => {
   return (
     <>
       <p className="font-bold text-2xl">Manage Organization Managers </p>
@@ -10,4 +10,4 @@ const ManageOrganizationManagers = () => {
   );
 };
 
-export default ManageOrganizationManagers;
+export default ManageOrganizationManagersPage;

@@ -1,11 +1,12 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { Button } from "../../../ui/button";
 import { useFormik } from "formik";
-import { useToast } from "../../../ui/use-toast";
-import { Link } from "react-router-dom";
+
 import { cn } from "../../../../lib/utils";
+import { Loader2 } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -14,10 +15,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../ui/card";
-import { Package2 } from "lucide-react";
+import { AuthContext } from "../../../../context/AuthContext";
 
-const LoginForm = () => {
-  const { toast } = useToast();
+
+const LoginAdminForm = () => {
+
+  const { loginAction, loading } = useContext(AuthContext);
   const formik = useFormik({
     initialValues: {
       account: "",
@@ -40,17 +43,7 @@ const LoginForm = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin đăng nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      loginAction(formik.values.account, formik.values.password);
       setSubmitting(false);
     },
   });
@@ -108,9 +101,16 @@ const LoginForm = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">
-              Đăng nhập
-            </Button>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Đăng nhập
+              </>
+            ) : (
+              "Đăng nhập"
+            )}
+          </Button>
           </CardFooter>
         </Card>
       </form>
@@ -118,4 +118,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginAdminForm;
