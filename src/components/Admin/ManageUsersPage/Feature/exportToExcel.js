@@ -5,13 +5,11 @@ export function exportToExcel({ user }) {
     {
       sheet: "Persons",
       columns: [
-        { label: "ID", value: "id" },
-        { label: "Tên người dùng", value: "userName" },
-        { label: "Email", value: "userEmail" },
-        { label: "Mật khẩu", value: "userPassword" },
-        { label: "Đang hoạt động", value: (row) => row.isActive === true ? "Có" : "Không", },
-        { label: "Dừng hoạt động", value: (row) => row.isBlocked === true ? "Có" : "Không", },
-        { label: "Ngày tạo", value: "createAt" },
+        { label: "Tên người dùng", value: "username" },
+        { label: "Email", value: "email" },
+        { label: "Mật khẩu", value: "hashPassword" },
+        { label: "Đang hoạt động", value: (row) => row.isActived === true ? "Có" : "Không", },
+        { label: "Ngày tạo", value: "createdAt" },
         // { 
         //   label: "Date of Birth",
         //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
@@ -22,7 +20,7 @@ export function exportToExcel({ user }) {
   ];
 
   let settings = {
-    fileName: "Bảng người dùng",
+    fileName: "Danh sách người dùng",
   };
 
   xlsx(columns, settings);

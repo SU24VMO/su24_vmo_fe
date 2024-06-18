@@ -18,55 +18,85 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React from "react";
 import { Badge } from "../../../ui/badge";
+import { ToastAction } from "../../../../components/ui/toast";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { UPDATEISACTIVED } from "../../../../api/apiConstants";
 const EditUserForm = ({ isOpen, onOpenChange, user }) => {
   const { toast } = useToast();
   // Formik setup
+
+  const updateStatus = async (accountID, isActived) => {
+    try {
+      const response = await axiosPrivate.put(UPDATEISACTIVED, {
+        accountID: accountID,
+        isActived: isActived,
+      });
+
+      if (response.status === 200) {
+        console.log(response);
+        toast({
+          title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Cập nhật thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Cập nhật thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
+
+
+
   const formik = useFormik({
     initialValues: {
-      isActive: user ? user.isActive : false,
-      isBlocked: user ? user.isBlocked : false,
+      isActived: user ? user.isActived : false,
+      accountID: user ? user.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin chỉnh sửa:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      console.log(values.accountID);
+      updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
   });
   /* Giải thích: 
-  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
+  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
+  và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
+  nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
+   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
   // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
-      isActive: user ? user.isActive : false,
-      isBlocked: user ? user.isBlocked : false,
+      isActived: user ? user.isActived : false,
+      accountID: user ? user.accountID : ""
+      
     });
   }, [user]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
-    formik.setFieldValue(
-      field === "isActive" ? "isBlocked" : "isActive",
-      !isChecked
-    );
+ 
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-md flex flex-col">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa thông tin người dùng</DialogTitle>
+          <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
@@ -75,11 +105,11 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
           {/* Show avatar người dùng */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="userName">Avatar</Label>
+              <Label htmlFor="avatar">Avatar</Label>
               <div className="flex items-center space-x-2">
                 <Avatar className="w-20 h-20">
                   <AvatarImage
-                    src={user ? user.userAvatar : ""}
+                    src={user ? user.avatar : ""}
                     alt="@avatar"
                   />
                   <AvatarFallback>A</AvatarFallback>
@@ -87,59 +117,73 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
               </div>
             </div>
           </div>
+           {/* Show id người dùng */}
+           <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="accountID">ID tài khoản</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="accountID"
+                  defaultValue={user ? user.accountID : ""}
+                  disabled
+                />
+                <CopyButton code={user ? user.accountID : ""} />
+              </div>
+            </div>
+          </div>
           {/* Show tên người dùng */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="userName">Tên người dùng</Label>
+              <Label htmlFor="username">Tên người dùng</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="userName"
-                  defaultValue={user ? user.userName : ""}
+                  id="username"
+                  defaultValue={user ? user.username : ""}
                   disabled
                 />
-                <CopyButton code={user ? user.userName : ""} />
+                <CopyButton code={user ? user.username : ""} />
               </div>
             </div>
           </div>
           {/* Show email */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="userEmail">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="userEmail"
-                  defaultValue={user ? user.userEmail : ""}
+                  id="email"
+                  defaultValue={user ? user.email : ""}
                   disabled
                 />
-                <CopyButton code={user ? user.userEmail : ""} />
+                <CopyButton code={user ? user.email : ""} />
               </div>
             </div>
           </div>
           {/* Show mật khẩu */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="userPassword">Mật khẩu</Label>
+              <Label htmlFor="hashPassword">Mật khẩu</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="userPassword"
-                  defaultValue={user ? user.userPassword : ""}
+                  id="hashPassword"
+                  defaultValue={user ? user.hashPassword : ""}
                   disabled
                 />
-                <CopyButton code={user ? user.userPassword : ""} />
+                <CopyButton code={user ? user.hashPassword : ""} />
               </div>
             </div>
           </div>
           {/* Show ngày tạo */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="createAt">Ngày tạo</Label>
+              <Label htmlFor="createdAt">Ngày tạo</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="createAt"
+                  id="createdAt"
                   disabled
-                  defaultValue={user ? user.createAt : ""}
+                  defaultValue={user ? user.createdAt : ""}
                 />
-                <CopyButton code={user ? user.createAt : ""} />
+                <CopyButton code={user ? user.createdAt : ""} />
               </div>
             </div>
           </div>
@@ -148,7 +192,8 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
             <div className="grid flex-1 gap-2">
               <Label htmlFor="role">Role</Label>
               <div className="flex items-center space-x-2">
-                {user ? (
+              <Badge variant="primary">User</Badge>
+                {/* {user ? (
                   user.role === "Admin" ? (
                     <Badge variant="success">Admin</Badge>
                   ) : user.role === "User" ? (
@@ -164,7 +209,7 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
                   )
                 ) : (
                   "No user"
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -173,20 +218,13 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
               {/*  */}
               <div className="flex items-center space-x-2">
                 <Switch
-                  id="isActive"
-                  checked={formik.values.isActive}
-                  onCheckedChange={handleSwitchChange("isActive")}
+                  id="isActived"
+                  checked={formik.values.isActived}
+                  onCheckedChange={handleSwitchChange("isActived")}
                 />
-                <Label htmlFor="isActive">Trạng thái</Label>
+                <Label htmlFor="isActived">Trạng thái</Label>
               </div>
-              <div className="items-center space-x-2 hidden">
-                <Switch
-                  id="isBlocked"
-                  checked={formik.values.isBlocked}
-                  onCheckedChange={handleSwitchChange("isBlocked")}
-                />
-                <Label htmlFor="isBlocked">Dừng hoạt động</Label>
-              </div>
+             
             </form>
           )}
         </ScrollArea>
