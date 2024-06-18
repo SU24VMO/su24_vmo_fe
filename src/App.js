@@ -39,6 +39,7 @@ import AuthProvider from "./context/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import ShowNavBarFooter from "./components/ShowNavBarFooter/ShowNavBarFooter";
 import Loading from "./components/Loading/Loading";
+import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswordPage";
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
+            <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
             <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
 
@@ -65,6 +67,7 @@ function App() {
             <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} />}>
               <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
+              <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
             </Route>
 
