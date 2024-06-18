@@ -11,9 +11,21 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MobileNav = () => {
+  const location = useLocation();
+
+  // Hàm kiểm tra và trả về class tương ứng
+  const getLinkClass = (path) => {
+    const baseClass =
+      "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2";
+    const activeClass = "bg-muted text-foreground hover:text-foreground";
+    const inactiveClass = "text-muted-foreground hover:text-foreground";
+    return `${baseClass} ${
+      location.pathname === path ? activeClass : inactiveClass
+    }`;
+  };
   return (
     <>
       {/* MOBILE NAV */}
@@ -31,23 +43,20 @@ const MobileNav = () => {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              to="#"
+              to="/admin"
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
               <p>VMO Admin</p>
             </Link>
             <Separator />
-            <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-            >
-              <Home className="h-5 w-5" />
+            <Link to="/admin" className={getLinkClass("/admin")}>
+              <Home className="h-4 w-4" />
               Home
             </Link>
             <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              to="/admin/manageMembers"
+              className={getLinkClass("/admin/manageMembers")}
             >
               <ShoppingCart className="h-5 w-5" />
               Manage members
@@ -57,22 +66,22 @@ const MobileNav = () => {
                   </Badge> */}
             </Link>
             <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              to="/admin/manageOrganizationManagers"
+              className={getLinkClass("/admin/manageOrganizationManagers")}
             >
               <Package className="h-5 w-5" />
               Manage organization managers
             </Link>
             <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              to="/admin/manageRequestManagers"
+              className={getLinkClass("/admin/manageRequestManagers")}
             >
               <Users className="h-5 w-5" />
               Manage request managers
             </Link>
             <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              to="/admin/manageUsers"
+              className={getLinkClass("/admin/manageUsers")}
             >
               <LineChart className="h-5 w-5" />
               Manage users
