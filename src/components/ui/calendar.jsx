@@ -31,7 +31,7 @@ export function Calendar({
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 ",
         month: "space-y-4 ",
         caption: "w-full flex flex-col-reverse gap-2 pt-1 relative",
-        caption_label: "text-sm font-medium absolute top-2 left-[25%]",
+        caption_label: "text-sm font-medium absolute top-2 left-[30%]",
         caption_dropdowns: "w-full flex justify-center gap-1 pt-2",
         nav: "space-x-1 flex items-center justify-between",
         nav_button: cn(
