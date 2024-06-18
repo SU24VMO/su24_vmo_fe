@@ -6,6 +6,8 @@ import { Step, Stepper, useStepper } from "../ui/stepper";
 import EmailInput from "./ResetPasswordFeature/EmailInput";
 import OTPInput from "./ResetPasswordFeature/OTPInput";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 
 const steps = [
   { label: "Email", description: "Nhập Email" },
@@ -29,6 +31,10 @@ const ResetPasswordPage = () => {
       {/* RIGHT */}
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid gap-6">
+          <Button variant={"link"} className="text-sm font-normal underline justify-start p-0">
+            <ChevronLeft width={16} height={16} className="inline-block" />
+            <Link to="/login">Quay lại đăng nhập</Link>
+          </Button>
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Đặt lại mật khẩu</h1>
             <p className="text-balance text-muted-foreground">
@@ -75,7 +81,10 @@ function MyStepperSuccess() {
   return (
     <div className="flex flex-col items-center justify-center gap-2 mt-5">
       {/* test only */}
-      <Button onClick={resetSteps}>Quay lại đăng nhập</Button>
+      <p className="text-center">
+        Đặt lại mật khẩu thành công!🎉 <br /> Vui lòng <b>quay lại đăng nhập</b>{" "}
+        tài khoản của bạn lại với mật khẩu mới
+      </p>
     </div>
   );
 }
