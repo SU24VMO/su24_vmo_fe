@@ -53,15 +53,14 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders =  {
-    phone_number: "Số điện thoại",
-    first_name: "Họ",
-    last_name: "Tên",
-    gender: "Giới tính",
-    birthday: "Năm sinh",
-    facebook_url: "Link facebook",
-    youtube_url: "Link youtube",
-    tiktok_url: "Link tiktok",
-    is_verified: "Xác thực",
+    avatar: "Avatar",
+    username: "Tên người dùng",
+    email: "Email",
+    hashPassword: "Mật khẩu",
+    isActived: "Trạng thái",
+    // isBlocked: "Dừng hoạt động",
+    role: "Vai trò",
+    createdAt: "Ngày tạo",
     actions: "Thao tác",
   };
 
@@ -71,15 +70,15 @@ export function DataTable({ columns, data }) {
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập số điện thoại cần tìm ..."
-          value={table.getColumn("phone_number")?.getFilterValue() || ""}
+          placeholder="Nhập tên người dùng cần tìm ..."
+          value={table.getColumn("username")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("phone_number")?.setFilterValue(event.target.value)
+            table.getColumn("username")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel({ user: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}

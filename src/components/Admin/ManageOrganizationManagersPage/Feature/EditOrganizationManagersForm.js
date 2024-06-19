@@ -14,194 +14,219 @@ import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React from "react";
 import { Badge } from "../../../ui/badge";
-const EditOrganizationManagerForm = ({
-  isOpen,
-  onOpenChange,
-  organizationManager,
-}) => {
+import { ToastAction } from "../../../../components/ui/toast";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { UPDATEISACTIVED } from "../../../../api/apiConstants";
+const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManager }) => {
   const { toast } = useToast();
   // Formik setup
+
+  const updateStatus = async (accountID, isActived) => {
+    try {
+      const response = await axiosPrivate.put(UPDATEISACTIVED, {
+        accountID: accountID,
+        isActived: isActived,
+      });
+
+      if (response.status === 200) {
+        console.log(response);
+        toast({
+          title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Cập nhật thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Cập nhật thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
+
+
+
   const formik = useFormik({
     initialValues: {
-      is_block: organizationManager ? organizationManager.is_block : false,
+      isActived: organizationManager ? organizationManager.isActived : false,
+      accountID: organizationManager ? organizationManager.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin chỉnh sửa:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      console.log(values.accountID);
+      updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
   });
   /* Giải thích: 
-  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
+  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
+  và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
+  nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
+   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
   // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
-      is_block: organizationManager ? organizationManager.is_block : false,
+      isActived: organizationManager ? organizationManager.isActived : false,
+      accountID: organizationManager ? organizationManager.accountID : ""
+      
     });
   }, [organizationManager]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
+ 
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-md flex flex-col">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa thông tin quản lý tổ chức</DialogTitle>
+          <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-        {/* Show họ người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="first_name">Họ</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="first_name"
-                defaultValue={
-                  organizationManager ? organizationManager.first_name : ""
-                }
-                disabled
-              />
-              <CopyButton
-                code={organizationManager ? organizationManager.first_name : ""}
-              />
+          {/* Show avatar người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="avatar">Avatar</Label>
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src={organizationManager ? organizationManager.avatar : ""}
+                    alt="@avatar"
+                  />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show tên người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="last_name">Tên</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="last_name"
-                defaultValue={
-                  organizationManager ? organizationManager.last_name : ""
-                }
-                disabled
-              />
-              <CopyButton
-                code={organizationManager ? organizationManager.last_name : ""}
-              />
+           {/* Show id người dùng */}
+           <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="accountID">ID tài khoản</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="accountID"
+                  defaultValue={organizationManager ? organizationManager.accountID : ""}
+                  disabled
+                />
+                <CopyButton code={organizationManager ? organizationManager.accountID : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show giới tính */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="gender">Giới tính</Label>
-            <div className="flex items-center space-x-2">
-              <Badge variant={"outline"}>
-                {organizationManager
-                  ? organizationManager.gender === "Male"
-                    ? "Nam"
-                    : organizationManager.gender === "Female"
-                    ? "Nữ"
-                    : "Khác"
-                  : ""}
-              </Badge>
-              <CopyButton
-                code={
-                  organizationManager
-                    ? organizationManager.gender === "Male"
-                      ? "Nam"
-                      : organizationManager.gender === "Female"
-                      ? "Nữ"
-                      : "Khác"
-                    : ""
-                }
-              />
+          {/* Show tên người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="username">Tên người dùng</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="username"
+                  defaultValue={organizationManager ? organizationManager.username : ""}
+                  disabled
+                />
+                <CopyButton code={organizationManager ? organizationManager.username : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show số điện thoại người dùng */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="phone_number">Số điện thoại</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="phone_number"
-                defaultValue={
-                  organizationManager ? organizationManager.phone_number : ""
-                }
-                disabled
-              />
-              <CopyButton
-                code={
-                  organizationManager ? organizationManager.phone_number : ""
-                }
-              />
+          {/* Show email */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="email">Email</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="email"
+                  defaultValue={organizationManager ? organizationManager.email : ""}
+                  disabled
+                />
+                <CopyButton code={organizationManager ? organizationManager.email : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show email */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="email">Email</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="email"
-                defaultValue={
-                  organizationManager ? organizationManager.email : ""
-                }
-                disabled
-              />
-              <CopyButton
-                code={organizationManager ? organizationManager.email : ""}
-              />
+          {/* Show mật khẩu */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="hashPassword">Mật khẩu</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="hashPassword"
+                  defaultValue={organizationManager ? organizationManager.hashPassword : ""}
+                  disabled
+                />
+                <CopyButton code={organizationManager ? organizationManager.hashPassword : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show birthday */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="birthday">Sinh nhật</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="birthday"
-                disabled
-                defaultValue={
-                  organizationManager ? organizationManager.birthday : ""
-                }
-              />
-              <CopyButton
-                code={organizationManager ? organizationManager.birthday : ""}
-              />
+          {/* Show ngày tạo */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="createdAt">Ngày tạo</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="createdAt"
+                  disabled
+                  defaultValue={organizationManager ? organizationManager.createdAt : ""}
+                />
+                <CopyButton code={organizationManager ? organizationManager.createdAt : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {organizationManager && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="is_verified"
-                checked={formik.values.is_verified}
-                onCheckedChange={handleSwitchChange("is_verified")}
-              />
-              <Label htmlFor="is_verified">Xác thực</Label>
+          {/* Show role thành viên */}
+          <div className="flex mb-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="role">Role</Label>
+              <div className="flex items-center space-x-2">
+              <Badge variant="primary">OrganizationManager</Badge>
+                {/* {user ? (
+                  user.role === "Admin" ? (
+                    <Badge variant="success">Admin</Badge>
+                  ) : user.role === "User" ? (
+                    <Badge variant="primary">User</Badge>
+                  ) : user.role === "Member" ? (
+                    <Badge variant="info">Member</Badge>
+                  ) : user.role === "OrganizationManager" ? (
+                    <Badge variant="warning">Organization Manager</Badge>
+                  ) : user.role === "RequestManager" ? (
+                    <Badge variant="danger">Request Manager</Badge>
+                  ) : (
+                    <Badge variant="secondary">Unknown</Badge>
+                  )
+                ) : (
+                  "No user"
+                )} */}
+              </div>
             </div>
-          </form>
-        )}
+          </div>
+          {organizationManager && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              {/*  */}
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isActived"
+                  checked={formik.values.isActived}
+                  onCheckedChange={handleSwitchChange("isActived")}
+                />
+                <Label htmlFor="isActived">Trạng thái</Label>
+              </div>
+             
+            </form>
+          )}
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
@@ -222,4 +247,4 @@ const EditOrganizationManagerForm = ({
   );
 };
 
-export default EditOrganizationManagerForm;
+export default EditOrganizationManagersForm;

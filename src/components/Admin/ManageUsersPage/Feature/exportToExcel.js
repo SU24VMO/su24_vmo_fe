@@ -3,7 +3,7 @@ import xlsx from "json-as-xlsx";
 export function exportToExcel({ user }) {
   let columns = [
     {
-      sheet: "Persons",
+      sheet: "Users",
       columns: [
         { label: "Tên người dùng", value: "username" },
         { label: "Email", value: "email" },

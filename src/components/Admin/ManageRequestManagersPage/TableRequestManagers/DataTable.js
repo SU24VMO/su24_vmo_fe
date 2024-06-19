@@ -51,35 +51,34 @@ export function DataTable({ columns, data }) {
       columnVisibility,
     },
   });
-  // Name of column dropdown
-  const columnHeaders = {
-    // avatar: "Ảnh đại diện",
-    // username: "Tên người dùng",
-    // name: "Tên tổ chức",
-    // email: "Email",
-    first_name: "Họ",
-    last_name: "Tên",
-    phone_number: "Số điện thoại",
-    is_active: "Trạng thái",
-    // create_at: "Ngày tạo",
+  //Name of column dropdown
+  const columnHeaders =  {
+    avatar: "Avatar",
+    username: "Tên người dùng",
+    email: "Email",
+    hashPassword: "Mật khẩu",
+    isActived: "Trạng thái",
+    // isBlocked: "Dừng hoạt động",
+    role: "Vai trò",
+    createdAt: "Ngày tạo",
     actions: "Thao tác",
   };
 
   return (
     <div>
       <div className="flex items-center py-4">
-      {/* Search filter */}
+      {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập số điện thoại cần tìm ..."
-          value={table.getColumn("phone_number")?.getFilterValue() || ""}
+          placeholder="Nhập tên người dùng cần tìm ..."
+          value={table.getColumn("username")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("phone_number")?.setFilterValue(event.target.value)
+            table.getColumn("username")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ organizationManager: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel({ user: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -103,7 +102,7 @@ export function DataTable({ columns, data }) {
                       column.toggleVisibility(!!value)
                     }
                   >
-                   {columnHeaders[column.id] || column.id}
+                    {columnHeaders[column.id] || column.id}
                   </DropdownMenuCheckboxItem>
                 );
               })}

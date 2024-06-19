@@ -2,6 +2,7 @@ import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
+import { format } from "date-fns";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
@@ -95,7 +96,8 @@ export const columns = ({ onEdit, onDelete }) => [
     accessorKey: "createdAt",
     header: () => <div className="w-max">Ngày tạo</div>,
     cell: ({ row }) => {
-      const createdAt = row.getValue("createdAt");
+      
+      const createdAt = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');;
       return <div className="w-max">{createdAt}</div>;
     },
   },

@@ -2,11 +2,25 @@ import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
+import { format } from "date-fns";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "first_name",
+    accessorKey: "avatar",
+    header: () => <div>Avatar</div>,
+    cell: ({ row }) => {
+      const avatar = row.getValue("avatar");
+      return (
+        <Avatar>
+          <AvatarImage src={avatar} />
+          <AvatarFallback>A</AvatarFallback>
+        </Avatar>
+      );
+    },
+  },
+  {
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
@@ -14,129 +28,79 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Họ
+          Tên người dùng
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "last_name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tên
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "email",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Email
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
-    accessorKey: "phone_number",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Số điện thoại
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "hashPassword",
+    header: () => <div>Mật khẩu</div>,
   },
   {
-    accessorKey: "gender",
-    header: () => <div>Giới tính</div>,
+    accessorKey: "isActived",
+    header: () => <div className="w-max">Trạng thái</div>,
     cell: ({ row }) => {
-      const gender = row.getValue("gender");
+      const isActived = row.getValue("isActived");
       return (
-        <div>
-          {gender === "Male" ? (
-            <Badge variant="outline">Nam</Badge>
-          ) : gender === "Female" ? (
-            <Badge variant="outline">Nữ</Badge>
+        <div className="w-max">
+          {isActived === true ? (
+            <Badge variant="success">Đang hoạt động</Badge>
           ) : (
-            <Badge variant="outline">Khác</Badge>
+            <Badge variant="destructive">Tạm dừng</Badge>
           )}
         </div>
       );
     },
   },
   {
-    accessorKey: "birthday",
-    header: () => <div>Năm sinh</div>,
-  },
-  {
-    accessorKey: "is_verified",
-    header: () => <div>Xác thực</div>,
+    accessorKey: "role",
+    header: () => <div className="w-max">Vai trò</div>,
     cell: ({ row }) => {
-      const is_verified = row.getValue("is_verified");
+      // const role = row.getValue("role");
       return (
-        <div>
-          {is_verified === true ? (
-            <Badge variant="success">Đồng ý</Badge>
+        <div className="w-max">
+          <Badge variant="primary">Member</Badge>
+          {/* {role === "Admin" ? (
+            <Badge variant="success">Admin</Badge>
+          ) : role === "User" ? (
+            <Badge variant="primary">User</Badge>
+          ) : role === "Member" ? (
+            <Badge variant="info">Member</Badge>
+          ) : role === "OrganizationManager" ? (
+            <Badge variant="warning">Organization Manager</Badge>
+          ) : role === "RequestManager" ? (
+            <Badge variant="danger">Request Manager</Badge>
           ) : (
-            <Badge variant="destructive">Từ chối</Badge>
-          )}
+            <Badge variant="secondary">Unknown</Badge>
+          )} */}
         </div>
       );
     },
   },
   {
-    accessorKey: "facebook_url",
-    header: () => <div>Link facebook</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="w-max">Ngày tạo</div>,
     cell: ({ row }) => {
-      const facebookUrl = row.getValue("facebook_url");
-      return (
-        <div className="max-w-[100px] min-w-[100px] truncate">
-          {facebookUrl === "" ? (
-            <p className="truncate"></p>
-          ) : (
-            <p className="truncate">{facebookUrl}</p>
-          )}
-        </div>
-      );
+      
+      const createdAt = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');;
+      return <div className="w-max">{createdAt}</div>;
     },
   },
-  {
-    accessorKey: "youtube_url",
-    header: () => <div>Link youtube</div>,
-    cell: ({ row }) => {
-      const youtubeUrl = row.getValue("youtube_url");
-      return (
-        <div className="max-w-[100px] min-w-[100px] truncate">
-          {youtubeUrl === "" ? (
-            <p className="truncate"></p>
-          ) : (
-            <p className="truncate">{youtubeUrl}</p>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "tiktok_url",
-    header: () => <div>Link tiktok</div>,
-    cell: ({ row }) => {
-      const tiktokUrl = row.getValue("tiktok_url");
-      return (
-        <div className="max-w-[100px] min-w-[100px] truncate">
-          {tiktokUrl === "" ? (
-            <p className="truncate"></p>
-          ) : (
-            <p className="truncate">{tiktokUrl}</p>
-          )}
-        </div>
-      );
-    },
-  },
-
   // Thêm Actions vào columns
   {
     id: "actions",
