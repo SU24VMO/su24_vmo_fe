@@ -53,7 +53,13 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("isLogin", true);
         localStorage.setItem("user", JSON.stringify(userDecode));
 
-        navigate(from, { replace: true }); // Navigate to the specified page
+        // Navigate to the specified page
+        if(userDecode.role === "Admin"){
+            navigate("/admin")
+        }else{
+            navigate(from, { replace: true });
+
+        }
         toast({
           title: "Đăng nhập thành công",
           description: "Chào mừng trở lại " + account + " !",

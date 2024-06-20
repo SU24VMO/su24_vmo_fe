@@ -14,7 +14,7 @@ const DesktopNavRight = () => {
       <SearchBar />
 
       {/* Sign In feature */}
-      {isLogin ? (
+      {isLogin && user.role !== "Admin" ? (
         ""
       ) : (
         <Link to="/login">

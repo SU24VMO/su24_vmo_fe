@@ -6,7 +6,7 @@ const ShowNavBarFooter = ({ children }) => {
     const [showNavBarFooter, setShowNavBarFooter] = useState(false)
     useEffect(() => {
         console.log('this is location: ', location)
-        const pathsToExclude = ['/login', '/signup', '/resetPassword', '/changePassword']; // Liệt kê mấy cái page mà không muốn hiển thị Nav với Footer ở mảng này
+        const pathsToExclude = ['/login', '/signup', '/resetPassword', '/changePassword', '/admin']; // Liệt kê mấy cái page mà không muốn hiển thị Nav với Footer ở mảng này
         if (pathsToExclude.some(path => location.pathname.includes(path))) {
             setShowNavBarFooter(false);
         } else {
