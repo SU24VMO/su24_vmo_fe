@@ -16,7 +16,7 @@ const GenderSelect = ({ setFieldValue, selectTriggerId }) => {
   };
   return (
     <Select onValueChange={handleSelectGender}>
-      <SelectTrigger className="w-[180px]" id={selectTriggerId}>
+      <SelectTrigger className="w-full" id={selectTriggerId}>
         <SelectValue placeholder="Giới tính" />
       </SelectTrigger>
       <SelectContent>

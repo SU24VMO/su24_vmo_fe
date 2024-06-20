@@ -1,4 +1,6 @@
 // Desc: Constants for API calls
 // Example:
 //authentication
-// export const LOGIN = "/api/v1/auth/login";
+export const LOGIN = "/api/authentication/login";
+export const UPDATEISACTIVED = "/api/account/update-information";
+

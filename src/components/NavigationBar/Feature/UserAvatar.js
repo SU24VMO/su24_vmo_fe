@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
 import {
@@ -12,8 +12,11 @@ import {
 } from "../../ui/dropdown-menu";
 import avatar_image from "../../../assets/avatars/02.png";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 
 const UserAvatar = () => {
+  const { logOut } = useContext(AuthContext);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,22 +39,24 @@ const UserAvatar = () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-
-            <Link to="/viewProfile">
-              Xem trang cá nhân
-            </Link>
-
+            <Link to="/viewProfile">Xem trang cá nhân</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to="/editProfile">
-            Chỉnh sửa thông tin cá nhân
-            </Link>
+            <Link to="/editProfile">Chỉnh sửa thông tin cá nhân</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
-          <DropdownMenuItem>Đổi mật khẩu</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/changePassword">Đổi mật khẩu</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-500">Đăng xuất</DropdownMenuItem>
+        <DropdownMenuItem
+          className="text-red-500"
+          onClick={() => {
+            logOut();
+          }}
+        >
+          Đăng xuất
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

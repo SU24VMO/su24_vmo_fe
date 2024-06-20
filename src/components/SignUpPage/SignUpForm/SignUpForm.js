@@ -7,20 +7,26 @@ import { cn } from "../../../lib/utils";
 import BirthDayPicker from "../BirthDayPicker/BirthDayPicker";
 import GenderSelect from "../GenderSelect/GenderSelect";
 import AccountTypeSelect from "../AccountTypeSelect/AccountTypeSelect";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUpForm = () => {
+  //State để show/hide password
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  //Function để toggle show/hide password
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
   return (
     <>
       <Formik
         initialValues={{
           email: "",
           password: "",
-          birthday: null,
-          gender: "",
+          username: "",
           phoneNumber: "",
           firstName: "",
           lastName: "",
-          username: "",
+          gender: "",
+          birthday: null,
           accountType: "",
         }}
         validate={(values) => {
@@ -139,6 +145,24 @@ const SignUpForm = () => {
                   </p>
                 </div>
               </div>
+              {/* PhoneNumber */}
+              <div className="grid gap-2">
+                <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                <Input
+                  id="phoneNumber"
+                  type="text"
+                  placeholder="Nhập số điện thoại của bạn"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.phoneNumber}
+                  autocomplete="off"
+                />
+                <p className={cn("text-sm font-medium text-destructive")}>
+                  {errors.phoneNumber &&
+                    touched.phoneNumber &&
+                    errors.phoneNumber}
+                </p>
+              </div>
               {/* BirthDay & Gender */}
               <div className="grid tablet:grid-cols-2 gap-4">
                 <div className="grid gap-2">
@@ -213,38 +237,36 @@ const SignUpForm = () => {
               {/* Password */}
               <div className="grid gap-2">
                 <Label htmlFor="password">Mật khẩu</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Nhập mật khẩu của bạn"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  autocomplete="off"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Nhập mật khẩu của bạn"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    type="button"
+                    className="absolute bottom-1 right-1 h-7 w-7"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <Eye className="h-4 w-4" />
+                    ) : (
+                      <EyeOff className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">Toggle password visibility</span>
+                  </Button>
+                </div>
                 <p className={cn("text-sm font-medium text-destructive")}>
                   {errors.password && touched.password && errors.password}
                 </p>
               </div>
-              {/* PhoneNumber */}
-              <div className="grid gap-2">
-                <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                <Input
-                  id="phoneNumber"
-                  type="text"
-                  placeholder="Nhập số điện thoại của bạn"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.phoneNumber}
-                  autocomplete="off"
-                />
-                <p className={cn("text-sm font-medium text-destructive")}>
-                  {errors.phoneNumber &&
-                    touched.phoneNumber &&
-                    errors.phoneNumber}
-                </p>
-              </div>
+
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Tạo tài khoản
               </Button>

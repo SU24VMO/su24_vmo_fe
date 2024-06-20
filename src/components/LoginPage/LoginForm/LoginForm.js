@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { useFormik } from "formik";
-import { useToast } from "../../ui/use-toast";
 import { Link } from "react-router-dom";
 import { cn } from "../../../lib/utils";
+import { AuthContext } from "../../../context/AuthContext";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const LoginForm = () => {
-  const { toast } = useToast();
+  //State để show/hide password
+  const [showPassword, setShowPassword] = useState(false);
+
+  //Function để toggle show/hide password
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const { loginAction, loading } = useContext(AuthContext);
+
   const formik = useFormik({
     initialValues: {
       account: "",
@@ -31,17 +39,7 @@ const LoginForm = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin đăng nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      loginAction(formik.values.account, formik.values.password);
       setSubmitting(false);
     },
   });
@@ -87,23 +85,46 @@ const LoginForm = () => {
                 Quên mật khẩu?
               </Link>
             </div>
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Nhập password của bạn"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Nhập mật khẩu của bạn"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                type="button"
+                className="absolute bottom-1 right-1 h-7 w-7"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <Eye className="h-4 w-4" />
+                ) : (
+                  <EyeOff className="h-4 w-4" />
+                )}
+                <span className="sr-only">Toggle password visibility</span>
+              </Button>
+            </div>
             <p className={cn("text-sm font-medium text-destructive")}>
               {formik.errors.password &&
                 formik.touched.password &&
                 formik.errors.password}
             </p>
           </div>
-          <Button type="submit" className="w-full">
-            Đăng nhập
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Đăng nhập
+              </>
+            ) : (
+              "Đăng nhập"
+            )}
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
