@@ -15,8 +15,7 @@ import { cn } from "../../../lib/utils";
 import { AuthContext } from "../../../context/AuthContext";
 
 const DesktopNavLeft = () => {
-  const { user } = useContext(AuthContext)
-
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="mr-4 gap-2 flex items-center">
@@ -51,21 +50,21 @@ const DesktopNavLeft = () => {
       </NavigationMenu>
 
       {/* check role có phải Member không mới hiển thị */}
-      {user?.role === "Member"
-        ? <Link to="/manage/allCampaigns">
+      {user?.role === "Member" && user.is_verified ? (
+        <Link to="/manage/allCampaigns">
           <Button variant="feature">Quản lí</Button>
         </Link>
-        : ""
-
-      }
+      ) : (
+        ""
+      )}
       {/* check role có phải OrganizationManager không mới hiển thị */}
-      {user?.role === "OrganizationManager"
-        ? <Link to="/manage/organize/allOrganizations">
+      {user?.role === "OrganizationManager" && user.is_verified ? (
+        <Link to="/manage/organize/allOrganizations">
           <Button variant="feature">Quản lí tổ chức</Button>
         </Link>
-        : ""
-
-      }
+      ) : (
+        ""
+      )}
     </div>
   );
 };

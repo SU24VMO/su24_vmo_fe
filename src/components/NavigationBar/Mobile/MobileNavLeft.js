@@ -85,7 +85,7 @@ const MobileNavLeft = () => {
             </>
           )}
 
-          {user?.role === "Member" ? (
+          {user?.role === "Member" && user.is_verified ? (
             <>
               <Separator className="mb-5" />
               <div className="w-full mb-5">
@@ -102,7 +102,7 @@ const MobileNavLeft = () => {
           ) : (
             ""
           )}
-          {user?.role === "OrganizationManager" ? (
+          {user?.role === "OrganizationManager" && user.is_verified ? (
             <>
               <Separator className="mb-5" />
               <div className="w-full mb-5">
