@@ -1,147 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
+import axios from "axios";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { AuthContext } from "../../../context/AuthContext";
+import { GETALLCAMPAIGNBYOMID } from "../../../api/apiConstants";
+async function getData(cancelToken, user) {
 
-async function getData() {
-  // Fetch data from your API here.
-  const data = [
-    {
-      id: "1",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 30000,
-      donationDate: "21:29:56 - 19/05/2024",
-    },
-    {
-      id: "2",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 10000,
-      donationDate: "20:06:00 - 19/05/2024",
-    },
-    {
-      id: "3",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 1000000000000,
-      donationDate: "19:53:22 - 19/05/2024",
-    },
-    {
-      id: "4",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 20000,
-      donationDate: "17:47:26 - 19/05/2024",
-    },
-    {
-      id: "5",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 500000,
-      donationDate: "16:06:30 - 19/05/2024",
-    },
-    {
-      id: "6",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 100000,
-      donationDate: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "7",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 100000,
-      donationDate: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "8",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 50000,
-      donationDate: "07:01:41 - 20/05/2024",
-    },
-    {
-      id: "9",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 30000,
-      donationDate: "23:59:16 - 19/05/2024",
-    },
-    {
-      id: "10",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 100000,
-      donationDate: "22:08:57 - 19/05/2024",
-    },
-    {
-      id: "11",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 10000,
-      donationDate: "11:54:37 - 20/05/2024",
-    },
-    {
-      id: "12",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 20000,
-      donationDate: "10:55:29 - 20/05/2024",
-    },
-    {
-      id: "13",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 30000,
-      donationDate: "09:24:05 - 20/05/2024",
-    },
-    {
-      id: "14",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 60000,
-      donationDate: "08:55:05 - 20/05/2024",
-    },
-    {
-      id: "15",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      donationAmount: 50000,
-      donationDate: "08:44:54 - 20/05/2024",
-    },
-    // ... other data items ...
-  ];
-  
-  return data.map((item, index) => ({
-    ...item,
-    numericalOrder: index + 1,
-  }));
-  
+  try {
+    const response = await axiosPrivate.get(GETALLCAMPAIGNBYOMID + `${user.organization_manager_id}?pageSize=10&pageNo=1`, {
+      cancelToken: cancelToken
+    });
+
+    if (response.status === 200) {
+      console.log('====================================');
+      console.log(response.data.data.list);
+      console.log('====================================');
+      return response.data.data.list;
+    }
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message);
+    } else {
+      console.error("Lỗi khi lấy dữ liệu từ API:", error);
+    }
+  }
+
+  return [];
 }
 const ManageOrganizeAllCampaignsTable = () => {
   const [data, setData] = useState([]);
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
-    getData().then((data) => setData(data));
-  }, []);
+    const source = axios.CancelToken.source();
 
+    const fetchData = async () => {
+      const result = await getData(source.token, user);
+      setData(result);
+    };
+
+    fetchData();
+
+    // Cleanup function to cancel the request on component unmount
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, []);
   return (
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>

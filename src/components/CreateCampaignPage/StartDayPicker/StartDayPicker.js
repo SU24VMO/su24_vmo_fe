@@ -13,7 +13,7 @@ const StartDayPicker = React.memo(({ setStartFieldValue, popOverTriggerIdStart }
 
   const handleSetDate = (date) => {
     setStartDate(date);
-    const formatted = date ? format(date, "yyyy/MM/dd") : null;
+    const formatted = date ? format(date, "yyyy-MM-dd") : null;
     setFormattedDate(formatted);
     setStartFieldValue("startDate", formatted);
     console.log(date);

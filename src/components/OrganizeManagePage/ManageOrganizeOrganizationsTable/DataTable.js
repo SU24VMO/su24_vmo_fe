@@ -85,10 +85,10 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Tìm kiếm tên tổ chức ..."
-          value={table.getColumn("organizeName")?.getFilterValue() || ""}
+          value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
             table
-              .getColumn("organizeName")
+              .getColumn("name")
               ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
