@@ -6,4 +6,4 @@ export const UPDATEISACTIVED = "/api/account/update-information";
 
 //user
 export const GET_ACCOUNT_BY_ID = "https://vmo.azurewebsites.net/api/account/";
-
+export const UPDATE_AVATAR ="https://vmo.azurewebsites.net/api/account/update-information/avatar";

@@ -86,6 +86,16 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedFields) => {
+    setUser((currentUser) => ({
+      ...currentUser,
+      ...updatedFields,
+    }));
+    // Cập nhật localStorage lưu thông tin người dùng ở đó
+    const updatedUser = { ...user, ...updatedFields };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   const logOut = () => {
     setAccessToken("");
     setRefreshToken("");
@@ -112,6 +122,7 @@ const AuthProvider = ({ children }) => {
         loginAction,
         logOut,
         loading,
+        updateUser,
       }}
     >
       {children}

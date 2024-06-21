@@ -109,7 +109,7 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.phoneNumber}
-                            autocomplete="off"
+                            autoComplete="off"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số điện thoại..." />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}</p>
 
@@ -122,7 +122,7 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
-                            autocomplete="off"
+                            autoComplete="off"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="vd: tddkhoa0811@gmail.com -> email đã đăng ký trên hệ thống" />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.email && touched.email && errors.email}</p>
 
@@ -146,7 +146,7 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.address}
-                            autocomplete="off"
+                            autoComplete="off"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.address && touched.address && errors.address}</p>
 
