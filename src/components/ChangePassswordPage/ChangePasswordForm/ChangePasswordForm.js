@@ -13,18 +13,23 @@ import { Button } from "../../ui/button";
 import { useFormik } from "formik";
 import { useToast } from "../../ui/use-toast";
 import { cn } from "../../../lib/utils";
-import { Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ChangePasswordForm = () => {
   //State để show/hide password
   const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
-  const [showConfirmNewPassword, setShowConfirmNewPassword] = React.useState(false);
-  
+  const [showConfirmNewPassword, setShowConfirmNewPassword] =
+    React.useState(false);
+
   //Function để toggle show/hide password
-  const toggleCurrentPasswordVisibility = () => setShowCurrentPassword(!showCurrentPassword);
-  const toggleNewPasswordVisibility = () => setShowNewPassword(!showNewPassword);
-  const toggleConfirmNewPasswordVisibility = () => setShowConfirmNewPassword(!showConfirmNewPassword);
+  const toggleCurrentPasswordVisibility = () =>
+    setShowCurrentPassword(!showCurrentPassword);
+  const toggleNewPasswordVisibility = () =>
+    setShowNewPassword(!showNewPassword);
+  const toggleConfirmNewPasswordVisibility = () =>
+    setShowConfirmNewPassword(!showConfirmNewPassword);
 
   const { toast } = useToast();
   const formik = useFormik({
@@ -73,6 +78,13 @@ const ChangePasswordForm = () => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
+        <Button
+          variant={"link"}
+          className="text-sm font-normal justify-start p-0"
+        >
+          <ChevronLeft width={16} height={16} className="inline-block" />
+          <Link to="/">Quay lại</Link>
+        </Button>
         <CardTitle>Đổi mật khẩu</CardTitle>
         <CardDescription>
           Hãy chọn hiện mật khẩu để kiểm tra mật khẩu của bạn trước khi hoàn tất
