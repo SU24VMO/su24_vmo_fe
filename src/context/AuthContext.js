@@ -11,7 +11,9 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const { toast } = useToast();
   const [user, setUser] = useState(
-    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
   );
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
@@ -54,11 +56,10 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userDecode));
 
         // Navigate to the specified page
-        if(userDecode.role === "Admin"){
-            navigate("/admin")
-        }else{
-            navigate(from, { replace: true });
-
+        if (userDecode.role === "Admin") {
+          navigate("/admin");
+        } else {
+          navigate(from, { replace: true });
         }
         toast({
           title: "Đăng nhập thành công",
@@ -86,14 +87,16 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateUser = (updatedFields) => {
-    setUser((currentUser) => ({
-      ...currentUser,
-      ...updatedFields,
-    }));
-    // Cập nhật localStorage lưu thông tin người dùng ở đó
-    const updatedUser = { ...user, ...updatedFields };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+  const updateUserAvatar = (newAvatarUrl) => {
+    setUser((currentUser) => {
+      const updatedUser = {
+        ...currentUser,
+        avatar: newAvatarUrl,
+      };
+      // Cập nhật localStorage với thông tin người dùng đã cập nhật
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   };
 
   const logOut = () => {
@@ -122,7 +125,7 @@ const AuthProvider = ({ children }) => {
         loginAction,
         logOut,
         loading,
-        updateUser,
+        updateUserAvatar,
       }}
     >
       {children}

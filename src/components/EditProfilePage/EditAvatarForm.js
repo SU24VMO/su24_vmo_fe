@@ -13,7 +13,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { axiosPrivate } from "../../api/axiosInstance";
-import { UPDATE_AVATAR } from "../../api/apiConstants";
+import { GET_ACCOUNT_BY_ID, UPDATE_AVATAR } from "../../api/apiConstants";
 import { AuthContext } from "../../context/AuthContext";
 import { Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
@@ -21,7 +21,7 @@ import { ToastAction } from "../ui/toast";
 
 export default function EditAvatarForm() {
   const { toast } = useToast();
-  const { user, updateUser } = useContext(AuthContext);
+  const { user, updateUserAvatar } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [avatar, setAvatar] = useState(
@@ -34,58 +34,62 @@ export default function EditAvatarForm() {
     setFile(e.target.files[0]); // Save the File object
   }
 
-  const handleSubmitAvatar = (e) => {
+  const handleSubmitAvatar = async (e) => {
     e.preventDefault();
-    setLoading(true); // Bắt đầu loading
+    setLoading(true);
     if (file) {
       const formData = new FormData();
-      formData.append("avatar", file);
+      formData.append("request", file);
 
-      axiosPrivate
-        .put(`${UPDATE_AVATAR}?accountId=${user.account_id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            toast({
-              title: "Cập nhật ảnh Avatar thành công!",
-              action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
-            console.log("Cập nhật ảnh Avatar thành công!");
-            setAvatar(URL.createObjectURL(file));
-            // Gọi phương thức cập nhật từ AuthContext
-            updateUser({ avatar: URL.createObjectURL(file) });
-          } else {
-            toast({
-              variant: "destructive",
-              title: "Có lỗi xảy ra !",
-              description: "Vui lòng thử lại!",
-              action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
-            console.log("Update avatar thất bại !");
+      try {
+        const response = await axiosPrivate.put(
+          `${UPDATE_AVATAR}?accountId=${user.account_id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-        })
-        .catch((error) => {
+        );
+
+        if (response.status === 200) {
+          // Gọi API lấy thông tin người dùng mới nhất
+          const userInfoResponse = await axiosPrivate.get(
+            GET_ACCOUNT_BY_ID +
+              `${user.account_id}?accountId=${user.account_id}`
+          );
+          if (userInfoResponse.status === 200) {
+            // Cập nhật context và localStorage
+            updateUserAvatar(userInfoResponse.data.data.avatar);
+           
+            // Cập nhật avatar trong UI
+            setAvatar(userInfoResponse.data.data.avatar);
+          }
+
           toast({
-            variant: "destructive",
-            title: "Có lỗi xảy ra !",
-            description: "Vui lòng thử lại!",
+            title: "Cập nhật ảnh Avatar thành công!",
             action: <ToastAction altText="undo">Ẩn</ToastAction>,
           });
-          console.error("Error updating avatar", error);
-        })
-        .finally(() => {
-          setLoading(false); // Kết thúc loading
-          setOpen(false); // Đóng dialog sau khi hoàn tất
+        } else {
+          throw new Error("Failed to update avatar");
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra !",
+          description: "Vui lòng thử lại!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+        console.error("Error updating avatar", error);
+      } finally {
+        setLoading(false);
+        setOpen(false);
+      }
     } else {
       console.log("No file selected");
-      setLoading(false); // Kết thúc loading ngay lập tức nếu không có file
+      setLoading(false);
     }
   };
-
   return (
     <div>
       <form className="tablet:order-none">
