@@ -1,27 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TypeOfCampaignSelect from "./TypeOfCampaignSelect/TypeOfCampaignSelect";
 import EndDayPicker from "./EndDayPicker/EndDayPicker";
 import StartDayPicker from "./StartDayPicker/StartDayPicker";
 import { Formik } from "formik";
+import { axiosPrivate } from "../../api/axiosInstance";
+import { CREATECAMPAIGN } from "../../api/apiConstants";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../../components/ui/use-toast";
+import { ToastAction } from "../../components/ui/toast";
+import OrganizationsSelect from "./OrganizationsSelect/OrganizationsSelect";
+
 
 export default function CreateCampaignPage() {
+    const { toast } = useToast();
 
+    const { user } = useContext(AuthContext)
     const [fileImageBackground, setFileImageBackground] = useState();
 
+  
+  
     function handleImageBackgroundChange(e, setFieldValue) {
         console.log(e.target.files);
         setFileImageBackground(URL.createObjectURL(e.target.files[0]));
-        setFieldValue("imageBackgroundFile", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageBackgroundFile", e.target.files[0]);
 
     }
     function handleImageQRCode(e, setFieldValue) {
         console.log(e.target.files);
-        setFieldValue("imageQRCode", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageQRCode", e.target.files[0]);
 
     }
     function handleImageLocalDocument(e, setFieldValue) {
         console.log(e.target.files);
-        setFieldValue("imageLocalDocument", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageLocalDocument", e.target.files[0]);
 
     }
     function removeImage(e, setFieldValue) {
@@ -45,23 +56,79 @@ export default function CreateCampaignPage() {
         // Update the targetAmount value with the formatted value
         setFieldValue("targetAmount", formattedValue);
     };
+
+
+    const createCampaign = async (data) => {
+        const formData = new FormData();
+        formData.append('ApplicationConfirmForm', data.imageLocalDocument);
+        formData.append('ImageCampaign', data.imageBackgroundFile);
+        formData.append('QRCode', data.imageQRCode);
+    
+        // Thêm các trường dữ liệu văn bản vào formData
+        formData.append('Name', data.nameOfCampaign);
+        formData.append('Address', data.address);
+        formData.append('CampaignTypeId', data.typeOfCampaign);
+        formData.append('Description', data.description);
+        formData.append('StartDate', data.startDate);
+        formData.append('ExpectedEndDate', data.endDate);
+        formData.append('TargetAmount', data.targetAmount);
+        formData.append('OrganizationId', data.organizations);
+        formData.append('BankingName', data.nameOfBank);
+        formData.append('AccountName', data.nameOfUserBank);
+        formData.append('BankingAccountNumber', data.numberOfBankAccount);
+
+        try {
+            const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log(response.data);
+                toast({
+                    title: "Tạo chiến dịch thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo chiến dịch thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo chiến dịch thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        }
+    }
+
+
+
     return (<>
 
         <Formik
             initialValues={{
+                nameOfCampaign: "",
+                address: "",
+                typeOfCampaign: null,
+                description: "",
                 startDate: null,
                 endDate: null,
-                typeOfCampaign: "",
+                targetAmount: "",
+                organizations: null,
+                imageLocalDocument: null,
+                imageBackgroundFile: null,
                 nameOfBank: "",
                 nameOfUserBank: "",
                 numberOfBankAccount: "",
-                targetAmount: "",
-                nameOfCampaign: "",
-                address: "",
-                imageBackgroundFile: null,
-                description: "",
                 imageQRCode: null,
-                imageLocalDocument: null
 
 
             }}
@@ -165,11 +232,9 @@ export default function CreateCampaignPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    console.log(values);
-                    setSubmitting(false);
-                }, 400);
+                createCampaign(values)
+                
+                setSubmitting(false);
             }}
         >
             {({
@@ -412,6 +477,17 @@ export default function CreateCampaignPage() {
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.typeOfCampaign && touched.typeOfCampaign && errors.typeOfCampaign}</p>
 
                                     </div>
+                                    {user.role === "OrganizationManager" ?
+                                        <div className="mb-6">
+                                            <label for="organizations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loại chiến dịch:</label>
+
+                                            <OrganizationsSelect
+                                                setFieldValue={setFieldValue}
+                                                selectTriggerId="organizations"></OrganizationsSelect>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.organizations && touched.organizations && errors.organizations}</p>
+
+                                        </div> : ""
+                                    }
                                     <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương(ảnh)</label>
                                         <input

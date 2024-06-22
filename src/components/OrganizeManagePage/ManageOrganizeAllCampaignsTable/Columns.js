@@ -11,30 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+import { format } from "date-fns";
 
 export const columns = [
-  {
-    accessorKey: "numericalOrder",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const stt = row.getValue("numericalOrder");
-      return <div className="ml-2 text-start">{stt}</div>;
-    },
-  },
+
 
   {
-    accessorKey: "nameOfCampaign",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -49,7 +32,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "statusCampaign",
+    accessorKey: "isActive",
     header: ({ column }) => {
       return (
         <Button
@@ -63,16 +46,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const statusCampaign = row.getValue("statusCampaign");
+      const statusCampaign = row.getValue("isActive");
       return (
         <div>
           {statusCampaign ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              {statusCampaign}
+              "Đang hoạt động"
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              {statusCampaign}
+              "Dừng hoạt động"
             </span>
           )}
         </div>
@@ -80,19 +63,19 @@ export const columns = [
     },
   },
   {
-    accessorKey: "donationAmount",
+    accessorKey: "targetAmount",
     header: ({ column }) => (
       <Button
         className="px-0 py-0"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Số tiền ủng hộ
+        Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const donationAmount = parseFloat(row.getValue("donationAmount"));
+      const donationAmount = parseFloat(row.getValue("targetAmount"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
@@ -101,43 +84,51 @@ export const columns = [
       return <div className="text-start font-medium">{formatted}</div>;
     },
   },
+  // {
+  //   accessorKey: "organizeName",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Tổ chức
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const organizeName = row.getValue("organizeName");
+  //     return (
+  //       <div>
+  //         {organizeName ? (
+  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+  //             {organizeName}
+  //           </span>
+  //         ) : (
+  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+  //             {organizeName}
+  //           </span>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: "organizeName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tổ chức
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "startDate",
+    header: () => <div className="">Thời gian bắt đầu</div>,
     cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
-      return (
-        <div>
-          {organizeName ? (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          ) : (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          )}
-        </div>
-      );
+      const startDate = format(new Date(row.getValue("startDate")), 'MMMM do yyyy, h:mm:ss a');
+      return <div className="">{startDate}</div>;
     },
   },
   {
-    accessorKey: "donationDate",
-    header: () => <div className="text-right">Thời gian ủng hộ</div>,
+    accessorKey: "expectedEndDate",
+    header: () => <div className="">Thời gian kết thúc(dự kiến)</div>,
     cell: ({ row }) => {
-      const donationDate = row.getValue("donationDate");
-      return <div className="text-right">{donationDate}</div>;
+      const endDate = format(new Date(row.getValue("expectedEndDate")), 'MMMM do yyyy, h:mm:ss a');
+      return <div className="">{endDate}</div>;
     },
   },
   //   Thêm Actions vào columns

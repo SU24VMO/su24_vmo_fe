@@ -78,6 +78,8 @@ function App() {
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
+              <Route path="/createCampaign" element={<CreateCampaignPage/>} />
+
             </Route>
 
             {/* Organize && Member role  */}
@@ -110,6 +112,9 @@ function App() {
               <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
               <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
               <Route path="/sigupVerifyOrganizeForm" element={<SignUpVerifyOrganizePage></SignUpVerifyOrganizePage>} />
+              <Route path="/createOrganization" element={<CreateOrganizePage/>}/>
+              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage/>}/>
+
 
             </Route>
             {/* Other routes */}
