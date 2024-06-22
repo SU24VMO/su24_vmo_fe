@@ -3,9 +3,10 @@ import DesktopNav from "./NavigationBar/Desktop/DesktopNav";
 import MobileNav from "./NavigationBar/Mobile/MobileNav";
 import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
-import HomePage from "./HomePage/HomePage";
+import HomePage from "./RequestManagerHomePage/RequestManagerHomePage";
 import ManageRequestCampaignsPage from "./ManageRequestCampaignsPage/ManageRequestCampaignsPage";
 import ManageRequestOrganizationsPage from "./ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
+import { Outlet } from "react-router-dom";
 
 const RequestManager = () => {
   return (
@@ -24,9 +25,8 @@ const RequestManager = () => {
         </header>
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
-          {/* <HomePage></HomePage> */}
-          <ManageRequestCampaignsPage></ManageRequestCampaignsPage>
-          {/* <ManageRequestOrganizationsPage/> */}
+        <Outlet />
+         
        </main>
       </div>
     </div>

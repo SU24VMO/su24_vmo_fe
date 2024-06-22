@@ -7,16 +7,30 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const DesktopNav = () => {
+
+  const location = useLocation();
+
+  // Hàm kiểm tra và trả về class tương ứng
+  const getLinkClass = (path) => {
+    const baseClass =
+      "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
+    const activeClass = "bg-muted text-primary hover:text-primary";
+    const inactiveClass = "text-muted-foreground hover:text-primary";
+    return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
+      }`;
+  };
+
+
   return (
     <>
       {/* Nav Desktop */}
       <div className="hidden tablet:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
+            <Link to="/requestManager" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
               <span className="">VMO RequestManager</span>
             </Link>
@@ -28,15 +42,15 @@ const DesktopNav = () => {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium tablet:px-4">
               <Link
-                to="#"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                to="/requestManager"
+                className={getLinkClass("/requestManager")}
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
-                to="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                to="/requestManager/manageRequestCampaigns"
+                className={getLinkClass("/requestManager/manageRequestCampaigns")}
               >
                 <ShoppingCart className="h-4 w-4" />
                 Campaign's Request
@@ -46,27 +60,34 @@ const DesktopNav = () => {
                 </Badge> */}
               </Link>
               <Link
-                to="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              // to="/manageRequestCampaigns"
+              // className={getLinkClass("/manageRequestCampaigns")}
               >
                 <Package className="h-4 w-4" />
                 {/* Products{" "} */}
                 Member's Request
               </Link>
               <Link
-                to="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                to="/requestManager/manageRequestOrganizations"
+                className={getLinkClass("/requestManager/manageRequestOrganizations")}
               >
                 <Users className="h-4 w-4" />
                 {/* Customers */}
                 Organize's Request
               </Link>
               <Link
-                to="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                to="/requestManager/manageRequestActivities"
+                className={getLinkClass("/requestManager/manageRequestActivities")}
               >
                 <LineChart className="h-4 w-4" />
-                Analytics
+                Activity's Request
+              </Link>
+              <Link
+                // to="/requestManager/manageRequestActivities"
+                // className={getLinkClass("/requestManager/manageRequestActivities")}
+              >
+                <LineChart className="h-4 w-4" />
+                OrganizationManager's Request
               </Link>
             </nav>
           </div>

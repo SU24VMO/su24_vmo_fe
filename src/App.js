@@ -48,6 +48,12 @@ import ManageOrganizationManagers from "./components/Admin/ManageOrganizationMan
 import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageRequestManagersPage from "./components/Admin/ManageRequestManagersPage/ManageRequestManagersPage";
 import ManageUsersPage from "./components/Admin/ManageUsersPage/ManageUsersPage";
+import RequestManager from "./components/RequestManager/RequestManager";
+import RequestManagerHomePage from "./components/RequestManager/RequestManagerHomePage/RequestManagerHomePage";
+import ManageRequestActivitiesPage from "./components/RequestManager/ManageRequestActivitiesPage/ManageRequestActivitiesPage";
+import ManageRequestOrganizationsPage from "./components/RequestManager/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
+import ManageRequestNewsPage from "./components/RequestManager/ManageRequestNewsPage/ManageRequestNewsPage";
+import ManageRequestCampaignsPage from "./components/RequestManager/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
 
 
 function App() {
@@ -122,6 +128,16 @@ function App() {
                 <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
                 <Route path="manageRequestManagers" element={<ManageRequestManagersPage />} />
                 <Route path="manageUsers" element={<ManageUsersPage />} />
+              </Route>
+            </Route>
+
+            <Route element={<PrivateRoute allowedRoles={["RequestManager"]} />}>
+              <Route path="/requestManager" element={<RequestManager/>}>
+              <Route index element={<RequestManagerHomePage/>} />
+                <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage/>} />
+                <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage/>} />
+                <Route path="manageRequestNews" element={<ManageRequestNewsPage/>} />
+                <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage/>} />
               </Route>
             </Route>
 
