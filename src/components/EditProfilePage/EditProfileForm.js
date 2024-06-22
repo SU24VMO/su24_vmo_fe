@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+/* eslint-disable no-useless-escape */
+import React, { useContext, useState } from "react";
 import { Formik } from "formik";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -7,20 +8,75 @@ import { cn } from "../../lib/utils";
 import BirthDayPicker from "./BirthDayPicker/BirthDayPicker";
 import GenderSelect from "./GenderSelect/GenderSelect";
 import { AuthContext } from "../../context/AuthContext";
+import { GET_ACCOUNT_BY_ID, UPDATE_INFORMATION } from "../../api/apiConstants";
+import { axiosPrivate } from "../../api/axiosInstance";
+import { Loader2 } from "lucide-react";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 export default function EditProfileForm() {
-  const { user } = useContext(AuthContext);
+  const { toast } = useToast();
+  const { user, updateUserInformation } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   console.log("User bên context: ", user);
-  // console.log("User date lấy ra : ", new Date(user.birthday));
+
+  // Handle form submission
+  async function handleSubmit(values, setSubmitting, setLoading) {
+    try {
+      setLoading(true); // Start loading
+      // Step 4: Make the API call to update the user information
+      const response = await axiosPrivate.put(UPDATE_INFORMATION, values);
+      if (response.status === 200) {
+        // Cập nhật context và localStorage
+        updateUserInformation(
+          values.firstName,
+          values.lastName,
+          values.birthday,
+          values.gender,
+          values.phoneNumber,
+          values.faceBook,
+          values.tiktok,
+          values.youtube
+        );
+        toast({
+          title: "Cập nhật thông tin cá nhân thành công!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Profile updated successfully");
+      } else {
+        // Handle any other status code appropriately
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra !",
+          description: "Vui lòng thử lại!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Failed to update profile");
+      }
+    } catch (error) {
+      // Handle error (e.g., show an error message)
+      toast({
+        variant: "destructive",
+        title: "Có lỗi xảy ra !",
+        description: "Vui lòng thử lại!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.error("Error updating profile:", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of the outcome
+      setSubmitting(false); // Set Formik submitting to false
+    }
+  }
+
   return (
     <>
       <Formik
         initialValues={{
+          accountID: user ? user.account_id : "",
           firstName: "",
           lastName: "",
-          username: "",
-          birthday: null,
-          gender: "",
           phoneNumber: "",
+          birthday: "",
+          gender: user ? user.gender : "",
           faceBook: "",
           youtube: "",
           tiktok: "",
@@ -58,13 +114,6 @@ export default function EditProfileForm() {
           } else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
             errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
           }
-          // UserName validation
-          if (!values.username) {
-            errors.username = "Không được để trống!";
-          } else if (!/^[a-z0-9_-]{3,16}$/.test(values.username)) {
-            errors.username =
-              "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu chữ cái. Ví dụ: abc_123";
-          }
 
           // Kiểm tra URL Facebook
           if (values.faceBook) {
@@ -99,10 +148,7 @@ export default function EditProfileForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          handleSubmit(values, setSubmitting, setLoading);
         }}
       >
         {({
@@ -150,51 +196,33 @@ export default function EditProfileForm() {
                   </p>
                 </div>
               </div>
-              {/* UserName */}
+              {/* BirthDay & Gender */}
+              {/* <div className="grid tablet:grid-cols-2 gap-4"> */}
               <div className="grid gap-2">
-                <Label htmlFor="username">Tên đăng nhập</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder={
-                    user ? user.username : "Nhập tên đăng nhập của bạn"
-                  }
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.username}
-                  autoComplete="off"
+                {/* BirthDay */}
+                <Label htmlFor="birthday">Ngày tháng năm sinh</Label>
+                <BirthDayPicker
+                  userDate={user ? new Date(user.birthday) : null}
+                  setFieldValue={setFieldValue}
+                  popOverTriggerId="birthday"
                 />
                 <p className={cn("text-sm font-medium text-destructive")}>
-                  {errors.username && touched.username && errors.username}
+                  {errors.birthday && touched.birthday && errors.birthday}
                 </p>
               </div>
-              {/* BirthDay & Gender */}
-              <div className="grid tablet:grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  {/* BirthDay */}
-                  <Label htmlFor="birthday">Ngày tháng năm sinh</Label>
-                  <BirthDayPicker
-                    userDate={user ? new Date(user.birthday) : null}
-                    setFieldValue={setFieldValue}
-                    popOverTriggerId="birthday"
-                  />
-                  <p className={cn("text-sm font-medium text-destructive")}>
-                    {errors.birthday && touched.birthday && errors.birthday}
-                  </p>
-                </div>
-                <div className="grid gap-2">
-                  {/* Gender */}
-                  <Label htmlFor="selectGender">Giới tính</Label>
-                  <GenderSelect
-                    userGender={user ? user.gender : ""}
-                    setFieldValue={setFieldValue}
-                    selectTriggerId="selectGender"
-                  />
-                  <p className={cn("text-sm font-medium text-destructive")}>
-                    {errors.gender && touched.gender && errors.gender}
-                  </p>
-                </div>
+              <div className="grid gap-2">
+                {/* Gender */}
+                <Label htmlFor="selectGender">Giới tính</Label>
+                <GenderSelect
+                  userGender={user ? user.gender : ""}
+                  setFieldValue={setFieldValue}
+                  selectTriggerId="selectGender"
+                />
+                <p className={cn("text-sm font-medium text-destructive")}>
+                  {errors.gender && touched.gender && errors.gender}
+                </p>
               </div>
+              {/* </div> */}
 
               {/* PhoneNumber */}
               <div className="grid gap-2">
@@ -273,8 +301,19 @@ export default function EditProfileForm() {
                   {errors.tiktok && touched.tiktok && errors.tiktok}
                 </p>
               </div>
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                Lưu chỉnh sửa thông tin
+              <Button
+                type="submit"
+                onClick={handleSubmit} // This should trigger the form submission
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Lưu chỉnh sửa thông tin
+                  </>
+                ) : (
+                  "Lưu chỉnh sửa thông tin"
+                )}
               </Button>
             </div>
           </form>
