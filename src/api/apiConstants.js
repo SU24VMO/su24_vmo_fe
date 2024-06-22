@@ -19,3 +19,4 @@ export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 //user
 export const GET_ACCOUNT_BY_ID = "https://vmo.azurewebsites.net/api/account/";
 export const UPDATE_AVATAR ="https://vmo.azurewebsites.net/api/account/update-information/avatar";
+export const UPDATE_INFORMATION = "https://vmo.azurewebsites.net/api/account/update-information";

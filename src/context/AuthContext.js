@@ -99,6 +99,25 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  const updateUserInformation = (firstname, lastname, birthday, gender, phonenumber, facebooklink, tiktoklink, youtubelink) => {
+    setUser((currentUser) => {
+      const updatedUser = {
+        ...currentUser,
+        firstname: firstname,
+        lastname: lastname,
+        birthday: birthday,
+        gender: gender, 
+        phonenumber: phonenumber, 
+        facebooklink: facebooklink,
+        tiktoklink: tiktoklink,
+        youtubelink: youtubelink,
+      };
+      // Cập nhật localStorage với thông tin người dùng đã cập nhật
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  };
+
   const logOut = () => {
     setAccessToken("");
     setRefreshToken("");
@@ -126,6 +145,7 @@ const AuthProvider = ({ children }) => {
         logOut,
         loading,
         updateUserAvatar,
+        updateUserInformation
       }}
     >
       {children}
