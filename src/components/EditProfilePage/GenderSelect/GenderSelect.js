@@ -9,21 +9,21 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-const GenderSelect = ({ setFieldValue, selectTriggerId }) => {
+const GenderSelect = ({ setFieldValue, selectTriggerId, userGender }) => {
   const handleSelectGender = (gender) => {
     setFieldValue("gender", gender);
   };
   return (
-    <Select onValueChange={handleSelectGender}>
+    <Select onValueChange={handleSelectGender} defaultValue={userGender}>
       <SelectTrigger className="" id={selectTriggerId}>
         <SelectValue placeholder="Giới tính" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Giới tính</SelectLabel>
-          <SelectItem value="male">Nam</SelectItem>
-          <SelectItem value="female">Nữ</SelectItem>
-          <SelectItem value="other">Khác</SelectItem>
+          <SelectItem value="Male">Nam</SelectItem>
+          <SelectItem value="Female">Nữ</SelectItem>
+          <SelectItem value="Other">Khác</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

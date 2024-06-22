@@ -317,7 +317,7 @@ export default function CreateCampaignPage() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.nameOfBank}
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên ngân hàng..." />
 
                                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfBank && touched.nameOfBank && errors.nameOfBank}</p>
@@ -329,7 +329,7 @@ export default function CreateCampaignPage() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.nameOfUserBank}
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên tài khoản ngân hàng..." />
                                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfUserBank && touched.nameOfUserBank && errors.nameOfUserBank}</p>
                                         </div>
@@ -340,7 +340,7 @@ export default function CreateCampaignPage() {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.numberOfBankAccount}
-                                                autocomplete="off"
+                                                autoComplete="off"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="4242 4242 4242 4242" />
 
                                             <p class=" absolute mt-2  text-sm text-red-600 dark:text-red-500"> {errors.numberOfBankAccount && touched.numberOfBankAccount && errors.numberOfBankAccount}</p>
@@ -379,7 +379,7 @@ export default function CreateCampaignPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.nameOfCampaign}
-                                            autocomplete="off"
+                                            autoComplete="off"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên chiến dịch..." />
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfCampaign && touched.nameOfCampaign && errors.nameOfCampaign}</p>
 
@@ -392,7 +392,7 @@ export default function CreateCampaignPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.address}
-                                            autocomplete="off"
+                                            autoComplete="off"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập địa chỉ..." />
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.address && touched.address && errors.address}</p>
 
@@ -405,7 +405,7 @@ export default function CreateCampaignPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.description}
-                                            autocomplete="off"
+                                            autoComplete="off"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mô tả về chiến dịch..."></textarea>
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.description && touched.description && errors.description}</p>
 
