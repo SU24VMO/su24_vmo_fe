@@ -60,8 +60,8 @@ const DesktopNav = () => {
                 </Badge> */}
               </Link>
               <Link
-              // to="/manageRequestCampaigns"
-              // className={getLinkClass("/manageRequestCampaigns")}
+              to="/requestManager/manageRequestMembers"
+              className={getLinkClass("/requestManager/manageRequestMembers")}
               >
                 <Package className="h-4 w-4" />
                 {/* Products{" "} */}
@@ -83,8 +83,8 @@ const DesktopNav = () => {
                 Activity's Request
               </Link>
               <Link
-                // to="/requestManager/manageRequestActivities"
-                // className={getLinkClass("/requestManager/manageRequestActivities")}
+                to="/requestManager/manageRequestOrganizationManagers"
+                className={getLinkClass("/requestManager/manageRequestOrganizationManagers")}
               >
                 <LineChart className="h-4 w-4" />
                 OrganizationManager's Request

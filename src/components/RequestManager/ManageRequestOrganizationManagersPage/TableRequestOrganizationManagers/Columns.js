@@ -1,13 +1,12 @@
 import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "organizationName",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -15,14 +14,14 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên tổ chức
+          Tên người quản lí tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "organizationManagerEmail",
+    accessorKey: "phoneNumber",
     header: ({ column }) => {
       return (
         <Button
@@ -30,43 +29,13 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Số điện thoại
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
  
-  {
-    accessorKey: "organizationTaxCode",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Mã số thuế
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "areaOfActivity",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Lĩnh vực hoạt động
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
   {
     accessorKey: "address",
     header: ({ column }) => {
@@ -76,7 +45,37 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Địa chỉ tổ chức
+          Địa chỉ
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "citizenIdentification",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Mã CCCD
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "personalTaxCode",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Mã số thuế cá nhân
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

@@ -53,14 +53,15 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders =  {
-    name: "Tên chiến dịch",
-    // create_by_user: "Tạo bởi thành viên",
-    // create_by_om: "Tạo bởi tổ chức",
-    approvedBy: "Người duyệt",
-    update_by: "Cập nhật bởi",
-    createDate: "Ngày tạo",
+    name: "Tên quản lí tổ chức",
+    phoneNumber: "Số điện thoại",
+    address: "Địa chỉ",
+    citizenIdentification: "CCCD",
+    personalTaxCode: "Mã số thuế cá nhân",
+    approvedBy: "Được duyệt bởi",
+    createDate: "Ngày tạo chiến dịch",
     approvedDate: "Ngày duyệt",
-    is_approved: "Xác thực",
+    isApproved: "Xác thực",
     actions: "Thao tác"
   };
 
@@ -70,7 +71,7 @@ export function DataTable({ columns, data }) {
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập tên chiến dịch cần tìm ..."
+          placeholder="Nhập tên quản lí cần tìm ..."
           value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
@@ -78,7 +79,7 @@ export function DataTable({ columns, data }) {
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel({ organizationManager: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -137,7 +138,7 @@ export function DataTable({ columns, data }) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="truncate max-w-xs">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

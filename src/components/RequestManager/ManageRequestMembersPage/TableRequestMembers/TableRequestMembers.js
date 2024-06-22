@@ -1,23 +1,24 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import EditStatusForm from "../Feature/EditStatusForm";
 
+
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
+import { GETALLREQUESTORGANIZATION } from "../../../../api/apiConstants";
 
 async function getData(cancelToken) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=10&pageNo=1`, {
+    const response = await axiosPrivate.get(GETALLREQUESTORGANIZATION + `?pageSize=10&pageNo=1`, {
       cancelToken: cancelToken
     });
 
     if (response.status === 200) {
-      // console.log('====================================');
-      // console.log(response.data.data.list);
-      // console.log('====================================');
+      console.log('====================================');
+      console.log(response.data.data.list);
+      console.log('====================================');
       return response.data.data.list;
     }
   } catch (error) {
@@ -30,8 +31,7 @@ async function getData(cancelToken) {
 
   return [];
 }
-
-const TableMembers = () => {
+const TableRequestMembers = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
@@ -44,10 +44,9 @@ const TableMembers = () => {
 
   const onDelete = React.useCallback((row) => {
     // Implement delete logic here.
-    alert(`Deleting request with ID: ${row.id}`);
+    alert(`Deleting user with ID: ${row.id}`);
   }, []);
-
-
+  
   useEffect(() => {
     const source = axios.CancelToken.source();
 
@@ -63,13 +62,12 @@ const TableMembers = () => {
       source.cancel('Component unmounted');
     };
   }, []);
-
   return (
     <div className="flex flex-col">
       <div>
         <EditStatusForm
           isOpen={isDialogOpen}
-          campaign={selectedRow}
+          organize={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {
@@ -83,4 +81,4 @@ const TableMembers = () => {
   );
 };
 
-export default TableMembers;
+export default TableRequestMembers;

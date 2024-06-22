@@ -53,13 +53,14 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders =  {
-    name: "Tên chiến dịch",
-    // create_by_user: "Tạo bởi thành viên",
-    // create_by_om: "Tạo bởi tổ chức",
-    approvedBy: "Người duyệt",
-    update_by: "Cập nhật bởi",
-    createDate: "Ngày tạo",
-    approvedDate: "Ngày duyệt",
+    organization_name: "Tên tổ chức",
+    organization_manager_email: "Email",
+    organization_tax_code: "Mã số thuế",
+    area_of_activity: "Lĩnh vực hoạt động",
+    address: "Địa chỉ tổ chức",
+    approved_by: "Được duyệt bởi",
+    create_date: "Ngày tạo chiến dịch",
+    approved_date: "Ngày duyệt",
     is_approved: "Xác thực",
     actions: "Thao tác"
   };
@@ -70,15 +71,15 @@ export function DataTable({ columns, data }) {
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập tên chiến dịch cần tìm ..."
-          value={table.getColumn("name")?.getFilterValue() || ""}
+          placeholder="Nhập tên tổ chức cần tìm ..."
+          value={table.getColumn("organization_name")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("organization_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel({ organize: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -137,7 +138,7 @@ export function DataTable({ columns, data }) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="truncate max-w-xs">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

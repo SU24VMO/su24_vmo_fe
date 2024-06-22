@@ -8,9 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 import { CircleUser } from "lucide-react";
-import React from "react";
+import React, {useContext} from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
 const UserAvatarNav = () => {
+  const { logOut } = useContext(AuthContext);
   return (
     <>
       <DropdownMenu>
@@ -21,12 +23,18 @@ const UserAvatarNav = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem>Cài đặt</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-red-500"
+            onClick={() => {
+              logOut();
+            }}
+          >
+            Đăng xuất
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

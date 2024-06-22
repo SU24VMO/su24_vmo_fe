@@ -56,6 +56,9 @@ const AuthProvider = ({ children }) => {
         // Navigate to the specified page
         if(userDecode.role === "Admin"){
             navigate("/admin")
+        }else if(userDecode.role === "RequestManager"){
+          navigate("/requestManager")
+
         }else{
             navigate(from, { replace: true });
 

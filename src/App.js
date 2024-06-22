@@ -54,6 +54,9 @@ import ManageRequestActivitiesPage from "./components/RequestManager/ManageReque
 import ManageRequestOrganizationsPage from "./components/RequestManager/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
 import ManageRequestNewsPage from "./components/RequestManager/ManageRequestNewsPage/ManageRequestNewsPage";
 import ManageRequestCampaignsPage from "./components/RequestManager/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
+import ManageRequestOrganizationManagersPage from "./components/RequestManager/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
+import ManageRequestMembersPage from "./components/RequestManager/ManageRequestMembersPage/ManageRequestMembersPage";
+import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
 
 
 function App() {
@@ -70,6 +73,8 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
+            <Route path="/loginRequestManagerVMO" element={<RequestManagerLoginPage/>} />
+
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
@@ -141,6 +146,9 @@ function App() {
               <Route index element={<RequestManagerHomePage/>} />
                 <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage/>} />
                 <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage/>} />
+                <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage/>} />
+                <Route path="manageRequestMembers" element={<ManageRequestMembersPage/>} />
+
                 <Route path="manageRequestNews" element={<ManageRequestNewsPage/>} />
                 <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage/>} />
               </Route>
