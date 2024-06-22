@@ -66,9 +66,9 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Tìm kiếm tên chiến dịch ..."
-          value={table.getColumn("nameOfCampaign")?.getFilterValue() || ""}
+          value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("nameOfCampaign")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

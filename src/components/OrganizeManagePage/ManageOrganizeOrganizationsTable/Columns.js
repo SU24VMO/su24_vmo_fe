@@ -1,5 +1,7 @@
 import { Button } from "../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,28 +10,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+import { format } from "date-fns";
+
 export const columns = [
   {
-    accessorKey: "numericalOrder",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    accessorKey: "avatar",
+    header: () => <div>Logo</div>,
     cell: ({ row }) => {
-      const stt = row.getValue("numericalOrder");
-      return <div className="ml-2 text-start">{stt}</div>;
+      const avatar = row.getValue("avatar");
+      return (
+        <Avatar>
+          <AvatarImage src={avatar} />
+          <AvatarFallback>A</AvatarFallback>
+        </Avatar>
+      );
     },
   },
   {
-    accessorKey: "organizeName",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -43,7 +41,7 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
+      const organizeName = row.getValue("name");
       return (
         <div>
           {organizeName ? (
@@ -60,7 +58,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "organizeStatus",
+    accessorKey: "isActive",
     header: ({ column }) => {
       return (
         <Button
@@ -74,16 +72,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const organizeStatus = row.getValue("organizeStatus");
+      const organizeStatus = row.getValue("isActive");
       return (
         <div>
           {organizeStatus ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              {organizeStatus}
+              "Đang hoạt động"
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              {organizeStatus}
+              "Chưa hoạt động"
             </span>
           )}
         </div>
@@ -92,11 +90,11 @@ export const columns = [
   },
 
   {
-    accessorKey: "dateCreate",
-    header: () => <div className="text-right">Thời gian tạo</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="text-left">Thời gian tạo</div>,
     cell: ({ row }) => {
-      const dateCreate = row.getValue("dateCreate");
-      return <div className="text-right">{dateCreate}</div>;
+      const dateCreate = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');
+      return <div className="text-left">{dateCreate}</div>;
     },
   },
 

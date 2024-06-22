@@ -1,86 +1,131 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Formik } from "formik";
-import BirthDayPicker from "../BirthDayPicker/BirthDayPicker";
-import Address from "../Address/Address";
+import FoundingDatePicker from "../FoundingDatePicker/FoundingDatePicker";
+import { ToastAction } from "../../../components/ui/toast";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { CREATEORGANIZATION } from "../../../api/apiConstants";
+import { useToast } from "../../../components/ui/use-toast";
+
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function CreateOrganizeForm() {
+  const { toast } = useToast();
+  const { user } = useContext(AuthContext)
+
+  const [file, setFile] = useState();
+
+  function handleLogoChange(e, setFieldValue) {
+    console.log("File ảnh đại diện vừa chọn: ", e.target.files);
+    setFile(e.target.files[0]);
+    setFieldValue('Logo', file);
+  }
+
+
+
+  const createOrganization = async (data) => {
+    try {
+     
+      const formData = new FormData()
+      formData.append('Logo', file)
+      
+      const response = await axiosPrivate.post(CREATEORGANIZATION +
+        `?organizationManagerId=${user.organization_manager_id}&OrganizationName=${data.OrganizationName}
+        &OrganizationManagerEmail=${data.OrganizationManagerEmail}&OrganizationTaxCode=${data.OrganizationTaxCode}
+        &FoundingDate=${data.FoundingDate}&SocialMediaLink=${data.SocialMediaLink}&AreaOfActivity=${data.AreaOfActivity}
+        &Address=${data.Address}&PlanInformation=${data.PlanInformation}&AchievementLink=${data.AchievementLink}
+        &AuthorizationDocuments=${data.AuthorizationDocuments}`,  formData );
+      if (response.status === 200) {
+        console.log(response.data);
+        toast({
+          title: "Tạo tổ chức thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Tạo tổ chức thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Tạo tổ chức thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
+
   return (
     <>
       <Formik
         initialValues={{
-          name: "",
-          birthday: null,
-          website: "",
-          fieldOfWork: "",
-          address: "",
-          linkOfInfo: "",
-          // emailOrganize: "",
-          linkOfAchievement: "",
-          // nameOfUser: "",
-          // phoneNumber: "",
-          // emailPersonal: "",
+          OrganizationName: "",
+          OrganizationManagerEmail: "",
+          FoundingDate: null,
+          OrganizationTaxCode: "",
+          SocialMediaLink: "",
+          AreaOfActivity: "",
+          Address: "",
+          PlanInformation: "",
+          AchievementLink: "",
+          Logo: null,
+          AuthorizationDocuments: "",
           agree: false,
         }}
         validate={(values) => {
           const errors = {};
 
-          // name validation
-          if (!values.name) {
-            errors.name = "Không được để trống!";
+          // OrganizationName  validation
+          if (!values.OrganizationName) {
+            errors.OrganizationName = "Không được để trống!";
           }
-          // Birthday validation
-          if (!values.birthday) {
-            errors.birthday = "Không được để trống!";
+          // FoundingDate  validation
+          if (!values.FoundingDate) {
+            errors.FoundingDate = "Không được để trống!";
           }
-          if (!values.authorizationLetter) {
-            errors.authorizationLetter = "Không được để trống!";
+          if (!values.AuthorizationDocuments) {
+            errors.AuthorizationDocuments = "Không được để trống!";
+          }
+          // OrganizationTaxCode  validation
+          if (!values.OrganizationTaxCode) {
+            errors.OrganizationTaxCode = "Không được để trống!";
           }
           // Email validation
-          // if (!values.emailOrganize) {
-          //   errors.emailOrganize = "Không được để trống!";
-          // } else if (
-          //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-          //     values.emailOrganize
-          //   )
-          // ) {
-          //   errors.emailOrganize = "Email không hợp lệ!";
-          // }
-          // PhoneNumber validation
-          // if (!values.phoneNumber) {
-          //   errors.phoneNumber = "Không được để trống!";
-          // } else if (values.phoneNumber.length < 10) {
-          //   errors.phoneNumber = "Số điện thoại không hợp lệ";
-          // } else if (
-          //   !/((09|03|07|08|05)+([0-9]{8})\b$)/g.test(values.phoneNumber)
-          // ) {
-          //   errors.phoneNumber = "Số điện thoại không hợp lệ";
-          // }
-          // Email validation
-          // if (!values.emailPersonal) {
-          //   errors.emailPersonal = "Không được để trống!";
-          // } else if (
-          //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-          //     values.emailPersonal
-          //   )
-          // ) {
-          //   errors.emailPersonal = "Email không hợp lệ!";
-          // }
-          // address validation
-          if (!values.address) {
-            errors.address = "Không được để trống!";
+          if (!values.OrganizationManagerEmail) {
+            errors.OrganizationManagerEmail = "Không được để trống!";
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+              values.OrganizationManagerEmail
+            )
+          ) {
+            errors.OrganizationManagerEmail = "Email không hợp lệ!";
           }
-          // nameOfUser validation
-          // if (!values.nameOfUser) {
-          //   errors.nameOfUser = "Không được để trống!";
-          // }
+          // OrganizationTaxCode validation
+          if (!values.OrganizationTaxCode) {
+            errors.OrganizationTaxCode = "Không được để trống!";
+          } else if (values.OrganizationTaxCode.length < 10) {
+            errors.OrganizationTaxCode = "Số thuế không hợp lệ";
+          } else if (
+            !/((09|03|07|08|05)+([0-9]{8})\b$)/g.test(values.OrganizationTaxCode)
+          ) {
+            errors.OrganizationTaxCode = "Số thuế không hợp lệ";
+          }
+          // Address validation
+          if (!values.Address) {
+            errors.Address = "Không được để trống!";
+          }
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log(values);
-            setSubmitting(false);
-          }, 400);
+          createOrganization(values)
+          console.log('====================================');
+          console.log(values.Logo);
+          console.log('====================================');
+          setSubmitting(false);
         }}
       >
         {({
@@ -99,251 +144,243 @@ export default function CreateOrganizeForm() {
           >
             <div class="mb-5 ">
               <label
-                for="name"
+                for="OrganizationName "
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Tên tổ chức *
               </label>
               <input
                 type="text"
-                id="name"
-                name="name"
+                id="OrganizationName"
+                name="OrganizationName"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.name}
+                value={values.OrganizationName}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nhập tên..."
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.name && touched.name && errors.name}
+                {errors.OrganizationName && touched.OrganizationName && errors.OrganizationName}
+              </p>
+            </div>
+            <div class="mb-5 ">
+              <label
+                for="OrganizationManagerEmail"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Email *
+              </label>
+              <input
+                type="text"
+                id="OrganizationManagerEmail"
+                name="OrganizationManagerEmail"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.OrganizationManagerEmail}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Nhập email..."
+              />
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {" "}
+                {errors.OrganizationManagerEmail && touched.OrganizationManagerEmail && errors.OrganizationManagerEmail}
               </p>
             </div>
             <div class="mb-5">
               <label
-                for="dateOfBirth"
+                for="OrganizationTaxCode"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Mã số thuế doanh nghiệp *
+              </label>
+              <input
+                type="text"
+                id="OrganizationTaxCode"
+                name="OrganizationTaxCode"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.OrganizationTaxCode}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Nhập số mã số thuế..."
+              />
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {" "}
+                {errors.OrganizationTaxCode &&
+                  touched.OrganizationTaxCode &&
+                  errors.OrganizationTaxCode}
+              </p>
+            </div>
+
+            <div class="mb-5">
+              <label
+                for="FoundingDate"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Ngày thành lập *
               </label>
               <div class="relative w-full ">
-                <BirthDayPicker
+                <FoundingDatePicker
                   setFieldValue={setFieldValue}
-                  popOverTriggerId="birthday"
-                ></BirthDayPicker>
+                  popOverTriggerId="FoundingDate"
+                ></FoundingDatePicker>
               </div>
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.birthday && touched.birthday && errors.birthday}
+                {errors.FoundingDate && touched.FoundingDate && errors.FoundingDate}
               </p>
             </div>
             <div class="mb-5">
               <label
-                for="website"
+                for="SocialMediaLink"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Website, liên kết mạng xã hội hoặc trang tin điện tử của tổ chức
+                SocialMediaLink, liên kết mạng xã hội hoặc trang tin điện tử của tổ chức
               </label>
               <input
                 type="text"
-                id="website"
-                name="website"
+                id="SocialMediaLink"
+                name="SocialMediaLink"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.website}
+                value={values.SocialMediaLink}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Website..."
+                placeholder="SocialMediaLink..."
               />
             </div>
             <div class="mb-5">
               <label
-                for="fieldOfWork"
+                for="AreaOfActivity"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Lĩnh vực hoạt động chính *
+                Lĩnh vực hoạt động chính
               </label>
               <input
-                type="fieldOfWork"
-                id="fieldOfWork"
-                name="fieldOfWork"
+                type="AreaOfActivity"
+                id="AreaOfActivity"
+                name="AreaOfActivity"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.fieldOfWork}
+                value={values.AreaOfActivity}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="vd: Kinh doanh"
               />
             </div>
             <div class="mb-5">
               <label
-                for="address"
+                for="Address"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Địa chỉ trụ sở chính *
               </label>
               <input
                 type="text"
-                id="address"
-                name="address"
+                id="Address"
+                name="Address"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.address}
+                value={values.Address}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.address && touched.address && errors.address}
+                {errors.Address && touched.Address && errors.Address}
               </p>
             </div>
 
             <div class="mb-5">
               <label
-                for="linkOfInfo"
+                for="PlanInformation"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify"
               >
                 Thông tin giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện
                 nguyện của tổ chức ( mục đích làm thiện nguyên của tổ chức )
               </label>
-              <input
+              <textarea
                 type="text"
-                id="linkOfInfo"
-                name="linkOfInfo"
+                id="PlanInformation"
+                name="PlanInformation"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.linkOfInfo}
-                autoComplete="off"
+                value={values.PlanInformation}
+                autocomplete="off"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
             </div>
             <div class="mb-5">
               <label
-                for="linkOfAchievement"
+                for="AchievementLink"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  text-justify"
               >
                 Thành tích, khen thưởng, được ghi nhận trong hoạt động tình
                 nguyện, cộng đồng, xã hội (Đoạn văn ngắn bao gồm đường dẫn/link
                 hoặc đính kèm hình ảnh minh hoạ)
               </label>
-              <span className="text-xs mobile:text-sm">
-                (Chấp nhận các file ảnh, MS Word, MS Excel. Tối đa 5 file, mỗi
-                file dung lượng tối đa 20MB)
-              </span>
+
               <input
                 type="text"
-                id="linkOfAchievement"
-                name="linkOfAchievement"
+                id="AchievementLink"
+                name="AchievementLink"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.linkOfAchievement}
-                autoComplete="off"
+                value={values.AchievementLink}
+                autocomplete="off"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
             </div>
 
             <div class="mb-5">
               <label
-                for="authorizationLetter"
+                for="AuthorizationDocuments"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  text-justify"
               >
                 Giấy ủy quyền của tổ chức *
               </label>
-              <span className="text-xs mobile:text-sm">
-                (Chấp nhận các file ảnh, MS Word, MS Excel. Tối đa 5 file, mỗi
-                file dung lượng tối đa 20MB)
-              </span>
+
               <input
                 type="text"
-                id="authorizationLetter"
-                name="authorizationLetter"
+                id="AuthorizationDocuments"
+                name="AuthorizationDocuments"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.authorizationLetter}
-                autoComplete="off"
+                value={values.AuthorizationDocuments}
+                autocomplete="off"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.authorizationLetter &&
-                  touched.authorizationLetter &&
-                  errors.authorizationLetter}
+                {errors.AuthorizationDocuments &&
+                  touched.AuthorizationDocuments &&
+                  errors.AuthorizationDocuments}
               </p>
+            </div>
+            <div class="mb-5">
+              <div className="">
+                <div>
+                  <label
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="Logo"
+                  >
+                    Vui lòng chọn ảnh Logo tổ chức(công ty)
+                  </label>
+                  <input
+                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="Logo_help"
+                    id="Logo"
+                    type="file"
+                    name="Logo"
+                    onChange={(e) => { handleLogoChange(e, setFieldValue) }}
+                  />
+                  <p
+                    className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                    id="Logo_help"
+                  >
+                    SVG, PNG, JPG or GIF (MAX. 800x400px).
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* <div class="mb-5 bg-orange-400 p-5 rounded-xl">
-              <span className="text-white text-sm mobile:text-xl font-semibold">
-                Thông tin người đại diện tổ chức{" "}
-              </span>
-            </div>
-            <div class="mb-5">
-              <label
-                for="nameOfUser"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Họ và tên *
-              </label>
-              <input
-                type="text"
-                id="nameOfUser"
-                name="nameOfUser"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.nameOfUser}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Nhập tên..."
-              />
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {" "}
-                {errors.nameOfUser && touched.nameOfUser && errors.nameOfUser}
-              </p>
-            </div>
 
-            <div class="mb-5">
-              <label
-                for="phoneNumber"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Số điện thoại *
-              </label>
-              <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.phoneNumber}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Nhập số điện thoại..."
-              />
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {" "}
-                {errors.phoneNumber &&
-                  touched.phoneNumber &&
-                  errors.phoneNumber}
-              </p>
-            </div>
-            <div class="mb-5">
-              <label
-                for="emailPersonal"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Email cá nhân *
-              </label>
-              <input
-                type="email"
-                id="emailPersonal"
-                name="emailPersonal"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.emailPersonal}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="vd: tddkhoa0811@gmail.com -> email đã đăng ký trên hệ thống"
-              />
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {" "}
-                {errors.emailPersonal &&
-                  touched.emailPersonal &&
-                  errors.emailPersonal}
-              </p>
-            </div> */}
 
             <div class="mb-5 bg-orange-400 p-5 rounded-xl">
               <span className="text-white text-sm mobile:text-xl font-semibold text-justify">

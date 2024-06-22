@@ -13,7 +13,7 @@ const EndDayPicker = React.memo(({ setEndFieldValue, popOverTriggerIdEnd }) => {
 
   const handleSetDate = (date) => {
     setEndDate(date);
-    const formatted = date ? format(date, "yyyy/MM/dd") : null;
+    const formatted = date ? format(date, "yyyy-MM-dd") : null;
     setFormattedDate(formatted);
     setEndFieldValue("endDate", formatted);
     console.log(date);
