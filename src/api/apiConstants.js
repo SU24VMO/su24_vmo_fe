@@ -16,3 +16,6 @@ export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 
 
 
+//user
+export const GET_ACCOUNT_BY_ID = "https://vmo.azurewebsites.net/api/account/";
+
