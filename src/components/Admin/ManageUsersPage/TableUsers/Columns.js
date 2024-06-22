@@ -2,24 +2,25 @@ import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
+import { format } from "date-fns";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "userAvatar",
+    accessorKey: "avatar",
     header: () => <div>Avatar</div>,
     cell: ({ row }) => {
-      const userAvatar = row.getValue("userAvatar");
+      const avatar = row.getValue("avatar");
       return (
         <Avatar>
-          <AvatarImage src={userAvatar} />
+          <AvatarImage src={avatar} />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>
       );
     },
   },
   {
-    accessorKey: "userName",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
@@ -34,7 +35,7 @@ export const columns = ({ onEdit, onDelete }) => [
     },
   },
   {
-    accessorKey: "userEmail",
+    accessorKey: "email",
     header: ({ column }) => (
       <Button
         className="px-0 py-0"
@@ -47,17 +48,17 @@ export const columns = ({ onEdit, onDelete }) => [
     ),
   },
   {
-    accessorKey: "userPassword",
+    accessorKey: "hashPassword",
     header: () => <div>Mật khẩu</div>,
   },
   {
-    accessorKey: "isActive",
-    header: () => <div>Trạng thái</div>,
+    accessorKey: "isActived",
+    header: () => <div className="w-max">Trạng thái</div>,
     cell: ({ row }) => {
-      const isActive = row.getValue("isActive");
+      const isActived = row.getValue("isActived");
       return (
-        <div>
-          {isActive === true ? (
+        <div className="w-max">
+          {isActived === true ? (
             <Badge variant="success">Đang hoạt động</Badge>
           ) : (
             <Badge variant="destructive">Tạm dừng</Badge>
@@ -68,12 +69,13 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "role",
-    header: () => <div>Role</div>,
+    header: () => <div className="w-max">Vai trò</div>,
     cell: ({ row }) => {
-      const role = row.getValue("role");
+      // const role = row.getValue("role");
       return (
-        <div>
-          {role === "Admin" ? (
+        <div className="w-max">
+          <Badge variant="primary">User</Badge>
+          {/* {role === "Admin" ? (
             <Badge variant="success">Admin</Badge>
           ) : role === "User" ? (
             <Badge variant="primary">User</Badge>
@@ -85,17 +87,18 @@ export const columns = ({ onEdit, onDelete }) => [
             <Badge variant="danger">Request Manager</Badge>
           ) : (
             <Badge variant="secondary">Unknown</Badge>
-          )}
+          )} */}
         </div>
       );
     },
   },
   {
-    accessorKey: "createAt",
-    header: () => <div>Ngày tạo</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="w-max">Ngày tạo</div>,
     cell: ({ row }) => {
-      const createAt = row.getValue("createAt");
-      return <div>{createAt}</div>;
+      
+      const createdAt = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');;
+      return <div className="w-max">{createdAt}</div>;
     },
   },
   // Thêm Actions vào columns

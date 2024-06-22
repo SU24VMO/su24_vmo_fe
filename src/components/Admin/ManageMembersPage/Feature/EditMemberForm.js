@@ -1,4 +1,5 @@
 import { Button } from "../../../ui/button";
+import { ScrollArea } from "../../../ui/scroll-area";
 import {
   Dialog,
   DialogClose,
@@ -15,194 +16,218 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import { Badge } from "../../../ui/badge";
 import React from "react";
+import { Badge } from "../../../ui/badge";
+import { ToastAction } from "../../../../components/ui/toast";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { UPDATEISACTIVED } from "../../../../api/apiConstants";
 const EditMemberForm = ({ isOpen, onOpenChange, member }) => {
   const { toast } = useToast();
   // Formik setup
+
+  const updateStatus = async (accountID, isActived) => {
+    try {
+      const response = await axiosPrivate.put(UPDATEISACTIVED, {
+        accountID: accountID,
+        isActived: isActived,
+      });
+
+      if (response.status === 200) {
+        console.log(response);
+        toast({
+          title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Cập nhật thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Cập nhật thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
+
+
+
   const formik = useFormik({
     initialValues: {
-      is_verified: member ? member.is_verified : false,
+      isActived: member ? member.isActived : false,
+      accountID: member ? member.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin chỉnh sửa:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
+      console.log(values.accountID);
+      updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
   });
   /* Giải thích: 
-  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
+  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
+  và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
+  nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
+   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when member changes
+  // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
-      is_verified: member ? member.is_verified : false,
+      isActived: member ? member.isActived : false,
+      accountID: member ? member.accountID : ""
+      
     });
   }, [member]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
+ 
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-md flex flex-col">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa thông tin thành viên</DialogTitle>
+          <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của thành viên!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
-        {/* Show họ thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="first_name">Họ</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="first_name"
-                defaultValue={member ? member.first_name : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.first_name : ""} />
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+          {/* Show avatar người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="avatar">Avatar</Label>
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src={member ? member.avatar : ""}
+                    alt="@avatar"
+                  />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show tên thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="last_name">Tên</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="last_name"
-                defaultValue={member ? member.last_name : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.last_name : ""} />
+           {/* Show id người dùng */}
+           <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="accountID">ID tài khoản</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="accountID"
+                  defaultValue={member ? member.accountID : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.accountID : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show số điện thoại thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="phone_number">Số điện thoại</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="phone_number"
-                defaultValue={member ? member.phone_number : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.phone_number : ""} />
+          {/* Show tên người dùng */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="username">Tên người dùng</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="username"
+                  defaultValue={member ? member.username : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.username : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show giới tính thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="gender">Giới tính</Label>
-            <div className="flex items-center space-x-2">
-              <Badge variant={"outline"}>
-                {member
-                  ? member.gender === "Male"
-                    ? "Nam"
-                    : member.gender === "Female"
-                    ? "Nữ"
-                    : "Khác"
-                  : ""}
-              </Badge>
-              <CopyButton
-                code={
-                  member
-                    ? member.gender === "Male"
-                      ? "Nam"
-                      : member.gender === "Female"
-                      ? "Nữ"
-                      : "Khác"
-                    : ""
-                }
-              />
+          {/* Show email */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="email">Email</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="email"
+                  defaultValue={member ? member.email : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.email : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show năm sinh thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="birthday">Năm sinh</Label>
-            <div className="flex items-center space-x-2">
-              <Badge variant={"outline"}>
-              {member ? member.birthday : ""}
-              </Badge>
-              <CopyButton
-                code={member ? member.birthday : ""}
-              />
+          {/* Show mật khẩu */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="hashPassword">Mật khẩu</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="hashPassword"
+                  defaultValue={member ? member.hashPassword : ""}
+                  disabled
+                />
+                <CopyButton code={member ? member.hashPassword : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link facebook thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="facebook_url">Link facebook</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="facebook_url"
-                defaultValue={member ? member.facebook_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.facebook_url : ""} />
+          {/* Show ngày tạo */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="createdAt">Ngày tạo</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="createdAt"
+                  disabled
+                  defaultValue={member ? member.createdAt : ""}
+                />
+                <CopyButton code={member ? member.createdAt : ""} />
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link youtube thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="youtube_url">Link youtube</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="youtube_url"
-                defaultValue={member ? member.youtube_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.youtube_url : ""} />
+          {/* Show role thành viên */}
+          <div className="flex mb-3">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="role">Role</Label>
+              <div className="flex items-center space-x-2">
+              <Badge variant="primary">Member</Badge>
+                {/* {user ? (
+                  user.role === "Admin" ? (
+                    <Badge variant="success">Admin</Badge>
+                  ) : user.role === "User" ? (
+                    <Badge variant="primary">User</Badge>
+                  ) : user.role === "Member" ? (
+                    <Badge variant="info">Member</Badge>
+                  ) : user.role === "member" ? (
+                    <Badge variant="warning">Organization Manager</Badge>
+                  ) : user.role === "RequestManager" ? (
+                    <Badge variant="danger">Request Manager</Badge>
+                  ) : (
+                    <Badge variant="secondary">Unknown</Badge>
+                  )
+                ) : (
+                  "No user"
+                )} */}
+              </div>
             </div>
           </div>
-        </div>
-        {/* Show link tiktok thành viên */}
-        <div className="flex">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="tiktok_url">Link tiktok</Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="tiktok_url"
-                defaultValue={member ? member.tiktok_url : ""}
-                disabled
-              />
-              <CopyButton code={member ? member.tiktok_url : ""} />
-            </div>
-          </div>
-        </div>
-        {member && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="is_verified"
-                checked={formik.values.is_verified}
-                onCheckedChange={handleSwitchChange("is_verified")}
-              />
-              <Label htmlFor="is_verified">Xác thực</Label>
-            </div>
-          </form>
-        )}
+          {member && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              {/*  */}
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isActived"
+                  checked={formik.values.isActived}
+                  onCheckedChange={handleSwitchChange("isActived")}
+                />
+                <Label htmlFor="isActived">Trạng thái</Label>
+              </div>
+             
+            </form>
+          )}
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

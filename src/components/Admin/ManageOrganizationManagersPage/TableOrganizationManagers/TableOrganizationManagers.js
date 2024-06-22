@@ -2,168 +2,30 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import EditOrganizationManagerForm from "../Feature/EditOrganizationManagersForm";
-import avatar1 from "../../../../assets/avatars/01.png";
+import axios from "axios";
+import { axiosPrivate } from "../../../../api/axiosInstance";
 
-async function getData() {
-  // Fetch data from your API here.
-  return [
-    {
-      "account_id": "2",
-      "birthday": "5/6/2024",
-      "phone_number": "0938466579",
-      "first_name": "Van",
-      "last_name": "A", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HCM",
-      "is_verified": true,
-    },
-    {
-      "account_id": "3",
-      "birthday": "5/6/2024",
-      "phone_number": "0949466570",
-      "first_name": "Thi",
-      "last_name": "B", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software HCM",
-      "is_verified": true,
-    },
-    {
-      "account_id": "4",
-      "birthday": "5/6/2024",
-      "phone_number": "0959466571",
-      "first_name": "Duc",
-      "last_name": "C", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HN",
-      "is_verified": false,
-    },
-    {
-      "account_id": "5",
-      "birthday": "5/6/2024",
-      "phone_number": "0969466572",
-      "first_name": "Minh",
-      "last_name": "D", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HN",
-      "is_verified": true,
-    },
-    {
-      "account_id": "6",
-      "birthday": "5/6/2024",
-      "phone_number": "0979466573",
-      "first_name": "Thi",
-      "last_name": "E", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software HCM",
-      "is_verified": true,
-    },
-    {
-      "account_id": "7",
-      "birthday": "5/6/2024",
-      "phone_number": "0989466574",
-      "first_name": "Thi",
-      "last_name": "F", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software DN",
-      "is_verified": false,
-    },
-    {
-      "account_id": "8",
-      "birthday": "5/6/2024",
-      "phone_number": "0999466575",
-      "first_name": "Quang",
-      "last_name": "G", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software DN",
-      "is_verified": true,
-    },
-    {
-      "account_id": "9",
-      "birthday": "5/6/2024",
-      "phone_number": "0910466576",
-      "first_name": "Thi",
-      "last_name": "H", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software HN",
-      "is_verified": true,
-    },
-    {
-      "account_id": "10",
-      "birthday": "5/6/2024",
-      "phone_number": "0921466577",
-      "first_name": "Duy",
-      "last_name": "I", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HCM",
-      "is_verified": false,
-    },
-    {
-      "account_id": "11",
-      "birthday": "5/6/2024",
-      "phone_number": "0932466578",
-      "first_name": "Khoa",
-      "last_name": "J", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HCM",
-      "is_verified": true,
-    },
-    {
-      "account_id": "12",
-      "birthday": "5/6/2024",
-      "phone_number": "0943466579",
-      "first_name": "Thi",
-      "last_name": "K", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software HN",
-      "is_verified": true,
-    },
-    {
-      "account_id": "13",
-      "birthday": "5/6/2024",
-      "phone_number": "0954466580",
-      "first_name": "Lam",
-      "last_name": "L", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software HN",
-      "is_verified": true,
-    },
-    {
-      "account_id": "14",
-      "birthday": "5/6/2024",
-      "phone_number": "0965466581",
-      "first_name": "Thi",
-      "last_name": "M", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Female",
-      // "name": "FPT Software DN",
-      "is_verified": false,
-    },
-    {
-      "account_id": "15",
-      "birthday": "5/6/2024",
-      "phone_number": "0976466582",
-      "first_name": "Nhat",
-      "last_name": "N", 
-      "email": "khoatddse1661228@fpt.edu.vn",
-      "gender": "Male",
-      // "name": "FPT Software DN",
-      "is_verified": true,
-    },
+async function getData(cancelToken) {
+  try {
+    const response = await axiosPrivate.get('/api/account/all/role/organization-manager?pageSize=15&pageNo=1', {
+      cancelToken: cancelToken
+    });
 
-    // ...
-  ];
+    if (response.status === 200) {
+      console.log('====================================');
+      console.log(response.data.data.list);
+      console.log('====================================');
+      return response.data.data.list;
+    }
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message);
+    } else {
+      console.error("Lỗi khi lấy dữ liệu từ API:", error);
+    }
+  }
+
+  return [];
 }
 
 const TableOrganizationManagers = () => {
@@ -183,9 +45,20 @@ const TableOrganizationManagers = () => {
   }, []);
 
   useEffect(() => {
-    getData().then((data) => setData(data));
-  }, []);
+    const source = axios.CancelToken.source();
 
+    const fetchData = async () => {
+      const result = await getData(source.token);
+      setData(result);
+    };
+
+    fetchData();
+
+    // Cleanup function to cancel the request on component unmount
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, []);
   return (
     <div className="flex flex-col">
       <div>

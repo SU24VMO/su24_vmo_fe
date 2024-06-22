@@ -3,30 +3,14 @@ import xlsx from "json-as-xlsx";
 export function exportToExcel({ member }) {
   let columns = [
     {
-      sheet: "Persons",
+      sheet: "Members",
       columns: [
-        { label: "ID", value: "account_id" },
-        { label: "Họ", value: "first_name" },
-        { label: "Tên", value: "last_name" },
-        { label: "Số điện thoại", value: "phone_number" },
-        {
-          label: "Giới tính",
-          value: (row) =>
-            row.gender === "Male"
-              ? "Nam"
-              : row.gender === "Female"
-              ? "Nữ"
-              : "Khác",
-        },
-        { label: "Sinh nhật", value: "birthday" },
-        { label: "Link facebook", value: "facebook_url" },
-        { label: "Link youtube", value: "youtube_url" },
-        { label: "Link tiktok", value: "tiktok_url" },
-        {
-          label: "Xác thực",
-          value: (row) => (row.is_verified === true ? "Có" : "Không"),
-        },
-        // {
+        { label: "Tên người dùng", value: "username" },
+        { label: "Email", value: "email" },
+        { label: "Mật khẩu", value: "hashPassword" },
+        { label: "Đang hoạt động", value: (row) => row.isActived === true ? "Có" : "Không", },
+        { label: "Ngày tạo", value: "createdAt" },
+        // { 
         //   label: "Date of Birth",
         //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
         // },
@@ -36,7 +20,7 @@ export function exportToExcel({ member }) {
   ];
 
   let settings = {
-    fileName: "Bảng thành viên",
+    fileName: "Danh sách người quản lí tổ chức",
   };
 
   xlsx(columns, settings);

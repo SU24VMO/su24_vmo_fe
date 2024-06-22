@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
 import {
@@ -12,46 +12,60 @@ import {
 } from "../../ui/dropdown-menu";
 import avatar_image from "../../../assets/avatars/02.png";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 
 const UserAvatar = () => {
+  const { logOut, user } = useContext(AuthContext);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarImage src={avatar_image} alt="Avatar User" />
-            <AvatarFallback>Bi</AvatarFallback>
+            <AvatarImage
+              src={user ? user.avatar : avatar_image}
+              alt="Avatar User"
+            />
+            <AvatarFallback>{user.lastname[0]}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">UserName</p>
+            <p className="text-sm font-medium leading-none">{user.username}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              userEmail@email.com
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-
-            <Link to="/viewProfile">
+          <Link to="/viewProfile" className="w-full">
+            <DropdownMenuItem className="w-full cursor-pointer">
               Xem trang cá nhân
-            </Link>
-
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/editProfile">
-            Chỉnh sửa thông tin cá nhân
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Cài đặt tài khoản</DropdownMenuItem>
-          <DropdownMenuItem>Đổi mật khẩu</DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
+          <Link to="/editProfile" className="w-full">
+            <DropdownMenuItem className="w-full cursor-pointer">
+              Chỉnh sửa thông tin cá nhân
+            </DropdownMenuItem>
+          </Link>
+          <Link to="/changePassword" className="w-full">
+            <DropdownMenuItem className="w-full cursor-pointer">
+              Đổi mật khẩu
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-500">Đăng xuất</DropdownMenuItem>
+        <DropdownMenuItem
+          className="text-red-500 w-full cursor-pointer"
+          onClick={() => {
+            logOut();
+          }}
+        >
+          Đăng xuất
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

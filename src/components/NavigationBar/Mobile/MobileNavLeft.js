@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Button } from "../../ui/button";
 import { Menu as MenuIcon } from "lucide-react";
@@ -7,9 +7,11 @@ import SearchBar from "../Feature/SearchBar";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo_img from "../../../assets/images/logo1.svg";
+import { AuthContext } from "../../../context/AuthContext";
 
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
+  const { user, isLogin } = useContext(AuthContext);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -57,47 +59,66 @@ const MobileNavLeft = () => {
               </Button>
             </Link>
           </div>
-          <Separator className="mb-5" />
-          <div className="w-full">
-            <Link to="/login">
-              <Button
-                variant="ghost"
-                className="w-full items-start justify-start"
-              >
-                Đăng nhập
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button
-                variant="ghost"
-                className="w-full items-start justify-start"
-              >
-                Đăng ký
-              </Button>
-            </Link>
-          </div>
-          <Separator className="mb-5" />
-          <div className="w-full mb-5">
-            <Link to="/manage/allCampaigns">
-              <Button
-                variant="feature"
-                className="w-full items-start justify-start"
-              >
-                Quản lý
-              </Button>
-            </Link>
-          </div>
-          <Separator className="mb-5" />
-          <div className="w-full mb-5">
-            <Link to="/manage/organize/allOrganizations">
-              <Button
-                variant="feature"
-                className="w-full items-start justify-start"
-              >
-                Quản lí tổ chức
-              </Button>
-            </Link>
-          </div>
+          {isLogin ? (
+            ""
+          ) : (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full">
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    className="w-full items-start justify-start"
+                  >
+                    Đăng nhập
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button
+                    variant="ghost"
+                    className="w-full items-start justify-start"
+                  >
+                    Đăng ký
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
+
+          {user?.role === "Member" && user.is_verified ? (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full mb-5">
+                <Link to="/manage/allCampaigns">
+                  <Button
+                    variant="feature"
+                    className="w-full items-start justify-start"
+                  >
+                    Quản lý
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {user?.role === "OrganizationManager" && user.is_verified ? (
+            <>
+              <Separator className="mb-5" />
+              <div className="w-full mb-5">
+                <Link to="/manage/organize/allOrganizations">
+                  <Button
+                    variant="feature"
+                    className="w-full items-start justify-start"
+                  >
+                    Quản lí tổ chức
+                  </Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <Separator className="mb-5" />
           <div className="w-full">
             <SearchBar />

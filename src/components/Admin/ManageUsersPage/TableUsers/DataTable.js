@@ -53,13 +53,14 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders =  {
-    userAvatar: "Avatar",
-    userName: "Tên người dùng",
-    userEmail: "Email",
-    userPassword: "Mật khẩu",
-    isActive: "Trạng thái",
+    avatar: "Avatar",
+    username: "Tên người dùng",
+    email: "Email",
+    hashPassword: "Mật khẩu",
+    isActived: "Trạng thái",
     // isBlocked: "Dừng hoạt động",
-    createAt: "Ngày tạo",
+    role: "Vai trò",
+    createdAt: "Ngày tạo",
     actions: "Thao tác",
   };
 
@@ -70,9 +71,9 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Nhập tên người dùng cần tìm ..."
-          value={table.getColumn("userName")?.getFilterValue() || ""}
+          value={table.getColumn("username")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("userName")?.setFilterValue(event.target.value)
+            table.getColumn("username")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

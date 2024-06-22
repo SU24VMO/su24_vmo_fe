@@ -1,10 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from "react";
+import React, { useContext } from "react";
 import img_src from "../../assets/images/placeholder.svg";
 import LoginForm from "./LoginForm/LoginForm";
-
+import { AuthContext } from "../../context/AuthContext";
+import { Navigate } from "react-router-dom";
 const LoginPage = () => {
+ const {isLogin} = useContext(AuthContext)
+//Check trạng thái login của nó xem login chưa,
+//  nếu login rồi sẽ ngăn không cho vào lại trang login ╰(*°▽°*)╯
+if(isLogin === true) {
+  return <Navigate to="/" />;
+}
+
   return (
     <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
       {/* LEFT */}
