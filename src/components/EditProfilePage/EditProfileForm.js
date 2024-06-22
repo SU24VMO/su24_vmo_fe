@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik } from "formik";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -6,17 +6,24 @@ import { Label } from "../ui/label";
 import { cn } from "../../lib/utils";
 import BirthDayPicker from "./BirthDayPicker/BirthDayPicker";
 import GenderSelect from "./GenderSelect/GenderSelect";
+import { AuthContext } from "../../context/AuthContext";
 export default function EditProfileForm() {
+  const { user } = useContext(AuthContext);
+  console.log("User bên context: ", user);
+  // console.log("User date lấy ra : ", new Date(user.birthday));
   return (
     <>
       <Formik
         initialValues={{
-          birthday: null,
-          gender: "",
-          phoneNumber: "",
           firstName: "",
           lastName: "",
           username: "",
+          birthday: null,
+          gender: "",
+          phoneNumber: "",
+          faceBook: "",
+          youtube: "",
+          tiktok: "",
         }}
         validate={(values) => {
           const errors = {};
@@ -59,6 +66,36 @@ export default function EditProfileForm() {
               "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu chữ cái. Ví dụ: abc_123";
           }
 
+          // Kiểm tra URL Facebook
+          if (values.faceBook) {
+            const facebookUrlPattern =
+              /^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/;
+            if (!facebookUrlPattern.test(values.faceBook)) {
+              errors.faceBook =
+                "Đường dẫn không hợp lệ. Vui lòng nhập lại link Facebook của bạn";
+            }
+          }
+
+          // Kiểm tra URL Youtube
+          if (values.youtube) {
+            const youtubeUrlPattern =
+              /^(https?:\/\/)?(www\.)?youtube\.com\/@([a-zA-Z0-9_\.]+)$/;
+            if (!youtubeUrlPattern.test(values.youtube)) {
+              errors.youtube =
+                "Đường dẫn không hợp lệ. Vui lòng nhập lại link Youtube của bạn";
+            }
+          }
+
+          // Kiểm tra URL tiktok
+          if (values.tiktok) {
+            const tiktokUrlPattern =
+              /^(https?:\/\/)?(www\.)?tiktok\.com\/@([a-zA-Z0-9_\.]+)$/;
+            if (!tiktokUrlPattern.test(values.tiktok)) {
+              errors.tiktok =
+                "Đường dẫn không hợp lệ. Vui lòng nhập lại link Tiktok của bạn";
+            }
+          }
+
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -88,7 +125,7 @@ export default function EditProfileForm() {
                   <Label htmlFor="firstName">Họ</Label>
                   <Input
                     id="firstName"
-                    placeholder="Nguyen"
+                    placeholder={user ? user.firstname : "Nguyen"}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.firstName}
@@ -102,7 +139,7 @@ export default function EditProfileForm() {
                   <Label htmlFor="lastName">Tên</Label>
                   <Input
                     id="lastName"
-                    placeholder="Van A"
+                    placeholder={user ? user.lastname : "Van A"}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.lastName}
@@ -119,7 +156,9 @@ export default function EditProfileForm() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="Nhập tên đăng nhập của bạn"
+                  placeholder={
+                    user ? user.username : "Nhập tên đăng nhập của bạn"
+                  }
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
@@ -135,6 +174,7 @@ export default function EditProfileForm() {
                   {/* BirthDay */}
                   <Label htmlFor="birthday">Ngày tháng năm sinh</Label>
                   <BirthDayPicker
+                    userDate={user ? new Date(user.birthday) : null}
                     setFieldValue={setFieldValue}
                     popOverTriggerId="birthday"
                   />
@@ -146,6 +186,7 @@ export default function EditProfileForm() {
                   {/* Gender */}
                   <Label htmlFor="selectGender">Giới tính</Label>
                   <GenderSelect
+                    userGender={user ? user.gender : ""}
                     setFieldValue={setFieldValue}
                     selectTriggerId="selectGender"
                   />
@@ -161,7 +202,9 @@ export default function EditProfileForm() {
                 <Input
                   id="phoneNumber"
                   type="text"
-                  placeholder="Nhập số điện thoại của bạn"
+                  placeholder={
+                    user ? user.phonenumber : "Nhập số điện thoại của bạn"
+                  }
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.phoneNumber}
@@ -180,7 +223,13 @@ export default function EditProfileForm() {
                 <Input
                   id="faceBook"
                   type="text"
-                  placeholder="Nhập kênh facebook của bạn"
+                  placeholder={
+                    user
+                      ? user.facebooklink === "string"
+                        ? "Nhập đường dẫn facebook của bạn"
+                        : user.facebooklink
+                      : "Nhập đường dẫn facebook của bạn"
+                  }
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.faceBook}
