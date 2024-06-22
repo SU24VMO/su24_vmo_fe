@@ -1,23 +1,63 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik } from "formik";
+import { ToastAction } from "../../../components/ui/toast";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { VERIFYORGANIZATIONMANAGER } from "../../../api/apiConstants";
+import { useToast } from "../../../components/ui/use-toast";
 
+import { AuthContext } from "../../../context/AuthContext";
 export default function SignUpVerifyOrganizeForm() {
+
+  const { toast } = useToast();
+  const { user } = useContext(AuthContext)
+
+  const verifyOrganizationManager = async (data) => {
+    try {
+      const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
+        organizationManagerID: user.organization_manager_id,
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        citizenIdentification: data.citizenIdentification,
+        personalTaxCode: data.personalTaxCode,
+        isAcceptTermOfUse: data.isAcceptTermOfUse
+
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+        toast({
+          title: "Tạo tổ chức thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Tạo tổ chức thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Tạo tổ chức thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
+
   return (
     <>
       <Formik
         initialValues={{
           name: "",
-          citizenId: null,
-          website: "",
-          fieldOfWork: "",
-          address: "",
-          emailOrganize: "",
-          linkOfInfo: "",
-          linkOfAchievement: "",
-          nameOfUser: "",
           phoneNumber: "",
-          emailPersonal: "",
-          agree: false,
+          address: "",
+          citizenIdentification: null,
+          personalTaxCode: null,
+          isAcceptTermOfUse: false,
         }}
         validate={(values) => {
           const errors = {};
@@ -25,9 +65,9 @@ export default function SignUpVerifyOrganizeForm() {
           if (!values.name) {
             errors.name = "Không được để trống!";
           }
-          // citizenId validation
-          if (!values.citizenId) {
-            errors.citizenId = "Không được để trống!";
+          // citizenIdentification validation
+          if (!values.citizenIdentification) {
+            errors.citizenIdentification = "Không được để trống!";
           }
           // PhoneNumber validation
           if (!values.phoneNumber) {
@@ -50,11 +90,9 @@ export default function SignUpVerifyOrganizeForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log(values);
-            setSubmitting(false);
-          }, 400);
+          verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber, 
+            values.address , values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
+          setSubmitting(false);
         }}
       >
         {({
@@ -147,24 +185,24 @@ export default function SignUpVerifyOrganizeForm() {
 
             <div class="mb-5">
               <label
-                for="citizenId"
+                for="citizenIdentification"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Căn Cước Công Dân *
               </label>
               <input
                 type="text"
-                id="citizenId"
-                name="citizenId"
+                id="citizenIdentification"
+                name="citizenIdentification"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.citizenId}
+                value={values.citizenIdentification}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nhập số căn cước..."
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.citizenId && touched.citizenId && errors.citizenId}
+                {errors.citizenIdentification && touched.citizenIdentification && errors.citizenIdentification}
               </p>
             </div>
 
@@ -250,16 +288,16 @@ export default function SignUpVerifyOrganizeForm() {
               <div class="flex items-start mb-5">
                 <div class="flex items-center h-5">
                   <input
-                    id="agree"
+                    id="isAcceptTermOfUse"
                     type="checkbox"
-                    name="agree"
-                    checked={values.agree}
-                    onChange={() => setFieldValue("agree", !values.agree)}
+                    name="isAcceptTermOfUse"
+                    checked={values.isAcceptTermOfUse}
+                    onChange={() => setFieldValue("isAcceptTermOfUse", !values.isAcceptTermOfUse)}
                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                   />
                 </div>
                 <label
-                  for="agree"
+                  for="isAcceptTermOfUse"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
                   Đồng ý{" "}
@@ -272,7 +310,7 @@ export default function SignUpVerifyOrganizeForm() {
             </div>
 
             <div className="flex justify-end">
-              {values.agree ? (
+              {values.isAcceptTermOfUse ? (
                 <button
                   type="submit"
                   disabled={isSubmitting}

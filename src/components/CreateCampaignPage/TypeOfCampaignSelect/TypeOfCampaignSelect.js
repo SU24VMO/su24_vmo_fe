@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -9,7 +9,31 @@ import {
   SelectValue,
 } from "../../ui/select";
 
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { GETALLTYPECAMPAIGN } from "../../../api/apiConstants";
 const TypeOfCampaignSelect = ({ setFieldValue, selectTriggerId }) => {
+  const [typesOfCampaign, setTypesOfCampaign] = useState([]);
+
+  const getTypeOfCampaign = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLTYPECAMPAIGN);
+
+      if (response.status === 200) {
+        setTypesOfCampaign(response.data.data); 
+      } else {
+        console.error("Failed to fetch types of campaign.");
+      }
+
+    } catch (error) {
+      console.error("Get type of campaign is error!");
+
+    }
+  }
+
+  useEffect(() => {
+
+    getTypeOfCampaign()
+  }, [])
   const handleSelectTypeCampaign = (typeOfCampaign) => {
     setFieldValue("typeOfCampaign", typeOfCampaign);
   };
@@ -21,9 +45,11 @@ const TypeOfCampaignSelect = ({ setFieldValue, selectTriggerId }) => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Loại chiến dịch</SelectLabel>
-          <SelectItem value="0">Ung thư</SelectItem>
-          <SelectItem value="1">Xóa đói</SelectItem>
-          <SelectItem value="2">Bệnh tật</SelectItem>
+          {typesOfCampaign.map((type) => (
+            <SelectItem key={type.campaignTypeID} value={type.campaignTypeID}>
+              {type.name}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>

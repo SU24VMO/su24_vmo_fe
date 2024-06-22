@@ -7,17 +7,15 @@ import { vi } from "date-fns/locale";
 import { cn } from "../../../lib/utils";
 import { Calendar } from "../../ui/calendar";
 
-const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
+const FoundingDatePicker = ({ setFieldValue, popOverTriggerId }) => {
   const [date, setDate] = React.useState(null);
   const [formattedDate, setFormattedDate] = React.useState(null); // Sử dụng cái state này để  truyền về Backend thay cho date
   const handleSetDate = (date) => {
     setDate(date);
     const formatted = date ? format(date, "yyyy/MM/dd") : null;
     setFormattedDate(formatted);
-    setFieldValue("birthday", formatted);
-    console.log(date);
+    setFieldValue("FoundingDate", formatted);
   };
-  console.log("Formatted date: ", formattedDate);
 
   return (
     <>
@@ -55,4 +53,4 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
   );
 };
 
-export default BirthDayPicker;
+export default FoundingDatePicker;
