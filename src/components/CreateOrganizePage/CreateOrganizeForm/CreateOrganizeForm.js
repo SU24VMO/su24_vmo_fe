@@ -16,7 +16,7 @@ export default function CreateOrganizeForm() {
 
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setFile(e.target.files[0]);
     setFieldValue('Logo', file);
   }
 
@@ -24,12 +24,16 @@ export default function CreateOrganizeForm() {
 
   const createOrganization = async (data) => {
     try {
+     
+      const formData = new FormData()
+      formData.append('Logo', file)
+      
       const response = await axiosPrivate.post(CREATEORGANIZATION +
-        `?organizationManagerId=${data.organizationManagerId}&OrganizationName=${data.OrganizationName}
+        `?organizationManagerId=${user.organization_manager_id}&OrganizationName=${data.OrganizationName}
         &OrganizationManagerEmail=${data.OrganizationManagerEmail}&OrganizationTaxCode=${data.OrganizationTaxCode}
         &FoundingDate=${data.FoundingDate}&SocialMediaLink=${data.SocialMediaLink}&AreaOfActivity=${data.AreaOfActivity}
         &Address=${data.Address}&PlanInformation=${data.PlanInformation}&AchievementLink=${data.AchievementLink}
-        &AuthorizationDocuments=${data.AuthorizationDocuments}`, { Logo: data.Logo });
+        &AuthorizationDocuments=${data.AuthorizationDocuments}`,  formData );
       if (response.status === 200) {
         console.log(response.data);
         toast({
@@ -117,7 +121,10 @@ export default function CreateOrganizeForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          createOrganization(user.organization_manager_id, values.OrganizationName, values.OrganizationManagerEmail, values.OrganizationTaxCode, values.FoundingDate, values.SocialMediaLink, values.AreaOfActivity, values.Address, values.PlanInformation, values.AchievementLink, values.AuthorizationDocuments, values.Logo)
+          createOrganization(values)
+          console.log('====================================');
+          console.log(values.Logo);
+          console.log('====================================');
           setSubmitting(false);
         }}
       >

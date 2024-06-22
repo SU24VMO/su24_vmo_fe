@@ -17,20 +17,22 @@ export default function CreateCampaignPage() {
     const { user } = useContext(AuthContext)
     const [fileImageBackground, setFileImageBackground] = useState();
 
+  
+  
     function handleImageBackgroundChange(e, setFieldValue) {
         console.log(e.target.files);
         setFileImageBackground(URL.createObjectURL(e.target.files[0]));
-        setFieldValue("imageBackgroundFile", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageBackgroundFile", e.target.files[0]);
 
     }
     function handleImageQRCode(e, setFieldValue) {
         console.log(e.target.files);
-        setFieldValue("imageQRCode", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageQRCode", e.target.files[0]);
 
     }
     function handleImageLocalDocument(e, setFieldValue) {
         console.log(e.target.files);
-        setFieldValue("imageLocalDocument", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageLocalDocument", e.target.files[0]);
 
     }
     function removeImage(e, setFieldValue) {
@@ -57,22 +59,29 @@ export default function CreateCampaignPage() {
 
 
     const createCampaign = async (data) => {
+        const formData = new FormData();
+        formData.append('ApplicationConfirmForm', data.imageLocalDocument);
+        formData.append('ImageCampaign', data.imageBackgroundFile);
+        formData.append('QRCode', data.imageQRCode);
+    
+        // Thêm các trường dữ liệu văn bản vào formData
+        formData.append('Name', data.nameOfCampaign);
+        formData.append('Address', data.address);
+        formData.append('CampaignTypeId', data.typeOfCampaign);
+        formData.append('Description', data.description);
+        formData.append('StartDate', data.startDate);
+        formData.append('ExpectedEndDate', data.endDate);
+        formData.append('TargetAmount', data.targetAmount);
+        formData.append('OrganizationId', data.organizations);
+        formData.append('BankingName', data.nameOfBank);
+        formData.append('AccountName', data.nameOfUserBank);
+        formData.append('BankingAccountNumber', data.numberOfBankAccount);
+
         try {
-            const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, {
-                Name: data.nameOfCampaign,
-                Address: data.address,
-                CampaignTypeId: data.typeOfCampaign,
-                Description: data.description,
-                StartDate: data.startDate,
-                ExpectedEndDate: data.endDate,
-                TargetAmount: data.targetAmount,
-                OrganizationId: data.organizations,
-                ApplicationConfirmForm: data.imageLocalDocument,
-                ImageCampaign: data.imageBackgroundFile,
-                BankingName: data.nameOfBank,
-                AccountName: data.nameOfUserBank,
-                BankingAccountNumber: data.numberOfBankAccount,
-                QRCode: data.imageQRCode,
+            const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
             if (response.status === 200) {
