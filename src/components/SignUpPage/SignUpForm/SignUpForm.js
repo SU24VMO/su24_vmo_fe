@@ -124,7 +124,7 @@ const SignUpForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.firstName}
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                   <p className={cn("text-sm font-medium text-destructive")}>
                     {errors.firstName && touched.firstName && errors.firstName}
@@ -138,7 +138,7 @@ const SignUpForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.lastName}
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                   <p className={cn("text-sm font-medium text-destructive")}>
                     {errors.lastName && touched.lastName && errors.lastName}
@@ -155,7 +155,7 @@ const SignUpForm = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.phoneNumber}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
                 <p className={cn("text-sm font-medium text-destructive")}>
                   {errors.phoneNumber &&
@@ -211,7 +211,7 @@ const SignUpForm = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
                 <p className={cn("text-sm font-medium text-destructive")}>
                   {errors.username && touched.username && errors.username}
@@ -228,7 +228,7 @@ const SignUpForm = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
                 <p className={cn("text-sm font-medium text-destructive")}>
                   {errors.email && touched.email && errors.email}

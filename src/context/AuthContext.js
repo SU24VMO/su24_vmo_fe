@@ -11,7 +11,9 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const { toast } = useToast();
   const [user, setUser] = useState(
-    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
   );
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
@@ -89,6 +91,37 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserAvatar = (newAvatarUrl) => {
+    setUser((currentUser) => {
+      const updatedUser = {
+        ...currentUser,
+        avatar: newAvatarUrl,
+      };
+      // Cập nhật localStorage với thông tin người dùng đã cập nhật
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  };
+
+  const updateUserInformation = (firstname, lastname, birthday, gender, phonenumber, facebooklink, tiktoklink, youtubelink) => {
+    setUser((currentUser) => {
+      const updatedUser = {
+        ...currentUser,
+        firstname: firstname,
+        lastname: lastname,
+        birthday: birthday,
+        gender: gender, 
+        phonenumber: phonenumber, 
+        facebooklink: facebooklink,
+        tiktoklink: tiktoklink,
+        youtubelink: youtubelink,
+      };
+      // Cập nhật localStorage với thông tin người dùng đã cập nhật
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  };
+
   const logOut = () => {
     setAccessToken("");
     setRefreshToken("");
@@ -115,6 +148,8 @@ const AuthProvider = ({ children }) => {
         loginAction,
         logOut,
         loading,
+        updateUserAvatar,
+        updateUserInformation
       }}
     >
       {children}
