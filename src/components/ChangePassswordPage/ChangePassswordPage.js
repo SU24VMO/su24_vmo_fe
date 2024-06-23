@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
 import img_src from "../../assets/images/placeholder.svg";
@@ -10,9 +11,7 @@ const ChangePassswordPage = () => {
         <img
           src={img_src}
           alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
       {/* RIGHT */}
