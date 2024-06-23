@@ -13,7 +13,7 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
   const [formattedDate, setFormattedDate] = React.useState(null); // Sử dụng cái state này để  truyền về Backend thay cho date
   const handleSetDate = (date) => {
     setDate(date);
-    const formatted = date ? format(date, "yyyy/MM/dd") : null;
+    const formatted = date ? format(date, "yyyy-MM-dd") : null;
     setFormattedDate(formatted);
     setFieldValue("birthday", formatted);
     console.log(date);
