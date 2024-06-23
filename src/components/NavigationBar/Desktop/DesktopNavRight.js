@@ -24,9 +24,13 @@ const DesktopNavRight = () => {
         </Link>
       )}
       {/* Check user role */}
-      {user?.role === "Member" ||
+      {
+      user?.role === "Member" ||
       user?.role === "OrganizationManager" ||
-      user?.role === "User" ? (
+      user?.role === "User" || 
+      user?.role === "Admin" ||
+      user?.role === "RequestManager" 
+      ? (
         <>
           {/* Notification feature */}
           <Notification />

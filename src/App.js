@@ -48,6 +48,7 @@ import ManageOrganizationManagers from "./components/Admin/ManageOrganizationMan
 import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageRequestManagersPage from "./components/Admin/ManageRequestManagersPage/ManageRequestManagersPage";
 import ManageUsersPage from "./components/Admin/ManageUsersPage/ManageUsersPage";
+import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
             <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
+            <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}
             <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} />}>
