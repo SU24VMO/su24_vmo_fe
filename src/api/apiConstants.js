@@ -25,3 +25,7 @@ export const UPDATE_AVATAR ="https://vmo.azurewebsites.net/api/account/update-in
 export const UPDATE_INFORMATION = "https://vmo.azurewebsites.net/api/account/update-information";
 export const CHECK_CURRENT_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/check-password";
 export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/reset-password";
+
+//notification
+export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";
+export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notification/checking";
