@@ -13,39 +13,27 @@ import { Button } from "../../ui/button";
 import { useFormik } from "formik";
 import { useToast } from "../../ui/use-toast";
 import { cn } from "../../../lib/utils";
-import { ChevronLeft, Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GET_ACCOUNT_BY_ID } from "../../../api/apiConstants";
+import {
+  CHECK_CURRENT_PASSWORD,
+  RESET_PASSWORD,
+} from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
-import bcrypt from "bcryptjs";
+import { ToastAction } from "../../ui/toast";
 
 const ChangePasswordForm = () => {
-  const [userCurrentPassword, setUserCurrentPassword] = React.useState(null);
   const { user } = React.useContext(AuthContext);
-
-  //Mục đích lấy ra mật khẩu hiện tại của user (currentPassword) để so sánh với mật khẩu hiện tại nhập vào
-  React.useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userInfoResponse = await axiosPrivate.get(
-          `${GET_ACCOUNT_BY_ID}${user.account_id}?accountId=${user.account_id}`
-        );
-        setUserCurrentPassword(userInfoResponse.data.data.hashPassword); // Lưu dữ liệu vào state
-        console.log(userInfoResponse.data.data);
-      } catch (error) {
-        console.error("There was an error fetching the user info:", error);
-        // Xử lý lỗi tại đây
-      }
-    };
-    fetchUserInfo();
-  }, [user.account_id]); // Rerun khi `account_id` thay đổi
-
   //State để show/hide password
   const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] =
     React.useState(false);
+  // State để loading khi submit form
+  const [loading, setLoading] = React.useState(false);
+  // Hook để điều hướng trang
+  const navigate = useNavigate();
 
   //Function để toggle show/hide password
   const toggleCurrentPasswordVisibility = () =>
@@ -84,43 +72,64 @@ const ChangePasswordForm = () => {
       }
       return errors;
     },
-    onSubmit: (values, { setSubmitting }) => {
-      // if (userCurrentPassword) {
-      //   const decodedHash = atob(userCurrentPassword); // Giải mã base64
-      //   console.log(decodedHash); // Kiểm tra giá trị sau khi giải mã
-
-      //   if (values.currentPassword === decodedHash) {
-      //     toast({
-      //       title: "Mật khẩu hiện tại đúng!",
-      //       description: "Bạn có thể tiếp tục đổi mật khẩu.",
-      //     });
-      //     // Thực hiện tiếp các bước để đổi mật khẩu ở đây
-      //   } else {
-      //     toast({
-      //       title: "Mật khẩu hiện tại sai!",
-      //       description: "Vui lòng kiểm tra lại mật khẩu hiện tại.",
-      //     });
-      //   }
-      //   setSubmitting(false);
-      // } else {
-      //   toast({
-      //     title: "Lỗi",
-      //     description: "Không tìm thấy hash mật khẩu.",
-      //   });
-      //   setSubmitting(false);
-      // }
-      toast({
-        title: "Nội dung vừa nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
-      setSubmitting(false);
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        setLoading(true);
+        // Gọi API để kiểm tra mật khẩu hiện tại
+        const checkCurrentPasswordResponse = await axiosPrivate.post(
+          CHECK_CURRENT_PASSWORD,
+          {
+            email: user.email,
+            oldPassword: values.currentPassword,
+          }
+        );
+        // Kiểm tra kết quả trả về từ API
+        if (checkCurrentPasswordResponse.data.data) {
+          console.log("====================================");
+          console.log("Mật khẩu hiện tại đúng");
+          console.log("====================================");
+          // Nếu mật khẩu hiện tại đúng, tiếp tục thực hiện logic thay đổi mật khẩu
+          // Gọi API thay đổi mật khẩu ở đây
+          const response = await axiosPrivate.post(RESET_PASSWORD, {
+            email: user.email,
+            password: values.newPassword,
+          });
+          if (response.status === 200) {
+            // Hiển thị thông báo thành công
+            toast({
+              title: "Thay đổi mật khẩu thành công!",
+              action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+            navigate('/home');
+          } else {
+            // Hiển thị thông báo lỗi
+            toast({
+              title: "Thay đổi mật khẩu thất bại!",
+              description: "Vui lòng thử lại!",
+              action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+          }
+        } else {
+          // Nếu mật khẩu hiện tại sai, hiển thị thông báo lỗi
+          toast({
+            variant: "destructive",
+            title: "Mật khẩu hiện tại sai !",
+            description: "Vui lòng thử lại!",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+        }
+      } catch (error) {
+        console.error("There was an error:", error);
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra!",
+          description: error,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } finally {
+        setLoading(false);
+        setSubmitting(false);
+      }
     },
   });
   return (
@@ -240,12 +249,15 @@ const ChangePasswordForm = () => {
             </p>
           </div>
           <CardFooter>
-            <Button
-              className="ml-auto"
-              type="submit"
-              disabled={formik.isSubmitting}
-            >
-              Cập nhật mật khẩu
+            <Button className="ml-auto" type="submit" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Cập nhật mật khẩu
+                </>
+              ) : (
+                "Cập nhật mật khẩu"
+              )}
             </Button>
           </CardFooter>
         </form>

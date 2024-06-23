@@ -23,3 +23,5 @@ export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 export const GET_ACCOUNT_BY_ID = "https://vmo.azurewebsites.net/api/account/";
 export const UPDATE_AVATAR ="https://vmo.azurewebsites.net/api/account/update-information/avatar";
 export const UPDATE_INFORMATION = "https://vmo.azurewebsites.net/api/account/update-information";
+export const CHECK_CURRENT_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/check-password";
+export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/reset-password";
