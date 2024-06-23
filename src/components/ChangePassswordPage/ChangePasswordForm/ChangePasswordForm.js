@@ -15,8 +15,32 @@ import { useToast } from "../../ui/use-toast";
 import { cn } from "../../../lib/utils";
 import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { GET_ACCOUNT_BY_ID } from "../../../api/apiConstants";
+import { AuthContext } from "../../../context/AuthContext";
+import bcrypt from "bcryptjs";
 
 const ChangePasswordForm = () => {
+  const [userCurrentPassword, setUserCurrentPassword] = React.useState(null);
+  const { user } = React.useContext(AuthContext);
+
+  //Mục đích lấy ra mật khẩu hiện tại của user (currentPassword) để so sánh với mật khẩu hiện tại nhập vào
+  React.useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userInfoResponse = await axiosPrivate.get(
+          `${GET_ACCOUNT_BY_ID}${user.account_id}?accountId=${user.account_id}`
+        );
+        setUserCurrentPassword(userInfoResponse.data.data.hashPassword); // Lưu dữ liệu vào state
+        console.log(userInfoResponse.data.data);
+      } catch (error) {
+        console.error("There was an error fetching the user info:", error);
+        // Xử lý lỗi tại đây
+      }
+    };
+    fetchUserInfo();
+  }, [user.account_id]); // Rerun khi `account_id` thay đổi
+
   //State để show/hide password
   const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
@@ -61,6 +85,30 @@ const ChangePasswordForm = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
+      // if (userCurrentPassword) {
+      //   const decodedHash = atob(userCurrentPassword); // Giải mã base64
+      //   console.log(decodedHash); // Kiểm tra giá trị sau khi giải mã
+
+      //   if (values.currentPassword === decodedHash) {
+      //     toast({
+      //       title: "Mật khẩu hiện tại đúng!",
+      //       description: "Bạn có thể tiếp tục đổi mật khẩu.",
+      //     });
+      //     // Thực hiện tiếp các bước để đổi mật khẩu ở đây
+      //   } else {
+      //     toast({
+      //       title: "Mật khẩu hiện tại sai!",
+      //       description: "Vui lòng kiểm tra lại mật khẩu hiện tại.",
+      //     });
+      //   }
+      //   setSubmitting(false);
+      // } else {
+      //   toast({
+      //     title: "Lỗi",
+      //     description: "Không tìm thấy hash mật khẩu.",
+      //   });
+      //   setSubmitting(false);
+      // }
       toast({
         title: "Nội dung vừa nhập:",
         description: (
