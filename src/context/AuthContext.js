@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { axiosPublic } from "../api/axiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LOGIN } from "../api/apiConstants";
+import { LOGIN, REGISTER } from "../api/apiConstants";
 import { jwtDecode } from "jwt-decode"; // Note the import style
 import { useToast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
@@ -29,6 +29,54 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  const registerAction = async (email, password, username, phoneNumber, firstName, lastName, gender, avatar, facebookUrl, youtubeUrl, tiktokUrl, birthday, accountType) => {
+    setLoading(true); // Start loading
+    try {
+      const response = await axiosPublic.post(REGISTER, {
+        email, password, username, phoneNumber, firstName, lastName, gender, avatar, facebookUrl, youtubeUrl, tiktokUrl, birthday, accountType
+      });
+
+      if (response.status === 200) {
+        const accessToken = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
+        const userDecode = jwtDecode(accessToken);
+        setIsLogin(true);
+        setUser(userDecode);
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        // Save information to localStorage
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("isLogin", true);
+        localStorage.setItem("user", JSON.stringify(userDecode));
+        // Toast notification
+        toast({
+          title: "Đăng ký thành công",
+          description: "Chào mừng " + lastName + " !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        // Navigate to the specified page
+        navigate(from, { replace: true });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Đăng ký thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin đăng ký !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Đăng ký thất bại !",
+        description: error.response.data.message,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+      setLoading(false); // Stop loading when action is complete or fails
+    }
+  }
 
   const loginAction = async (account, password) => {
     setLoading(true); // Start loading
@@ -141,6 +189,7 @@ const AuthProvider = ({ children }) => {
         isLogin,
         user,
         refreshToken,
+        registerAction,
         loginAction,
         logOut,
         loading,
