@@ -21,16 +21,18 @@ import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEOMREQUEST  } from "../../../../api/apiConstants";
-import React from "react";
-
+import { AuthContext } from "../../../../context/AuthContext";
+import React, { useContext } from "react";
 const EditStatusForm = ({ isOpen, onOpenChange, organizationManager }) => {
   const { toast } = useToast();
-  console.log(organizationManager);
-  const updateStatus = async (createOrganizationManagerRequestID, isApproved) => {
+const {user} = useContext(AuthContext)
+
+  const updateStatus = async (data) => {
     try {
       const response = await axiosPrivate.put( UPDATEAPPROVEOMREQUEST, {
-        createOrganizationManagerRequestID: createOrganizationManagerRequestID,
-        isApproved: isApproved,
+        createOrganizationManagerRequestID: organizationManager.createOrganizationManagerRequestID,
+        requestManagerId: user.request_manager_id,
+        isApproved: data.isApproved,
       });
 
       if (response.status === 200) {
@@ -64,7 +66,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager }) => {
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values.createOrganizationManagerRequestID);
-      updateStatus(organizationManager.createOrganizationManagerRequestID, values.isApproved)
+      updateStatus(values)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
@@ -188,10 +190,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager }) => {
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
              
-                  {organizationManager ?  format(new Date(organizationManager.createDate), 'MMMM do yyyy, h:mm:ss a') : ""}
+                  {organizationManager ?  format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 </Badge>
                 <CopyButton
-                  code={organizationManager ? format(new Date(organizationManager.createDate), 'MMMM do yyyy, h:mm:ss a') : ""}
+                  code={organizationManager ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 />
               </div>
             </div>
@@ -202,10 +204,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager }) => {
               <Label htmlFor="approvedDate">Ngày duyệt</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {organizationManager ? format(new Date(organizationManager.approvedDate), 'MMMM do yyyy, h:mm:ss a') : ""}
+                  {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                 </Badge>
                 <CopyButton
-                  code={organizationManager ? format(new Date(organizationManager.approvedDate), 'MMMM do yyyy, h:mm:ss a') : ""}
+                  code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                 />
               </div>
             </div>

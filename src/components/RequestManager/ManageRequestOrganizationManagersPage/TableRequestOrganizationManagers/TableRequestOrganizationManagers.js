@@ -16,7 +16,7 @@ async function getData(cancelToken) {
     });
 
     if (response.status === 200) {
-
+console.log(response.data.data.list);
       return response.data.data.list;
     }
   } catch (error) {

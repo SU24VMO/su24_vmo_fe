@@ -53,15 +53,14 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders = {
-    title: "Tên bài viết",
-    create_by: "Tạo bởi",
-    approved_date: "Ngày duyệt",
-    update_date: "Ngày cập nhật",
-    create_date: "Ngày tạo",
-    is_approved: "Xác thực",
-    is_pending: "Trạng thái chờ",
-    is_locked: "Trạng thái khóa",
-    actions: "Thao tác",
+    "post.title": "Tên bài viết",
+    "user": "Thành viên",
+    "organizationManager": "Quản lí tổ chức",
+    "createDate": "Ngày tạo",
+    "approvedDate": "Ngày duyệt",
+    "requestManager": "Người duyệt",
+    "isApproved": "Xác thực",
+    "actions": "Thao tác",
   };
 
   return (
@@ -71,15 +70,15 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Nhập tên bài viết cần tìm ..."
-          value={table.getColumn("title")?.getFilterValue() || ""}
+          value={table.getColumn("")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
         <Button
-          onClick={() => exportToExcel({ post: data })}
+          onClick={() => exportToExcel({ posts: data })}
           className="ml-4"
           variant="outline"
         >

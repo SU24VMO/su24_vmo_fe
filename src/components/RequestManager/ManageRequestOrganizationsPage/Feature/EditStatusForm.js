@@ -1,5 +1,6 @@
 import { Button } from "../../../ui/button";
 import { ScrollArea } from "../../../ui/scroll-area"
+import { format } from "date-fns";
 
 import {
   Dialog,
@@ -15,31 +16,58 @@ import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
-import React from "react";
+import { ToastAction } from "../../../../components/ui/toast";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { UPDATEAPPROVEORGANIZATIONREQUEST } from "../../../../api/apiConstants";
+import React, {useContext} from "react";
+import { AuthContext } from "../../../../context/AuthContext";
+
 
 const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
   const { toast } = useToast();
+  const { user } = useContext(AuthContext)
+  console.log(organize);
+  const updateStatus = async (data) => {
+    try {
+      const response = await axiosPrivate.put(UPDATEAPPROVEORGANIZATIONREQUEST, {
+        createOrganizationRequestID: organize.createOrganizationRequestID,
+        requestManagerId: user.request_manager_id,
+        isApproved: data.isApproved,
+      });
 
+      if (response.status === 200) {
+        console.log(response);
+        toast({
+          title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Cập nhật thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Cập nhật thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      is_approved: organize ? organize.is_approved : false,
+      isApproved: organize ? organize.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin duyệt:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing */}
-          </pre>
-        ),
-      });
+      updateStatus(values)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
@@ -49,7 +77,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
   // Update formik initialValues when organize changes
   React.useEffect(() => {
     setValuesRef.current({
-      is_approved: organize ? organize.is_approved : false,
+      isApproved: organize ? organize.isApproved : false,
     });
   }, [organize]);
 
@@ -72,55 +100,55 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
            {/* Show tên tổ chức */}
            <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization_name">Tên tổ chức</Label>
+              <Label htmlFor="organizationName">Tên tổ chức</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="organization_name"
-                  defaultValue={organize ? organize.organization_name : ""}
+                  id="organizationName"
+                  defaultValue={organize ? organize?.organizationName : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.organization_name : ""} />
+                <CopyButton code={organize ? organize?.organizationName : ""} />
               </div>
             </div>
           </div>
           {/* Show email tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization_manager_email">Email</Label>
+              <Label htmlFor="organizationManagerEmail">Email</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="organization_manager_email"
-                  defaultValue={organize ? organize.organization_manager_email : ""}
+                  id="organizationManagerEmail"
+                  defaultValue={organize ? organize?.organizationManagerEmail : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.organization_manager_email : ""} />
+                <CopyButton code={organize ? organize?.organizationManagerEmail : ""} />
               </div>
             </div>
           </div>
           {/* Show mã số thuế tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization_tax_code">Mã số thuế</Label>
+              <Label htmlFor="organizationTaxCode">Mã số thuế</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="organization_tax_code"
-                  defaultValue={organize ? organize.organization_tax_code : ""}
+                  id="organizationTaxCode"
+                  defaultValue={organize ? organize?.organizationTaxCode : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.organization_tax_code : ""} />
+                <CopyButton code={organize ? organize?.organizationTaxCode : ""} />
               </div>
             </div>
           </div>
           {/* Show ngày thành lập tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="founding_date">Ngày thành lập</Label>
+              <Label htmlFor="foundingDate">Ngày thành lập</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {organize ? organize.founding_date : ""}
+                  {organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy')  : ""}
                 </Badge>
                 <CopyButton
-                  code={organize ? organize.founding_date : ""}
+                  code={organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy')  : ""}
                 />
               </div>
             </div>
@@ -128,28 +156,28 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
           {/* Show mạng xã hội tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="social_media_link">Social Media</Label>
+              <Label htmlFor="socialMediaLink">Social Media</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="social_media_link"
-                  defaultValue={organize ? organize.social_media_link : ""}
+                  id="socialMediaLink"
+                  defaultValue={organize ? organize?.socialMediaLink : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.social_media_link : ""} />
+                <CopyButton code={organize ? organize?.socialMediaLink : ""} />
               </div>
             </div>
           </div>
           {/* Show mã số thuế tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="area_of_activity">Lĩnh vực hoạt động</Label>
+              <Label htmlFor="areaOfActivity">Lĩnh vực hoạt động</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="area_of_activity"
-                  defaultValue={organize ? organize.area_of_activity : ""}
+                  id="areaOfActivity"
+                  defaultValue={organize ? organize?.areaOfActivity : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.area_of_activity : ""} />
+                <CopyButton code={organize ? organize?.areaOfActivity : ""} />
               </div>
             </div>
           </div>
@@ -159,62 +187,76 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="address"
-                  defaultValue={organize ? organize.address : ""}
+                  defaultValue={organize ? organize?.address : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.address : ""} />
+                <CopyButton code={organize ? organize?.address : ""} />
               </div>
             </div>
           </div>
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="plan_information">Mô tả về tổ chức</Label>
+              <Label htmlFor="planInformation">Kế hoạch của tổ chức</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="plan_information"
-                  defaultValue={organize ? organize.plan_information : ""}
+                  id="planInformation"
+                  defaultValue={organize ? organize?.planInformation : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.plan_information : ""} />
+                <CopyButton code={organize ? organize?.planInformation : ""} />
               </div>
             </div>
           </div>
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="achievement_link">Thành tích</Label>
+              <Label htmlFor="achievementLink">Thành tích</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="achievement_link"
-                  defaultValue={organize ? organize.achievement_link : ""}
+                  id="achievementLink"
+                  defaultValue={organize ? organize?.achievementLink : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.achievement_link : ""} />
+                <CopyButton code={organize ? organize?.achievementLink : ""} />
               </div>
             </div>
           </div>
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="authorization_documents">Đơn ủy quyền</Label>
+              <Label htmlFor="authorizationDocuments">Đơn ủy quyền</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="authorization_documents"
-                  defaultValue={organize ? organize.authorization_documents : ""}
+                  id="authorizationDocuments"
+                  defaultValue={organize ? organize?.authorizationDocuments : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.authorization_documents : ""} />
+                <CopyButton code={organize ? organize?.authorizationDocuments : ""} />
               </div>
             </div>
           </div>
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="create_date">Đơn được tạo</Label>
+              <Label htmlFor="organizationManager">Quản lí tổ chức</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="create_date"
-                  defaultValue={organize ? organize.create_date : ""}
+                  id="organizationManager"
+                  defaultValue={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName ) : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.create_date : ""} />
+                <CopyButton code={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName ): ""} />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="createDate">Ngày tạo đơn</Label>
+              <div className="flex items-center space-x-2">
+                <Badge variant={"outline"}>
+                  {organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a')  : ""}
+                </Badge>
+                <CopyButton
+                  code={organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a')  : ""}
+                />
               </div>
             </div>
           </div>
@@ -223,11 +265,11 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
               {/*  */}
               <div className="flex items-center space-x-2">
                 <Switch
-                  id="is_approved"
-                  checked={formik.values.is_approved}
-                  onCheckedChange={handleSwitchChange("is_approved")}
+                  id="isApproved"
+                  checked={formik.values.isApproved}
+                  onCheckedChange={handleSwitchChange("isApproved")}
                 />
-                <Label htmlFor="is_approved">Chấp thuận</Label>
+                <Label htmlFor="isApproved">Chấp thuận</Label>
               </div>
             </form>
           )}

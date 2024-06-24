@@ -148,7 +148,6 @@ function App() {
                 <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage/>} />
                 <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage/>} />
                 <Route path="manageRequestMembers" element={<ManageRequestMembersPage/>} />
-
                 <Route path="manageRequestNews" element={<ManageRequestNewsPage/>} />
                 <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage/>} />
               </Route>

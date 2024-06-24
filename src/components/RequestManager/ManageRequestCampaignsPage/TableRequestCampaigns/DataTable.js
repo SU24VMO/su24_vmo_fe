@@ -51,16 +51,18 @@ export function DataTable({ columns, data }) {
       columnVisibility,
     },
   });
+  console.log('====================================');
+  console.log(columns);
+  console.log('====================================');
   //Name of column dropdown
   const columnHeaders =  {
     name: "Tên chiến dịch",
-    // create_by_user: "Tạo bởi thành viên",
-    // create_by_om: "Tạo bởi tổ chức",
+    user: "Tạo bởi thành viên",
+    organizationManager: "Tạo bởi quản lí tổ chức",
     approvedBy: "Người duyệt",
-    update_by: "Cập nhật bởi",
     createDate: "Ngày tạo",
     approvedDate: "Ngày duyệt",
-    is_approved: "Xác thực",
+    isApproved: "Xác thực",
     actions: "Thao tác"
   };
 
@@ -71,14 +73,14 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Nhập tên chiến dịch cần tìm ..."
-          value={table.getColumn("name")?.getFilterValue() || ""}
+          value={table.getColumn("")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel({ campaigns: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}

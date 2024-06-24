@@ -53,15 +53,15 @@ export function DataTable({ columns, data }) {
   });
   //Name of column dropdown
   const columnHeaders =  {
-    organization_name: "Tên tổ chức",
-    organization_manager_email: "Email",
-    organization_tax_code: "Mã số thuế",
-    area_of_activity: "Lĩnh vực hoạt động",
+    organizationName: "Tên tổ chức",
+    organizationManagerEmail: "Email",
+    organizationTaxCode: "Mã số thuế",
+    areaOfActivity: "Lĩnh vực hoạt động",
     address: "Địa chỉ tổ chức",
-    approved_by: "Được duyệt bởi",
-    create_date: "Ngày tạo chiến dịch",
-    approved_date: "Ngày duyệt",
-    is_approved: "Xác thực",
+    approvedBy: "Người duyệt",
+    createDate: "Ngày tạo",
+    approvedDate: "Ngày duyệt",
+    isApproved: "Xác thực",
     actions: "Thao tác"
   };
 
@@ -72,9 +72,9 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Nhập tên tổ chức cần tìm ..."
-          value={table.getColumn("organization_name")?.getFilterValue() || ""}
+          value={table.getColumn("organizationName")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("organization_name")?.setFilterValue(event.target.value)
+            table.getColumn("organizationName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

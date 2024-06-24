@@ -89,6 +89,13 @@ const DesktopNav = () => {
                 <LineChart className="h-4 w-4" />
                 OrganizationManager's Request
               </Link>
+              <Link
+                to="/requestManager/manageRequestNews"
+                className={getLinkClass("/requestManager/manageRequestNews")}
+              >
+                <LineChart className="h-4 w-4" />
+                News's Request
+              </Link>
             </nav>
           </div>
           {/* <div className="mt-auto p-4">

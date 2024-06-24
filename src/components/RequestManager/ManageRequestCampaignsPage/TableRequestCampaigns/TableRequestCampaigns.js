@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import EditStatusForm from "../Feature/EditStatusForm";
@@ -14,10 +14,9 @@ async function getData(cancelToken) {
       cancelToken: cancelToken
     });
 
+    
     if (response.status === 200) {
-      // console.log('====================================');
-      // console.log(response.data.data.list);
-      // console.log('====================================');
+    console.log(response.data.data.list);
       return response.data.data.list;
     }
   } catch (error) {
@@ -69,7 +68,7 @@ const TableMembers = () => {
       <div>
         <EditStatusForm
           isOpen={isDialogOpen}
-          campaign={selectedRow}
+          campaigns={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {

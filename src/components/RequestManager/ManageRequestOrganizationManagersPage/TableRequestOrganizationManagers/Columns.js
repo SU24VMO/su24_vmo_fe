@@ -95,12 +95,17 @@ export const columns = ({ onEdit, onDelete }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      
+      const approvedBy = row?.requestManager ? (row.requestManager?.firstName + row.requestManager?.lastName) : "Chưa có";
+      return <div className="">{approvedBy}</div>;
+    },
   },
   {
     accessorKey: "createDate",
     header: () => <div>Ngày tạo</div>,
     cell: ({ row }) => {
-      const createDate = format(new Date(row.getValue("createDate")), 'MMMM do yyyy, h:mm:ss a');
+      const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{createDate}</div>;
     },
   },
@@ -108,7 +113,7 @@ export const columns = ({ onEdit, onDelete }) => [
     accessorKey: "approvedDate",
     header: () => <div>Ngày duyệt</div>,
     cell: ({ row }) => {
-      const approvedDate = format(new Date(row.getValue("approvedDate")), 'MMMM do yyyy, h:mm:ss a');
+      const approvedDate = row.getValue("approvedDate") ? format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{approvedDate}</div>;
     },
   },

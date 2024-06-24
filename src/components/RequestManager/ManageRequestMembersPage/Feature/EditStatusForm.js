@@ -1,5 +1,6 @@
 import { Button } from "../../../ui/button";
 import { ScrollArea } from "../../../ui/scroll-area"
+import { format } from "date-fns";
 
 import {
   Dialog,
@@ -15,43 +16,70 @@ import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
-import React from "react";
+import { ToastAction } from "../../../../components/ui/toast";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { UPDATEAPPROVEMEMBERREQUEST } from "../../../../api/apiConstants";
+import React, { useContext } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 
-const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, member }) => {
   const { toast } = useToast();
+  const { user } = useContext(AuthContext)
+  console.log(member);
+  const updateStatus = async (data) => {
+    try {
+      const response = await axiosPrivate.put(UPDATEAPPROVEMEMBERREQUEST, {
+        createMemberRequestID: member.createMemberRequestID,
+        requestManagerId: user.request_manager_id,
+        isApproved: data.isApproved,
+      });
 
+      if (response.status === 200) {
+        console.log(response);
+        toast({
+          title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Cập nhật thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Cập nhật thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+  }
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      is_approved: organize ? organize.is_approved : false,
+      isApproved: member ? member.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Thông tin duyệt:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing */}
-          </pre>
-        ),
-      });
+      console.log(values);
+      updateStatus(values)
       setSubmitting(false);
       onOpenChange(false); // Close the dialog after form submission
     },
   });
 
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when organize changes
+  // Update formik initialValues when member changes
   React.useEffect(() => {
     setValuesRef.current({
-      is_approved: organize ? organize.is_approved : false,
+      isApproved: member ? member.isApproved : false,
     });
-  }, [organize]);
+  }, [member]);
 
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
@@ -62,176 +90,232 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
-          <DialogTitle>Thông tin đơn duyệt tổ chức</DialogTitle>
+          <DialogTitle>Thông tin đơn duyệt thành viên</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo tổ chức!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo thành viên!
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner "> {/* Set a specific height for ScrollArea */}
-         <div className="flex flex-col gap-5">
-           {/* Show tên tổ chức */}
-           <div className="flex">
+          <div className="flex flex-col gap-5">
+            {/* Show tên thành viên */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="memberName">Tên thành viên</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="memberName"
+                    defaultValue={member ? member.memberName : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.memberName : ""} />
+                </div>
+              </div>
+            </div>
+            {/* Show email thành viên */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="email"
+                    defaultValue={member ? member.email : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.email : ""} />
+                </div>
+              </div>
+            </div>
+
+            {/* Show memberAddress thành viên */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="memberAddress">Địa chỉ</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="memberAddress"
+                    defaultValue={member ? member.memberAddress : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.memberAddress : ""} />
+                </div>
+              </div>
+            </div>
+
+       {/* Show Ngày sinh*/}
+       <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization_name">Tên tổ chức</Label>
+              <Label htmlFor="birthday">Ngày sinh</Label>
               <div className="flex items-center space-x-2">
-                <Input
-                  id="organization_name"
-                  defaultValue={organize ? organize.organization_name : ""}
-                  disabled
+                <Badge variant={"outline"}>
+             
+                  {member ?  format(new Date(member?.birthday), 'dd/MM/yyyy') : ""}
+                </Badge>
+                <CopyButton
+                  code={member ? format(new Date(member?.birthday), 'dd/MM/yyyy') : ""}
                 />
-                <CopyButton code={organize ? organize.organization_name : ""} />
               </div>
             </div>
           </div>
-          {/* Show email tổ chức */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization_manager_email">Email</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="organization_manager_email"
-                  defaultValue={organize ? organize.organization_manager_email : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.organization_manager_email : ""} />
-              </div>
-            </div>
-          </div>
-          {/* Show mã số thuế tổ chức */}
+
+            {/* Show mã số thuế thành viên
           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="organization_tax_code">Mã số thuế</Label>
               <div className="flex items-center space-x-2">
                 <Input
                   id="organization_tax_code"
-                  defaultValue={organize ? organize.organization_tax_code : ""}
+                  defaultValue={member ? member.organization_tax_code : ""}
                   disabled
                 />
-                <CopyButton code={organize ? organize.organization_tax_code : ""} />
+                <CopyButton code={member ? member.organization_tax_code : ""} />
               </div>
             </div>
-          </div>
-          {/* Show ngày thành lập tổ chức */}
+          </div> */}
+            {/* Show ngày thành lập thành viên
           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="founding_date">Ngày thành lập</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {organize ? organize.founding_date : ""}
+                  {member ? member.founding_date : ""}
                 </Badge>
                 <CopyButton
-                  code={organize ? organize.founding_date : ""}
+                  code={member ? member.founding_date : ""}
                 />
               </div>
             </div>
-          </div>
-          {/* Show mạng xã hội tổ chức */}
+          </div> */}
+            {/* Show mạng xã hội thành viên */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="socialMediaLink">Mạng xã hội</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="socialMediaLink"
+                    defaultValue={member ? member.socialMediaLink : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.socialMediaLink : ""} />
+                </div>
+              </div>
+            </div>
+
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="clubName">Tên CLB thiện nguyện(Đã hoặc đang tham gia)</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="clubName"
+                    defaultValue={member ? member.clubName : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.clubName : ""} />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="roleInClub">Vai trò trong CLB</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="roleInClub"
+                    defaultValue={member ? member.roleInClub : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.roleInClub : ""} />
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="achievementLink">Đường dẫn mô tả một số hoạt động thiện nguyện trước đó</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="achievementLink"
+                    defaultValue={member ? member.achievementLink : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.achievementLink : ""} />
+                </div>
+              </div>
+            </div>
+
+
+          
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="detailDescriptionLink">Mô tả về hoạt động tương lai</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="detailDescriptionLink"
+                    defaultValue={member ? member.detailDescriptionLink : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.detailDescriptionLink : ""} />
+                </div>
+              </div>
+            </div>
+            {/* <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="achievement_link">Thành tích</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="achievement_link"
+                    defaultValue={member ? member.achievement_link : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.achievement_link : ""} />
+                </div>
+              </div>
+            </div> */}
+            {/* <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="authorization_documents">Đơn ủy quyền</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="authorization_documents"
+                    defaultValue={member ? member.authorization_documents : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member.authorization_documents : ""} />
+                </div>
+              </div>
+            </div> */}
+             {/* Show Ngày tạo */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="social_media_link">Social Media</Label>
+              <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
               <div className="flex items-center space-x-2">
-                <Input
-                  id="social_media_link"
-                  defaultValue={organize ? organize.social_media_link : ""}
-                  disabled
+                <Badge variant={"outline"}>
+             
+                  {member ?  format(new Date(member?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                </Badge>
+                <CopyButton
+                  code={member ? format(new Date(member?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 />
-                <CopyButton code={organize ? organize.social_media_link : ""} />
               </div>
             </div>
           </div>
-          {/* Show mã số thuế tổ chức */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="area_of_activity">Lĩnh vực hoạt động</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="area_of_activity"
-                  defaultValue={organize ? organize.area_of_activity : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.area_of_activity : ""} />
-              </div>
-            </div>
+            {member && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isApproved"
+                    checked={formik.values.isApproved}
+                    onCheckedChange={handleSwitchChange("isApproved")}
+                  />
+                  <Label htmlFor="isApproved">Chấp thuận</Label>
+                </div>
+              </form>
+            )}
           </div>
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="address">Địa chỉ tổ chức</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="address"
-                  defaultValue={organize ? organize.address : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.address : ""} />
-              </div>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="plan_information">Mô tả về tổ chức</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="plan_information"
-                  defaultValue={organize ? organize.plan_information : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.plan_information : ""} />
-              </div>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="achievement_link">Thành tích</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="achievement_link"
-                  defaultValue={organize ? organize.achievement_link : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.achievement_link : ""} />
-              </div>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="authorization_documents">Đơn ủy quyền</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="authorization_documents"
-                  defaultValue={organize ? organize.authorization_documents : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.authorization_documents : ""} />
-              </div>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="create_date">Đơn được tạo</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="create_date"
-                  defaultValue={organize ? organize.create_date : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize.create_date : ""} />
-              </div>
-            </div>
-          </div>
-          {organize && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              {/*  */}
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="is_approved"
-                  checked={formik.values.is_approved}
-                  onCheckedChange={handleSwitchChange("is_approved")}
-                />
-                <Label htmlFor="is_approved">Chấp thuận</Label>
-              </div>
-            </form>
-          )}
-         </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>

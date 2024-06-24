@@ -6,19 +6,17 @@ import EditStatusForm from "../Feature/EditStatusForm";
 
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { GETALLREQUESTORGANIZATION } from "../../../../api/apiConstants";
+import { GETALLREQUESTMEMBER } from "../../../../api/apiConstants";
 
 async function getData(cancelToken) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTORGANIZATION + `?pageSize=10&pageNo=1`, {
+    const response = await axiosPrivate.get(GETALLREQUESTMEMBER + `?pageSize=10&pageNo=1`, {
       cancelToken: cancelToken
     });
 
     if (response.status === 200) {
-      console.log('====================================');
-      console.log(response.data.data.list);
-      console.log('====================================');
+ console.log(response.data.data.list);
       return response.data.data.list;
     }
   } catch (error) {
@@ -67,7 +65,7 @@ const TableRequestMembers = () => {
       <div>
         <EditStatusForm
           isOpen={isDialogOpen}
-          organize={selectedRow}
+          member={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {

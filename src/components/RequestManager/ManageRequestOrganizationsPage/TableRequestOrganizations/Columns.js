@@ -91,17 +91,22 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Được duyệt bởi
+          Người duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      
+      const approvedBy = row.original?.requestManager ? (row.original?.requestManager?.firstName + row.original?.requestManager?.lastName) : "Chưa có";
+      return <div className="">{approvedBy}</div>;
     },
   },
   {
     accessorKey: "createDate",
     header: () => <div>Ngày tạo</div>,
     cell: ({ row }) => {
-      const createDate = format(new Date(row.getValue("createDate")), 'MMMM do yyyy, h:mm:ss a');
+      const createDate = row?.getValue("createDate") ? format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{createDate}</div>;
     },
   },
@@ -109,7 +114,7 @@ export const columns = ({ onEdit, onDelete }) => [
     accessorKey: "approvedDate",
     header: () => <div>Ngày duyệt</div>,
     cell: ({ row }) => {
-      const approvedDate = format(new Date(row.getValue("approvedDate")), 'MMMM do yyyy, h:mm:ss a');
+      const approvedDate = row?.getValue("approvedDate") ? format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{approvedDate}</div>;
     },
   },

@@ -1,42 +1,30 @@
 import xlsx from "json-as-xlsx";
 
-export function exportToExcel({ post }) {
+export function exportToExcel({ posts }) {
   let columns = [
     {
-      sheet: "Persons",
+      sheet: "Request News",
       columns: [
-        { label: "Id yêu cầu tạo bài viết", value: "create_post_request_id" },
-        { label: "Id bài đăng", value: "post_id" },
-        { label: "Tiêu đề", value: "title" },
+        { label: "Tên bài viết", value: "post.title" },
+        { label: "Thành viên", value: "user.lastName" },
+        { label: "Quản lí tổ chức", value: "organizationManager.lastName" },
+        
         {
-          label: "Tạo bởi",
-          value: (row) =>
-            row.create_by_user == null && row.create_by_om != null
-              ? "Tạo bởi tổ chức"
-              : "Tạo bởi người dùng",
+          label: "Ngày tạo",
+          value: "createDate",
         },
         {
-          label: "Cover",
-          value: "cover",
+          label: "Ngày duyệt",
+          value: "approvedDate",
         },
-        {
-          label: "Ảnh",
-          value: "image",
-        },
-        { label: "Nội dung", value: "content" },
-        { label: "Ngày duyệt", value: "approved_date" },
-        { label: "Ngày cập nhật", value: "update_date" },
-        { label: "Ngày tạo", value: "create_date" },
+        { label: "Người duyệt", value: "requestManager.lastName" },
         {
           label: "Xác thực",
-          value: (row) => (row.is_approved === true ? "Đồng ý" : "Từ chối"),
+          value: (row) => (row.isApproved === true ? "Đồng ý" : "Từ chối"),
         },
-        // {
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
+    
       ],
-      content: post,
+      content: posts,
     },
   ];
 

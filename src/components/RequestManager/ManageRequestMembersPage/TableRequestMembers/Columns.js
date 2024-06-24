@@ -1,13 +1,12 @@
 import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "organizationName",
+    accessorKey: "memberName",
     header: ({ column }) => {
       return (
         <Button
@@ -15,14 +14,15 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tên tổ chức
+          Tên thành viên
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    
   },
   {
-    accessorKey: "organizationManagerEmail",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
@@ -37,8 +37,38 @@ export const columns = ({ onEdit, onDelete }) => [
     },
   },
  
+  // {
+  //   accessorKey: "organizationTaxCode",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Mã số thuế
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: "areaOfActivity",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Lĩnh vực hoạt động
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: "organizationTaxCode",
+    accessorKey: "memberAddress",
     header: ({ column }) => {
       return (
         <Button
@@ -46,41 +76,12 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mã số thuế
+          Địa chỉ
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "areaOfActivity",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Lĩnh vực hoạt động
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "address",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Địa chỉ tổ chức
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+   
   },
   {
     accessorKey: "approvedBy",
@@ -91,17 +92,22 @@ export const columns = ({ onEdit, onDelete }) => [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Được duyệt bởi
+          Người duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      
+      const approvedBy = row?.requestManager ? (row?.requestManager?.firstName + row?.requestManager?.lastName) : "Chưa có";
+      return <div className="">{approvedBy}</div>;
     },
   },
   {
     accessorKey: "createDate",
     header: () => <div>Ngày tạo</div>,
     cell: ({ row }) => {
-      const createDate = format(new Date(row.getValue("createDate")), 'MMMM do yyyy, h:mm:ss a');
+      const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{createDate}</div>;
     },
   },
@@ -109,7 +115,7 @@ export const columns = ({ onEdit, onDelete }) => [
     accessorKey: "approvedDate",
     header: () => <div>Ngày duyệt</div>,
     cell: ({ row }) => {
-      const approvedDate = format(new Date(row.getValue("approvedDate")), 'MMMM do yyyy, h:mm:ss a');
+      const approvedDate = format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{approvedDate}</div>;
     },
   },

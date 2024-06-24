@@ -1,25 +1,23 @@
 import xlsx from "json-as-xlsx";
 
-export function exportToExcel({ campaign }) {
+export function exportToExcel({ campaigns }) {
   let columns = [
     {
-      sheet: "RequestCampaigns",
+      sheet: "Request Campaigns",
       columns: [
-        { label: "Mã số đơn tạo chiến dịch", value: "create_campaign_request_id" },
-        { label: "Mã chiến dịch", value: "campaign_id" },
-        { label: "Tên chiến dịch", value: "name" },
-        { label: "Tạo bởi thành viên", value: "create_by_user" },
-        { label: "Tạo bởi tổ chức", value: "create_by_om" },
-        { label: "Duyệt bởi", value: "approved_by" },
-        { label: "Cập nhật bởi", value: "update_by" },
-        { label: "Ngày tạo đơn duyệt", value: "create_date" },
+        { label: "Tên chiến dịch", value: "campaign.name" },
+        { label: "Tạo bởi thành viên", value: "user.lastName" },
+        { label: "Tạo bởi quản lí tổ chức", value: "organizationManager.lastName" },
+        { label: "Người duyệt", value: "requestManager.lastName" },
+        { label: "Ngày tạo", value: "createDate" },
+        { label: "Ngày duyệt", value: "approvedDate" },
         {
           label: "Xác thực",
-          value: (row) => (row.is_verified === true ? "Đồng ý" : "Từ chối"),
+          value: (row) => (row.isApproved === true ? "Đồng ý" : "Từ chối"),
         },
         
       ],
-      content: campaign,
+      content: campaigns,
     },
   ];
 
