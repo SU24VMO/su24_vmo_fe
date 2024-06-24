@@ -52,7 +52,7 @@ const LoginForm = () => {
         <div className="grid gap-2 text-center">
           <h1 className="text-3xl font-bold">Đăng nhập</h1>
           <p className="text-balance text-muted-foreground">
-            Nhập số điện thoại, tên người dùng hoặc email để đăng nhập
+            Nhập tên người dùng hoặc email để đăng nhập
           </p>
         </div>
         <div className="grid gap-4">
