@@ -104,10 +104,14 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userDecode));
 
         // Navigate to the specified page
-        if (userDecode.role === "Admin") {
-          navigate("/admin");
-        } else {
-          navigate(from, { replace: true });
+        if(userDecode.role === "Admin"){
+            navigate("/admin")
+        }else if(userDecode.role === "RequestManager"){
+          navigate("/requestManager")
+
+        }else{
+            navigate(from, { replace: true });
+
         }
         toast({
           title: "Đăng nhập thành công",

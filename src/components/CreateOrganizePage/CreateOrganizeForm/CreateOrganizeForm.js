@@ -24,18 +24,32 @@ export default function CreateOrganizeForm() {
 
   const createOrganization = async (data) => {
     try {
-     
-      const formData = new FormData()
+
+      const formData = new FormData();
+      formData.append('OrganizationName', data.OrganizationName);
+      formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail);
+      formData.append('OrganizationTaxCode', data.OrganizationTaxCode);
+
+      // Thêm các trường dữ liệu văn bản vào formData
+      formData.append('FoundingDate', data.FoundingDate);
+      formData.append('SocialMediaLink', data.SocialMediaLink);
+      formData.append('AreaOfActivity', data.AreaOfActivity);
+      formData.append('Address', data.Address);
+      formData.append('PlanInformation', data.PlanInformation);
+      formData.append('AchievementLink', data.AchievementLink);
+      formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
       formData.append('Logo', file)
-      
+
       const response = await axiosPrivate.post(CREATEORGANIZATION +
-        `?organizationManagerId=${user.organization_manager_id}&OrganizationName=${data.OrganizationName}
-        &OrganizationManagerEmail=${data.OrganizationManagerEmail}&OrganizationTaxCode=${data.OrganizationTaxCode}
-        &FoundingDate=${data.FoundingDate}&SocialMediaLink=${data.SocialMediaLink}&AreaOfActivity=${data.AreaOfActivity}
-        &Address=${data.Address}&PlanInformation=${data.PlanInformation}&AchievementLink=${data.AchievementLink}
-        &AuthorizationDocuments=${data.AuthorizationDocuments}`,  formData );
+        `?organizationManagerId=${user.organization_manager_id}`, formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+
+      );
       if (response.status === 200) {
-        console.log(response.data);
         toast({
           title: "Tạo tổ chức thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -122,9 +136,7 @@ export default function CreateOrganizeForm() {
         }}
         onSubmit={(values, { setSubmitting }) => {
           createOrganization(values)
-          console.log('====================================');
-          console.log(values.Logo);
-          console.log('====================================');
+
           setSubmitting(false);
         }}
       >

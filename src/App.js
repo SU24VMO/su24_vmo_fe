@@ -48,6 +48,15 @@ import ManageOrganizationManagers from "./components/Admin/ManageOrganizationMan
 import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageRequestManagersPage from "./components/Admin/ManageRequestManagersPage/ManageRequestManagersPage";
 import ManageUsersPage from "./components/Admin/ManageUsersPage/ManageUsersPage";
+import RequestManager from "./components/RequestManager/RequestManager";
+import RequestManagerHomePage from "./components/RequestManager/RequestManagerHomePage/RequestManagerHomePage";
+import ManageRequestActivitiesPage from "./components/RequestManager/ManageRequestActivitiesPage/ManageRequestActivitiesPage";
+import ManageRequestOrganizationsPage from "./components/RequestManager/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
+import ManageRequestNewsPage from "./components/RequestManager/ManageRequestNewsPage/ManageRequestNewsPage";
+import ManageRequestCampaignsPage from "./components/RequestManager/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
+import ManageRequestOrganizationManagersPage from "./components/RequestManager/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
+import ManageRequestMembersPage from "./components/RequestManager/ManageRequestMembersPage/ManageRequestMembersPage";
+import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 
 
@@ -65,6 +74,8 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
+            <Route path="/loginRequestManagerVMO" element={<RequestManagerLoginPage/>} />
+
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
@@ -129,6 +140,18 @@ function App() {
                 <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
                 <Route path="manageRequestManagers" element={<ManageRequestManagersPage />} />
                 <Route path="manageUsers" element={<ManageUsersPage />} />
+              </Route>
+            </Route>
+
+            <Route element={<PrivateRoute allowedRoles={["RequestManager"]} />}>
+              <Route path="/requestManager" element={<RequestManager/>}>
+              <Route index element={<RequestManagerHomePage/>} />
+                <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage/>} />
+                <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage/>} />
+                <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage/>} />
+                <Route path="manageRequestMembers" element={<ManageRequestMembersPage/>} />
+                <Route path="manageRequestNews" element={<ManageRequestNewsPage/>} />
+                <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage/>} />
               </Route>
             </Route>
 

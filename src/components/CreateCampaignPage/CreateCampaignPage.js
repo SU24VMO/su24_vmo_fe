@@ -57,7 +57,9 @@ export default function CreateCampaignPage() {
         setFieldValue("targetAmount", formattedValue);
     };
 
-
+    const cleanFormattedAmount = (formattedValue) => {
+        return formattedValue.replace(/\./g, '');
+    };
     const createCampaign = async (data) => {
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -71,7 +73,7 @@ export default function CreateCampaignPage() {
         formData.append('Description', data.description);
         formData.append('StartDate', data.startDate);
         formData.append('ExpectedEndDate', data.endDate);
-        formData.append('TargetAmount', data.targetAmount);
+        formData.append('TargetAmount', cleanFormattedAmount(data.targetAmount));
         formData.append('OrganizationId', data.organizations);
         formData.append('BankingName', data.nameOfBank);
         formData.append('AccountName', data.nameOfUserBank);

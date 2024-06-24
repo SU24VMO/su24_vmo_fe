@@ -1,5 +1,4 @@
 import React from "react";
-
 export default function Loading() {
   return (
     <div className="absolute z-50 w-full h-full flex flex-col items-center justify-center bg-white">
