@@ -7,12 +7,13 @@ import { cn } from "../../../lib/utils";
 import BirthDayPicker from "../BirthDayPicker/BirthDayPicker";
 import GenderSelect from "../GenderSelect/GenderSelect";
 import AccountTypeSelect from "../AccountTypeSelect/AccountTypeSelect";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { AuthContext } from "../../../context/AuthContext";
 
 const SignUpForm = () => {
   //State để show/hide password
   const [showPassword, setShowPassword] = React.useState(false);
-
+  const { registerAction, loading } = React.useContext(AuthContext);
   //Function để toggle show/hide password
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   return (
@@ -22,10 +23,14 @@ const SignUpForm = () => {
           email: "",
           password: "",
           username: "",
+          avatar: "string",
           phoneNumber: "",
           firstName: "",
           lastName: "",
           gender: "",
+          facebookUrl: "string",
+          youtubeUrl: "string",
+          tiktokUrl: "string",
           birthday: null,
           accountType: "",
         }}
@@ -89,16 +94,28 @@ const SignUpForm = () => {
             errors.username = "Không được để trống!";
           } else if (!/^[a-z0-9_-]{3,16}$/.test(values.username)) {
             errors.username =
-              "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu chữ cái. Ví dụ: abc_123";
+              "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu, chữ cái viết hoa. Ví dụ: abc_123";
           }
 
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          registerAction(
+            values.email,
+            values.password,
+            values.username,
+            values.phoneNumber,
+            values.firstName,
+            values.lastName,
+            values.gender,
+            values.avatar,
+            values.facebookUrl,
+            values.youtubeUrl,
+            values.tiktokUrl,
+            values.birthday,
+            values.accountType
+          );
+          setSubmitting(false);
         }}
       >
         {({
@@ -267,8 +284,15 @@ const SignUpForm = () => {
                 </p>
               </div>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                Tạo tài khoản
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Tạo tài khoản
+                  </>
+                ) : (
+                  "Tạo tài khoản"
+                )}
               </Button>
             </div>
           </form>

@@ -57,6 +57,7 @@ import ManageRequestCampaignsPage from "./components/RequestManager/ManageReques
 import ManageRequestOrganizationManagersPage from "./components/RequestManager/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
 import ManageRequestMembersPage from "./components/RequestManager/ManageRequestMembersPage/ManageRequestMembersPage";
 import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
+import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
             <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
+            <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}
             <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} />}>
