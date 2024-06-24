@@ -7,6 +7,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
 
+
 async function getData(cancelToken) {
 
   try {
@@ -14,9 +15,8 @@ async function getData(cancelToken) {
       cancelToken: cancelToken
     });
 
-    
     if (response.status === 200) {
-    console.log(response.data.data.list);
+      console.log(response.data.data.list);
       return response.data.data.list;
     }
   } catch (error) {
@@ -34,6 +34,7 @@ const TableMembers = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
+  const [loading, setLoading] = useState(false);
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -49,17 +50,21 @@ const TableMembers = () => {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-
+    
+    
     const fetchData = async () => {
+      setLoading(true)
+
       const result = await getData(source.token);
       setData(result);
     };
-
+    
     fetchData();
 
     // Cleanup function to cancel the request on component unmount
     return () => {
       source.cancel('Component unmounted');
+
     };
   }, []);
 
@@ -77,7 +82,9 @@ const TableMembers = () => {
           }}
         />
       </div>
-      <DataTable columns={columns({ onEdit, onDelete })} data={data} />
+      
+        <DataTable columns={columns({ onEdit, onDelete })} data={data} loading={loading} />
+      
     </div>
   );
 };

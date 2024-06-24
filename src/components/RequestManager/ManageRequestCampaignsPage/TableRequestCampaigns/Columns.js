@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 export const columns = ({ onEdit, onDelete }) => [
   {
-    accessorKey: "campaign.name",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button

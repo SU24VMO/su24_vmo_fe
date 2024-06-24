@@ -30,11 +30,17 @@ import { Input } from "../../../ui/input";
 import React from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
+import SkeletonTable from "../../ManageRequestCampaignsPage/SkeletonTable/SkeletonTable";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, loading }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
+
+console.log('====================================');
+console.log(loading);
+console.log('====================================');
+
   const table = useReactTable({
     data,
     columns,
@@ -51,9 +57,7 @@ export function DataTable({ columns, data }) {
       columnVisibility,
     },
   });
-  console.log('====================================');
-  console.log(columns);
-  console.log('====================================');
+
   //Name of column dropdown
   const columnHeaders =  {
     name: "Tên chiến dịch",
@@ -70,7 +74,7 @@ export function DataTable({ columns, data }) {
     <div>
       <div className="flex items-center py-4">
       {/* Search filter tên người dùng */}
-        <Input
+        {/* <Input
           type="search"
           placeholder="Nhập tên chiến dịch cần tìm ..."
           value={table.getColumn("")?.getFilterValue() || ""}
@@ -78,7 +82,7 @@ export function DataTable({ columns, data }) {
             table.getColumn("")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
+        /> */}
         {/* Xuất excel */}
         <Button onClick={() => exportToExcel({ campaigns: data })} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
@@ -112,7 +116,7 @@ export function DataTable({ columns, data }) {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+       {loading ? ( <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -157,9 +161,10 @@ export function DataTable({ columns, data }) {
                   Không có kết quả tìm kiếm 😥
                 </TableCell>
               </TableRow>
+             
             )}
           </TableBody>
-        </Table>
+        </Table>) : (<SkeletonTable/>)}
       </div>
       <div className="flex items-center justify-between p-2">
         {/* <div className="flex-1 text-sm text-muted-foreground">
