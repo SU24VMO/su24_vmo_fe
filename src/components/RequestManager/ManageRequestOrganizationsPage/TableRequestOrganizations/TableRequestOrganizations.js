@@ -35,6 +35,7 @@ const TableRequestOrganizations = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
+  const [loading, setLoading] = useState(true);
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -49,17 +50,28 @@ const TableRequestOrganizations = () => {
   
   useEffect(() => {
     const source = axios.CancelToken.source();
-
+    setLoading(true)
+    
     const fetchData = async () => {
-      const result = await getData(source.token);
-      setData(result);
+      try {
+        
+        const result = await getData(source.token);
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      finally{
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000); 
+
+      }
     };
-
+    
     fetchData();
-
-    // Cleanup function to cancel the request on component unmount
     return () => {
       source.cancel('Component unmounted');
+
     };
   }, []);
   return (
@@ -76,8 +88,8 @@ const TableRequestOrganizations = () => {
           }}
         />
       </div>
-      <DataTable columns={columns({ onEdit, onDelete })} data={data} />
-    </div>
+      <DataTable columns={columns({ onEdit, onDelete })} data={data} loading={loading}/>
+    </div> 
   );
 };
 

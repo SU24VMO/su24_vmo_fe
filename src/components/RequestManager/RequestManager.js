@@ -19,7 +19,8 @@ const RequestManager = () => {
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 tablet:h-[60px] tablet:px-6">
           <MobileNav />
           {/* Search Bar */}
-          <SearchBarNav />
+          {/* <SearchBarNav /> */}
+          <div className="w-full flex-1"></div>
           {/* UserAvatar */}
           <UserAvatarNav />
         </header>

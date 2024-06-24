@@ -26,21 +26,18 @@ import {
 } from "../../../ui/table";
 
 import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
 import React from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
-import SkeletonTable from "../../ManageRequestCampaignsPage/SkeletonTable/SkeletonTable";
+import SkeletonCampaignsTable from "../SkeletonCampaignsTable/SkeletonCampaignsTable";
 
 export function DataTable({ columns, data, loading }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
-
 console.log('====================================');
 console.log(loading);
 console.log('====================================');
-
   const table = useReactTable({
     data,
     columns,
@@ -59,7 +56,7 @@ console.log('====================================');
   });
 
   //Name of column dropdown
-  const columnHeaders =  {
+  const columnHeaders = {
     name: "Tên chiến dịch",
     user: "Tạo bởi thành viên",
     organizationManager: "Tạo bởi quản lí tổ chức",
@@ -67,13 +64,13 @@ console.log('====================================');
     createDate: "Ngày tạo",
     approvedDate: "Ngày duyệt",
     isApproved: "Xác thực",
-    actions: "Thao tác"
+    actions: "Thao tác",
   };
 
   return (
     <div>
       <div className="flex items-center py-4">
-      {/* Search filter tên người dùng */}
+        {/* Search filter tên người dùng */}
         {/* <Input
           type="search"
           placeholder="Nhập tên chiến dịch cần tìm ..."
@@ -84,7 +81,11 @@ console.log('====================================');
           className="max-w-sm"
         /> */}
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ campaigns: data })} className="ml-4" variant="outline">
+        <Button
+          onClick={() => exportToExcel({ campaigns: data })}
+          className="ml-4"
+          variant="outline"
+        >
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -116,55 +117,52 @@ console.log('====================================');
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-       {loading ? ( <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+        {loading ? (
+          <SkeletonCampaignsTable  />
+        ) : (
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  Không có kết quả tìm kiếm 😥
-                </TableCell>
-              </TableRow>
-             
-            )}
-          </TableBody>
-        </Table>) : (<SkeletonTable/>)}
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    Không có kết quả tìm kiếm 😥
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        )}
       </div>
       <div className="flex items-center justify-between p-2">
         {/* <div className="flex-1 text-sm text-muted-foreground">

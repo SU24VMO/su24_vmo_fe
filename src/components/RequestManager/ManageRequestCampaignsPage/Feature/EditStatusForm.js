@@ -27,7 +27,6 @@ import React, { useContext } from "react";
 const EditStatusForm = ({ isOpen, onOpenChange, campaigns }) => {
   const { toast } = useToast();
   const {user} = useContext(AuthContext)
-  console.log(campaigns);
   const updateStatus = async (data) => {
     try {
       const response = await axiosPrivate.put( UPDATEAPPROVECAMPAIGNREQUEST, {

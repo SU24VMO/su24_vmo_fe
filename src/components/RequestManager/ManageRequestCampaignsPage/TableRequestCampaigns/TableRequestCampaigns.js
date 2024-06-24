@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import EditStatusForm from "../Feature/EditStatusForm";
-
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
 
-
 async function getData(cancelToken) {
-
   try {
     const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=10&pageNo=1`, {
       cancelToken: cancelToken
@@ -34,7 +31,7 @@ const TableMembers = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -47,21 +44,27 @@ const TableMembers = () => {
     alert(`Deleting request with ID: ${row.id}`);
   }, []);
 
-
   useEffect(() => {
     const source = axios.CancelToken.source();
-    
+    setLoading(true)
     
     const fetchData = async () => {
-      setLoading(true)
+      try {
+        
+        const result = await getData(source.token);
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      finally{
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000); 
 
-      const result = await getData(source.token);
-      setData(result);
+      }
     };
     
     fetchData();
-
-    // Cleanup function to cancel the request on component unmount
     return () => {
       source.cancel('Component unmounted');
 
@@ -83,8 +86,7 @@ const TableMembers = () => {
         />
       </div>
       
-        <DataTable columns={columns({ onEdit, onDelete })} data={data} loading={loading} />
-      
+      <DataTable columns={columns({ onEdit, onDelete })} data={data} loading={loading} />
     </div>
   );
 };
