@@ -2,11 +2,20 @@ import React, { useContext } from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-const PrivateRoute = ({ allowedRoles }) => {
+const PrivateRoute = ({ allowedRoles, requireVerification = true }) => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
 
   const isAllowed = allowedRoles.includes(user?.role); // check xem có những thằng nào được phép vào cái page đó ko
+  
+  // những role cần check xác thực
+  const rolesRequireVerification = ["OrganizationManager", "Member"]; 
+  
+  // check xem có phải là những thằng cần xác thực ko
+  const requiresVerification = requireVerification && rolesRequireVerification.includes(user?.role); 
+
+  // check xem đã xác thực chưa
+  const isVerified = requiresVerification ? user?.is_verified === "True" : true; 
 
   // vd: user?.role của mình khi login vào là User
  //  các nhánh cho phép sử dụng bao gồm có ["User", "Member"] => có chứ User ở trổng là zô được page đó
@@ -17,7 +26,7 @@ const PrivateRoute = ({ allowedRoles }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (!isAllowed) {
+  if (!isAllowed || !isVerified) {
     // Nếu có login nhưng vai trò không được phép, chuyển hướng đến trang unauthorized (vì không có vai trò sử dụng page này)
     return <Navigate to="/unauthorized" state={{ from: location }} replace />;
   }
