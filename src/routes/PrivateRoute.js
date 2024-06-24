@@ -6,7 +6,7 @@ const PrivateRoute = ({ allowedRoles }) => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
 
-  const isAllowed = allowedRoles.includes(user?.role); // check xem có những thằng nào được phép vào cái page đó ko
+  const isAllowed = allowedRoles.includes(user?.role) && user?.is_verified === "True"; // check xem có những thằng nào được phép vào cái page đó ko
 
   // vd: user?.role của mình khi login vào là User
  //  các nhánh cho phép sử dụng bao gồm có ["User", "Member"] => có chứ User ở trổng là zô được page đó

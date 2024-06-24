@@ -50,7 +50,7 @@ const DesktopNavLeft = () => {
       </NavigationMenu>
 
       {/* check role có phải Member không mới hiển thị */}
-      {user?.role === "Member" && user.is_verified ? (
+      {user?.role === "Member" && user.is_verified === "True" ? (
         <Link to="/manage/allCampaigns">
           <Button variant="feature">Quản lí</Button>
         </Link>
@@ -58,7 +58,7 @@ const DesktopNavLeft = () => {
         ""
       )}
       {/* check role có phải OrganizationManager không mới hiển thị */}
-      {user?.role === "OrganizationManager" && user.is_verified ? (
+      {user?.role === "OrganizationManager" && user.is_verified === "True" ? (
         <Link to="/manage/organize/allOrganizations">
           <Button variant="feature">Quản lí tổ chức</Button>
         </Link>
