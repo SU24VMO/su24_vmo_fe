@@ -75,7 +75,7 @@ function App() {
             <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}
-            <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} />}>
+            <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} requireVerification={false}/>}>
               <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
@@ -122,7 +122,7 @@ function App() {
             {/* Other routes */}
 
 
-            <Route element={<PrivateRoute allowedRoles={["Admin"]} />}>
+            <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false}/>}>
               <Route path="/admin" element={<Admin />}>
                 <Route index element={<AdminHomePage />} />
                 <Route path="manageMembers" element={<ManageMembersPage />} />
