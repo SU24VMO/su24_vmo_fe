@@ -4,7 +4,7 @@ import { Button } from "../../ui/button";
 import { axiosPublic } from "../../../api/axiosInstance";
 import { GET_CAMPAIGN } from "../../../api/apiConstants";
 import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
-import { CheckCheck } from 'lucide-react';
+import { CheckCheck } from "lucide-react";
 
 const CampaignsSection = () => {
   const [data, setData] = React.useState([]);
@@ -14,33 +14,36 @@ const CampaignsSection = () => {
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
 
   // Lấy dữ liệu các campaign từ API
-  const fetchData = React.useCallback(async (page) => {
-    if (!hasMore) return; // Kiểm tra nếu không còn dữ liệu thì không gọi API
-    try {
-      const response = await axiosPublic.get(
-        `${GET_CAMPAIGN}?pageSize=6&pageNo=${page}`
-      );
-      if (response.status === 200) {
-        const fetchedData = response.data.data.list;
-        if (fetchedData.length === 0 || fetchedData.length < 0) {
-          setData((prevData) => [...prevData, ...fetchedData]);
-          setHasMore(false); // Nếu dữ liệu trả về ít hơn yêu cầu, đánh dấu là đã hết dữ liệu
+  const fetchData = React.useCallback(
+    async (page) => {
+      if (!hasMore) return; // Kiểm tra nếu không còn dữ liệu thì không gọi API
+      try {
+        const response = await axiosPublic.get(
+          `${GET_CAMPAIGN}?pageSize=6&pageNo=${page}`
+        );
+        if (response.status === 200) {
+          const fetchedData = response.data.data.list;
+          if (fetchedData.length === 0 || fetchedData.length < 0) {
+            setData((prevData) => [...prevData, ...fetchedData]);
+            setHasMore(false); // Nếu dữ liệu trả về ít hơn yêu cầu, đánh dấu là đã hết dữ liệu
+          }
+          if (page > 1) {
+            setData((prevData) => [...prevData, ...fetchedData]);
+            console.log("Campaign xem thêm lấy được: ", fetchedData);
+          } else {
+            console.log("Campaign khi chưa nhấn xem thêm", fetchedData);
+            setData(fetchedData);
+          }
+          setDataLoaded(true);
         }
-        if (page > 1) {
-          setData((prevData) => [...prevData, ...fetchedData]);
-          console.log("fetchedData", fetchedData)
-        } else {
-          console.log("fetchedData", fetchedData)
-          setData(fetchedData);
-        }
-        setDataLoaded(true);
+      } catch (error) {
+        console.error("Error fetching data from API:", error);
+      } finally {
+        setLoadingMore(false);
       }
-    } catch (error) {
-      console.error("Error fetching data from API:", error);
-    } finally {
-      setLoadingMore(false);
-    }
-  }, [hasMore]);
+    },
+    [hasMore]
+  );
 
   // Gọi hàm fetchData khi component được render (chỉ chạy 1 lần)
   React.useEffect(() => {
@@ -97,8 +100,8 @@ const CampaignsSection = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center my-10 text-lg font-medium">
-          Bạn đã xem hết các chiến dịch từ thiện đang diễn ra 
-          <CheckCheck className="text-green-600 h-8 w-8"/>
+          Bạn đã xem hết các chiến dịch từ thiện đang diễn ra
+          <CheckCheck className="text-green-600 h-8 w-8" />
         </div>
       )}
     </>

@@ -16,17 +16,17 @@ const CustomCardCampaign = ({
     <>
       <Card className="cursor-pointer">
         <CardContent className="flex flex-col aspect-square items-center justify-center p-0 overflow-hidden">
-          <div className="w-full h-full flex flex-col items-center justify-between">
-            <div className="w-full max-h-80 overflow-hidden rounded-md relative">
+          <div className="w-full h-full flex flex-col items-center">
+            <div className="w-full h-full overflow-hidden rounded-md relative">
               <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
                   src={imgSrc}
                   alt="Campaign"
-                  className="rounded-md object-cover"
+                  className="w-full h-full object-cover"
                 />
               </AspectRatio>
               <div className="absolute mt-1 ml-1 top-0 left-0 z-50">
-                <Badge variant="white">{`Còn ${daysLeft} ngày`}</Badge>
+                <Badge variant="secondary">{`Còn ${daysLeft} ngày`}</Badge>
               </div>
             </div>
             <div className="bg-white w-full px-6">
