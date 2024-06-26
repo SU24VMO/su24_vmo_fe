@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { PreviewImageCoverPopover } from "./PreviewImageCoverPopover/PreviewImageCoverPopover";
 import { PreviewImageCenterPopover } from "./PreviewImageCenterPopover/PreviewImageCenterPopover";
 import { Formik } from "formik";
+
+import { axiosPrivate } from "../../api/axiosInstance";
+import { CREATENEWS } from "../../api/apiConstants";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../../components/ui/use-toast";
+import { ToastAction } from "../../components/ui/toast";
+
+
 export default function CreatNewsPage() {
     // const [value, setValue] = useState();
     // const dobHandler = (e) => {
     //     console.log(e.target.value);
     // }
+    const { user } = useContext(AuthContext)
+    const { toast } = useToast();
 
     const [imageCover, setImageCover] = useState();
     function handleChangeCoverImage(e, setFieldValue) {
@@ -26,6 +36,47 @@ export default function CreatNewsPage() {
 
 
 
+    const createNews = async (data) => {
+        const formData = new FormData();
+        formData.append('Cover', data.imageCover);
+        formData.append('Title', data.title);
+        formData.append('Content', data.descriptionFocus);
+    
+        formData.append('Image', data.imageCenter);
+        formData.append('AccountId', user.account_id);
+
+        try {
+            const response = await axiosPrivate.post(CREATENEWS , formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log(response.data);
+                toast({
+                    title: "Tạo chiến dịch thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo chiến dịch thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo chiến dịch thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        }
+    }
+
 
     return (<>
 
@@ -34,9 +85,9 @@ export default function CreatNewsPage() {
                 title: "",
                 imageCover: null,
                 descriptionFocus: "",
-                descriptionMain: "",
+                // descriptionMain: "",
                 imageCenter: null,
-                descriptionEnd: ""
+                // descriptionEnd: ""
 
 
 
@@ -56,23 +107,20 @@ export default function CreatNewsPage() {
                     errors.descriptionFocus = 'Không được để trống'
                 }
 
-                if (!values.descriptionMain) {
-                    errors.descriptionMain = 'Không được để trống'
-                }
+                // if (!values.descriptionMain) {
+                //     errors.descriptionMain = 'Không được để trống'
+                // }
                 if (!values.imageCenter) {
                     errors.imageCenter = 'Không được để trống'
                 }
-                if (!values.descriptionEnd) {
-                    errors.descriptionEnd = 'Không được để trống'
-                }
+                // if (!values.descriptionEnd) {
+                //     errors.descriptionEnd = 'Không được để trống'
+                // }
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    console.log(values);
-                    setSubmitting(false);
-                }, 400);
+                createNews(values)
+                setSubmitting(false);
             }}
         >
             {({

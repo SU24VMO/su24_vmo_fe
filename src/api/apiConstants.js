@@ -15,6 +15,8 @@ export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
 export const CREATECAMPAIGN = "/api/create-campaign-request/create";
+export const CREATENEWS = "/api/create-post-request/create-new";
+
 //
 export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
 
