@@ -48,3 +48,6 @@ export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/
 //notification
 export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";
 export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notification/checking";
+
+//campaign
+export const GET_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";

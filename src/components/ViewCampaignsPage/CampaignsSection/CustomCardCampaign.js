@@ -2,6 +2,7 @@ import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Progress } from "../../ui/progress";
 import React from "react";
+import { AspectRatio } from "../../ui/aspect-ratio";
 
 const CustomCardCampaign = ({
   imgSrc,
@@ -15,14 +16,16 @@ const CustomCardCampaign = ({
     <>
       <Card className="cursor-pointer">
         <CardContent className="flex flex-col aspect-square items-center justify-center p-0 overflow-hidden">
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <div className="relative w-full h-full">
-              <img
-                src={imgSrc}
-                alt="Campaign"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute mt-1 ml-1 top-0 left-0">
+          <div className="w-full h-full flex flex-col items-center justify-between">
+            <div className="w-full max-h-80 overflow-hidden rounded-md relative">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
+                <img
+                  src={imgSrc}
+                  alt="Campaign"
+                  className="rounded-md object-cover"
+                />
+              </AspectRatio>
+              <div className="absolute mt-1 ml-1 top-0 left-0 z-50">
                 <Badge variant="white">{`Còn ${daysLeft} ngày`}</Badge>
               </div>
             </div>

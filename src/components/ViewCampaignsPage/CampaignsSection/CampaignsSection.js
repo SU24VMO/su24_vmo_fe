@@ -1,109 +1,106 @@
 import React from "react";
 import CustomCardCampaign from "./CustomCardCampaign";
 import { Button } from "../../ui/button";
-
-const data = [
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Tên chiến dịch",
-    organizerName: "Tên Cá nhân/Tổ Chức",
-    progressValue: 50,
-    achievedAmount: "00.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "30",
-    campaignName: "Chiến dịch ABC",
-    organizerName: "Châu Nhật Trường",
-    progressValue: 70,
-    achievedAmount: "30.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "100",
-    campaignName: "Chiến dịch XYZ",
-    organizerName: "Nguyễn Tiến Phát",
-    progressValue: 30,
-    achievedAmount: "100.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch 123",
-    organizerName: "Trương Đinh Đăng Khoa",
-    progressValue: 10,
-    achievedAmount: "70.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch 789",
-    organizerName: "Nguyễn Văn Dũng",
-    progressValue: 40,
-    achievedAmount: "10.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch ...",
-    organizerName: "Tổ Chức Truongmagnus",
-    progressValue: 40,
-    achievedAmount: "10.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch ...",
-    organizerName: "Tổ Chức Truongmagnus",
-    progressValue: 40,
-    achievedAmount: "10.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch ...",
-    organizerName: "Tổ Chức Truongmagnus",
-    progressValue: 40,
-    achievedAmount: "10.000.000 VND",
-  },
-  {
-    imgSrc: "https://via.placeholder.com/360x150",
-    daysLeft: "00",
-    campaignName: "Chiến dịch ...",
-    organizerName: "Tổ Chức Truongmagnus",
-    progressValue: 40,
-    achievedAmount: "10.000.000 VND",
-  },
-];
+import { axiosPublic } from "../../../api/axiosInstance";
+import { GET_CAMPAIGN } from "../../../api/apiConstants";
+import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
+import { CheckCheck } from 'lucide-react';
 
 const CampaignsSection = () => {
+  const [data, setData] = React.useState([]);
+  const [dataLoaded, setDataLoaded] = React.useState(false);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const [pageNo, setPageNo] = React.useState(1);
+  const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
+
+  // Lấy dữ liệu các campaign từ API
+  const fetchData = React.useCallback(async (page) => {
+    if (!hasMore) return; // Kiểm tra nếu không còn dữ liệu thì không gọi API
+    try {
+      const response = await axiosPublic.get(
+        `${GET_CAMPAIGN}?pageSize=6&pageNo=${page}`
+      );
+      if (response.status === 200) {
+        const fetchedData = response.data.data.list;
+        if (fetchedData.length === 0 || fetchedData.length < 0) {
+          setData((prevData) => [...prevData, ...fetchedData]);
+          setHasMore(false); // Nếu dữ liệu trả về ít hơn yêu cầu, đánh dấu là đã hết dữ liệu
+        }
+        if (page > 1) {
+          setData((prevData) => [...prevData, ...fetchedData]);
+          console.log("fetchedData", fetchedData)
+        } else {
+          console.log("fetchedData", fetchedData)
+          setData(fetchedData);
+        }
+        setDataLoaded(true);
+      }
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [hasMore]);
+
+  // Gọi hàm fetchData khi component được render (chỉ chạy 1 lần)
+  React.useEffect(() => {
+    fetchData(1);
+  }, [fetchData]);
+
+  // Hàm xử lý khi nhấn nút Xem Thêm
+  const handleLoadMore = () => {
+    setLoadingMore(true);
+    setPageNo((prevPageNo) => prevPageNo + 1);
+    fetchData(pageNo + 1);
+  };
+
+  const renderSkeletons = () => {
+    return Array.from({ length: 6 }).map((_, index) => (
+      <CampaignsSectionSkeleton key={index} />
+    ));
+  };
+
   return (
     <>
       <div className="flex items-center justify-center my-10">
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
-        <p className="text-lg font-bold px-4">Các chiến dịch gần đây</p>
-        <hr className="w-64 h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
+        {/* Header và các phần khác giữ nguyên */}
       </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
-        {data.map((item, index) => (
-          <CustomCardCampaign
-            key={index}
-            achievedAmount={item.achievedAmount}
-            campaignName={item.campaignName}
-            daysLeft={item.daysLeft}
-            imgSrc={item.imgSrc}
-            organizerName={item.organizerName}
-            progressValue={item.progressValue}
-          />
-        ))}
+        {dataLoaded
+          ? data.map((item, index) => (
+              <CustomCardCampaign
+                key={index}
+                achievedAmount={item.achievedAmount}
+                campaignName={item?.name}
+                daysLeft={item.daysLeft}
+                imgSrc={item.image}
+                organizerName={item.organization?.name} // Sửa lỗi null bằng cách thêm dấu ? để kiểm tra trước khi truy cập
+                progressValue={item.progressValue}
+              />
+            ))
+          : renderSkeletons()}
       </div>
       {/* Button Xem thêm */}
-      <div className="flex items-center justify-center my-10">
-        <Button variant="default" className="tablet:text-lg">
-          Xem Thêm
-        </Button>
-      </div>
+      {loadingMore ? (
+        <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6 my-3">
+          {renderSkeletons()}
+        </div>
+      ) : hasMore ? ( // Kiểm tra nếu còn dữ liệu thì hiển thị nút Xem Thêm
+        <div className="flex items-center justify-center my-10">
+          <Button
+            variant="default"
+            className="tablet:text-lg"
+            onClick={handleLoadMore}
+          >
+            Xem Thêm
+          </Button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center my-10 text-lg font-medium">
+          Bạn đã xem hết các chiến dịch từ thiện đang diễn ra 
+          <CheckCheck className="text-green-600 h-8 w-8"/>
+        </div>
+      )}
     </>
   );
 };
