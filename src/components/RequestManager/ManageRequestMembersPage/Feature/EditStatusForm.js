@@ -24,7 +24,7 @@ import { UPDATEAPPROVEMEMBERREQUEST } from "../../../../api/apiConstants";
 import React, { useContext } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 
-const EditStatusForm = ({ isOpen, onOpenChange, member }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   console.log(member);
@@ -37,7 +37,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, member }) => {
       });
 
       if (response.status === 200) {
-        console.log(response);
+       onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -58,6 +58,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, member }) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+
     }
   }
   // Formik setup

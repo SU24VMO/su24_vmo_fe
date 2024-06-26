@@ -23,7 +23,7 @@ import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEOMREQUEST  } from "../../../../api/apiConstants";
 import { AuthContext } from "../../../../context/AuthContext";
 import React, { useContext } from "react";
-const EditStatusForm = ({ isOpen, onOpenChange, organizationManager }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuccess }) => {
   const { toast } = useToast();
 const {user} = useContext(AuthContext)
 
@@ -36,7 +36,7 @@ const {user} = useContext(AuthContext)
       });
 
       if (response.status === 200) {
-        console.log(response);
+        onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -57,6 +57,8 @@ const {user} = useContext(AuthContext)
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+
     }
   }
   // Formik setup

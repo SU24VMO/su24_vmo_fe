@@ -27,30 +27,39 @@ import {
 
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
-import React from "react";
+import React,{useEffect} from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonMembersTable from "../SkeletonMembersTable/SkeletonMembersTable";
 
-export function DataTable({ columns, data, loading }) {
+export function DataTable({ 
+  columns,
+  data,
+  loading,
+  pageSize,
+  pageNo,
+  setPageSize,
+  setPageNo,
+  totalPages,
+ }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
   const table = useReactTable({
-    data,
+    data: data,
     columns,
-    loading,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(), // Pagination
-    getSortedRowModel: getSortedRowModel(), // Sort
-    onSortingChange: setSorting, // Sort
-    onColumnFiltersChange: setColumnFilters, // Filter
-    getFilteredRowModel: getFilteredRowModel(), // Filter
-    onColumnVisibilityChange: setColumnVisibility, // Column visibility
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+     
     },
   });
   //Name of column dropdown
@@ -64,6 +73,36 @@ export function DataTable({ columns, data, loading }) {
     isApproved:"Xác thực",
     actions: "Thao tác"
   };
+
+
+  const [state, setState] = React.useState({
+    ...table.initialState, //populate the initial state with all of the default state values from the table instance
+    pagination: {
+      pageIndex: pageNo - 1,
+      pageSize,
+    },
+  })
+
+  table.setOptions(prev => ({
+    ...prev, //preserve any other options that we have set up above
+    state, //our fully controlled state overrides the internal state
+    onStateChange: setState //any state changes will be pushed up to our own state management
+  }))
+
+  useEffect(() => {
+    console.log("Data Length:", data.length);
+    console.log("Table Rows Length:", table.getRowModel().rows?.length);
+  }, [data, table]);
+
+  const handlePreviousPage = () => {
+    if (pageNo > 1) setPageNo(pageNo - 1);
+  };
+
+  const handleNextPage = () => {
+    if (pageNo < totalPages) setPageNo(pageNo + 1);
+  };
+
+
 
   return (
     <div>
@@ -159,58 +198,42 @@ export function DataTable({ columns, data, loading }) {
         )}
       </div>
       <div className="flex items-center justify-between p-2">
-        {/* <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div> */}
-        {/* <div className="flex items-center space-x-6 lg:space-x-8"> */}
-        {/* Hàng trên mỗi trang  */}
-        {/* <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">Hàng trên mỗi trang</p>
-            <Select
-              value={`${table.getState().pagination.pageSize}`}
-              onValueChange={(value) => {
-                table.setPageSize(Number(value));
-              }}
-            >
-              <SelectTrigger className="h-8 w-[70px]">
-                <SelectValue
-                  placeholder={table.getState().pagination.pageSize}
-                />
-              </SelectTrigger>
-              <SelectContent side="top">
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <SelectItem key={pageSize} value={`${pageSize}`}>
-                    {pageSize}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div> */}
+       
         {/* Đang ở trang bao nhiêu/tổng số trang */}
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Trang {table.getState().pagination.pageIndex + 1} trên{" "}
-          {table.getPageCount()}
+          Trang {pageNo} trên {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePreviousPage}
+            disabled={pageNo === 1}
           >
             Trang trước
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
+            disabled={pageNo === totalPages}
           >
             Trang sau
           </Button>
+          {/* <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select> */}
         </div>
-        {/* </div> */}
+       
       </div>
     </div>
   );
