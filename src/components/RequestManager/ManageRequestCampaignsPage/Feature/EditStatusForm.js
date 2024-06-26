@@ -24,9 +24,10 @@ import { ImageDown } from "lucide-react";
 
 import { format } from "date-fns";
 import React, { useContext } from "react";
-const EditStatusForm = ({ isOpen, onOpenChange, campaigns }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) => {
   const { toast } = useToast();
   const {user} = useContext(AuthContext)
+
   const updateStatus = async (data) => {
     try {
       const response = await axiosPrivate.put( UPDATEAPPROVECAMPAIGNREQUEST, {
@@ -36,7 +37,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns }) => {
       });
 
       if (response.status === 200) {
-        console.log(response);
+        onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -57,6 +58,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns }) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
     }
   }
   // Formik setup

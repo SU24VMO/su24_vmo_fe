@@ -25,7 +25,7 @@ import React, {useContext} from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 
 
-const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   console.log(organize);
@@ -38,7 +38,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
       });
 
       if (response.status === 200) {
-        console.log(response);
+        onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -59,6 +59,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize }) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+
     }
   }
   // Formik setup

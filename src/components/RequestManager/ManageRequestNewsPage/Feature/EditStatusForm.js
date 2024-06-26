@@ -26,19 +26,25 @@ import { UPDATEAPPROVENEWSREQUEST } from "../../../../api/apiConstants";
 import React, { useContext } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 
-const EditStatusForm = ({ isOpen, onOpenChange, posts }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const updateStatus = async (data) => {
     try {
       const response = await axiosPrivate.put(UPDATEAPPROVENEWSREQUEST, {
-        createPostRequestID: posts.createPostRequestID,
+        createPostRequestId: posts.createPostRequestID,
+        requestManagerId: user.request_manager_id,
+        isApproved: data.isApproved,
+      });
+
+      console.log("submit status: " , {
+        createPostRequestId: posts.createPostRequestID,
         requestManagerId: user.request_manager_id,
         isApproved: data.isApproved,
       });
 
       if (response.status === 200) {
-        console.log(response);
+        onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -59,6 +65,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts }) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+
     }
   }
   console.log(posts);
