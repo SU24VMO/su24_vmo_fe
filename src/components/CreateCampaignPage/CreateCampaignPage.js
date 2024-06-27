@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
 import OrganizationsSelect from "./OrganizationsSelect/OrganizationsSelect";
+import { Helmet } from "react-helmet";
 
 
 export default function CreateCampaignPage() {
@@ -114,7 +115,13 @@ export default function CreateCampaignPage() {
 
 
     return (<>
-
+    <Helmet>
+      <title>Tạo chiến dịch • VMO</title>
+      <meta
+        name="description"
+        content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+      />
+    </Helmet>
         <Formik
             initialValues={{
                 nameOfCampaign: "",

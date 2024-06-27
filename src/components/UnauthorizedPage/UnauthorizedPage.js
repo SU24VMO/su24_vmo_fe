@@ -1,25 +1,35 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const UnauthorizedPage = () => {
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-4 md:px-6">
-      <div className="mx-auto max-w-md space-y-4 text-center">
-        <TriangleAlertIcon className="mx-auto h-12 w-12 text-red-500" />
-        <h1 className="text-3xl font-bold">Không có quyền truy cập</h1>
-        <p className="text-muted-foreground">
-          Bạn không có quyền xem nội dung được yêu cầu. Vui lòng liên hệ với
-          quản trị viên trang web nếu bạn cho rằng đây là lỗi.
-        </p>
-        <Link
-          to="/"
-          className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-          prefetch={false}
-        >
-          Trở về trang chủ
-        </Link>
+    <>
+      <Helmet>
+        <title>Không có quyền truy cập • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
+      <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-4 md:px-6">
+        <div className="mx-auto max-w-md space-y-4 text-center">
+          <TriangleAlertIcon className="mx-auto h-12 w-12 text-red-500" />
+          <h1 className="text-3xl font-bold">Không có quyền truy cập</h1>
+          <p className="text-muted-foreground">
+            Bạn không có quyền xem nội dung được yêu cầu. Vui lòng liên hệ với
+            quản trị viên trang web nếu bạn cho rằng đây là lỗi.
+          </p>
+          <Link
+            to="/"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            prefetch={false}
+          >
+            Trở về trang chủ
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

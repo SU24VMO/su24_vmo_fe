@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PreviewImageCoverPopover } from "./PreviewImageCoverPopover/PreviewImageCoverPopover";
 import { PreviewImageCenterPopover } from "./PreviewImageCenterPopover/PreviewImageCenterPopover";
 import { Formik } from "formik";
+import { Helmet } from "react-helmet";
 export default function CreatNewsPage() {
     // const [value, setValue] = useState();
     // const dobHandler = (e) => {
@@ -28,7 +29,13 @@ export default function CreatNewsPage() {
 
 
     return (<>
-
+      <Helmet>
+        <title>Tạo tin tức • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
         <Formik
             initialValues={{
                 title: "",

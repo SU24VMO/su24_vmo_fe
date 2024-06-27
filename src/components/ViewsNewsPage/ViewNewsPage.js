@@ -1,9 +1,18 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 export default function ViewNewsPage() {
     return (
+        <>
+                <Helmet>
+                    <title>Danh sách các tin tức • VMO</title>
+                    <meta
+                        name="description"
+                        content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+                    />
+                </Helmet>
         <div className="w-4/5 mx-auto">
             <div className="bg-white dark:bg-gray-800  py-6 mobile:py-8 laptop:py-12">
                 <div className="mx-auto max-w-screen-2xl px-4 tablet:px-8">
@@ -96,5 +105,6 @@ export default function ViewNewsPage() {
 
             </div>
         </div>
+        </>
     );
 }

@@ -1,10 +1,17 @@
 import React,{ useEffect} from "react";
 import SignUpVerifyOrganizeForm from "./SignUpVerifyOrganizeForm/SignUpVerifyOrganizeForm";
+import { Helmet } from "react-helmet";
 
 export default function SignUpVerifyOrganizePage() {
  
   return <div>
-
+    <Helmet>
+        <title>Đăng kí tài khoản "quản lý tổ chức xác thực" • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+    </Helmet>
   <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
       <h1 className=" text-sx mobile:text-2xl font-medium">Đăng kí tài khoản "quản lý tổ chức xác thực"</h1>
   </div>

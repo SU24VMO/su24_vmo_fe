@@ -4,10 +4,18 @@ import RaiseFundSection from "./RaiseFundSection/RaiseFundSection";
 import FundraisingCampaignSection from "./FundraisingCampaignSection/FundraisingCampaignSection";
 import CallForActionSection from "./CallForActionSection/CallForActionSection";
 import CustomerFeedBackSection from "./CustomerFeedBackSection/CustomerFeedBackSection";
+import { Helmet } from "react-helmet";
 
 const HomePage = () => {
   return (
     <>
+      <Helmet>
+        <title>Trang chủ • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
       <div className="w-full max-w-screen-desktop mobile:px-24 bg-gray-100 px-3">
         <HeroSection />
       </div>
