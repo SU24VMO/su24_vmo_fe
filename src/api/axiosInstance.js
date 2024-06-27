@@ -47,7 +47,7 @@ axiosPrivate.interceptors.request.use(async (req) => {
     console.log(req);
 
     const response = await axios.post(
-      `${BASE_URL}/api/v1/auths/refresh`,
+      `${BASE_URL}/api/authentication/refresh-token`,
       params
     );
 
@@ -80,7 +80,7 @@ axiosPrivate.interceptors.response.use(
           refreshToken: localStorage.getItem("refreshToken"),
         };
 
-        const response = await axios.post(`${BASE_URL}/api/v1/auths/refresh`, params);
+        const response = await axios.post(`${BASE_URL}/api/authentication/refresh-token`, params);
 
         const newToken = response.data.data.accessToken;
         const newRefreshToken = response.data.data.refreshToken;
