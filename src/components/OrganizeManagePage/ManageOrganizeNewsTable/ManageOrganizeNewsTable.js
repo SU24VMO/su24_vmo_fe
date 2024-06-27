@@ -1,136 +1,84 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
 
-async function getData() {
-  // Fetch data from your API here.
-  const data = [
-    {
-      id: "1",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "21:29:56 - 19/05/2024",
-    },
-    {
-      id: "2",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "20:06:00 - 19/05/2024",
-    },
-    {
-      id: "3",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "19:53:22 - 19/05/2024",
-    },
-    {
-      id: "4",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "17:47:26 - 19/05/2024",
-    },
-    {
-      id: "5",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "16:06:30 - 19/05/2024",
-    },
-    {
-      id: "6",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "7",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "8",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "07:01:41 - 20/05/2024",
-    },
-    {
-      id: "9",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "23:59:16 - 19/05/2024",
-    },
-    {
-      id: "10",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "22:08:57 - 19/05/2024",
-    },
-    {
-      id: "11",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "11:54:37 - 20/05/2024",
-    },
-    {
-      id: "12",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "10:55:29 - 20/05/2024",
-    },
-    {
-      id: "13",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "09:24:05 - 20/05/2024",
-    },
-    {
-      id: "14",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức XYZ",
-      newStatus: "Đã duyệt",
-      dateCreate: "08:55:05 - 20/05/2024",
-    },
-    {
-      id: "15",
-      newTitle: "Tin tức mới 1",
-      organizeName: "Tổ chức ABC",
-      newStatus: "Đã duyệt",
-      dateCreate: "08:44:54 - 20/05/2024",
-    },
-    // ... other data items ...
-  ];
+import axios from "axios";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { AuthContext } from "../../../context/AuthContext";
+import { GETALLNEWSBYOMID } from "../../../api/apiConstants";
 
-  return data.map((item, index) => ({
-    ...item,
-    numericalOrder: index + 1,
-  }));
+async function getData(cancelToken, user,  pageSize, pageNo) {
+
+  try {
+    const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=10&pageNo=1`, {
+      cancelToken: cancelToken
+    });
+
+    if (response.status === 200) {
+      console.log('Fetched data:', response.data.data);
+      return response.data.data;
+    }
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message);
+    } else {
+      console.error("Error fetching data from API:", error);
+    }
+  }
+
+  return [];
 }
 
 const ManageOrganizeNewsTable = () => {
   const [data, setData] = useState([]);
+  const {user} = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNo, setPageNo] = useState(1);
+  const [list, setList] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
+  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+    try {
+      const result = await getData(cancelToken,user, pageSize, pageNo);
+      setData(result?.list || []);
+      setList(result);
+      setTotalItems(result?.totalItem || 0);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000); 
+    }
+  };
+
 
   useEffect(() => {
-    getData().then((data) => setData(data));
-  }, []);
+    const source = axios.CancelToken.source();
+    setLoading(true);
+    fetchData(source.token, user, pageSize, pageNo);
 
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [pageSize, pageNo]);
+
+  const totalPages = Math.ceil(totalItems / pageSize);
   return (
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <DataTable columns={columns} data={data} />
+      <DataTable 
+      columns={columns} 
+      data={data}
+      loading={loading}
+      list={list}
+      pageSize={pageSize}
+      pageNo={pageNo}
+      setPageSize={setPageSize}
+      setPageNo={setPageNo}
+      totalPages={totalPages}
+       />
     </div>
   );
 };

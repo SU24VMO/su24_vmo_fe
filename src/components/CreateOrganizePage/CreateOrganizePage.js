@@ -5,9 +5,9 @@ export default function CreateOrganizePage() {
  
   return <div>
 
-  <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
+  {/* <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
       <h1 className=" text-sx mobile:text-2xl font-medium">Đăng kí tạo tổ chức</h1>
-  </div>
+  </div> */}
 
   <div className="w-3/4 mx-auto">
       {/* <div className="flex justify-center w-full h-52 my-8 " >
@@ -19,8 +19,8 @@ export default function CreateOrganizePage() {
 
 
       <div className=" shadow rounded-xl">
-          <div className="bg-black text-center rounded-tl-xl rounded-tr-xl py-3">
-              <span className="text-white text-sm mobile:text-xl font-semibold ">Vui lòng điền thông tin bên dưới để chúng tôi có thể tin tưởng bạn!</span>
+          <div className="bg-vmo text-center rounded-tl-xl rounded-tr-xl py-3">
+              <span className="text-white text-sm mobile:text-2xl font-semibold ">Đăng kí tạo tổ chức</span>
           </div>
        <CreateOrganizeForm></CreateOrganizeForm>
       </div>

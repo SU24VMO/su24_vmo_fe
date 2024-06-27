@@ -109,7 +109,7 @@ export default function SignUpVerifyOrganizeForm() {
             onSubmit={handleSubmit}
             class=" w-3/4 laptop:max-w-4xl mx-auto my-8"
           >
-            <div class="mb-5 bg-orange-400 p-5 rounded-xl">
+            <div class="mb-5 bg-vmo p-5 rounded-xl">
               <span className="text-white text-sm mobile:text-xl font-semibold">
                 Thông tin người quản lý{" "}
               </span>
@@ -231,7 +231,7 @@ export default function SignUpVerifyOrganizeForm() {
               </p>
             </div>
 
-            <div class="mb-5 bg-orange-400 p-5 rounded-xl">
+            <div class="mb-5 bg-vmo p-5 rounded-xl">
               <span className="text-white text-sm mobile:text-xl font-semibold text-justify">
                 Cam kết mục đích sử dụng Tài khoản thanh toán minh bạch{" "}
               </span>

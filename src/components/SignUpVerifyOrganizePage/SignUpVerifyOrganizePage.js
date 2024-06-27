@@ -5,9 +5,9 @@ export default function SignUpVerifyOrganizePage() {
  
   return <div>
 
-  <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
+  {/* <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
       <h1 className=" text-sx mobile:text-2xl font-medium">Đăng kí tài khoản "quản lý tổ chức xác thực"</h1>
-  </div>
+  </div> */}
 
   <div className="w-3/4 mx-auto">
       {/* <div className="flex justify-center w-full h-52 my-8 " >
@@ -19,8 +19,8 @@ export default function SignUpVerifyOrganizePage() {
 
 
       <div className=" shadow rounded-xl">
-          <div className="bg-black text-center rounded-tl-xl rounded-tr-xl py-3">
-              <span className="text-white text-sm mobile:text-xl font-semibold ">Vui lòng điền thông tin bên dưới để chúng tôi có thể tin tưởng bạn!</span>
+          <div className="bg-vmo text-center rounded-tl-xl rounded-tr-xl py-3">
+              <span className="text-white text-sm mobile:text-xl font-semibold ">Đăng kí tài khoản "quản lý tổ chức xác thực"</span>
           </div>
        <SignUpVerifyOrganizeForm></SignUpVerifyOrganizeForm>
       </div>

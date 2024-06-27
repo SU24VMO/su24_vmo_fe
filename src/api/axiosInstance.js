@@ -47,7 +47,7 @@ axiosPrivate.interceptors.request.use(async (req) => {
     console.log(req);
 
     const response = await axios.post(
-      `${BASE_URL}/api/v1/auths/refresh`,
+      `${BASE_URL}/api/authentication/refresh-token`,
       params
     );
 

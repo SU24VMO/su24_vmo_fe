@@ -37,7 +37,7 @@ export default function CreateCampaignPage() {
     }
     function removeImage(e, setFieldValue) {
         setFileImageBackground('');
-        setFieldValue("imageBackgroundFile", null);
+        setFieldValue("imageBackgroundFile", null); 
 
     }
 
@@ -231,12 +231,23 @@ export default function CreateCampaignPage() {
                         errors.targetAmount = "Số tiền mục tiêu không được vượt quá 500,000,000 VND!";
                     }
                 }
+
+                // organizations validate 
+                if (!values.organizations) {
+                    errors.organizations = "Không được để trống!";
+                } 
+
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
                 createCampaign(values)
-                
                 setSubmitting(false);
+                resetForm();
+                setFileImageBackground(null);
+                setFieldValue("imageQRCode", null);
+                setFieldValue("imageLocalDocument", null);
+                setFieldValue("imageBackgroundFile", null);
+
             }}
         >
             {({
@@ -251,17 +262,17 @@ export default function CreateCampaignPage() {
 
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <div className="bg-orange-300 w-full h-14 flex justify-center items-center  ">
+                    {/* <div className="bg-orange-300 w-full h-14 flex justify-center items-center  ">
                         <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Tạo chiến dịch của bạn!</h1>
-                    </div>
+                    </div> */}
 
                     <div className="w-4/5 mx-auto rounded-xl">
                         <div className="grid gap-6 grid-cols-1 laptop:grid-cols-3 ">
 
                             <div className=" col-span-2 laptop:col-span-1 border-2 shadow rounded-xl">
                                 <div >
-                                    <div className="bg-gray-500 mb-6  rounded-tl-xl rounded-tr-xl ">
-                                        <h1 className="text-center py-3 font-semibold text-sm mobile:text-xl">Ảnh chiến dịch</h1>
+                                    <div className="bg-vmo mb-6  rounded-tl-xl rounded-tr-xl ">
+                                        <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Ảnh chiến dịch</h1>
                                     </div>
 
 
@@ -301,10 +312,10 @@ export default function CreateCampaignPage() {
 
                                     <div className="bg-vmo m-4 rounded-xl w-3/5 mx-auto laptop:w-4/5">
                                         <div className="p-4 mobile:flex mobile:justify-center gap-3 items-center">
-                                            <img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src="https://i.pinimg.com/564x/86/a2/31/86a231836008cca4d4a613a021ab90a1.jpg" alt="Rounded avatar" />
+                                            <img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src={user?.avatar} alt="Rounded avatar" />
                                             <div>
                                                 <p className="text-gray-100 text-center mobile:text-left">Tài khoản người dùng:</p>
-                                                <h2 className="font-semibold text-center mobile:text-left">Bocchi desu</h2>
+                                                <h2 className="font-semibold text-center mobile:text-left">{user.username}</h2>
                                             </div>
                                         </div>
 
@@ -370,8 +381,8 @@ export default function CreateCampaignPage() {
                             </div>
 
                             <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl">
-                                <div className="bg-black mb-6 rounded-tl-xl rounded-tr-xl">
-                                    <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Hoàn thành các thông tin bên dưới để chúng tôi xét duyệt chiến dịch của bạn </h1>
+                                <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
+                                    <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Tạo chiến dịch </h1>
                                 </div>
                                 <div className="w-4/5 mx-auto">
                                     <div class="mb-6">
@@ -481,7 +492,7 @@ export default function CreateCampaignPage() {
                                     </div>
                                     {user.role === "OrganizationManager" ?
                                         <div className="mb-6">
-                                            <label for="organizations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loại chiến dịch:</label>
+                                            <label for="organizations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chọn tổ chức:</label>
 
                                             <OrganizationsSelect
                                                 setFieldValue={setFieldValue}

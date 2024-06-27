@@ -116,7 +116,6 @@ function App() {
 
               {/* Only Organize manager */}
               <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
-              <Route path="/createOrganizeForm" element={<CreateOrganizePage></CreateOrganizePage>} />
               <Route path="/manage/organize/allOrganizations" element={<ManageOrganizeOrganizationsTable />} />
               <Route path="/manage/organize/allCampaigns" element={<ManageOrganizeAllCampaignsTable></ManageOrganizeAllCampaignsTable>} />
               <Route path="/manage/organize/allNews" element={<ManageOrganizeNewsTable></ManageOrganizeNewsTable>} />

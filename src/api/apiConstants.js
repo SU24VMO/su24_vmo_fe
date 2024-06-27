@@ -12,9 +12,8 @@ export const UPDATEAPPROVEMEMBERREQUEST = "/api/create-member-request/checking";
 export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-request/checking";
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 
-
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
-export const CREATECAMPAIGN = "/api/create-campaign-request/create";
+export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
 export const CREATENEWS = "/api/create-post-request/create-new";
 
 //
@@ -22,6 +21,8 @@ export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-reque
 
 export const GETALLORGANIZATIONBYID = "/api/organization/all/filter/organization-manager/";
 export const GETALLCAMPAIGNBYOMID = "/api/campaign/create-by/organization-manager/";
+export const GETALLNEWSBYOMID = "/api/post/all/organization-manager/";
+
 export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all";
 export const GETALLREQUESTORGANIZATION = "/api/create-organization-request/all";
