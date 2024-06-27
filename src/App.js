@@ -58,12 +58,18 @@ import ManageRequestOrganizationManagersPage from "./components/RequestManager/M
 import ManageRequestMembersPage from "./components/RequestManager/ManageRequestMembersPage/ManageRequestMembersPage";
 import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
+import { Helmet } from "react-helmet";
 
 
 function App() {
   return (
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
       <BrowserRouter>
+      <Helmet>
+        <title>VMO • App Thiện Nguyện</title>
+        <meta name="description" content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn" />
+        <meta name="keywords" content="VMO, tình nguyện, mô hình, giúp đỡ" />
+      </Helmet>
         <AuthProvider>
           <ShowNavBarFooter>
             {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}

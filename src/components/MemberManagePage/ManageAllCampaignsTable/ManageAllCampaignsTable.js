@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageSlideBar from "../ManageSlideBar/ManageSlideBar";
+import { Helmet } from "react-helmet";
 
 async function getData() {
   // Fetch data from your API here.
@@ -128,10 +129,19 @@ const ManageAllCampaignsTable = () => {
   }, []);
 
   return (
+    <>
+    <Helmet>
+      <title>Quản lý các chiến dịch • VMO</title>
+      <meta
+        name="description"
+        content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+      />
+    </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageSlideBar></ManageSlideBar>
       <DataTable columns={columns} data={data} />
     </div>
+    </>
   );
 };
 

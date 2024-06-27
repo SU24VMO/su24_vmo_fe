@@ -6,6 +6,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLCAMPAIGNBYOMID } from "../../../api/apiConstants";
+import { Helmet } from "react-helmet";
 async function getData(cancelToken, user) {
 
   try {
@@ -49,10 +50,19 @@ const ManageOrganizeAllCampaignsTable = () => {
     };
   }, []);
   return (
+    <>
+      <Helmet>
+        <title>Quản lý các chiến dịch • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable columns={columns} data={data} />
     </div>
+    </>
   );
 };
 

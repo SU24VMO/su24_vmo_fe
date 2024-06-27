@@ -1,10 +1,17 @@
 import React from "react";
 import SignUpVerifyUserForm from "./SignUpVerifyUserForm/SignUpVerifyUserForm";
+import { Helmet } from "react-helmet";
 
 export default function SignUpVerifyUserPage() {
   
     return <div>
-
+      <Helmet>
+        <title>Đăng kí tài khoản thiện nguyện cá nhân • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
         <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
             <h1 className=" text-sx mobile:text-2xl font-medium">Đăng kí tài khoản thiện nguyện cá nhân</h1>
         </div>
