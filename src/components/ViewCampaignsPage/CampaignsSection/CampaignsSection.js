@@ -15,6 +15,7 @@ const CampaignsSection = () => {
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [pageNo, setPageNo] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
+  const [selectedCampaignTypeID, setSelectedCampaignTypeID] = React.useState(null);// Thêm state cho selectedCampaignTypeID
 
   // Lấy dữ liệu các campaign từ API
   const fetchData = React.useCallback(
@@ -66,12 +67,14 @@ const CampaignsSection = () => {
     ));
   };
 
+  console.log("selectedCampaignTypeID vừa chọn", selectedCampaignTypeID);
+
   return (
     <>
       <div className="flex flex-col space-y-3 mobile:space-y-0 mobile:flex-row items-center justify-between my-10">
         {/* Đề mục & trạng thái của chiến dịch */}
         <div className="z-10 flex items-center space-x-3 flex-row justify-between p-3 border bg-background rounded-lg shadow-lg">
-          <CustomComboboxCategory />
+          <CustomComboboxCategory setSelectedCampaignTypeID={setSelectedCampaignTypeID}/>
           <CustomComboboxStatus />
         </div>
         {/* Search chiến dịch */}

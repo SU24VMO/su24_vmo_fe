@@ -16,12 +16,11 @@ import { GET_CAMPAIGN_TYPE } from "../../../../api/apiConstants";
 import { axiosPublic } from "../../../../api/axiosInstance";
 import { Skeleton } from "../../../ui/skeleton";
 
-const CustomComboboxCategory = () => {
+const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [data, setData] = React.useState([]);
   const [dataLoaded, setDataLoaded] = React.useState(false);
-  const [campaignTypeID, setCampaignTypeID] = React.useState(null);
 
   // Hàm lấy dữ liệu notification từ API
   const fetchData = React.useCallback(async () => {
@@ -42,7 +41,6 @@ const CustomComboboxCategory = () => {
     fetchData();
   }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
   console.log("Value vừa chọn:", value);
-  console.log("CampaignTypeID vừa chọn:", campaignTypeID);
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -72,7 +70,7 @@ const CustomComboboxCategory = () => {
                       value={item.name}
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? "" : currentValue);
-                        setCampaignTypeID(item.campaignTypeID);
+                        setSelectedCampaignTypeID(item.campaignTypeID);
                         setOpen(false);
                       }}
                     >
