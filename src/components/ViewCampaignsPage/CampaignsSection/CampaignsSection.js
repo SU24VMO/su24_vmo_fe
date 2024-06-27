@@ -2,9 +2,12 @@ import React from "react";
 import CustomCardCampaign from "./CustomCardCampaign";
 import { Button } from "../../ui/button";
 import { axiosPublic } from "../../../api/axiosInstance";
-import { GET_CAMPAIGN } from "../../../api/apiConstants";
+import { GET_CAMPAIGN_ACTIVE_STATUS } from "../../../api/apiConstants";
 import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
 import { CheckCheck } from "lucide-react";
+import SearchBar from "./Feature/SearchBar";
+import CustomComboboxCategory from "./Feature/CustomComboboxCategory";
+import CustomComboboxStatus from "./Feature/CustomComboboxStatus";
 
 const CampaignsSection = () => {
   const [data, setData] = React.useState([]);
@@ -19,7 +22,7 @@ const CampaignsSection = () => {
       if (!hasMore) return; // Kiểm tra nếu không còn dữ liệu thì không gọi API
       try {
         const response = await axiosPublic.get(
-          `${GET_CAMPAIGN}?pageSize=6&pageNo=${page}`
+          `${GET_CAMPAIGN_ACTIVE_STATUS}?pageSize=6&pageNo=${page}`
         );
         if (response.status === 200) {
           const fetchedData = response.data.data.list;
@@ -65,7 +68,14 @@ const CampaignsSection = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center my-10">
+      <div className="flex flex-col space-y-3 mobile:space-y-0 mobile:flex-row items-center justify-between my-10">
+        {/* Đề mục & trạng thái của chiến dịch */}
+        <div className="z-10 flex items-center space-x-3 flex-row justify-between p-3 border bg-background rounded-lg shadow-lg">
+          <CustomComboboxCategory />
+          <CustomComboboxStatus />
+        </div>
+        {/* Search chiến dịch */}
+        <SearchBar />
         {/* Header và các phần khác giữ nguyên */}
       </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
@@ -74,11 +84,17 @@ const CampaignsSection = () => {
               <CustomCardCampaign
                 key={index}
                 achievedAmount={item.achievedAmount}
+                campaignCategory={item.campaignType?.name}
                 campaignName={item?.name}
-                daysLeft={item.daysLeft}
+                daysLeft={item.expectedEndDate}
                 imgSrc={item.image}
                 organizerName={item.organization?.name} // Sửa lỗi null bằng cách thêm dấu ? để kiểm tra trước khi truy cập
                 progressValue={item.progressValue}
+                phases={[
+                  item.donatePhase,
+                  item.processingPhase,
+                  item.statementPhase,
+                ]}
               />
             ))
           : renderSkeletons()}

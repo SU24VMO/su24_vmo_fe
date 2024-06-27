@@ -50,4 +50,8 @@ export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification
 export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notification/checking";
 
 //campaign
-export const GET_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";
+export const GET_ALL_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";
+export const GET_CAMPAIGN_ACTIVE_STATUS = "https://vmo.azurewebsites.net/api/campaign/all/filter/active-status";
+
+//campaign-type
+export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-type/all";
