@@ -8,16 +8,16 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTNEWS } from "../../../../api/apiConstants";
 
-async function getData(cancelToken) {
+async function getData(cancelToken, pageSize, pageNo) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=10&pageNo=1`, {
+    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
       cancelToken: cancelToken
     });
 
     if (response.status === 200) {
- console.log(response.data.data.list);
-      return response.data.data.list;
+      console.log('Fetched data:', response.data.data);
+      return response.data.data;
     }
   } catch (error) {
     if (axios.isCancel(error)) {
@@ -35,6 +35,10 @@ const TableRequestNews = () => {
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
   const [loading, setLoading] = useState(true);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNo, setPageNo] = useState(1);
+  const [list, setList] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -47,32 +51,39 @@ const TableRequestNews = () => {
     alert(`Deleting user with ID: ${row.id}`);
   }, []);
 
+  const fetchData = async (cancelToken, pageSize, pageNo) => {
+    try {
+      const result = await getData(cancelToken, pageSize, pageNo);
+      console.log(result?.list);
+      setData(result?.list || []);
+      setList(result);
+      setTotalItems(result?.totalItem || 0);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000); 
+    }
+  };
+  
   useEffect(() => {
     const source = axios.CancelToken.source();
-    setLoading(true)
-    
-    const fetchData = async () => {
-      try {
-        
-        const result = await getData(source.token);
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-      finally{
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000); 
+    setLoading(true);
+    fetchData(source.token, pageSize, pageNo);
 
-      }
-    };
-    
-    fetchData();
     return () => {
       source.cancel('Component unmounted');
-
     };
-  }, []);
+  }, [pageSize, pageNo]);
+
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, pageSize, pageNo);
+  };
   return (
     <div className="flex flex-col">
       <div>
@@ -85,9 +96,20 @@ const TableRequestNews = () => {
               setSelectedRow(null);
             }
           }}
+          onSubmitSuccess={handleRefresh}
+
         />
       </div>
-      <DataTable columns={columns({ onEdit, onDelete })} data={data} loading={loading} />
+      <DataTable 
+      columns={columns({ onEdit, onDelete })}
+       data={data} 
+       loading={loading}
+       list={list}
+       pageSize={pageSize}
+       pageNo={pageNo}
+       setPageSize={setPageSize}
+       setPageNo={setPageNo}
+       totalPages={totalPages} />
     </div>
   );
 };
