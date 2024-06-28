@@ -6,7 +6,7 @@ import React from "react";
 const SearchBar = () => {
   return (
     <>
-      <div className="flex space-x-3 p-3 border bg-background rounded-lg shadow-lg w-full max-w-sm">
+      <div className="flex space-x-3 p-3 border bg-background rounded-lg shadow-lg w-full tablet:max-w-sm">
         <div className="flex-[1_0_0%]">
           <Input
             type="search"

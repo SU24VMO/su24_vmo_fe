@@ -35,12 +35,11 @@ const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
       console.error("Error fetching data from API:", error);
     }
   }, []);
-
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
     fetchData();
   }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
-  console.log("Value vừa chọn:", value);
+  // console.log("Value vừa chọn:", value);
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>

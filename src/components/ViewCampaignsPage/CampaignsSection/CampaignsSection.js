@@ -10,6 +10,7 @@ import CustomComboboxCategory from "./Feature/CustomComboboxCategory";
 import CustomComboboxStatus from "./Feature/CustomComboboxStatus";
 import { useToast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
+import CustomComboboxCreateBy from "./Feature/CustomComboboxCreateBy";
 
 const CampaignsSection = () => {
   const { toast } = useToast();
@@ -18,11 +19,19 @@ const CampaignsSection = () => {
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [pageNo, setPageNo] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
-  const [selectedCampaignTypeID, setSelectedCampaignTypeID] = React.useState(null); // Thêm state cho selectedCampaignTypeID
-  const [selectedCampaignStatus, setSelectedCampaignStatus] = React.useState(null); // Thêm state cho selectedCampaignStatus
+  const [selectedCampaignTypeID, setSelectedCampaignTypeID] =
+    React.useState(null); // state cho selectedCampaignTypeID
+  const [selectedCampaignStatus, setSelectedCampaignStatus] =
+    React.useState(null); // state cho selectedCampaignStatus
+  const [selectedCampaignCreateBy, setSelectedCampaignCreateBy] =
+    React.useState(null); // state cho selectedCampaignCreateBy
 
   // Lấy dữ liệu các campaign từ API
-  const fetchData = async (page, selectedCampaignTypeID, selectedCampaignStatus) => {
+  const fetchData = async (
+    page,
+    selectedCampaignTypeID,
+    selectedCampaignStatus
+  ) => {
     // if (!hasMore) return;
     setLoadingMore(true);
     toast({
@@ -88,18 +97,25 @@ const CampaignsSection = () => {
 
   console.log("selectedCampaignTypeID vừa chọn", selectedCampaignTypeID);
   console.log("selectedCampaignStatus vừa chọn", selectedCampaignStatus);
+  console.log("selectedCampaignCreateBy vừa chọn", selectedCampaignCreateBy);
 
   return (
     <>
-      <div className="flex flex-col space-y-3 mobile:space-y-0 mobile:flex-row items-center justify-between my-10">
+      <div className="flex flex-col space-y-3 tablet:space-y-0 tablet:flex-row mobile:items-center justify-between my-10">
         {/* Đề mục & trạng thái của chiến dịch */}
-        <div className="z-10 flex items-center space-x-3 flex-row justify-between p-3 border bg-background rounded-lg shadow-lg">
+        <div className="z-10 flex flex-col space-y-3 w-full mobile:justify-between tablet:w-fit tablet:items-center tablet:space-y-0 tablet:space-x-3 tablet:flex-row tablet:justify-normal p-3 border bg-background rounded-lg shadow-lg">
           {/* Tìm kiếm theo danh mục */}
           <CustomComboboxCategory
             setSelectedCampaignTypeID={setSelectedCampaignTypeID}
           />
           {/* Tìm kiếm theo giai đoạn */}
-          <CustomComboboxStatus setSelectedCampaignStatus={setSelectedCampaignStatus}/>
+          <CustomComboboxStatus
+            setSelectedCampaignStatus={setSelectedCampaignStatus}
+          />
+          {/* Tìm kiếm theo chiến dịch đó được tạo bởi user/organize */}
+          <CustomComboboxCreateBy
+            setSelectedCampaignCreateBy={setSelectedCampaignCreateBy}
+          />
         </div>
         {/* Search chiến dịch */}
         <SearchBar />
