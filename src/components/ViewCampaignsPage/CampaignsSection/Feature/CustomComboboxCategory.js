@@ -69,8 +69,12 @@ const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
                       key={item.campaignTypeID}
                       value={item.name}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setSelectedCampaignTypeID(item.campaignTypeID);
+                        const newValue =
+                          currentValue === value ? "" : currentValue;
+                        setValue(newValue);
+                        setSelectedCampaignTypeID(
+                          newValue === "" ? "" : item.campaignTypeID
+                        );
                         setOpen(false);
                       }}
                     >

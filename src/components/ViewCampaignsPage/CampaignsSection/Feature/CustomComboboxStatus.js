@@ -13,20 +13,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 
 const data = [
   {
-    value: "1",
+    value: "Đang thực hiện",
     label: "Đang thực hiện",
   },
   {
-    value: "2",
+    value: "Đạt mục tiêu",
     label: "Đạt mục tiêu",
   },
   {
-    value: "3",
+    value: "Đã kết thúc",
     label: "Đã kết thúc",
   },
 ];
 
-const CustomComboboxStatus = () => {
+const CustomComboboxStatus = ({setSelectedCampaignStatus}) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   return (
@@ -57,6 +57,7 @@ const CustomComboboxStatus = () => {
                     value={item.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
+                      setSelectedCampaignStatus(currentValue === value ? "" : currentValue);
                       setOpen(false);
                     }}
                   >

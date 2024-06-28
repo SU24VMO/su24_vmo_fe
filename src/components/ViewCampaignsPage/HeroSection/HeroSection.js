@@ -6,7 +6,7 @@ const HeroSection = () => {
       <div className="relative overflow-hidden">
         <div className="container tablet:mt-10 py-24 tablet:py-32">
           <div className="text-center">
-            <div className="relative mt-7 sm:mt-12 mx-auto max-w-xl">
+            <div className="relative mt-7 sm:mt-12 mx-auto max-w-2xl">
               <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight tablet:text-4xl">
                 CÁC CHIẾN DỊCH THIỆN NGUYỆN
               </h1>

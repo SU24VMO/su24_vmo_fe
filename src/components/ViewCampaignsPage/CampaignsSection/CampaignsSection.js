@@ -2,63 +2,82 @@ import React from "react";
 import CustomCardCampaign from "./CustomCardCampaign";
 import { Button } from "../../ui/button";
 import { axiosPublic } from "../../../api/axiosInstance";
-import { GET_CAMPAIGN_ACTIVE_STATUS } from "../../../api/apiConstants";
+import { GET_CAMPAIGN_FILTER } from "../../../api/apiConstants";
 import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
 import { CheckCheck } from "lucide-react";
 import SearchBar from "./Feature/SearchBar";
 import CustomComboboxCategory from "./Feature/CustomComboboxCategory";
 import CustomComboboxStatus from "./Feature/CustomComboboxStatus";
+import { useToast } from "../../ui/use-toast";
+import { ToastAction } from "../../ui/toast";
 
 const CampaignsSection = () => {
+  const { toast } = useToast();
   const [data, setData] = React.useState([]);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [pageNo, setPageNo] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
-  const [selectedCampaignTypeID, setSelectedCampaignTypeID] = React.useState(null);// Thêm state cho selectedCampaignTypeID
+  const [selectedCampaignTypeID, setSelectedCampaignTypeID] = React.useState(null); // Thêm state cho selectedCampaignTypeID
+  const [selectedCampaignStatus, setSelectedCampaignStatus] = React.useState(null); // Thêm state cho selectedCampaignStatus
 
   // Lấy dữ liệu các campaign từ API
-  const fetchData = React.useCallback(
-    async (page) => {
-      if (!hasMore) return; // Kiểm tra nếu không còn dữ liệu thì không gọi API
-      try {
-        const response = await axiosPublic.get(
-          `${GET_CAMPAIGN_ACTIVE_STATUS}?pageSize=6&pageNo=${page}`
-        );
-        if (response.status === 200) {
-          const fetchedData = response.data.data.list;
-          if (fetchedData.length === 0 || fetchedData.length < 0) {
-            setData((prevData) => [...prevData, ...fetchedData]);
-            setHasMore(false); // Nếu dữ liệu trả về ít hơn yêu cầu, đánh dấu là đã hết dữ liệu
-          }
-          if (page > 1) {
-            setData((prevData) => [...prevData, ...fetchedData]);
-            console.log("Campaign xem thêm lấy được: ", fetchedData);
-          } else {
-            console.log("Campaign khi chưa nhấn xem thêm", fetchedData);
-            setData(fetchedData);
-          }
-          setDataLoaded(true);
-        }
-      } catch (error) {
-        console.error("Error fetching data from API:", error);
-      } finally {
-        setLoadingMore(false);
+  const fetchData = async (page, selectedCampaignTypeID, selectedCampaignStatus) => {
+    // if (!hasMore) return;
+    setLoadingMore(true);
+    toast({
+      title: "Đang tải dữ liệu các chiến dịch...",
+      description: "Vui lòng chờ đợi trong giây lát !",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
+    try {
+      let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=${page}`;
+      if (selectedCampaignTypeID) {
+        url += `&campaignTypeId=${selectedCampaignTypeID}`;
       }
-    },
-    [hasMore]
-  );
+      if (selectedCampaignStatus) {
+        url += `&status=${selectedCampaignStatus}`;
+      }
+      const response = await axiosPublic.get(url);
+      if (response.status === 200) {
+        const fetchedData = response.data.data.list;
+        if (fetchedData.length === 0) {
+          setHasMore(false);
+        } else if (page > 1) {
+          setData((prevData) => [...prevData, ...fetchedData]);
+        } else {
+          setData(fetchedData);
+        }
+        toast({
+          title: "Tải dữ liệu các chiến dịch thành công!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        setDataLoaded(true);
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Lỗi !",
+        description: "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
-  // Gọi hàm fetchData khi component được render (chỉ chạy 1 lần)
   React.useEffect(() => {
-    fetchData(1);
-  }, [fetchData]);
+    setData([]); // Reset data khi selectedCampaignTypeID thay đổi
+    setPageNo(1);
+    setHasMore(true);
+    fetchData(1, selectedCampaignTypeID, selectedCampaignStatus);
+  }, [selectedCampaignTypeID, selectedCampaignStatus]);
 
   // Hàm xử lý khi nhấn nút Xem Thêm
   const handleLoadMore = () => {
-    setLoadingMore(true);
+    // setLoadingMore(true);
     setPageNo((prevPageNo) => prevPageNo + 1);
-    fetchData(pageNo + 1);
+    fetchData(pageNo + 1, selectedCampaignTypeID);
   };
 
   const renderSkeletons = () => {
@@ -68,18 +87,22 @@ const CampaignsSection = () => {
   };
 
   console.log("selectedCampaignTypeID vừa chọn", selectedCampaignTypeID);
+  console.log("selectedCampaignStatus vừa chọn", selectedCampaignStatus);
 
   return (
     <>
       <div className="flex flex-col space-y-3 mobile:space-y-0 mobile:flex-row items-center justify-between my-10">
         {/* Đề mục & trạng thái của chiến dịch */}
         <div className="z-10 flex items-center space-x-3 flex-row justify-between p-3 border bg-background rounded-lg shadow-lg">
-          <CustomComboboxCategory setSelectedCampaignTypeID={setSelectedCampaignTypeID}/>
-          <CustomComboboxStatus />
+          {/* Tìm kiếm theo danh mục */}
+          <CustomComboboxCategory
+            setSelectedCampaignTypeID={setSelectedCampaignTypeID}
+          />
+          {/* Tìm kiếm theo giai đoạn */}
+          <CustomComboboxStatus setSelectedCampaignStatus={setSelectedCampaignStatus}/>
         </div>
         {/* Search chiến dịch */}
         <SearchBar />
-        {/* Header và các phần khác giữ nguyên */}
       </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
         {dataLoaded
