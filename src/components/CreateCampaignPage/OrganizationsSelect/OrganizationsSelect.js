@@ -14,13 +14,17 @@ import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 const OrganizationsSelect = ({ setFieldValue, selectTriggerId }) => {
   const [organizations, setOrganizations] = useState([]);
+  
 const {user} = useContext(AuthContext)
 const getAllOrganizations = async () => {
   try {
     const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}`);
 
     if (response.status === 200) {
-      setOrganizations(response.data.data.list); 
+ const activeOrganizations = response.data.data.list.filter(org => org.isActive);
+
+
+      setOrganizations(activeOrganizations); 
     } else {
       console.error("Failed to fetch types of organizations.");
     }

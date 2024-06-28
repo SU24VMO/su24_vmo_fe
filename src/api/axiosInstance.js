@@ -51,7 +51,7 @@ axiosPrivate.interceptors.request.use(async (req) => {
       params
     );
 
-    const user = jwtDecode(response.data.accessToken)
+    const user = jwtDecode(response.data.data.accessToken)
 
     // localStorage.setItem("loginInfo", JSON.stringify(response.data));
     localStorage.setItem("accessToken", response.data.data.accessToken);

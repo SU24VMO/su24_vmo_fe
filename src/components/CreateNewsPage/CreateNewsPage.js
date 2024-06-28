@@ -1,31 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { PreviewImageCoverPopover } from "./PreviewImageCoverPopover/PreviewImageCoverPopover";
 import { PreviewImageCenterPopover } from "./PreviewImageCenterPopover/PreviewImageCenterPopover";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet";
+
+import { axiosPrivate } from "../../api/axiosInstance";
+import { CREATENEWS } from "../../api/apiConstants";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../../components/ui/use-toast";
+import { ToastAction } from "../../components/ui/toast";
+
+
 export default function CreatNewsPage() {
-    // const [value, setValue] = useState();
-    // const dobHandler = (e) => {
-    //     console.log(e.target.value);
-    // }
+    
+    const { user } = useContext(AuthContext)
+    const { toast } = useToast();
 
     const [imageCover, setImageCover] = useState();
     function handleChangeCoverImage(e, setFieldValue) {
         console.log(e.target.files);
         setImageCover(URL.createObjectURL(e.target.files[0]));
-        setFieldValue("imageCover", URL.createObjectURL(e.target.files[0]));
-
+        setFieldValue("imageCover", e.target.files[0]);
     }
 
     const [imageCenter, setImageCenter] = useState();
     function handleChangeCenterImage(e, setFieldValue) {
         console.log(e.target.files);
         setImageCenter(URL.createObjectURL(e.target.files[0]));
-        setFieldValue("imageCenter", URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageCenter", e.target.files[0]);
 
     }
 
 
+    const createNews = async (data) => {
+        const formData = new FormData();
+        formData.append('Cover', data.imageCover);
+        formData.append('Title', data.title);
+        formData.append('Content', data.descriptionMain);
+        formData.append('Description', data.descriptionEnd);
+    
+        formData.append('Image', data.imageCenter);
+        formData.append('AccountId', user.account_id);
+
+        try {
+            const response = await axiosPrivate.post(CREATENEWS , formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log(response.data);
+                toast({
+                    title: "Tạo chiến dịch thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo chiến dịch thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo chiến dịch thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        }
+    }
 
 
     return (<>
@@ -40,7 +87,6 @@ export default function CreatNewsPage() {
             initialValues={{
                 title: "",
                 imageCover: null,
-                descriptionFocus: "",
                 descriptionMain: "",
                 imageCenter: null,
                 descriptionEnd: ""
@@ -59,13 +105,7 @@ export default function CreatNewsPage() {
                     errors.imageCover = "Không được để trống!";
                 }
 
-                if (!values.descriptionFocus) {
-                    errors.descriptionFocus = 'Không được để trống'
-                }
-
-                if (!values.descriptionMain) {
-                    errors.descriptionMain = 'Không được để trống'
-                }
+               
                 if (!values.imageCenter) {
                     errors.imageCenter = 'Không được để trống'
                 }
@@ -74,12 +114,13 @@ export default function CreatNewsPage() {
                 }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    console.log(values);
-                    setSubmitting(false);
-                }, 400);
+            onSubmit={(values, { setSubmitting, resetForm   }) => {
+                createNews(values)
+                setSubmitting(false);
+                resetForm();
+                
+                setImageCover(null);
+                setImageCenter(null);
             }}
         >
             {({
@@ -135,18 +176,7 @@ export default function CreatNewsPage() {
 
                                     </div>
 
-                                    <div className="mb-6">
-                                        <label for="descriptionFocus" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nội dung tiêu điểm</label>
-                                        <textarea id="descriptionFocus"
-                                            rows="4"
-                                            name="descriptionFocus"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.descriptionFocus}
-                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mô tả..."></textarea>
-                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.descriptionFocus && touched.descriptionFocus && errors.descriptionFocus}</p>
-
-                                    </div>
+                                    
                                     <div className="mb-6">
                                         <label for="descriptionMain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nội dung chính</label>
                                         <textarea id="descriptionMain"

@@ -1,5 +1,6 @@
 import { Button } from "../../ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,27 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 export const columns = [
+ 
   {
-    accessorKey: "numericalOrder",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const stt = row.getValue("numericalOrder");
-      return <div className="ml-2 text-start">{stt}</div>;
-    },
-  },
-  {
-    accessorKey: "newTitle",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
@@ -60,7 +43,7 @@ export const columns = [
     // },
   },
   {
-    accessorKey: "newStatus",
+    accessorKey: "isActive",
     header: ({ column }) => {
       return (
         <Button
@@ -74,16 +57,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const newStatus = row.getValue("newStatus");
+      const newStatus = row.getValue("isActive");
       return (
         <div>
           {newStatus ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              {newStatus}
+              Đã duyệt
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              {newStatus}
+              Chưa duyệt
             </span>
           )}
         </div>
@@ -91,44 +74,44 @@ export const columns = [
     },
   },
 
-  {
-    accessorKey: "organizeName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tổ chức
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
-      return (
-        <div>
-          {organizeName ? (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          ) : (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          )}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "organizeName",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Tổ chức
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const organizeName = row.getValue("organizeName");
+  //     return (
+  //       <div>
+  //         {organizeName ? (
+  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+  //             {organizeName}
+  //           </span>
+  //         ) : (
+  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+  //             {organizeName}
+  //           </span>
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // },
 
   {
-    accessorKey: "dateCreate",
-    header: () => <div className="text-right">Thời gian tạo</div>,
+    accessorKey: "createAt",
+    header: () => <div className="">Thời gian tạo</div>,
     cell: ({ row }) => {
-      const dateCreate = row.getValue("dateCreate");
-      return <div className="text-right">{dateCreate}</div>;
+      const dateCreate = format(new Date(row.getValue("createAt")), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="">{dateCreate}</div>;
     },
   },
 
