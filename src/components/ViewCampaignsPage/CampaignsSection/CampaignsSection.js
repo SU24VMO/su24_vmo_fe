@@ -109,13 +109,13 @@ const CampaignsSection = () => {
           ? data.map((item, index) => (
               <CustomCardCampaign
                 key={index}
-                achievedAmount={item.achievedAmount}
+                achievedAmount={item.donatePhase.currentMoney}
                 campaignCategory={item.campaignType?.name}
                 campaignName={item?.name}
                 daysLeft={item.expectedEndDate}
                 imgSrc={item.image}
                 organizerName={item.organization?.name} // Sửa lỗi null bằng cách thêm dấu ? để kiểm tra trước khi truy cập
-                progressValue={item.progressValue}
+                progressValue={item.donatePhase.percent}
                 phases={[
                   item.donatePhase,
                   item.processingPhase,
