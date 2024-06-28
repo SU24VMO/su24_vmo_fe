@@ -6,7 +6,7 @@ import MobileNavRight from "./Mobile/MobileNavRight";
 
 const NavigationBar = () => {
   return (
-    <header className="sticky top-0 z-10 w-full border-b bg-white h-14">
+    <header>
       {/* DESKTOP */}
       <div className="hidden tablet:flex h-14 items-center justify-between px-4 ">
         <DesktopNavLeft />
