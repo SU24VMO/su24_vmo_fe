@@ -7,7 +7,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import { Helmet } from "react-helmet";
-async function getData(cancelToken, user) {
+async function getData(cancelToken, user,  pageSize, pageNo) {
 
   try {
     const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
