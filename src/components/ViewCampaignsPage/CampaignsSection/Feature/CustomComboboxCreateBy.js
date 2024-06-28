@@ -13,11 +13,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 
 const data = [
   {
-    value: "Tổ chức",
+    value: "organization",
     label: "Tổ chức",
   },
   {
-    value: "Cá nhân",
+    value: "member",
     label: "Cá nhân",
   },
 ];

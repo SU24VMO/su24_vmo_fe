@@ -30,7 +30,8 @@ const CampaignsSection = () => {
   const fetchData = async (
     page,
     selectedCampaignTypeID,
-    selectedCampaignStatus
+    selectedCampaignStatus,
+    selectedCampaignCreateBy
   ) => {
     // if (!hasMore) return;
     setLoadingMore(true);
@@ -46,6 +47,9 @@ const CampaignsSection = () => {
       }
       if (selectedCampaignStatus) {
         url += `&status=${selectedCampaignStatus}`;
+      }
+      if (selectedCampaignCreateBy) {
+        url += `&createBy=${selectedCampaignCreateBy}`;
       }
       const response = await axiosPublic.get(url);
       if (response.status === 200) {
@@ -79,8 +83,8 @@ const CampaignsSection = () => {
     setData([]); // Reset data khi selectedCampaignTypeID thay đổi
     setPageNo(1);
     setHasMore(true);
-    fetchData(1, selectedCampaignTypeID, selectedCampaignStatus);
-  }, [selectedCampaignTypeID, selectedCampaignStatus]);
+    fetchData(1, selectedCampaignTypeID, selectedCampaignStatus, selectedCampaignCreateBy);
+  }, [selectedCampaignTypeID, selectedCampaignStatus, selectedCampaignCreateBy]);
 
   // Hàm xử lý khi nhấn nút Xem Thêm
   const handleLoadMore = () => {
