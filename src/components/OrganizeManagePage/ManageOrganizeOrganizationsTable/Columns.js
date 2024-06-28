@@ -14,10 +14,10 @@ import { format } from "date-fns";
 
 export const columns = [
   {
-    accessorKey: "avatar",
+    accessorKey: "logo",
     header: () => <div>Logo</div>,
     cell: ({ row }) => {
-      const avatar = row.getValue("avatar");
+      const avatar = row.getValue("logo");
       return (
         <Avatar>
           <AvatarImage src={avatar} />
