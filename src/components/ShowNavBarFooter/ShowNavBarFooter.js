@@ -14,7 +14,9 @@ const ShowNavBarFooter = ({ children }) => {
         }
     }, [location])
     return (
-        <div>{showNavBarFooter && children}</div>
+        <div
+        className={`${showNavBarFooter ? "sticky top-0 z-10 w-full border-b bg-white h-14" : ''}`}
+        >{showNavBarFooter && children}</div>
     )
 }
 export default ShowNavBarFooter
