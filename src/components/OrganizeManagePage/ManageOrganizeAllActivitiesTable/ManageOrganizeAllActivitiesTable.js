@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
+import { Helmet } from "react-helmet";
 
 async function getData() {
   // Fetch data from your API here.
@@ -160,10 +161,19 @@ const ManageOrganizeAllActivitiesTable = () => {
   }, []);
 
   return (
+    <>
+      <Helmet>
+        <title>Quản lý các hoạt động • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable columns={columns} data={data} />
     </div>
+    </>
   );
 };
 

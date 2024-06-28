@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
+import { Helmet } from "react-helmet";
 
 export default function CreateActivityPage() {
 
@@ -38,7 +39,13 @@ export default function CreateActivityPage() {
     console.log('====================================');
 
     return (<>
-
+    <Helmet>
+      <title>Tạo hoạt động • VMO</title>
+      <meta
+        name="description"
+        content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+      />
+    </Helmet>
         <Formik
             initialValues={{
                 title: "",

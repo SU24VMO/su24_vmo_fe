@@ -30,10 +30,18 @@ import avatar_2 from "../../../assets/avatars/02.png";
 import avatar_3 from "../../../assets/avatars/03.png";
 import avatar_4 from "../../../assets/avatars/04.png";
 import avatar_5 from "../../../assets/avatars/05.png";
+import { Helmet } from "react-helmet";
 
 const AdminHomePage = () => {
   return (
     <>
+      <Helmet>
+        <title>Trang chủ Admin • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
       <p className="font-bold text-2xl">Dashboard</p>
       {/* CARD FULL*/}
       <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">

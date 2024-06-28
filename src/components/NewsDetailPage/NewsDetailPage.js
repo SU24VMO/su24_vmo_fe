@@ -1,8 +1,16 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 
 export default function NewsDetailPage() {
     return <div>
-
+         <Helmet>
+            <title>Nền tảng Thiện nguyện của MB được vinh danh tại Human Act Prize 2023</title>
+                <meta
+                name="description"
+                content="Tin tức về nền tảng Thiện nguyện của MB được vinh danh tại Human Act Prize 2023"
+                />
+        </Helmet>
+        {/* Nếu làm trang này thì hãy truyền title vào helmet nữa nhé */}
         <div className="w-4/5 mx-auto ">
             <div className="bg-vmo w-full h-48 tablet:h-96 flex justify-center rounded-xl bg-cover bg-no-repeat bg-[url('https://i.pinimg.com/originals/98/00/57/980057eb7075eec500fd49d88c9cf590.gif')]" >
             </div>

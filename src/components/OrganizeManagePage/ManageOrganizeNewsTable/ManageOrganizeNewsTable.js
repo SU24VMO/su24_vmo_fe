@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
+import { Helmet } from "react-helmet";
 
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
@@ -66,6 +67,14 @@ const ManageOrganizeNewsTable = () => {
 
   const totalPages = Math.ceil(totalItems / pageSize);
   return (
+    <>
+      <Helmet>
+        <title>Quản lý các tin tức • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable 
@@ -80,6 +89,7 @@ const ManageOrganizeNewsTable = () => {
       totalPages={totalPages}
        />
     </div>
+    </>
   );
 };
 

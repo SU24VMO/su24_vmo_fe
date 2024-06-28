@@ -1,13 +1,20 @@
 import React,{ useEffect} from "react";
 import CreateOrganizeForm from "./CreateOrganizeForm/CreateOrganizeForm";
+import { Helmet } from "react-helmet";
 
 export default function CreateOrganizePage() {
  
   return <div>
-
-  {/* <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
+      <Helmet>
+        <title>Tạo tổ chức • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
+  <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
       <h1 className=" text-sx mobile:text-2xl font-medium">Đăng kí tạo tổ chức</h1>
-  </div> */}
+  </div> 
 
   <div className="w-3/4 mx-auto">
       {/* <div className="flex justify-center w-full h-52 my-8 " >

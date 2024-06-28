@@ -6,7 +6,8 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
-async function getData(cancelToken, user,  pageSize, pageNo) {
+import { Helmet } from "react-helmet";
+async function getData(cancelToken, user) {
 
   try {
     const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
@@ -66,6 +67,14 @@ const ManageOrganizeOrganizationsTable = () => {
 
 
   return (
+    <>
+      <Helmet>
+        <title>Quản lý các tổ chức • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+        />
+      </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable
@@ -80,6 +89,7 @@ const ManageOrganizeOrganizationsTable = () => {
         totalPages={totalPages}
         />
     </div>
+    </>
   );
 };
 

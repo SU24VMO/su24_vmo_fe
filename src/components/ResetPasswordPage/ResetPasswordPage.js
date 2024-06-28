@@ -8,6 +8,7 @@ import OTPInput from "./ResetPasswordFeature/OTPInput";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const steps = [
   { label: "Email", description: "Nhập Email" },
@@ -17,59 +18,71 @@ const steps = [
 
 const ResetPasswordPage = () => {
   return (
-    <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
-      {/* LEFT */}
-      <div className="hidden bg-muted tablet:block">
-        <img
-          src={img_src}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+    <>
+      <Helmet>
+        <title>Quên mật khẩu • VMO</title>
+        <meta
+          name="description"
+          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
-      </div>
-      {/* RIGHT */}
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid gap-6">
-          <Button variant={"link"} className="text-sm font-normal underline justify-start p-0">
-            <ChevronLeft width={16} height={16} className="inline-block" />
-            <Link to="/login">Quay lại đăng nhập</Link>
-          </Button>
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Đặt lại mật khẩu</h1>
-            <p className="text-balance text-muted-foreground">
-              Bạn hãy làm theo các bước bên trên để đặt lại mật khẩu
-            </p>
-          </div>
-          <div className="max-w-sm">
-            <Stepper variant="circle-alt" initialStep={0} steps={steps}>
-              {steps.map((stepProps, index) => {
-                if (index === 0) {
+      </Helmet>
+      <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
+        {/* LEFT */}
+        <div className="hidden bg-muted tablet:block">
+          <img
+            src={img_src}
+            alt="Image"
+            width="1920"
+            height="1080"
+            className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          />
+        </div>
+        {/* RIGHT */}
+        <div className="flex items-center justify-center py-12">
+          <div className="mx-auto grid gap-6">
+            <Button
+              variant={"link"}
+              className="text-sm font-normal underline justify-start p-0"
+            >
+              <ChevronLeft width={16} height={16} className="inline-block" />
+              <Link to="/login">Quay lại đăng nhập</Link>
+            </Button>
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Đặt lại mật khẩu</h1>
+              <p className="text-balance text-muted-foreground">
+                Bạn hãy làm theo các bước bên trên để đặt lại mật khẩu
+              </p>
+            </div>
+            <div className="max-w-sm">
+              <Stepper variant="circle-alt" initialStep={0} steps={steps}>
+                {steps.map((stepProps, index) => {
+                  if (index === 0) {
+                    return (
+                      <Step key={stepProps.label} {...stepProps}>
+                        <EmailInput />
+                      </Step>
+                    );
+                  }
+                  if (index === 1) {
+                    return (
+                      <Step key={stepProps.label} {...stepProps}>
+                        <OTPInput />
+                      </Step>
+                    );
+                  }
                   return (
                     <Step key={stepProps.label} {...stepProps}>
-                      <EmailInput />
+                      <NewPasswordInput />
                     </Step>
                   );
-                }
-                if (index === 1) {
-                  return (
-                    <Step key={stepProps.label} {...stepProps}>
-                      <OTPInput />
-                    </Step>
-                  );
-                }
-                return (
-                  <Step key={stepProps.label} {...stepProps}>
-                    <NewPasswordInput />
-                  </Step>
-                );
-              })}
-              <MyStepperSuccess />
-            </Stepper>
+                })}
+                <MyStepperSuccess />
+              </Stepper>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
