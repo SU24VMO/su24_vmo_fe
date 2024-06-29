@@ -19,6 +19,10 @@ export const CREATENEWS = "/api/create-post-request/create-new";
 //
 export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
 
+
+
+
+
 export const GETALLORGANIZATIONBYID = "/api/organization/all/filter/organization-manager/";
 export const GETALLCAMPAIGNBYOMID = "/api/campaign/create-by/organization-manager/";
 export const GETALLNEWSBYOMID = "/api/post/all/organization-manager/";

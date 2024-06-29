@@ -93,7 +93,7 @@ export const columns = [
     accessorKey: "createdAt",
     header: () => <div className="text-left">Thời gian tạo</div>,
     cell: ({ row }) => {
-      const dateCreate = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');
+      const dateCreate = format(new Date(row.getValue("createdAt")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="text-left">{dateCreate}</div>;
     },
   },
