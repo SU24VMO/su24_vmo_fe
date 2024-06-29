@@ -22,7 +22,6 @@ import ViewProfilePage from "./components/ViewProfilePage/ViewProfilePage";
 
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
-import CreateActivityPage from "./components/CreateActivityPage/CreateActivityPage";
 import EditProfilePage from "./components/EditProfilePage/EditProfilePage";
 import CreatNewsPage from "./components/CreateNewsPage/CreateNewsPage";
 import SignUpVerifyUserPage from "./components/SignUpVerifyUserPage/SignUpVerifyUserPage";
@@ -59,6 +58,8 @@ import ManageRequestMembersPage from "./components/RequestManager/ManageRequestM
 import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import { Helmet } from "react-helmet";
+import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
+import CreateActivityMemberPage from "./components/CreateActivityMemberPage/CreateActivityMemberPage";
 
 
 function App() {
@@ -102,9 +103,8 @@ function App() {
             </Route>
 
             {/* Organize && Member role  */}
-            <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Member"]} />}>
-              <Route path="/createActivity" element={<CreateActivityPage></CreateActivityPage>} />
-            </Route>
+            {/* <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Member"]} />}>
+            </Route> */}
 
             {/* Only Member */}
             <Route element={<PrivateRoute allowedRoles={["Member"]} />}>
@@ -116,6 +116,8 @@ function App() {
               <Route path="/manage/allPhase3" element={<ManagePhase3Table></ManagePhase3Table>} />
               <Route path="/manage/allActivities" element={<ManageAllActivitiesTable />} />
               <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
+              <Route path="/createActivityMembers" element={<CreateActivityMemberPage/>} />
+
             </Route>
 
             <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} />}>
@@ -132,6 +134,7 @@ function App() {
               <Route path="/sigupVerifyOrganizeForm" element={<SignUpVerifyOrganizePage></SignUpVerifyOrganizePage>} />
               <Route path="/createOrganization" element={<CreateOrganizePage/>}/>
               <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage/>}/>
+              <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage/>} />
 
 
             </Route>
@@ -163,9 +166,7 @@ function App() {
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-          <ShowNavBarFooter>
             <Footer />
-          </ShowNavBarFooter>
           <Toaster />
         </AuthProvider>
 

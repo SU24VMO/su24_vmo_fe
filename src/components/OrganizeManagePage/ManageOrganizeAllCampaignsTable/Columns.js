@@ -119,7 +119,7 @@ export const columns = [
     accessorKey: "startDate",
     header: () => <div className="">Thời gian bắt đầu</div>,
     cell: ({ row }) => {
-      const startDate = format(new Date(row.getValue("startDate")), 'MMMM do yyyy, h:mm:ss a');
+      const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{startDate}</div>;
     },
   },
@@ -127,7 +127,7 @@ export const columns = [
     accessorKey: "expectedEndDate",
     header: () => <div className="">Thời gian kết thúc(dự kiến)</div>,
     cell: ({ row }) => {
-      const endDate = format(new Date(row.getValue("expectedEndDate")), 'MMMM do yyyy, h:mm:ss a');
+      const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{endDate}</div>;
     },
   },

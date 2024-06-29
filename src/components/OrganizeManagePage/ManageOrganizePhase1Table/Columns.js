@@ -1,4 +1,6 @@
 import { Button } from "../../ui/button";
+import { format } from "date-fns";
+
 import {
   ArrowUpDown,
   MoreHorizontal,
@@ -13,27 +15,9 @@ import {
 } from "../../ui/dropdown-menu";
 
 export const columns = [
+ 
   {
-    accessorKey: "numericalOrder",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const stt = row.getValue("numericalOrder");
-      return <div className="ml-2 text-start">{stt}</div>;
-    },
-  },
-  {
-    accessorKey: "nameOfCampaign",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -49,23 +33,45 @@ export const columns = [
   },
 
   {
-    accessorKey: "donationAmount",
+    accessorKey: "targetAmount",
     header: ({ column }) => (
       <Button
         className="px-0 py-0"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Số tiền ủng hộ
+        Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const donationAmount = parseFloat(row.getValue("donationAmount"));
+      const targetAmount = parseFloat(row.getValue("targetAmount"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
-      }).format(donationAmount);
+      }).format(targetAmount);
+
+      return <div className="font-medium">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "targetAmount",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Số tiền đạt được
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const targetAmount = parseFloat(row.getValue("targetAmount"));
+      const formatted = new Intl.NumberFormat("it-IT", {
+        style: "currency",
+        currency: "VND",
+      }).format(targetAmount);
 
       return <div className="font-medium">{formatted}</div>;
     },
@@ -102,11 +108,11 @@ export const columns = [
     },
   },
   {
-    accessorKey: "donationDate",
-    header: () => <div className="text-right">Thời gian ủng hộ</div>,
+    accessorKey: "expectedEndDate",
+    header: () => <div className="text-right">Thời gian kết thúc dự kiến</div>,
     cell: ({ row }) => {
-      const donationDate = row.getValue("donationDate");
-      return <div className="text-right">{donationDate}</div>;
+      const expectedEndDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="text-right">{expectedEndDate}</div>;
     },
   },
   //   Thêm Actions vào columns
