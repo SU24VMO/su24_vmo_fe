@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet";
 
-export default function CreateActivityPage() {
+export default function CreateActivityMemberPage() {
 
     const [listImageFile, setListImageFile] = useState([]);
     function fileSelectedHandler(e, setFieldValue) {
