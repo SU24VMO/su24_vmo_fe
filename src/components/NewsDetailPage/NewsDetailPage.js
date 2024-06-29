@@ -1,7 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { useParams } from "react-router-dom";
 
 export default function NewsDetailPage() {
+    const { id } = useParams();
+
+    //Nhớ làm tiếp call api + skeleton cho trang này nhé
+   
     return <div>
          <Helmet>
             <title>Nền tảng Thiện nguyện của MB được vinh danh tại Human Act Prize 2023</title>
