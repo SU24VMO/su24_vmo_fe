@@ -25,13 +25,15 @@ const CampaignsSection = () => {
     React.useState(null); // state cho selectedCampaignStatus
   const [selectedCampaignCreateBy, setSelectedCampaignCreateBy] =
     React.useState(null); // state cho selectedCampaignCreateBy
+  const [selectedCampaignName, setSelectedCampaignName] = React.useState(null); // state cho selectedCampaignName
 
   // Lấy dữ liệu các campaign từ API
   const fetchData = async (
     page,
     selectedCampaignTypeID,
     selectedCampaignStatus,
-    selectedCampaignCreateBy
+    selectedCampaignCreateBy,
+    selectedCampaignName
   ) => {
     // if (!hasMore) return;
     setLoadingMore(true);
@@ -50,6 +52,9 @@ const CampaignsSection = () => {
       }
       if (selectedCampaignCreateBy) {
         url += `&createBy=${selectedCampaignCreateBy}`;
+      }
+      if (selectedCampaignName) {
+        url += `&campaignName=${selectedCampaignName}`;
       }
       const response = await axiosPublic.get(url);
       if (response.status === 200) {
@@ -83,14 +88,31 @@ const CampaignsSection = () => {
     setData([]); // Reset data khi selectedCampaignTypeID thay đổi
     setPageNo(1);
     setHasMore(true);
-    fetchData(1, selectedCampaignTypeID, selectedCampaignStatus, selectedCampaignCreateBy);
-  }, [selectedCampaignTypeID, selectedCampaignStatus, selectedCampaignCreateBy]);
+    fetchData(
+      1,
+      selectedCampaignTypeID,
+      selectedCampaignStatus,
+      selectedCampaignCreateBy,
+      selectedCampaignName
+    );
+  }, [
+    selectedCampaignTypeID,
+    selectedCampaignStatus,
+    selectedCampaignCreateBy,
+    selectedCampaignName,
+  ]);
 
   // Hàm xử lý khi nhấn nút Xem Thêm
   const handleLoadMore = () => {
     // setLoadingMore(true);
     setPageNo((prevPageNo) => prevPageNo + 1);
-    fetchData(pageNo + 1, selectedCampaignTypeID);
+    fetchData(
+      pageNo + 1,
+      selectedCampaignTypeID,
+      selectedCampaignStatus,
+      selectedCampaignCreateBy,
+      selectedCampaignName
+    );
   };
 
   const renderSkeletons = () => {
@@ -102,6 +124,7 @@ const CampaignsSection = () => {
   console.log("selectedCampaignTypeID vừa chọn", selectedCampaignTypeID);
   console.log("selectedCampaignStatus vừa chọn", selectedCampaignStatus);
   console.log("selectedCampaignCreateBy vừa chọn", selectedCampaignCreateBy);
+  console.log("setSelectedCampaignName vừa search", selectedCampaignName);
 
   return (
     <>
@@ -122,7 +145,7 @@ const CampaignsSection = () => {
           />
         </div>
         {/* Search chiến dịch */}
-        <SearchBar />
+        <SearchBar setSelectedCampaignName={setSelectedCampaignName} />
       </div>
       <div className="grid tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
         {dataLoaded
