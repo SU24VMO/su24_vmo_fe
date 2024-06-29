@@ -2,13 +2,17 @@ import React from "react";
 import { axiosPublic } from "../../api/axiosInstance";
 import { GET_POST_BY_ID } from "../../api/apiConstants";
 import { Helmet } from "react-helmet";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import NewDetailSkeleton from "./NewDetailSkeleton/NewDetailSkeleton";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 export default function NewsDetailPage() {
   const { id } = useParams();
   const [news, setNews] = React.useState(null);
   const [dataLoaded, setDataLoaded] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const { toast } = useToast();
 
   const formatDate = (dateString) => {
     const options = { day: "2-digit", month: "short", year: "numeric" };
@@ -19,14 +23,42 @@ export default function NewsDetailPage() {
 
   // Hàm lấy dữ liệu notification từ API
   const fetchData = React.useCallback(async (id) => {
+    if (!id) {
+      setError(true); // Nếu không có id, set lỗi
+      return;
+    }
+    toast({
+      title: "Đang tải dữ liệu tin tức...",
+      description: "Vui lòng chờ đợi trong giây lát !",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
     try {
       const response = await axiosPublic.get(`${GET_POST_BY_ID}${id}`);
       if (response.status === 200) {
         setNews(response.data.data);
         setDataLoaded(true);
-        console.log("Thông báo get được: ", response.data.data);
+        toast({
+          title: "Đã lấy dữ liệu tin tức thành công!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        // console.log("Thông báo get được: ", response.data.data);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Lỗi !",
+          description:
+            "Có thể chiến dịch ban đầu đã bị xóa hoặc không tồn tại !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        setError(true); // Nếu response không thành công, set lỗi
       }
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Lỗi !",
+        description: "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
       console.error("Error fetching data from API:", error);
     }
   }, []);
@@ -34,6 +66,10 @@ export default function NewsDetailPage() {
   React.useEffect(() => {
     fetchData(id);
   }, [id]);
+
+  if (error) {
+    return <Navigate to="/404" />; // Redirect người dùng nếu có lỗi
+  }
 
   return (
     <div>
@@ -80,7 +116,7 @@ export default function NewsDetailPage() {
           </div>
         ) : (
           <div className="text-center mt-10">
-            <NewDetailSkeleton/>
+            <NewDetailSkeleton />
           </div>
         )}
       </div>
