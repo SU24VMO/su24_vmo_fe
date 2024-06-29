@@ -166,9 +166,7 @@ function App() {
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-          <ShowNavBarFooter>
             <Footer />
-          </ShowNavBarFooter>
           <Toaster />
         </AuthProvider>
 
