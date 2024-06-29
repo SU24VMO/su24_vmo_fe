@@ -88,7 +88,7 @@ function App() {
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
-            <Route path="/news/newsDetail" element={<NewsDetailPage></NewsDetailPage>} />
+            <Route path="/news/newsDetail/:id" element={<NewsDetailPage></NewsDetailPage>} />
             <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}

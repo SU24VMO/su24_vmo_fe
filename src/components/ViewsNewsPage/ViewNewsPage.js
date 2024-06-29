@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
 import ViewNewsSkeleton from "./ViewNewsSkeleton/ViewNewsSkeleton";
 import NewCard from "./NewCard/NewCard";
 import { useToast } from "../ui/use-toast";
