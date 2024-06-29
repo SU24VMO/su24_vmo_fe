@@ -5,9 +5,7 @@ import { cn } from "../../../../lib/utils";
 import { Button } from "../../../ui/button";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "../../../ui/command";
@@ -15,28 +13,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 
 const data = [
   {
-    value: "Xóa nghèo",
-    label: "Xóa nghèo",
+    value: "Đang thực hiện",
+    label: "Đang thực hiện",
   },
   {
-    value: "Bệnh Hiểm Nghèo",
-    label: "Bệnh Hiểm Nghèo",
+    value: "Đạt mục tiêu",
+    label: "Đạt mục tiêu",
   },
   {
-    value: "Người Tàn Tật",
-    label: "Người Tàn Tật",
-  },
-  {
-    value: "Trẻ Em",
-    label: "Trẻ Em",
-  },
-  {
-    value: "Người Vô Gia Cư",
-    label: "Người Vô Gia Cư",
+    value: "Đã kết thúc",
+    label: "Đã kết thúc",
   },
 ];
 
-const CustomComboboxCategory = () => {
+const CustomComboboxStatus = ({setSelectedCampaignStatus}) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   return (
@@ -51,14 +41,14 @@ const CustomComboboxCategory = () => {
           >
             {value
               ? data.find((item) => item.value === value)?.label
-              : "Chọn danh mục"}
+              : "Chọn trạng thái"}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0">
           <Command>
-            <CommandInput placeholder="Tìm kiếm danh mục..." />
-            <CommandEmpty>Không tìm được danh mục chiến dịch 😥</CommandEmpty>
+            {/* <CommandInput placeholder="Tìm kiếm danh mục..." /> */}
+            {/* <CommandEmpty>Không tìm được danh mục chiến dịch 😥</CommandEmpty> */}
             <CommandGroup>
               <CommandList>
                 {data.map((item) => (
@@ -67,6 +57,7 @@ const CustomComboboxCategory = () => {
                     value={item.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
+                      setSelectedCampaignStatus(currentValue === value ? "" : currentValue);
                       setOpen(false);
                     }}
                   >
@@ -88,4 +79,4 @@ const CustomComboboxCategory = () => {
   );
 };
 
-export default CustomComboboxCategory;
+export default CustomComboboxStatus;

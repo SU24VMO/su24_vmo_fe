@@ -55,3 +55,14 @@ export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/
 //notification
 export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";
 export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notification/checking";
+
+//campaign
+export const GET_ALL_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";
+export const GET_CAMPAIGN_ACTIVE_STATUS = "https://vmo.azurewebsites.net/api/campaign/all/filter/active-status";
+export const GET_CAMPAIGN_FILTER = "https://vmo.azurewebsites.net/api/campaign/all/filter/campaign-type/active-status";
+
+//campaign-type
+export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-type/all";
+
+//post 
+export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all";
