@@ -39,12 +39,12 @@ const CustomCardCampaign = ({
                   className="w-full h-full object-cover"
                 />
               </AspectRatio>
-              <div className="absolute mt-1 ml-1 top-0 left-0 z-50">
+              <div className="absolute mt-1 ml-1 top-0 left-0 z-10">
                 <Badge variant="secondary">{`Còn ${calculateDaysLeft(
                   daysLeft
                 )} ngày`}</Badge>
               </div>
-              <div className="absolute mt-1 mr-1 top-0 right-0 z-50">
+              <div className="absolute mt-1 mr-1 top-0 right-0 z-10">
                 <Badge variant="secondary">{`${campaignCategory}`}</Badge>
               </div>
             </div>

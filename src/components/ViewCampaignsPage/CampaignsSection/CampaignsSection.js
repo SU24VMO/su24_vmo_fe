@@ -130,7 +130,7 @@ const CampaignsSection = () => {
     <>
       <div className="flex flex-col space-y-3 tablet:space-y-0 tablet:flex-row mobile:items-center justify-between my-10">
         {/* Đề mục & trạng thái của chiến dịch */}
-        <div className="z-10 flex flex-col space-y-3 w-full mobile:justify-between tablet:w-fit tablet:items-center tablet:space-y-0 tablet:space-x-3 tablet:flex-row tablet:justify-normal p-3 border bg-background rounded-lg shadow-lg">
+        <div className="flex flex-col space-y-3 w-full mobile:justify-between tablet:w-fit tablet:items-center tablet:space-y-0 tablet:space-x-3 tablet:flex-row tablet:justify-normal p-3 border bg-background rounded-lg shadow-lg">
           {/* Tìm kiếm theo danh mục */}
           <CustomComboboxCategory
             setSelectedCampaignTypeID={setSelectedCampaignTypeID}

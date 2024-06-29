@@ -15,7 +15,7 @@ const ShowNavBarFooter = ({ children }) => {
     }, [location])
     return (
         <div
-        className={`${showNavBarFooter ? "sticky top-0 z-10 w-full border-b bg-white h-14" : ''}`}
+        className={`${showNavBarFooter ? "sticky top-0 z-50 w-full border-b bg-white h-14" : ''}`}
         >{showNavBarFooter && children}</div>
     )
 }
