@@ -68,9 +68,10 @@ const RightDetailCampaignSection = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex items-center justify-between">
-            <Button variant="outline" size="lg" className="font-bold text-lg">Đồng hành gây quỹ</Button>
-            <Button variant="default" size="lg" className="font-bold text-lg">Ủng hộ</Button>
+          <div className="w-full flex items-center justify-center">
+            <Button variant="default" size="lg" className="font-bold text-lg">
+              Ủng hộ
+            </Button>
           </div>
         </CardFooter>
       </Card>

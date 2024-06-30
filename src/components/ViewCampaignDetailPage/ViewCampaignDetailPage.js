@@ -3,8 +3,11 @@ import LeftDetailCampaignSection from "./LeftDetailCampaignSection/LeftDetailCam
 import RightDetailCampaignSection from "./RightDetailCampaignSection/RightDetailCampaignSection";
 import BottomDetailCampaignSection from "./BottomDetailCampaignSection/BottomDetailCampaignSection";
 import { Separator } from "../ui/separator";
+import { useParams } from "react-router-dom";
 
 const ViewCampaignDetailPage = () => {
+  const { id: campaignId } = useParams();
+  console.log("campaignId của campaign", campaignId);
   return (
     <>
       <div className="px-3 tablet:px-24">
@@ -14,7 +17,7 @@ const ViewCampaignDetailPage = () => {
               <div className="grid h-full gap-6 tablet:grid-cols-3 space-y-2">
                 {/* Left */}
                 <div className="tablet:col-span-2">
-                  <LeftDetailCampaignSection />
+                  <LeftDetailCampaignSection campaignId={campaignId} />
                 </div>
                 {/* Right */}
                 <div>

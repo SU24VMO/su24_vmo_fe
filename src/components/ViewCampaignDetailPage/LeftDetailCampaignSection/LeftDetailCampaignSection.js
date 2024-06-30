@@ -4,12 +4,12 @@ import img_demo from "../../../assets/images/placeholder.svg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import TransactionTable from "./TransactionTable/TransactionTable";
 
-const LeftDetailCampaignSection = () => {
+const LeftDetailCampaignSection = ({campaignId}) => {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
         <p className="text-3xl text-muted-foreground font-bold">
-          Tên Chiến Dịch
+          Tên Chiến Dịch campaignId: {campaignId}
         </p>
         <Card className=" max-h-[600px] overflow-hidden flex flex-col items-stretch justify-center">
           <div className="relative">
