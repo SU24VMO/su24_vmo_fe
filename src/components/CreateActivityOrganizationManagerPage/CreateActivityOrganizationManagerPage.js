@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../../components/ui/use-toast";
+import { ToastAction } from "../../components/ui/toast";
 import { Helmet } from "react-helmet";
+import { CREATEACTIVITYOFOM } from "../../api/apiConstants";
+import { axiosPrivate } from "../../api/axiosInstance";
+import SelectionProcessingPhase from "./SelectionProcessingPhase/SelectionProcessingPhase";
 
 export default function CreateActivityOrganizationManagerPage() {
-
+    const { toast } = useToast();
+    const {user} = useContext(AuthContext)
     const [listImageFile, setListImageFile] = useState([]);
     function fileSelectedHandler(e, setFieldValue) {
         const files = Array.from(e.target.files);
@@ -23,10 +30,10 @@ export default function CreateActivityOrganizationManagerPage() {
         });
     };
 
-    function handleSelectCampaign(e, setFieldValue){
-        console.log(e.target.value);
-        setFieldValue('listCampaigns', e.target.value)
-    }
+    // function handleSelectCampaign(e, setFieldValue){
+    //     console.log(e.target.value);
+    //     setFieldValue('processingPhase', e.target.value)
+    // }
     useEffect(() => {
         return () => {
             listImageFile.forEach(file => URL.revokeObjectURL(file));
@@ -34,9 +41,47 @@ export default function CreateActivityOrganizationManagerPage() {
     }, []);
 
 
-    console.log('====================================');
-    console.log(listImageFile);
-    console.log('====================================');
+    const createActivity = async (data) => {
+        const formData = new FormData();
+        formData.append('ProcessingPhaseId', data.processingPhase);
+        formData.append('Title', data.title);
+        formData.append('Content', data.description);
+    
+        formData.append('AccountId', user.account_id);
+        formData.append('ActivityImages', data.listImageFile);
+
+        try {
+            const response = await axiosPrivate.post(CREATEACTIVITYOFOM + `?accountId=${user.account_id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log(response.data);
+                toast({
+                    title: "Tạo hoạt động thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo hoạt động thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo hoạt động !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo hoạt động thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo hoạt động !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        }
+    }
+
 
     return (<>
     <Helmet>
@@ -49,12 +94,9 @@ export default function CreateActivityOrganizationManagerPage() {
         <Formik
             initialValues={{
                 title: "",
-                listCampaigns: "",
+                processingPhase: "",
                 listImageFile: [],
                 description: "",
-
-            
-
 
 
             }}
@@ -63,8 +105,8 @@ export default function CreateActivityOrganizationManagerPage() {
                 if (!values.title) {
                     errors.title = 'Không được để trống'
                 }
-                if (!values.listCampaigns) {
-                    errors.listCampaigns = 'Không được để trống'
+                if (!values.processingPhase) {
+                    errors.processingPhase = 'Không được để trống'
                 }
                 
 
@@ -80,12 +122,12 @@ export default function CreateActivityOrganizationManagerPage() {
 
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    console.log(values);
-                    setSubmitting(false);
-                }, 400);
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+                createActivity(values)
+                setSubmitting(false)
+                resetForm()
+                setListImageFile([])
+                
             }}
         >
             {({
@@ -132,22 +174,13 @@ export default function CreateActivityOrganizationManagerPage() {
 
                                         </div>
                                         <div>
-                                            <label for="listCampaigns" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                Chọn bài đăng cho campaign
+                                            <label for="processingPhase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Chọn chiến dịch cần đăng
                                             </label>
-                                            <select
-                                                id="listCampaigns"
-                                                name="listCampaigns"
-                                                onBlur={handleBlur}
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                onChange={(e) => {handleSelectCampaign(e, setFieldValue)}}
-                                         >
-                                                <option  >Chiến dịch</option>
-                                                <option value="0">Đánh cắp cây xoài nhà bà hai</option>
-                                                <option value="1">Ăn chặn đêm cô hồn</option>
-                                            </select>
-                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listCampaigns && touched.listCampaigns && errors.listCampaigns}</p>
-
+                                            <SelectionProcessingPhase
+                                            setFieldValue={setFieldValue}
+                                            selectTriggerId="processingPhase"></SelectionProcessingPhase>
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.processingPhase && touched.processingPhase && errors.processingPhase}</p>
                                         </div>
                                         <div>
                                             <label for="listImagesPreview" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

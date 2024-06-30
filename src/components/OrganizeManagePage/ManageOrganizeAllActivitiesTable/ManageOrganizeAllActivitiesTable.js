@@ -1,164 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
 import { Helmet } from "react-helmet";
 
-async function getData() {
-  // Fetch data from your API here.
-  const data = [
-    {
-      id: "1",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      statusCampaign:"Đã kết thúc",
-      organizeName: "Tổ chức ABC",
-      datePost: "21:29:56 - 19/05/2024",
-    },
-    {
-      id: "2",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "20:06:00 - 19/05/2024",
-    },
-    {
-      id: "3",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "19:53:22 - 19/05/2024",
-    },
-    {
-      id: "4",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "17:47:26 - 19/05/2024",
-    },
-    {
-      id: "5",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "16:06:30 - 19/05/2024",
-    },
-    {
-      id: "6",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "7",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "07:10:59 - 20/05/2024",
-    },
-    {
-      id: "8",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "07:01:41 - 20/05/2024",
-    },
-    {
-      id: "9",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "23:59:16 - 19/05/2024",
-    },
-    {
-      id: "10",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "22:08:57 - 19/05/2024",
-    },
-    {
-      id: "11",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "11:54:37 - 20/05/2024",
-    },
-    {
-      id: "12",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "10:55:29 - 20/05/2024",
-    },
-    {
-      id: "13",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "09:24:05 - 20/05/2024",
-    },
-    {
-      id: "14",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức XYZ",
-      statusCampaign:"Đã kết thúc",
-      datePost: "08:55:05 - 20/05/2024",
-    },  
-    {
-      id: "15",
-      nameOfPost: "Ngày hoạt động đầu tiên sau nhiều ngày chờ đợi",
-      statusPost: "Hợp lệ",
-      nameOfCampaign: "ĐÁNH CẮP MẶT TRỜI",
-      organizeName: "Tổ chức ABC",
-      statusCampaign:"Đã kết thúc",
-      datePost: "08:44:54 - 20/05/2024",
-    },
-    // ... other data items ...
-  ];
-  
-  return data.map((item, index) => ({
-    ...item,
-    numericalOrder: index + 1,
-  }));
-  
-}
+import axios from "axios";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { GETALLACTIVITIESOM } from "../../../api/apiConstants";
+import { AuthContext } from "../../../context/AuthContext";
 
+async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
+
+  try {
+    const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
+      cancelToken: cancelToken
+    });
+
+    if (response.status === 200) {
+      console.log('Fetched data:', response.data.data);
+      setLoading(false)
+      return response.data.data;
+    }
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message);
+      
+    } else {
+      console.error("Error fetching data from API:", error);
+      setLoading(false)
+
+    }
+  }
+
+  return [];
+}
 
 const ManageOrganizeAllActivitiesTable = () => {
   const [data, setData] = useState([]);
+  const {user} = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNo, setPageNo] = useState(1);
+  const [list, setList] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+    try {
+      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      setData(result?.list || []);
+      setList(result);
+      setTotalItems(result?.totalItem || 0);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      
+    }
+  };
+
 
   useEffect(() => {
-    getData().then((data) => setData(data));
-  }, []);
+    const source = axios.CancelToken.source();
+    setLoading(true);
+    fetchData(source.token, user, pageSize, pageNo);
+
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [pageSize, pageNo]);
+
+  const totalPages = Math.ceil(totalItems / pageSize);
+
 
   return (
     <>
@@ -171,7 +82,17 @@ const ManageOrganizeAllActivitiesTable = () => {
       </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <DataTable columns={columns} data={data} />
+      <DataTable 
+       columns={columns}
+       data={data}
+       loading={loading}
+       list={list}
+       pageSize={pageSize}
+       pageNo={pageNo}
+       setPageSize={setPageSize}
+       setPageNo={setPageNo}
+       totalPages={totalPages}
+      />
     </div>
     </>
   );
