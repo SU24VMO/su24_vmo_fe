@@ -30,6 +30,7 @@ const Notification = () => {
   const [unreadCount, setUnreadCount] = React.useState(0);
   const [pageNo, setPageNo] = React.useState(1);
   const [loadingMore, setLoadingMore] = React.useState(false);
+  const [hasMore, setHasMore] = React.useState(true);
   const { toast } = useToast();
 
   // Mục đích là lấy ra tổng số lượng notification chưa đọc
@@ -62,11 +63,13 @@ const Notification = () => {
           `${GET_NOTIFICATIONS}${user.account_id}?pageSize=10&pageNo=${page}`
         );
         if (response.status === 200) {
-          if (page > 1) {
-            setData((prevData) => [...prevData, ...response.data.data.list]);
-            console.log("Thông báo get được: ", response.data.data.list);
+          const fetchedData = response.data.data.list;
+          if (fetchedData.length === 0) {
+            setHasMore(false);
+          } else if (page > 1) {
+            setData((prevData) => [...prevData, ...fetchedData]);
           } else {
-            setData(response.data.data.list);
+            setData(fetchedData);
           }
           setDataLoaded(true);
         }
@@ -161,16 +164,16 @@ const Notification = () => {
               ))}
               {loadingMore ? (
                 <NotificationSkeleton />
+              ) : hasMore ? (
+                <Button
+                  variant="ghost"
+                  onClick={handleLoadMore}
+                  className="w-full mt-2"
+                >
+                  Xem thêm
+                </Button>
               ) : (
-                <>
-                  <Button
-                    variant="ghost"
-                    onClick={handleLoadMore}
-                    className="w-full mt-2"
-                  >
-                    Xem thêm
-                  </Button>
-                </>
+                <p className="text-center text-sm font-medium mt-2">Đã tải hết thông báo!</p> // Hiển thị khi đã tải hết dữ liệu
               )}
             </ScrollArea>
           ) : (

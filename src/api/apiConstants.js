@@ -71,3 +71,4 @@ export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-typ
 
 //post 
 export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all";
+export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
