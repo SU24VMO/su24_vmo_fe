@@ -77,7 +77,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "organizeName",
+    accessorKey: "organizationName",
     header: ({ column }) => {
       return (
         <Button
@@ -91,18 +91,14 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
+      const organizationName = row.getValue("organizationName");
       return (
         <div>
-          {organizeName ? (
+         
             <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
+              {organizationName}
             </span>
-          ) : (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          )}
+         
         </div>
       );
     },
@@ -110,10 +106,10 @@ export const columns = [
 
   {
     accessorKey: "createDate",
-    header: () => <div className="text-right">Thời gian đăng</div>,
+    header: () => <div className="">Thời gian đăng</div>,
     cell: ({ row }) => {
       const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="text-right">{createDate}</div>;
+      return <div className="">{createDate}</div>;
     },
   },
 

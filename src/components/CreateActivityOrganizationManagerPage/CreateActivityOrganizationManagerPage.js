@@ -7,11 +7,14 @@ import { Helmet } from "react-helmet";
 import { CREATEACTIVITYOFOM } from "../../api/apiConstants";
 import { axiosPrivate } from "../../api/axiosInstance";
 import SelectionProcessingPhase from "./SelectionProcessingPhase/SelectionProcessingPhase";
+import { Loader2 } from "lucide-react";
+
 
 export default function CreateActivityOrganizationManagerPage() {
     const { toast } = useToast();
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const [listImageFile, setListImageFile] = useState([]);
+    const [loading, setLoading] = useState(false)
     function fileSelectedHandler(e, setFieldValue) {
         const files = Array.from(e.target.files);
         const filePreviews = files.map(file => URL.createObjectURL(file));
@@ -22,7 +25,7 @@ export default function CreateActivityOrganizationManagerPage() {
         });
     }
 
-    function removeImage (index, setFieldValue){
+    function removeImage(index, setFieldValue) {
         setListImageFile((prevFiles) => {
             const newFiles = prevFiles.filter((_, i) => i !== index);
             setFieldValue('listImageFile', newFiles);  // Set Formik field after updating state
@@ -41,12 +44,13 @@ export default function CreateActivityOrganizationManagerPage() {
     }, []);
 
 
-    const createActivity = async (data) => {
+    const createActivity = async (data, resetForm) => {
+        setLoading(true)
         const formData = new FormData();
         formData.append('ProcessingPhaseId', data.processingPhase);
         formData.append('Title', data.title);
         formData.append('Content', data.description);
-    
+
         formData.append('AccountId', user.account_id);
         formData.append('ActivityImages', data.listImageFile);
 
@@ -58,7 +62,8 @@ export default function CreateActivityOrganizationManagerPage() {
             });
 
             if (response.status === 200) {
-                console.log(response.data);
+                resetForm()
+                setListImageFile([])
                 toast({
                     title: "Tạo hoạt động thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -79,18 +84,20 @@ export default function CreateActivityOrganizationManagerPage() {
                 description: "Vui lòng kiểm tra lại thông tin Tạo hoạt động !",
                 action: <ToastAction altText="undo">Ẩn</ToastAction>,
             });
+        } finally {
+            setLoading(false)
         }
     }
 
 
     return (<>
-    <Helmet>
-      <title>Tạo hoạt động • VMO</title>
-      <meta
-        name="description"
-        content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
-      />
-    </Helmet>
+        <Helmet>
+            <title>Tạo hoạt động • VMO</title>
+            <meta
+                name="description"
+                content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+            />
+        </Helmet>
         <Formik
             initialValues={{
                 title: "",
@@ -108,26 +115,24 @@ export default function CreateActivityOrganizationManagerPage() {
                 if (!values.processingPhase) {
                     errors.processingPhase = 'Không được để trống'
                 }
-                
+
 
                 if (!values.listImageFile.length) {
                     errors.listImageFile = 'Không được để trống'
                 }
-                
-                
+
+
                 if (!values.description) {
                     errors.description = 'Không được để trống'
                 }
-                
+
 
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                createActivity(values)
+                createActivity(values, resetForm)
                 setSubmitting(false)
-                resetForm()
-                setListImageFile([])
-                
+
             }}
         >
             {({
@@ -147,7 +152,7 @@ export default function CreateActivityOrganizationManagerPage() {
                             <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mobile:p-5">
                                 <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b mobile:mb-5 dark:border-gray-600">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                        Đăng tải hoạt động của bạn!
+                                        Đăng tải hoạt động của bạn!(Thiếu select tổ chức nào )
                                     </h3>
                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z" />
@@ -178,9 +183,9 @@ export default function CreateActivityOrganizationManagerPage() {
                                                 Chọn chiến dịch cần đăng
                                             </label>
                                             <SelectionProcessingPhase
-                                            setFieldValue={setFieldValue}
-                                            selectTriggerId="processingPhase"></SelectionProcessingPhase>
-                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.processingPhase && touched.processingPhase && errors.processingPhase}</p>
+                                                setFieldValue={setFieldValue}
+                                                selectTriggerId="processingPhase"></SelectionProcessingPhase>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.processingPhase && touched.processingPhase && errors.processingPhase}</p>
                                         </div>
                                         <div>
                                             <label for="listImagesPreview" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -197,9 +202,9 @@ export default function CreateActivityOrganizationManagerPage() {
                                                                 width={200}
                                                                 height={200}
                                                             />
-                                                            <button className="absolute top-2 right-2" 
-                                                            type="button"
-                                                            onClick={() => removeImage(index, setFieldValue)}>
+                                                            <button className="absolute top-2 right-2"
+                                                                type="button"
+                                                                onClick={() => removeImage(index, setFieldValue)}>
                                                                 <svg
                                                                     class="w-6 h-6 text-gray-800 dark:text-white"
                                                                     aria-hidden="true"
@@ -235,22 +240,22 @@ export default function CreateActivityOrganizationManagerPage() {
                                                                     </p>
                                                                     <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
                                                                 </div>
-                                                                <input 
-                                                                multiple
-                                                                id="listImageFile"
-                                                                 type="file" 
-                                                                 accept=".jpg"
-                                                                  alt="image" 
-                                                                  class="hidden" 
-                                                                  name="listImageFile"
-                                                                  onChange={(e) => { fileSelectedHandler(e, setFieldValue) }}/>
+                                                                <input
+                                                                    multiple
+                                                                    id="listImageFile"
+                                                                    type="file"
+                                                                    accept=".jpg"
+                                                                    alt="image"
+                                                                    class="hidden"
+                                                                    name="listImageFile"
+                                                                    onChange={(e) => { fileSelectedHandler(e, setFieldValue) }} />
 
                                                             </label>
                                                         </div>
                                                     </li>
 
                                                 </ul>
-                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listImageFile && touched.listImageFile && errors.listImageFile}</p>
+                                                <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listImageFile && touched.listImageFile && errors.listImageFile}</p>
 
                                             </div>
                                         </div>
@@ -274,13 +279,24 @@ export default function CreateActivityOrganizationManagerPage() {
 
                                         </div>
                                     </div>
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        class="bg-vmo text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                    >
-                                        Tạo bài đăng
-                                    </button>
+                                    <div className="flex justify-end">
+
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
+                                        >
+                                            {loading ? (
+                                                <>
+                                                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+                                                </>
+                                            ) : (
+                                                "Gửi"
+                                            )}
+                                        </button>
+
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

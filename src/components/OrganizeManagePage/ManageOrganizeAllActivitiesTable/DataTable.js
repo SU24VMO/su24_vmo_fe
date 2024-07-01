@@ -75,7 +75,7 @@ export function DataTable({
   return (
     <>
       <div className="my-4">
-      <p className="font-bold text-2xl">Manage Activities Page</p>
+      <p className="font-bold text-2xl">Danh sách hoạt động</p>
       </div>
 
       <div className="flex items-center py-4">

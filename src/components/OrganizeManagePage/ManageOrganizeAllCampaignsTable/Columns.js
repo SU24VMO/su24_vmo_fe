@@ -84,37 +84,32 @@ export const columns = [
       return <div className="text-start font-medium">{formatted}</div>;
     },
   },
-  // {
-  //   accessorKey: "organizeName",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         className="px-0 py-0"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Tổ chức
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     const organizeName = row.getValue("organizeName");
-  //     return (
-  //       <div>
-  //         {organizeName ? (
-  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-  //             {organizeName}
-  //           </span>
-  //         ) : (
-  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-  //             {organizeName}
-  //           </span>
-  //         )}
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "organization.name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tổ chức
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const organizeName = row.original?.organization?.name;
+      return (
+        <div>
+            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+              {organizeName}
+            </span>
+          
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "startDate",
     header: () => <div className="">Thời gian bắt đầu</div>,
@@ -125,10 +120,19 @@ export const columns = [
   },
   {
     accessorKey: "expectedEndDate",
-    header: () => <div className="">Thời gian kết thúc(dự kiến)</div>,
+    header: () => <div className="">Thời gian kết thúc dự kiến</div>,
     cell: ({ row }) => {
       const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{endDate}</div>;
+    },
+  },
+
+  {
+    accessorKey: "actualEndDate",
+    header: () => <div className="">Thời gian kết thúc</div>,
+    cell: ({ row }) => {
+      const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
+      return <div className="">{actualEndDate}</div>;
     },
   },
   //   Thêm Actions vào columns

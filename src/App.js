@@ -37,7 +37,6 @@ import CreateOrganizePage from "./components/CreateOrganizePage/CreateOrganizePa
 import AuthProvider from "./context/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import ShowNavBarFooter from "./components/ShowNavBarFooter/ShowNavBarFooter";
-import Loading from "./components/Loading/Loading";
 import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswordPage";
 import LoginAdminPage from "./components/Admin/LoginAdminPage/LoginAdminPage";
 import AdminHomePage from "./components/Admin/AdminHomePage/AdminHomePage";
@@ -66,11 +65,11 @@ function App() {
   return (
     <div className="w-full flex min-h-screen max-w-screen-desktop flex-col">
       <BrowserRouter>
-      <Helmet>
-        <title>VMO • App Thiện Nguyện</title>
-        <meta name="description" content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn" />
-        <meta name="keywords" content="VMO, tình nguyện, mô hình, giúp đỡ" />
-      </Helmet>
+        <Helmet>
+          <title>VMO • App Thiện Nguyện</title>
+          <meta name="description" content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn" />
+          <meta name="keywords" content="VMO, tình nguyện, mô hình, giúp đỡ" />
+        </Helmet>
         <AuthProvider>
           <ShowNavBarFooter>
             {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
@@ -81,7 +80,7 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
-            <Route path="/loginRequestManagerVMO" element={<RequestManagerLoginPage/>} />
+            <Route path="/loginRequestManagerVMO" element={<RequestManagerLoginPage />} />
 
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
@@ -93,12 +92,12 @@ function App() {
             <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}
-            <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} requireVerification={false}/>}>
+            <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} requireVerification={false} />}>
               <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
-              <Route path="/createCampaign" element={<CreateCampaignPage/>} />
+              <Route path="/createCampaign" element={<CreateCampaignPage />} />
 
             </Route>
 
@@ -116,7 +115,7 @@ function App() {
               <Route path="/manage/allPhase3" element={<ManagePhase3Table></ManagePhase3Table>} />
               <Route path="/manage/allActivities" element={<ManageAllActivitiesTable />} />
               <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
-              <Route path="/createActivityMembers" element={<CreateActivityMemberPage/>} />
+              <Route path="/createActivityMembers" element={<CreateActivityMemberPage />} />
 
             </Route>
 
@@ -131,17 +130,32 @@ function App() {
               <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
               <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
               <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
-              <Route path="/sigupVerifyOrganizeForm" element={<SignUpVerifyOrganizePage></SignUpVerifyOrganizePage>} />
-              <Route path="/createOrganization" element={<CreateOrganizePage/>}/>
-              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage/>}/>
-              <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage/>} />
+              <Route path="/createOrganization" element={<CreateOrganizePage />} />
+              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
+              <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
 
 
             </Route>
+
+
+
+
+            <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} requireVerification={false} />}>
+
+              {/* Only Organize manager */}
+              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
+
+
+            </Route>
+
+
+
+
+
             {/* Other routes */}
 
 
-            <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false}/>}>
+            <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false} />}>
               <Route path="/admin" element={<Admin />}>
                 <Route index element={<AdminHomePage />} />
                 <Route path="manageMembers" element={<ManageMembersPage />} />
@@ -152,21 +166,21 @@ function App() {
             </Route>
 
             <Route element={<PrivateRoute allowedRoles={["RequestManager"]} />}>
-              <Route path="/requestManager" element={<RequestManager/>}>
-              <Route index element={<RequestManagerHomePage/>} />
-                <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage/>} />
-                <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage/>} />
-                <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage/>} />
-                <Route path="manageRequestMembers" element={<ManageRequestMembersPage/>} />
-                <Route path="manageRequestNews" element={<ManageRequestNewsPage/>} />
-                <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage/>} />
+              <Route path="/requestManager" element={<RequestManager />}>
+                <Route index element={<RequestManagerHomePage />} />
+                <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage />} />
+                <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage />} />
+                <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage />} />
+                <Route path="manageRequestMembers" element={<ManageRequestMembersPage />} />
+                <Route path="manageRequestNews" element={<ManageRequestNewsPage />} />
+                <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage />} />
               </Route>
             </Route>
 
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-            <Footer />
+          <Footer />
           <Toaster />
         </AuthProvider>
 
