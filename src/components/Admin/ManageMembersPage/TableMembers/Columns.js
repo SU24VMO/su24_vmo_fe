@@ -48,10 +48,6 @@ export const columns = ({ onEdit, onDelete }) => [
     ),
   },
   {
-    accessorKey: "hashPassword",
-    header: () => <div>Mật khẩu</div>,
-  },
-  {
     accessorKey: "isActived",
     header: () => <div className="w-max">Trạng thái</div>,
     cell: ({ row }) => {
@@ -67,6 +63,7 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
+ 
   {
     accessorKey: "role",
     header: () => <div className="w-max">Vai trò</div>,
@@ -97,7 +94,7 @@ export const columns = ({ onEdit, onDelete }) => [
     header: () => <div className="w-max">Ngày tạo</div>,
     cell: ({ row }) => {
       
-      const createdAt = format(new Date(row.getValue("createdAt")), 'MMMM do yyyy, h:mm:ss a');;
+      const createdAt = format(new Date(row.getValue("createdAt")), 'dd/MM/yyyy, h:mm:ss a');;
       return <div className="w-max">{createdAt}</div>;
     },
   },

@@ -6,13 +6,13 @@ const ManageOrganizationManagersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý các "quản lý tổ chức" • VMO</title>
+        <title>Quản lí thành viên tổ chức • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Manage Organization Managers </p>
+      <p className="font-bold text-2xl">Quản lí thành viên tổ chức</p>
       <TableOrganizationManagers/>
     </>
   );

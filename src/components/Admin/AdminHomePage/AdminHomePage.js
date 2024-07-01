@@ -42,7 +42,7 @@ const AdminHomePage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Dashboard</p>
+      <p className="font-bold text-2xl">Dashboard (Chưa có api, chưa fix export excel)</p>
       {/* CARD FULL*/}
       <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
