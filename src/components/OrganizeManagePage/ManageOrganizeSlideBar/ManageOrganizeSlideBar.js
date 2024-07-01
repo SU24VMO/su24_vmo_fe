@@ -51,7 +51,7 @@ export default function ManageOrganizeSlideBar() {
           id="drawer-navigation-label"
           className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
         >
-          ORGANIZATION MANAGEMENT SPACE
+          Danh sách quản lí
         </h5>
         <button
           type="button"

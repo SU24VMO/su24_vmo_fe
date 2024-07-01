@@ -76,7 +76,7 @@ export function DataTable({
   return (
     <>
      <div className="my-4">
-      <p className="font-bold text-2xl">Manage News Page</p>
+      <p className="font-bold text-2xl">Danh sách tin tức</p>
       </div>
 
       <div className="flex items-center py-4">

@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
-async function getData(cancelToken, user,  pageSize, pageNo) {
+async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
 
   try {
     const response = await axiosPrivate.get(`https://vmo.azurewebsites.net/api/campaign/create-by/organization-manager/${user.organization_manager_id}/statement-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}`, {
@@ -15,6 +15,7 @@ async function getData(cancelToken, user,  pageSize, pageNo) {
 
     if (response.status === 200) {
       console.log('Fetched data:', response.data.data);
+      setLoading(false)
       return response.data.data;
     }
   } catch (error) {
@@ -22,6 +23,8 @@ async function getData(cancelToken, user,  pageSize, pageNo) {
       console.log('Request cancelled:', error.message);
     } else {
       console.error("Error fetching data from API:", error);
+      setLoading(false)
+
     }
   }
 
@@ -38,16 +41,14 @@ const ManageOrganizePhase3Table = () => {
 
   const fetchData = async (cancelToken, user, pageSize, pageNo) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo);
+      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000); 
+
     }
   };
 

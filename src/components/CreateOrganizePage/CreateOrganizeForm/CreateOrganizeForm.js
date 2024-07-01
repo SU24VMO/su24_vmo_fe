@@ -5,12 +5,14 @@ import { ToastAction } from "../../../components/ui/toast";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { CREATEORGANIZATION } from "../../../api/apiConstants";
 import { useToast } from "../../../components/ui/use-toast";
-
 import { AuthContext } from "../../../context/AuthContext";
+import {  Loader2 } from "lucide-react";
+
 
 export default function CreateOrganizeForm() {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
   const [file, setFile] = useState();
 
@@ -22,7 +24,7 @@ export default function CreateOrganizeForm() {
 
 
 
-  const createOrganization = async (data) => {
+  const createOrganization = async (data, resetForm, setFieldValue) => {
     try {
 
       const formData = new FormData();
@@ -40,6 +42,8 @@ export default function CreateOrganizeForm() {
       formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
       formData.append('Logo', file)
 
+      setLoading(true)
+
       const response = await axiosPrivate.post(CREATEORGANIZATION +
         `?organizationManagerId=${user.organization_manager_id}`, formData,
         {
@@ -50,11 +54,20 @@ export default function CreateOrganizeForm() {
 
       );
       if (response.status === 200) {
+        resetForm()
+        setFile(null)
+    setFieldValue('Logo', null);
+    setFieldValue('FoundingDate', null);
+    
+    console.log(data.Logo);
+
+
         toast({
           title: "Tạo tổ chức thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       } else {
+
         toast({
           variant: "destructive",
           title: "Tạo tổ chức thất bại !",
@@ -63,6 +76,7 @@ export default function CreateOrganizeForm() {
         });
       }
     } catch (error) {
+
       toast({
         variant: "destructive",
         title: "Tạo tổ chức thất bại !",
@@ -70,6 +84,8 @@ export default function CreateOrganizeForm() {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false)
+
     }
   }
 
@@ -92,7 +108,7 @@ export default function CreateOrganizeForm() {
         }}
         validate={(values) => {
           const errors = {};
-
+          var today = new Date();
           // OrganizationName  validation
           if (!values.OrganizationName) {
             errors.OrganizationName = "Không được để trống!";
@@ -100,6 +116,11 @@ export default function CreateOrganizeForm() {
           // FoundingDate  validation
           if (!values.FoundingDate) {
             errors.FoundingDate = "Không được để trống!";
+          }else{
+            if(new Date(values.FoundingDate) > today){
+            errors.FoundingDate = "Ngày thành lập không được diễn ra ở tương lai!";
+
+            }
           }
           if (!values.AuthorizationDocuments) {
             errors.AuthorizationDocuments = "Không được để trống!";
@@ -121,21 +142,24 @@ export default function CreateOrganizeForm() {
           // OrganizationTaxCode validation
           if (!values.OrganizationTaxCode) {
             errors.OrganizationTaxCode = "Không được để trống!";
-          } else if (values.OrganizationTaxCode.length < 10) {
+          } else if (values.OrganizationTaxCode.length < 14) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
-          } else if (
-            !/((09|03|07|08|05)+([0-9]{8})\b$)/g.test(values.OrganizationTaxCode)
-          ) {
+          } else if (values.OrganizationTaxCode.length > 14) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
-          }
+          } 
+          
           // Address validation
           if (!values.Address) {
             errors.Address = "Không được để trống!";
           }
+          // Logo validation
+          if (!values.Logo) {
+            errors.Logo = "Không được để trống!";
+          }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          createOrganization(values)
+        onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
+          createOrganization(values, resetForm, setFieldValue)
 
           setSubmitting(false);
         }}
@@ -150,6 +174,8 @@ export default function CreateOrganizeForm() {
           isSubmitting,
           setFieldValue,
         }) => (
+
+
           <form
             onSubmit={handleSubmit}
             class=" w-3/4 laptop:max-w-4xl mx-auto my-8"
@@ -234,6 +260,8 @@ export default function CreateOrganizeForm() {
                 <FoundingDatePicker
                   setFieldValue={setFieldValue}
                   popOverTriggerId="FoundingDate"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 ></FoundingDatePicker>
               </div>
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -372,7 +400,7 @@ export default function CreateOrganizeForm() {
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     htmlFor="Logo"
                   >
-                    Vui lòng chọn ảnh Logo tổ chức(công ty)
+                    Vui lòng chọn ảnh Logo tổ chức(công ty) *
                   </label>
                   <input
                     className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -380,21 +408,28 @@ export default function CreateOrganizeForm() {
                     id="Logo"
                     type="file"
                     name="Logo"
+                    accept="image/png, image/jpg"
                     onChange={(e) => { handleLogoChange(e, setFieldValue) }}
                   />
                   <p
                     className="mt-1 text-sm text-gray-500 dark:text-gray-300"
                     id="Logo_help"
                   >
-                    SVG, PNG, JPG or GIF (MAX. 800x400px).
+                   PNG, JPG (MAX. 800x400px).
                   </p>
                 </div>
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {" "}
+                {errors.Logo &&
+                  touched.Logo &&
+                  errors.Logo}
+              </p>
               </div>
             </div>
 
 
 
-            <div class="mb-5 bg-orange-400 p-5 rounded-xl">
+            <div class="mb-5 bg-vmo p-5 rounded-xl">
               <span className="text-white text-sm mobile:text-xl font-semibold text-justify">
                 Cam kết mục đích sử dụng Tài khoản thanh toán minh bạch{" "}
               </span>
@@ -402,7 +437,7 @@ export default function CreateOrganizeForm() {
 
             <div>
               <span class="block mb-2 text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify ">
-                Anh chị/tổ chức cam kết sử dụng VMO cho mục đích *
+              ⚫ Thành viên/tổ chức cam kết sử dụng VMO cho mục đích *
               </span>
               <ul className="flex flex-col gap-4 mb-2  text-sm mobile:text-base text-justify">
                 <li>- Vận động, tiếp nhận các nguồn đóng góp tự nguyện</li>
@@ -418,13 +453,12 @@ export default function CreateOrganizeForm() {
               </ul>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                Anh chị/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
-                tất cả sau khi chiến dịch kết thúc (tối thiểu 30 ngày kể từ ngày
-                chiến dịch kết thúc)
+              ⚫ Thành viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
+                tất cả sau khi chiến dịch kết thúc
               </span>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                Anh chị/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
+              ⚫ Thành viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
                 để nắm rõ *
               </span>
               <ul className="flex flex-col gap-4 mb-2 text-sm mobile:text-base text-justify">
@@ -446,48 +480,58 @@ export default function CreateOrganizeForm() {
               </ul>
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
                 Mọi hành vi thiện nguyện trái với mục tiêu đạo đức hoặc vi phạm
-                pháp luật phải chịu trách nhiệm bạn có:
+                pháp luật phải chịu trách nhiệm thành viên/tổ chức có:
               </span>
               <div class="flex items-start mb-5">
                 <div class="flex items-center h-5">
                   <input
-                    id="agree"
+                    id="isAcceptTermOfUse"
                     type="checkbox"
-                    name="agree"
-                    checked={values.agree}
-                    onChange={() => setFieldValue("agree", !values.agree)}
+                    name="isAcceptTermOfUse"
+                    checked={values.isAcceptTermOfUse}
+                    onChange={() => setFieldValue("isAcceptTermOfUse", !values.isAcceptTermOfUse)}
                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                   />
                 </div>
                 <label
-                  for="agree"
+                  for="isAcceptTermOfUse"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
                   Đồng ý{" "}
                 </label>
               </div>
               <span class="block mb-2 text-sm font-medium text-red-600 dark:text-white text-justify">
-                **Lưu ý: Mọi thông tin bạn điền sẽ là bằng chứng cho mọi hành vi
-                phạm pháp của anh/chị/tổ chức trước pháp luật.
+                **Lưu ý: Mọi thông tin thành viên/tổ chức điền sẽ là bằng chứng cho mọi hành vi
+                phạm pháp của thành viên/tổ chức trước pháp luật.
               </span>
             </div>
 
             <div className="flex justify-end">
               {values.agree ? (
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-4"
+                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
-                  Gửi
+                   {loading ? (
+                    <>
+                      <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+                    </>
+                  ) : (
+                    "Gửi"
+                  )}
                 </button>
+
+
+
               ) : (
                 <button
                   type="button"
                   disabled
-                  className="text-white bg-gray-400 cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-gray-500 dark:focus:ring-gray-700 my-4"
+                  className= " text-white bg-gray-400  focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
-                  Gửi
+                 Gửi
                 </button>
               )}
             </div>

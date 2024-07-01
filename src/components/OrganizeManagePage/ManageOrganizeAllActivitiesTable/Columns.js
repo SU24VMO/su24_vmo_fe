@@ -8,28 +8,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+
+import { format } from "date-fns";
+
+
 export const columns = [
+  
   {
-    accessorKey: "numericalOrder",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const stt = row.getValue("numericalOrder");
-      return <div className="ml-2 text-start">{stt}</div>;
-    },
-  },
-  {
-    accessorKey: "nameOfPost",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
@@ -43,54 +29,24 @@ export const columns = [
       );
     },
   },
+ 
+  // {
+  //   accessorKey: "nameOfCampaign",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Tên chiến dịch
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: "statusPost",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tiêu chuẩn
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const statusPost = row.getValue("statusPost");
-      return (
-        <div>
-          {statusPost ? (
-            <span className="bg-green-100 text-green-800  font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
-              {statusPost}
-            </span>
-          ) : (
-            <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
-              {statusPost}
-            </span>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "nameOfCampaign",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tên chiến dịch
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "statusCampaign",
+    accessorKey: "isActive",
     header: ({ column }) => {
       return (
         <Button
@@ -104,16 +60,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const statusCampaign = row.getValue("statusCampaign");
+      const isActive = row.getValue("isActive");
       return (
         <div>
-          {statusCampaign ? (
+          {isActive ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              {statusCampaign}
+              Đang hoạt động
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              {statusCampaign}
+              Chưa hoạt động
             </span>
           )}
         </div>
@@ -121,7 +77,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "organizeName",
+    accessorKey: "organizationName",
     header: ({ column }) => {
       return (
         <Button
@@ -135,29 +91,25 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
+      const organizationName = row.getValue("organizationName");
       return (
         <div>
-          {organizeName ? (
+         
             <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
+              {organizationName}
             </span>
-          ) : (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          )}
+         
         </div>
       );
     },
   },
 
   {
-    accessorKey: "datePost",
-    header: () => <div className="text-right">Thời gian đăng</div>,
+    accessorKey: "createDate",
+    header: () => <div className="">Thời gian đăng</div>,
     cell: ({ row }) => {
-      const datePost = row.getValue("datePost");
-      return <div className="text-right">{datePost}</div>;
+      const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="">{createDate}</div>;
     },
   },
 
