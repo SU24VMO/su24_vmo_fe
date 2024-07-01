@@ -60,6 +60,7 @@ export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notif
 export const GET_ALL_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";
 export const GET_CAMPAIGN_ACTIVE_STATUS = "https://vmo.azurewebsites.net/api/campaign/all/filter/active-status";
 export const GET_CAMPAIGN_FILTER = "https://vmo.azurewebsites.net/api/campaign/all/filter/campaign-type/active-status";
+export const GET_CAMPAIGN_BY_ID = "https://vmo.azurewebsites.net/api/campaign/";
 
 //campaign-type
 export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-type/all";
