@@ -94,8 +94,8 @@ const RightDetailCampaignSection = ({ data }) => {
           </div>
           {data.donatePhase.isProcessing ? (
             <>
-              <Badge variant="default">{data.donatePhase.name}</Badge>
-              <div className="bg-white w-full">
+              <div className="bg-white w-full space-y-3">
+                <Badge variant="default">{data.donatePhase.name}</Badge>
                 <Progress
                   value={data.donatePhase.percent}
                   className="w-full bg-[#e9ecef] mb-2"

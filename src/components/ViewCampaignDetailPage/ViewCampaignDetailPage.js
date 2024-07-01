@@ -9,6 +9,7 @@ import { axiosPublic } from "../../api/axiosInstance";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import LeftDetailCampaignSkeleton from "./LeftDetailCampaignSection/LeftDetailCampaignSkeleton/LeftDetailCampaignSkeleton";
+import RightDetailCampaignSkeleton from "./RightDetailCampaignSection/RightDetailCampaignSkeleton/RightDetailCampaignSkeleton";
 
 const ViewCampaignDetailPage = () => {
   const { id: campaignId } = useParams();
@@ -94,7 +95,7 @@ const ViewCampaignDetailPage = () => {
                   {dataLoaded ? (
                     <RightDetailCampaignSection data={campaign} />
                   ) : (
-                    <p>Loading...</p>
+                    <RightDetailCampaignSkeleton />
                   )}
                 </div>
               </div>
