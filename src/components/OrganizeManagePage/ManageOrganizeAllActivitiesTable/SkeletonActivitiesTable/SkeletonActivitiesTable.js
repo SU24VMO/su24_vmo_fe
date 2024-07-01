@@ -2,8 +2,8 @@ import React from "react";
 import { Skeleton } from "../../../ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../ui/table";
 
-const SkeletonPhase2Table = () => {
-  const columns = 7; // Adjust this number based on the actual number of columns
+const SkeletonActivitiesTable = () => {
+  const columns = 5; // Adjust this number based on the actual number of columns
   const rows = 10; // Adjust this number based on the number of rows you want to show as skeleton
 
   return (
@@ -34,4 +34,4 @@ const SkeletonPhase2Table = () => {
   );
 };
 
-export default SkeletonPhase2Table;
+export default SkeletonActivitiesTable;

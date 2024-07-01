@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Formik } from "formik";
 import { ToastAction } from "../../../components/ui/toast";
 import { axiosPrivate } from "../../../api/axiosInstance";
@@ -6,13 +6,17 @@ import { VERIFYORGANIZATIONMANAGER } from "../../../api/apiConstants";
 import { useToast } from "../../../components/ui/use-toast";
 
 import { AuthContext } from "../../../context/AuthContext";
+import { Loader2 } from "lucide-react";
+
 export default function SignUpVerifyOrganizeForm() {
 
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
   const verifyOrganizationManager = async (data) => {
     try {
+      setLoading(true)
       const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
         organizationManagerID: user.organization_manager_id,
         name: data.name,
@@ -45,6 +49,7 @@ export default function SignUpVerifyOrganizeForm() {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false)
     }
   }
 
@@ -90,8 +95,8 @@ export default function SignUpVerifyOrganizeForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber, 
-            values.address , values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
+          verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber,
+            values.address, values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
           setSubmitting(false);
         }}
       >
@@ -239,7 +244,7 @@ export default function SignUpVerifyOrganizeForm() {
 
             <div>
               <span class="block mb-2 text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify ">
-                Anh chị/tổ chức cam kết sử dụng VMO cho mục đích *
+                ⚫ Thành viên/tổ chức cam kết sử dụng VMO cho mục đích *
               </span>
               <ul className="flex flex-col gap-4 mb-2  text-sm mobile:text-base text-justify">
                 <li>- Vận động, tiếp nhận các nguồn đóng góp tự nguyện</li>
@@ -255,13 +260,12 @@ export default function SignUpVerifyOrganizeForm() {
               </ul>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                Anh chị/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
-                tất cả sau khi chiến dịch kết thúc (tối thiểu 30 ngày kể từ ngày
-                chiến dịch kết thúc)
+                ⚫ Thành viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
+                tất cả sau khi chiến dịch kết thúc
               </span>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                Anh chị/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
+                ⚫ Thành viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
                 để nắm rõ *
               </span>
               <ul className="flex flex-col gap-4 mb-2 text-sm mobile:text-base text-justify">
@@ -283,7 +287,7 @@ export default function SignUpVerifyOrganizeForm() {
               </ul>
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
                 Mọi hành vi thiện nguyện trái với mục tiêu đạo đức hoặc vi phạm
-                pháp luật phải chịu trách nhiệm bạn có:
+                pháp luật phải chịu trách nhiệm thành viên/tổ chức có:
               </span>
               <div class="flex items-start mb-5">
                 <div class="flex items-center h-5">
@@ -304,25 +308,35 @@ export default function SignUpVerifyOrganizeForm() {
                 </label>
               </div>
               <span class="block mb-2 text-sm font-medium text-red-600 dark:text-white text-justify">
-                **Lưu ý: Mọi thông tin bạn điền sẽ là bằng chứng cho mọi hành vi
-                phạm pháp của anh/chị/tổ chức trước pháp luật.
+                **Lưu ý: Mọi thông tin thành viên/tổ chức điền sẽ là bằng chứng cho mọi hành vi
+                phạm pháp của thành viên/tổ chức trước pháp luật.
               </span>
             </div>
 
             <div className="flex justify-end">
               {values.isAcceptTermOfUse ? (
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-4"
+                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
-                  Gửi
+                  {loading ? (
+                    <>
+                      <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+                    </>
+                  ) : (
+                    "Gửi"
+                  )}
                 </button>
+
+
+
               ) : (
                 <button
                   type="button"
                   disabled
-                  className="text-white bg-gray-400 cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full mobile:w-auto px-5 py-2.5 text-center dark:bg-gray-500 dark:focus:ring-gray-700 my-4"
+                  className=" text-white bg-gray-400  focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
                   Gửi
                 </button>

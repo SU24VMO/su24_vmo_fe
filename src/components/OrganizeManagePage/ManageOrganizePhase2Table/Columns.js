@@ -54,30 +54,30 @@ export const columns = [
       return <div className="font-medium">{formatted}</div>;
     },
   },
-  {
-    accessorKey: "targetAmount",
-    header: ({ column }) => (
-      <Button
-        className="px-0 py-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Số tiền đã nhận
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const targetAmount = parseFloat(row.getValue("targetAmount"));
-      const formatted = new Intl.NumberFormat("it-IT", {
-        style: "currency",
-        currency: "VND",
-      }).format(targetAmount);
+  // {
+  //   accessorKey: "donatePhase.currentMoney",
+  //   header: ({ column }) => (
+  //     <Button
+  //       className="px-0 py-0"
+  //       variant="ghost"
+  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //     >
+  //       Số tiền đạt được
+  //       <ArrowUpDown className="ml-2 h-4 w-4" />
+  //     </Button>
+  //   ),
+  //   cell: ({ row }) => {
+  //     const donatePhase = parseFloat(row.original?.donatePhase.currentMoney);
+  //     const formatted = new Intl.NumberFormat("it-IT", {
+  //       style: "currency",
+  //       currency: "VND",
+  //     }).format(donatePhase);
 
-      return <div className="font-medium">{formatted}</div>;
-    },
-  },
+  //     return <div className="font-medium">{formatted}</div>;
+  //   },
+  // },
   {
-    accessorKey: "organizeName",
+    accessorKey: "organization",
     header: ({ column }) => {
       return (
         <Button
@@ -91,20 +91,23 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const organizeName = row.getValue("organizeName");
+      const organizeName = row.original?.organization.name
       return (
         <div>
-          {organizeName ? (
             <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
               {organizeName}
             </span>
-          ) : (
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          )}
+          
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "startDate",
+    header: () => <div className="">Thời gian bắt đầu</div>,
+    cell: ({ row }) => {
+      const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="">{startDate}</div>;
     },
   },
   {
@@ -113,6 +116,14 @@ export const columns = [
     cell: ({ row }) => {
       const expectedEndDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="text-right">{expectedEndDate}</div>;
+    },
+  },
+  {
+    accessorKey: "actualEndDate",
+    header: () => <div className="">Thời gian kết thúc</div>,
+    cell: ({ row }) => {
+      const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
+      return <div className="">{actualEndDate}</div>;
     },
   },
   //   Thêm Actions vào columns
