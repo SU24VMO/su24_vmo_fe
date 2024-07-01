@@ -42,35 +42,35 @@ const DesktopNav = () => {
             <nav className="grid items-start px-2 text-sm font-medium tablet:px-4">
               <Link to="/admin" className={getLinkClass("/admin")}>
                 <Home className="h-4 w-4" />
-                Home
+                Trang chủ
               </Link>
               <Link
                 to="/admin/manageMembers"
                 className={getLinkClass("/admin/manageMembers")}
               >
                 <ShoppingCart className="h-4 w-4" />
-                Manage members
+                Quản lí thành viên
               </Link>
               <Link
                 to="/admin/manageOrganizationManagers"
                 className={getLinkClass("/admin/manageOrganizationManagers")}
               >
                 <Package className="h-4 w-4" />
-                Manage organization managers
+                Quản lí thành viên tổ chức
               </Link>
               <Link
                 to="/admin/manageRequestManagers"
                 className={getLinkClass("/admin/manageRequestManagers")}
               >
                 <Users className="h-4 w-4" />
-                Manage request managers
+               Quản lí nhân viên kiểm duyệt
               </Link>
               <Link
                 to="/admin/manageUsers"
                 className={getLinkClass("/admin/manageUsers")}
               >
                 <LineChart className="h-4 w-4" />
-                Manage users
+                Quản lí người dùng 
               </Link>
             </nav>
           </div>
