@@ -52,7 +52,7 @@ const RightDetailCampaignSection = ({ data }) => {
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
-                <CardTitle>
+                <CardTitle className="text-xl mobile:text-2xl">
                   {data.organization
                     ? data.organization.name
                     : data.member

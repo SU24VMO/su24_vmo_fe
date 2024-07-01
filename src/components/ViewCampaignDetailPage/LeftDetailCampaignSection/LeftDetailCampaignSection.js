@@ -9,7 +9,9 @@ const LeftDetailCampaignSection = ({ data }) => {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
-        <p className="text-3xl text-muted-foreground font-bold">{data.name}</p>
+        <p className="text-xl tablet:text-3xl text-muted-foreground font-bold">
+          {data.name}
+        </p>
         <Card className=" max-h-[600px] overflow-hidden flex flex-col items-stretch justify-center">
           <div className="relative">
             <AspectRatio ratio={16 / 9}>
@@ -30,7 +32,7 @@ const LeftDetailCampaignSection = ({ data }) => {
             <p>{data.description}</p>
           </TabsContent>
           <TabsContent value="transaction">
-            <TransactionTable />
+              <TransactionTable />
           </TabsContent>
         </Tabs>
       </div>
