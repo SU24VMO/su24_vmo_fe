@@ -60,6 +60,7 @@ import { Helmet } from "react-helmet";
 import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
 import CreateActivityMemberPage from "./components/CreateActivityMemberPage/CreateActivityMemberPage";
 import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
+import DonatePage from "./components/DonatePage/DonatePage";
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
+            <Route path="/donate/:campaignID" element={<DonatePage />} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />

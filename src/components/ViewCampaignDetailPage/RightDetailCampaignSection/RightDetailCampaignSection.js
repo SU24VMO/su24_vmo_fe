@@ -15,8 +15,14 @@ import { Progress } from "../../ui/progress";
 import { Button } from "../../ui/button";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Badge } from "../../ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const RightDetailCampaignSection = ({ data }) => {
+  const navigate = useNavigate();
+  // Hàm xử lý khi click vào nút ủng hộ
+  const handleDonateClick = () => {
+    navigate(`/donate/${data.campaignID}`); // Thay đổi đường dẫn tùy theo cấu trúc URL của bạn
+  };
   // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
   const calculateDaysLeft = (endDate) => {
     const today = new Date(); // Ngày hiện tại
@@ -127,7 +133,12 @@ const RightDetailCampaignSection = ({ data }) => {
         <CardFooter>
           <div className="w-full flex items-center justify-center">
             {data.donatePhase.isProcessing ? (
-              <Button variant="default" size="lg" className="font-bold text-lg">
+              <Button
+                variant="default"
+                size="lg"
+                className="font-bold text-lg"
+                onClick={handleDonateClick}
+              >
                 Ủng hộ
               </Button>
             ) : (
