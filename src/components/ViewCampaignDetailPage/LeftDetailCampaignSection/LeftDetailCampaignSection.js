@@ -27,12 +27,31 @@ const LeftDetailCampaignSection = ({ data }) => {
           <TabsList>
             <TabsTrigger value="description">Mô tả</TabsTrigger>
             <TabsTrigger value="transaction">Danh sách ủng hộ</TabsTrigger>
+            <TabsTrigger
+              value="activities"
+              disabled={
+                !(
+                  data.processingPhase.isProcessing ||
+                  data.processingPhase.isEnd
+                )
+              }
+            >
+              Hoạt động
+            </TabsTrigger>
+            <TabsTrigger
+              value="statement"
+              disabled={
+                !(data.statementPhase.isProcessing || data.statementPhase.isEnd)
+              }
+            >
+              Sao kê
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="description" className="leading-relaxed">
             <p>{data.description}</p>
           </TabsContent>
           <TabsContent value="transaction">
-              <TransactionTable />
+            <TransactionTable />
           </TabsContent>
         </Tabs>
       </div>

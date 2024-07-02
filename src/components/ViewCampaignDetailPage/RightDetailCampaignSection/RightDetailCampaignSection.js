@@ -10,7 +10,7 @@ import {
 import { Separator } from "../../ui/separator";
 import { BadgeCheck, Target, Clock4, MapPin } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import avatar_img from "../../../assets/avatars/02.png";
+import img_demo from "../../../assets/images/placeholder.svg";
 import { Progress } from "../../ui/progress";
 import { Button } from "../../ui/button";
 import { differenceInCalendarDays, parseISO } from "date-fns";
@@ -44,7 +44,7 @@ const RightDetailCampaignSection = ({ data }) => {
                     ? data.organization.logo
                     : data.member
                     ? data.member.logo
-                    : avatar_img
+                    : img_demo
                 }
               />
               <AvatarFallback>Logo</AvatarFallback>
@@ -52,7 +52,7 @@ const RightDetailCampaignSection = ({ data }) => {
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
-                <CardTitle className="text-xl mobile:text-2xl">
+                <CardTitle className="text-lg mobile:text-xl">
                   {data.organization
                     ? data.organization.name
                     : data.member
@@ -93,26 +93,36 @@ const RightDetailCampaignSection = ({ data }) => {
             <p>{data.address}</p>
           </div>
           {data.donatePhase.isProcessing ? (
-            <>
-              <div className="bg-white w-full space-y-3">
-                <Badge variant="default">{data.donatePhase.name}</Badge>
-                <Progress
-                  value={data.donatePhase.percent}
-                  className="w-full bg-[#e9ecef] mb-2"
-                />
-                <div className="w-full flex justify-between">
-                  <p className="text-lg mb-2">
-                    Đã đạt được <b>30.000.000 VND</b>
-                  </p>
-                  <p className="text-muted-foreground">30%</p>
-                </div>
-              </div>
-            </>
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.donatePhase.name}</Badge>
+            </div>
+          ) : data.processingPhase.isProcessing ? (
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.processingPhase.name}</Badge>
+            </div>
+          ) : data.statementPhase.isProcessing ? (
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.statementPhase.name}</Badge>
+            </div>
           ) : (
-            <>
-              <p>{data.donatePhase.name} đã kết thúc!</p>
-            </>
+            <div className="mb-3">
+              <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
+            </div>
           )}
+          <div className="bg-white w-full space-y-3">
+            <Progress
+              value={data.donatePhase.percent}
+              className="w-full bg-[#e9ecef] mb-2"
+            />
+            <div className="w-full flex justify-between">
+              <p className="text-lg mb-2">
+                Đã đạt được <b>{data.donatePhase.currentMoney} VND</b>
+              </p>
+              <p className="text-muted-foreground">
+                {data.donatePhase.percent}%
+              </p>
+            </div>
+          </div>
         </CardContent>
         <CardFooter>
           <div className="w-full flex items-center justify-center">
