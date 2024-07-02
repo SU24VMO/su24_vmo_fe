@@ -1,6 +1,8 @@
 import React from "react";
 import { Badge } from "../../ui/badge";
 import { Progress } from "../../ui/progress";
+import placeholder_img from "../../../assets/images/placeholder.svg";
+import { AspectRatio } from "../../ui/aspect-ratio";
 
 const LeftDonateCardContent = ({
   imgSrc,
@@ -14,12 +16,14 @@ const LeftDonateCardContent = ({
   return (
     <>
       <div className="w-full h-full flex flex-col items-center justify-center">
-        <div className="relative w-full h-full">
-          <img
-            src={imgSrc}
-            alt="Campaign"
-            className="w-full h-full object-cover"
-          />
+        <div className="relative w-full h-full overflow-hidden rounded-lg">
+          <AspectRatio ratio={16 / 9} className="bg-muted">
+            <img
+              src={imgSrc}
+              alt="Campaign"
+              className="w-full h-full object-cover"
+            />
+          </AspectRatio>
           <div className="absolute mt-1 ml-1 top-0 left-0">
             <Badge variant="white">{`Còn ${dayLeft} ngày`}</Badge>
           </div>
