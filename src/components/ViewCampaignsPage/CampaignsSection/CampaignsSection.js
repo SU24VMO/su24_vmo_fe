@@ -151,6 +151,7 @@ const CampaignsSection = () => {
         {dataLoaded
           ? data.map((item, index) => (
               <CustomCardCampaign
+                campaignId={item.campaignID}
                 key={index}
                 achievedAmount={item.donatePhase.currentMoney}
                 campaignCategory={item.campaignType?.name}
