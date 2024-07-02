@@ -11,6 +11,9 @@ import { ToastAction } from "../../components/ui/toast";
 import OrganizationsSelect from "./OrganizationsSelect/OrganizationsSelect";
 import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
+import avatar_image from "../../assets/avatars/02.png";
+
 
 
 export default function CreateCampaignPage() {
@@ -324,7 +327,13 @@ export default function CreateCampaignPage() {
 
                                     <div className="bg-vmo m-4 rounded-xl w-3/5 mx-auto laptop:w-4/5">
                                         <div className="p-4 mobile:flex mobile:justify-center gap-3 items-center">
-                                            <img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src={user?.avatar} alt="Rounded avatar" />
+                                            {user?.avatar !== "string" ? (<img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src={user?.avatar} alt="Rounded avatar" />) 
+                                            : (<Avatar className="w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0">
+                                                <AvatarImage
+                                                  alt="Avatar User"
+                                                />
+                                                <AvatarFallback>{user.lastname[0]}</AvatarFallback>
+                                              </Avatar>)}
                                             <div>
                                                 <p className="text-gray-100 text-center mobile:text-left">Tài khoản người dùng:</p>
                                                 <h2 className="font-semibold text-center mobile:text-left">{user.username}</h2>
@@ -382,10 +391,10 @@ export default function CreateCampaignPage() {
                                                 id="imageQRCode"
                                                 name="imageQRCode"
                                                 onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
-                                                type="file" 
+                                                type="file"
                                                 accept="image/png, image/jpeg, image/jpg"
-                                                
-                                                />
+
+                                            />
                                             <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
 
                                         </div>
@@ -464,7 +473,7 @@ export default function CreateCampaignPage() {
                                                     popOverTriggerIdEnd="endDate"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    ></EndDayPicker>
+                                                ></EndDayPicker>
                                                 <p class=" z-10 mt-2 text-sm text-red-600 dark:text-red-500"> {errors.endDate && touched.endDate && errors.endDate}</p>
                                             </div>
 
