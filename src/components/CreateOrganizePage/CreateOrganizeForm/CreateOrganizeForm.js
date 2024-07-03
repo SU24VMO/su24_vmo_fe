@@ -19,12 +19,12 @@ export default function CreateOrganizeForm() {
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
     setFile(e.target.files[0]);
-    setFieldValue('Logo', file);
+    setFieldValue('Logo',  e.target.files[0]);
   }
 
 
 
-  const createOrganization = async (data, resetForm, setFieldValue) => {
+  const createOrganization = async (data, resetForm, setFieldValue, setSubmitting) => {
     try {
 
       const formData = new FormData();
@@ -85,7 +85,7 @@ export default function CreateOrganizeForm() {
       });
     } finally {
       setLoading(false)
-
+      setSubmitting(false)
     }
   }
 
@@ -104,7 +104,6 @@ export default function CreateOrganizeForm() {
           AchievementLink: "",
           Logo: null,
           AuthorizationDocuments: "",
-          agree: false,
         }}
         validate={(values) => {
           const errors = {};
@@ -122,13 +121,11 @@ export default function CreateOrganizeForm() {
 
             }
           }
+
           if (!values.AuthorizationDocuments) {
             errors.AuthorizationDocuments = "Không được để trống!";
           }
-          // OrganizationTaxCode  validation
-          if (!values.OrganizationTaxCode) {
-            errors.OrganizationTaxCode = "Không được để trống!";
-          }
+          
           // Email validation
           if (!values.OrganizationManagerEmail) {
             errors.OrganizationManagerEmail = "Không được để trống!";
@@ -142,9 +139,9 @@ export default function CreateOrganizeForm() {
           // OrganizationTaxCode validation
           if (!values.OrganizationTaxCode) {
             errors.OrganizationTaxCode = "Không được để trống!";
-          } else if (values.OrganizationTaxCode.length < 14) {
+          } else if (values.OrganizationTaxCode.length < 10) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
-          } else if (values.OrganizationTaxCode.length > 14) {
+          } else if (values.OrganizationTaxCode.length > 10) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
           } 
           
@@ -156,12 +153,13 @@ export default function CreateOrganizeForm() {
           if (!values.Logo) {
             errors.Logo = "Không được để trống!";
           }
+          console.log(errors.Logo);
           return errors;
         }}
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          createOrganization(values, resetForm, setFieldValue)
+          console.log("bug tới chơi");
+          createOrganization(values, resetForm, setFieldValue, setSubmitting)
 
-          setSubmitting(false);
         }}
       >
         {({
@@ -175,11 +173,11 @@ export default function CreateOrganizeForm() {
           setFieldValue,
         }) => (
 
-
           <form
             onSubmit={handleSubmit}
             class=" w-3/4 laptop:max-w-4xl mx-auto my-8"
           >
+            
             <div class="mb-5 ">
               <label
                 for="OrganizationName "
@@ -506,8 +504,9 @@ export default function CreateOrganizeForm() {
               </span>
             </div>
 
+
             <div className="flex justify-end">
-              {values.agree ? (
+              {values.isAcceptTermOfUse ? (
 
                 <button
                   type="submit"

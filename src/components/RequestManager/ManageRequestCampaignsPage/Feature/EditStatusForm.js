@@ -35,7 +35,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
       setLoading(true)
       const response = await axiosPrivate.put(UPDATEAPPROVECAMPAIGNREQUEST, {
         createCampaignRequestID: campaigns.createCampaignRequestID,
-        requestManagerId: user.request_manager_id,
+        moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
 

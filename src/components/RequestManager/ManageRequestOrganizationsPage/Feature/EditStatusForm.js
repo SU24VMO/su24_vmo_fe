@@ -37,7 +37,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
 
       const response = await axiosPrivate.put(UPDATEAPPROVEORGANIZATIONREQUEST, {
         createOrganizationRequestID: organize.createOrganizationRequestID,
-        requestManagerId: user.request_manager_id,
+        moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
 
