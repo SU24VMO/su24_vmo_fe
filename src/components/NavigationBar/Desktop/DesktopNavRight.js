@@ -27,9 +27,9 @@ const DesktopNavRight = () => {
       {
       user?.role === "Member" ||
       user?.role === "OrganizationManager" ||
-      user?.role === "User" || 
+      user?.role === "Volunteer" || 
       user?.role === "Admin" ||
-      user?.role === "RequestManager" 
+      user?.role === "Moderator" 
       ? (
         <>
           {/* Notification feature */}

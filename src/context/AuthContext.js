@@ -79,6 +79,11 @@ const AuthProvider = ({ children }) => {
   }
 
   const loginAction = async (account, password) => {
+    toast({
+      title: "Đang đăng nhập...",
+      description: "Vui lòng chờ đợi trong giây lát !",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
     setLoading(true); // Start loading
     try {
       const response = await axiosPublic.post(LOGIN, {
@@ -106,7 +111,7 @@ const AuthProvider = ({ children }) => {
         // Navigate to the specified page
         if(userDecode.role === "Admin"){
             navigate("/admin")
-        }else if(userDecode.role === "RequestManager"){
+        }else if(userDecode.role === "Moderator"){
           navigate("/requestManager")
 
         }else{
