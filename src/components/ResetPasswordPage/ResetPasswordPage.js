@@ -17,6 +17,10 @@ const steps = [
 ];
 
 const ResetPasswordPage = () => {
+  const [otp, setOTP] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  console.log("OTP nhận được: ", otp);
+  console.log("Email nhận được: ", email);
   return (
     <>
       <Helmet>
@@ -59,20 +63,20 @@ const ResetPasswordPage = () => {
                   if (index === 0) {
                     return (
                       <Step key={stepProps.label} {...stepProps}>
-                        <EmailInput />
+                        <EmailInput setOTP={setOTP} setEmail={setEmail} />
                       </Step>
                     );
                   }
                   if (index === 1) {
                     return (
                       <Step key={stepProps.label} {...stepProps}>
-                        <OTPInput />
+                        <OTPInput otp={otp} />
                       </Step>
                     );
                   }
                   return (
                     <Step key={stepProps.label} {...stepProps}>
-                      <NewPasswordInput />
+                      <NewPasswordInput email={email} />
                     </Step>
                   );
                 })}
@@ -87,7 +91,7 @@ const ResetPasswordPage = () => {
 };
 
 function MyStepperSuccess() {
-  const { activeStep, resetSteps, steps } = useStepper();
+  const { activeStep, steps } = useStepper();
   if (activeStep !== steps.length) {
     return null;
   }
