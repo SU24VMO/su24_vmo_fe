@@ -35,7 +35,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
       setLoading(true)
       const response = await axiosPrivate.put(UPDATEAPPROVEMEMBERREQUEST, {
         createMemberRequestID: member.createMemberRequestID,
-        requestManagerId: user.request_manager_id,
+        moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
 

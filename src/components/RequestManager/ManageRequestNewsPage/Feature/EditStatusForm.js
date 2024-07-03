@@ -38,7 +38,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
       const response = await axiosPrivate.put(UPDATEAPPROVENEWSREQUEST, {
         createPostRequestId: posts.createPostRequestID,
-        requestManagerId: user.request_manager_id,
+        moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
 
