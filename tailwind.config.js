@@ -13,6 +13,7 @@ module.exports = {
       tablet: "1000px",
       laptop: "1440px",
       mobile: "768px",
+      transactionTable: "500px",
       desktop: "1920px",
     },
     colors: {

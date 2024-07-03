@@ -108,7 +108,7 @@ const TransactionTable = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="max-w-[340px] transactionTable:max-w-full">
       <DataTable columns={columns} data={data} />
     </div>
   );

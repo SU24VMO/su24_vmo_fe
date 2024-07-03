@@ -59,6 +59,8 @@ import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import { Helmet } from "react-helmet";
 import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
 import CreateActivityMemberPage from "./components/CreateActivityMemberPage/CreateActivityMemberPage";
+import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
+import DonatePage from "./components/DonatePage/DonatePage";
 
 
 function App() {
@@ -85,6 +87,8 @@ function App() {
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
+            <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
+            <Route path="/donate/:campaignID" element={<DonatePage />} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
@@ -92,7 +96,7 @@ function App() {
             <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
             {/* All role isLogin */}
-            <Route element={<PrivateRoute allowedRoles={["User", "OrganizationManager", "Member"]} requireVerification={false} />}>
+            <Route element={<PrivateRoute allowedRoles={["Member", "Volunteer", "OrganizationManager", "Moderator"]} requireVerification={false} />}>
               <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
@@ -106,7 +110,7 @@ function App() {
             </Route> */}
 
             {/* Only Member */}
-            <Route element={<PrivateRoute allowedRoles={["Member"]} />}>
+            <Route element={<PrivateRoute allowedRoles={["Volunteer"]} />}>
 
               {/* Member manager */}
               <Route path="/manage/allCampaigns" element={<ManageAllCampaignsTable />} />
@@ -165,7 +169,7 @@ function App() {
               </Route>
             </Route>
 
-            <Route element={<PrivateRoute allowedRoles={["RequestManager"]} />}>
+            <Route element={<PrivateRoute allowedRoles={["Moderator"]} />}>
               <Route path="/requestManager" element={<RequestManager />}>
                 <Route index element={<RequestManagerHomePage />} />
                 <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage />} />

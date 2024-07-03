@@ -21,7 +21,9 @@ const MobileNavRight = () => {
       {/* Check user role */}
       {user?.role === "Member" ||
       user?.role === "OrganizationManager" ||
-      user?.role === "User" ? (
+      user?.role === "Volunteer" ||
+      user?.role === "Admin" ||
+      user?.role === "Moderator" ? (
         <>
           {/* Notification feature */}
           <Notification />

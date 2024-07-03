@@ -21,8 +21,8 @@ const GenderSelect = ({ setFieldValue, selectTriggerId, userGender }) => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Giới tính</SelectLabel>
-          <SelectItem value="Male">Nam</SelectItem>
-          <SelectItem value="Female">Nữ</SelectItem>
+          <SelectItem value="male">Nam</SelectItem>
+          <SelectItem value="female">Nữ</SelectItem>
           <SelectItem value="Other">Khác</SelectItem>
         </SelectGroup>
       </SelectContent>

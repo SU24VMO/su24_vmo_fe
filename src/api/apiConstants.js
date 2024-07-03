@@ -56,6 +56,9 @@ export const UPDATE_AVATAR ="https://vmo.azurewebsites.net/api/account/update-in
 export const UPDATE_INFORMATION = "https://vmo.azurewebsites.net/api/account/update-information";
 export const CHECK_CURRENT_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/check-password";
 export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/reset-password";
+export const FORGOT_PASSWORD_GET_OTP = "https://vmo.azurewebsites.net/api/authentication/forgot-password";
+export const FORGOT_PASSWORD_RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/forgot-password/reset-password";
+
 
 //notification
 export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";
@@ -65,6 +68,7 @@ export const UPDATE_NOTIFICATION_SEEN = "https://vmo.azurewebsites.net/api/notif
 export const GET_ALL_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all";
 export const GET_CAMPAIGN_ACTIVE_STATUS = "https://vmo.azurewebsites.net/api/campaign/all/filter/active-status";
 export const GET_CAMPAIGN_FILTER = "https://vmo.azurewebsites.net/api/campaign/all/filter/campaign-type/active-status";
+export const GET_CAMPAIGN_BY_ID = "https://vmo.azurewebsites.net/api/campaign/";
 
 //campaign-type
 export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-type/all";

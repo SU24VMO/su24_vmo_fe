@@ -6,10 +6,64 @@ import { useFormik } from "formik";
 import { cn } from "../../../lib/utils";
 import { useStepper } from "../../ui/stepper";
 import { useToast } from "../../ui/use-toast";
+import { axiosPublic } from "../../../api/axiosInstance";
+import { FORGOT_PASSWORD_GET_OTP } from "../../../api/apiConstants";
+import { ToastAction } from "../../ui/toast";
+import { Loader2 } from "lucide-react";
+import { set } from "date-fns";
 
-const EmailInput = () => {
+const EmailInput = ({ setOTP, setEmail }) => {
   const { nextStep } = useStepper();
   const { toast } = useToast();
+  const [loading, setLoading] = React.useState(false);
+
+  // Handle form submission
+  async function handleSubmit(values, setSubmitting, setLoading) {
+    try {
+      toast({
+        title: "Đang lấy mã OTP!",
+        description: "Vui chờ trong giây lát!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      setLoading(true); // Start loading
+      // Step 4: Make the API call to update the user information
+      const response = await axiosPublic.post(
+        `${FORGOT_PASSWORD_GET_OTP}?email=${values.email}`
+      );
+      if (response.status === 200) {
+        toast({
+          title: "Lấy mã OTP thành công!",
+          description: "Vui lòng kiểm tra mã OTP đã gửi tới email của bạn!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Get OTP successfully: ", response.data);
+        setOTP(response.data.data);
+        setEmail(values.email);
+        nextStep(); // Move to the next step
+      } else {
+        // Handle any other status code appropriately
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra !",
+          description: "Vui lòng thử lại!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Failed to update profile");
+      }
+    } catch (error) {
+      // Handle error (e.g., show an error message)
+      toast({
+        variant: "destructive",
+        title: "Có lỗi xảy ra !",
+        description: "Vui lòng thử lại!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.error("Error get OTP:", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of the outcome
+      setSubmitting(false); // Set Formik submitting to false
+    }
+  }
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -26,19 +80,7 @@ const EmailInput = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Email vừa nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
-      setSubmitting(false);
-      nextStep();
+      handleSubmit(values, setSubmitting, setLoading);
     },
   });
 
@@ -63,8 +105,15 @@ const EmailInput = () => {
             {formik.errors.email && formik.touched.email && formik.errors.email}
           </p>
         </div>
-        <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
-          Gửi mã xác nhận
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Gửi mã xác nhận
+            </>
+          ) : (
+            "Gửi mã xác nhận"
+          )}
         </Button>
       </form>
     </>

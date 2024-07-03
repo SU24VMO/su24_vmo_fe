@@ -10,24 +10,61 @@ import {
 import { Separator } from "../../ui/separator";
 import { BadgeCheck, Target, Clock4, MapPin } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import avatar_img from "../../../assets/avatars/02.png";
+import img_demo from "../../../assets/images/placeholder.svg";
 import { Progress } from "../../ui/progress";
 import { Button } from "../../ui/button";
+import { differenceInCalendarDays, parseISO } from "date-fns";
+import { Badge } from "../../ui/badge";
+import { useNavigate } from "react-router-dom";
 
-const RightDetailCampaignSection = () => {
+const RightDetailCampaignSection = ({ data }) => {
+  const navigate = useNavigate();
+  // Hàm xử lý khi click vào nút ủng hộ
+  const handleDonateClick = () => {
+    navigate(`/donate/${data.campaignID}`); // Thay đổi đường dẫn tùy theo cấu trúc URL của bạn
+  };
+  // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
+  const calculateDaysLeft = (endDate) => {
+    const today = new Date(); // Ngày hiện tại
+    const end = parseISO(endDate); // Chuyển đổi endDate sang định dạng Date
+    return differenceInCalendarDays(end, today); // Tính toán số ngày còn lại
+  };
+  // Hàm format số tiền ủng hộ
+  const targetAmountFormat = (targetAmount) => {
+    // Remove non-digit characters from the input targetAmount
+    const cleanValue = targetAmount.replace(/\D/g, "");
+    // Format the targetAmount with thousand separators
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedValue;
+  };
+
   return (
     <>
       <Card>
         <CardHeader>
           <div className="flex items-center gap-x-3">
             <Avatar className="w-20 h-20">
-              <AvatarImage src={avatar_img} />
-              <AvatarFallback>Bi</AvatarFallback>
+              <AvatarImage
+                src={
+                  data.organization
+                    ? data.organization.logo
+                    : data.member
+                    ? data.member.logo
+                    : img_demo
+                }
+              />
+              <AvatarFallback>Logo</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
-                <CardTitle>Tên Tài Khoản</CardTitle>
+                <CardTitle className="text-lg mobile:text-xl">
+                  {data.organization
+                    ? data.organization.name
+                    : data.member
+                    ? data.member.name
+                    : "Không xác định"}
+                </CardTitle>
                 <BadgeCheck className="h-6 w-6 text-green-600" />
               </div>
             </div>
@@ -41,7 +78,9 @@ const RightDetailCampaignSection = () => {
               <Target className="h-10 w-10" />
               <div>
                 <p className="text-muted-foreground">Mục tiêu chiến dịch</p>
-                <p className="font-bold">1.000.000 VND</p>
+                <p className="font-bold">
+                  {targetAmountFormat(data.targetAmount)} VND
+                </p>
               </div>
             </div>
             {/* Thời gian còn lại */}
@@ -49,28 +88,69 @@ const RightDetailCampaignSection = () => {
               <Clock4 className="h-10 w-10" />
               <div>
                 <p className="text-muted-foreground">Thời gian còn lại</p>
-                <p className="font-bold">123 ngày</p>
+                <p className="font-bold">
+                  {calculateDaysLeft(data.expectedEndDate)} ngày
+                </p>
               </div>
             </div>
           </div>
           <div className="flex w-full gap-x-3 my-5">
             <MapPin className="h-6 w-6" />
-            <p>39-41 Đường Lê Thạch,Phường 12,Quận 4,Thành phố Hồ Chí Minh</p>
+            <p>{data.address}</p>
           </div>
-          <div className="bg-white w-full">
-            <Progress value={30} className="w-full bg-[#e9ecef] mb-2" />
+          {data.donatePhase.isProcessing ? (
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.donatePhase.name}</Badge>
+            </div>
+          ) : data.processingPhase.isProcessing ? (
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.processingPhase.name}</Badge>
+            </div>
+          ) : data.statementPhase.isProcessing ? (
+            <div className="w-full mb-3">
+              <Badge variant="default">{data.statementPhase.name}</Badge>
+            </div>
+          ) : (
+            <div className="mb-3">
+              <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
+            </div>
+          )}
+          <div className="bg-white w-full space-y-3">
+            <Progress
+              value={data.donatePhase.percent}
+              className="w-full bg-[#e9ecef] mb-2"
+            />
             <div className="w-full flex justify-between">
               <p className="text-lg mb-2">
-                Đã đạt được <b>30.000.000 VND</b>
+                Đã đạt được <b>{data.donatePhase.currentMoney} VND</b>
               </p>
-              <p className="text-muted-foreground">30%</p>
+              <p className="text-muted-foreground">
+                {data.donatePhase.percent}%
+              </p>
             </div>
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex items-center justify-between">
-            <Button variant="outline" size="lg" className="font-bold text-lg">Đồng hành gây quỹ</Button>
-            <Button variant="default" size="lg" className="font-bold text-lg">Ủng hộ</Button>
+          <div className="w-full flex items-center justify-center">
+            {data.donatePhase.isProcessing ? (
+              <Button
+                variant="default"
+                size="lg"
+                className="font-bold text-lg"
+                onClick={handleDonateClick}
+              >
+                Ủng hộ
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="lg"
+                className="font-bold text-lg"
+                disabled={true}
+              >
+                Ủng hộ
+              </Button>
+            )}
           </div>
         </CardFooter>
       </Card>
