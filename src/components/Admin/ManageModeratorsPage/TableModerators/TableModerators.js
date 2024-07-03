@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
+
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import EditMemberForm from "../Feature/EditMemberForm";
-
+import EditModeratorForm from "../Feature/EditModeratorForm";
 async function getData(cancelToken,  pageSize, pageNo, setLoading) {
   try {
-    const response = await axiosPrivate.get(`/api/account/all/role/member?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(`/api/account/all/role/moderator?pageSize=${pageSize}&pageNo=${pageNo}`, {
       cancelToken: cancelToken
     });
 
@@ -30,7 +30,7 @@ async function getData(cancelToken,  pageSize, pageNo, setLoading) {
   return [];
 }
 
-const TableMembers = () => {
+const TableModerators = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
@@ -48,10 +48,10 @@ const TableMembers = () => {
 
   const onDelete = React.useCallback((row) => {
     // Implement delete logic here.
-    alert(`Deleting user with ID: ${row.id}`);
+    alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
-const fetchData = async (cancelToken, pageSize, pageNo) => {
+ const fetchData = async (cancelToken, pageSize, pageNo) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, setLoading);
       setData(result?.list || []);
@@ -83,9 +83,9 @@ const fetchData = async (cancelToken, pageSize, pageNo) => {
   return (
     <div className="flex flex-col">
       <div>
-        <EditMemberForm
+        <EditModeratorForm
           isOpen={isDialogOpen}
-          member={selectedRow}
+          moderator={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {
@@ -97,18 +97,18 @@ const fetchData = async (cancelToken, pageSize, pageNo) => {
         />
       </div>
       <DataTable 
-      columns={columns({ onEdit, onDelete })}
-       data={data}
-       loading={loading}
-       list={list}
-       pageSize={pageSize}
-       pageNo={pageNo}
-       setPageSize={setPageSize}
-       setPageNo={setPageNo}
-       totalPages={totalPages}
-       />
+      columns={columns({ onEdit, onDelete })} 
+      data={data}
+      loading={loading}
+      list={list}
+      pageSize={pageSize}
+      pageNo={pageNo}
+      setPageSize={setPageSize}
+      setPageNo={setPageNo}
+      totalPages={totalPages}
+      />
     </div>
   );
 };
 
-export default TableMembers;
+export default TableModerators;

@@ -18,12 +18,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
 import React, { useState } from "react";
 import { Badge } from "../../../ui/badge";
-import { ToastAction } from "../../../ui/toast";
+import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
 import { Loader2 } from "lucide-react";
 
-const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
+const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess }) => {
   const { toast } = useToast();
   // Formik setup
   const [loading, setLoading] = useState(false)
@@ -38,8 +38,9 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
       });
 
       if (response.status === 200) {
-        onSubmitSuccess();
         console.log(response);
+        onSubmitSuccess()
+
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -60,9 +61,9 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+
       onOpenChange(false);
       setLoading(false)
-
     }
   }
 
@@ -70,30 +71,30 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
 
   const formik = useFormik({
     initialValues: {
-      isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
+      isActived: moderator ? moderator.isActived : false,
+      accountID: moderator ? moderator.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values.accountID);
       updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
-      },
+    },
   });
   /* Giải thích: 
   Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
   và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
   nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
-   này là sử dụng memberef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
+   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when member changes
+  // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
-      isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
+      isActived: moderator ? moderator.isActived : false,
+      accountID: moderator ? moderator.accountID : ""
       
     });
-  }, [member]);
+  }, [moderator]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
@@ -117,7 +118,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Avatar className="w-20 h-20">
                   <AvatarImage
-                    src={member ? member.avatar : ""}
+                    src={moderator ? moderator.avatar : ""}
                     alt="@avatar"
                   />
                   <AvatarFallback>A</AvatarFallback>
@@ -132,24 +133,24 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="accountID"
-                  defaultValue={member ? member.accountID : ""}
+                  defaultValue={moderator ? moderator.accountID : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.accountID : ""} />
+                <CopyButton code={moderator ? moderator.accountID : ""} />
               </div>
             </div>
           </div>
           {/* Show tên người dùng */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="membername">Tên người dùng</Label>
+              <Label htmlFor="username">Tên người dùng</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="membername"
-                  defaultValue={member ? member.membername : ""}
+                  id="username"
+                  defaultValue={moderator ? moderator.username : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.membername : ""} />
+                <CopyButton code={moderator ? moderator.username : ""} />
               </div>
             </div>
           </div>
@@ -160,10 +161,10 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="email"
-                  defaultValue={member ? member.email : ""}
+                  defaultValue={moderator ? moderator.email : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.email : ""} />
+                <CopyButton code={moderator ? moderator.email : ""} />
               </div>
             </div>
           </div>
@@ -174,10 +175,10 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="hashPassword"
-                  defaultValue={member ? member.hashPassword : ""}
+                  defaultValue={moderator ? moderator.hashPassword : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.hashPassword : ""} />
+                <CopyButton code={moderator ? moderator.hashPassword : ""} />
               </div>
             </div>
           </div>
@@ -189,9 +190,9 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
                 <Input
                   id="createdAt"
                   disabled
-                  defaultValue={member ? member.createdAt : ""}
+                  defaultValue={moderator ? moderator.createdAt : ""}
                 />
-                <CopyButton code={member ? member.createdAt : ""} />
+                <CopyButton code={moderator ? moderator.createdAt : ""} />
               </div>
             </div>
           </div>
@@ -200,12 +201,28 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
             <div className="grid flex-1 gap-2">
               <Label htmlFor="role">Role</Label>
               <div className="flex items-center space-x-2">
-              <Badge variant="primary">Member</Badge>
-                
+              <Badge variant="primary">Moderator</Badge>
+                {/* {user ? (
+                  user.role === "Admin" ? (
+                    <Badge variant="success">Admin</Badge>
+                  ) : user.role === "User" ? (
+                    <Badge variant="primary">User</Badge>
+                  ) : user.role === "Member" ? (
+                    <Badge variant="info">Member</Badge>
+                  ) : user.role === "OrganizationManager" ? (
+                    <Badge variant="warning">Organization Manager</Badge>
+                  ) : user.role === "moderator" ? (
+                    <Badge variant="danger">Request Manager</Badge>
+                  ) : (
+                    <Badge variant="secondary">Unknown</Badge>
+                  )
+                ) : (
+                  "No user"
+                )} */}
               </div>
             </div>
           </div>
-          {member && (
+          {moderator && (
             <form onSubmit={formik.handleSubmit} className="space-y-3">
               {/*  */}
               <div className="flex items-center space-x-2">
@@ -246,4 +263,4 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
   );
 };
 
-export default EditMemberForm;
+export default EditModeratorForm;

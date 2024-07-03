@@ -41,26 +41,27 @@ import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswor
 import LoginAdminPage from "./components/Admin/LoginAdminPage/LoginAdminPage";
 import AdminHomePage from "./components/Admin/AdminHomePage/AdminHomePage";
 import Admin from "./components/Admin/Admin";
-import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMembersPage";
 import ManageOrganizationManagers from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
-import ManageRequestManagersPage from "./components/Admin/ManageRequestManagersPage/ManageRequestManagersPage";
-import ManageUsersPage from "./components/Admin/ManageUsersPage/ManageUsersPage";
-import RequestManager from "./components/RequestManager/RequestManager";
-import RequestManagerHomePage from "./components/RequestManager/RequestManagerHomePage/RequestManagerHomePage";
-import ManageRequestActivitiesPage from "./components/RequestManager/ManageRequestActivitiesPage/ManageRequestActivitiesPage";
-import ManageRequestOrganizationsPage from "./components/RequestManager/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
-import ManageRequestNewsPage from "./components/RequestManager/ManageRequestNewsPage/ManageRequestNewsPage";
-import ManageRequestCampaignsPage from "./components/RequestManager/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
-import ManageRequestOrganizationManagersPage from "./components/RequestManager/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
-import ManageRequestMembersPage from "./components/RequestManager/ManageRequestMembersPage/ManageRequestMembersPage";
-import RequestManagerLoginPage from "./components/RequestManager/RequestManagerLoginPage/RequestManagerLoginPage";
+
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import { Helmet } from "react-helmet";
 import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
 import CreateActivityMemberPage from "./components/CreateActivityMemberPage/CreateActivityMemberPage";
 import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
 import DonatePage from "./components/DonatePage/DonatePage";
+import Moderator from "./components/Moderator/Moderator";
+import ModeratorHomePage from "./components/Moderator/ModeratorHomePage/ModeratorHomePage";
+import ManageRequestActivitiesPage from "./components/Moderator/ManageRequestActivitiesPage/ManageRequestActivitiesPage";
+import ManageRequestOrganizationsPage from "./components/Moderator/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
+import ManageRequestOrganizationManagersPage from "./components/Moderator/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
+import ManageRequestMembersPage from "./components/Moderator/ManageRequestMembersPage/ManageRequestMembersPage";
+import ManageRequestNewsPage from "./components/Moderator/ManageRequestNewsPage/ManageRequestNewsPage";
+import ManageRequestCampaignsPage from "./components/Moderator/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
+import ModeratorLoginPage from "./components/Moderator/ModeratorLoginPage/ModeratorLoginPage";
+import ManageModeratorsPage from "./components/Admin/ManageModeratorsPage/ManageModeratorsPage";
+import ManageVolunteerPage from "./components/Admin/ManageVolunteersPage/ManageVolunteerPage";
+import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMembersPage";
 
 
 function App() {
@@ -82,7 +83,7 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
-            <Route path="/loginRequestManagerVMO" element={<RequestManagerLoginPage />} />
+            <Route path="/loginModeratorVMO" element={<ModeratorLoginPage />} />
 
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
@@ -161,16 +162,16 @@ function App() {
             <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false} />}>
               <Route path="/admin" element={<Admin />}>
                 <Route index element={<AdminHomePage />} />
-                <Route path="manageMembers" element={<ManageMembersPage />} />
+                <Route path="manageVolunteers" element={<ManageVolunteerPage />} />
                 <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
-                <Route path="manageRequestManagers" element={<ManageRequestManagersPage />} />
-                <Route path="manageUsers" element={<ManageUsersPage />} />
+                <Route path="manageModerators" element={<ManageModeratorsPage />} />
+                <Route path="manageMembers" element={<ManageMembersPage />} />
               </Route>
             </Route>
 
             <Route element={<PrivateRoute allowedRoles={["Moderator"]} />}>
-              <Route path="/requestManager" element={<RequestManager />}>
-                <Route index element={<RequestManagerHomePage />} />
+              <Route path="/moderator" element={<Moderator />}>
+                <Route index element={<ModeratorHomePage />} />
                 <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage />} />
                 <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage />} />
                 <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage />} />

@@ -47,6 +47,7 @@ export const columns = ({ onEdit, onDelete }) => [
       </Button>
     ),
   },
+
   {
     accessorKey: "isActived",
     header: ({ column }) => (
@@ -79,7 +80,7 @@ export const columns = ({ onEdit, onDelete }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">OrganizationManager</Badge>
+          <Badge variant="primary">Moderator</Badge>
           
         </div>
       );

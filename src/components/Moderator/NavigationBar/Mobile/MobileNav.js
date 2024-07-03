@@ -1,4 +1,3 @@
-import { Separator } from "../../../ui/separator";
 import { Button } from "../../../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../../ui/sheet";
 import {
@@ -11,24 +10,12 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MobileNav = () => {
-  const location = useLocation();
-
-  // Hàm kiểm tra và trả về class tương ứng
-  const getLinkClass = (path) => {
-    const baseClass =
-      "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2";
-    const activeClass = "bg-muted text-foreground hover:text-foreground";
-    const inactiveClass = "text-muted-foreground hover:text-foreground";
-    return `${baseClass} ${
-      location.pathname === path ? activeClass : inactiveClass
-    }`;
-  };
   return (
     <>
-      {/* MOBILE NAV */}
+    {/* MOBILE NAV */}
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -43,48 +30,68 @@ const MobileNav = () => {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              to="/admin"
+              to="/moderator"
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <p>VMO Admin</p>
-            </Link>
-            <Separator />
-            <Link to="/admin" className={getLinkClass("/admin")}>
-              <Home className="h-4 w-4" />
-              Home
+              <span className="sr-only">VMO Nhân viên kiểm duyệt</span>
             </Link>
             <Link
-              to="/admin/manageMembers"
-              className={getLinkClass("/admin/manageMembers")}
+              to="/moderator"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+            >
+              <Home className="h-5 w-5" />
+              Thống kê số liệu
+            </Link>
+            <Link
+              to="/moderator/manageRequestCampaigns"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <ShoppingCart className="h-5 w-5" />
-              Manage members
+              Danh sách yêu cầu chiến dịch
+
               {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
               {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                     6
                   </Badge> */}
             </Link>
             <Link
-              to="/admin/manageOrganizationManagers"
-              className={getLinkClass("/admin/manageOrganizationManagers")}
+              to="/moderator/manageRequestMembers"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Package className="h-5 w-5" />
-              Manage organization managers
+              Danh sách yêu cầu thành viên
+
             </Link>
             <Link
-              to="/admin/manageModerators"
-              className={getLinkClass("/admin/manageModerators")}
+              to="/moderator/manageRequestOrganizations"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Users className="h-5 w-5" />
-              Manage request managers
+              Danh sách yêu cầu tổ chức
             </Link>
             <Link
-              to="/admin/manageMembers"
-              className={getLinkClass("/admin/manageMembers")}
+              to="/moderator/manageRequestActivities"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <LineChart className="h-5 w-5" />
-              Manage users
+              Danh sách yêu cầu hoạt động
+            </Link>
+
+            <Link
+               to="/moderator/manageRequestOrganizationManagers"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+            >
+              <LineChart className="h-5 w-5" />
+              Danh sách yêu cầu quản lí tổ chức
+            </Link>
+
+            <Link
+              to="/moderator/manageRequestNews"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+            >
+              <LineChart className="h-5 w-5" />
+              Danh sách yêu cầu tin tức
             </Link>
           </nav>
           {/* <div className="mt-auto">
