@@ -12,7 +12,7 @@ import {
 } from "../../ui/input-otp";
 import { useStepper } from "../../ui/stepper";
 
-const OTPInput = () => {
+const OTPInput = ({ otp }) => {
   const { nextStep } = useStepper();
   const { toast } = useToast();
   const formik = useFormik({
@@ -25,20 +25,15 @@ const OTPInput = () => {
         errors.otp = "Không được để trống!";
       } else if (!/^[0-9]{6}$/i.test(values.otp)) {
         errors.otp = "Mã xác nhận phải có ít nhất 6 số!";
+      } else if (values.otp !== otp) {
+        errors.otp = "Mã xác nhận không chính xác!";
       }
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
       toast({
-        title: "Mã xác nhận vừa nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
+        title: "Nhập mã xác nhận thành công!",
+        description: "Tiếp tục quá trình khôi phục mật khẩu!",
       });
       setSubmitting(false);
       nextStep();
