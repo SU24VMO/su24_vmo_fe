@@ -16,12 +16,37 @@ import { Button } from "../../ui/button";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Badge } from "../../ui/badge";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../../ui/alert-dialog";
 
 const RightDetailCampaignSection = ({ data }) => {
+  const { user } = React.useContext(AuthContext);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const navigate = useNavigate();
   // Hàm xử lý khi click vào nút ủng hộ
   const handleDonateClick = () => {
-    navigate(`/donate/${data.campaignID}`); // Thay đổi đường dẫn tùy theo cấu trúc URL của bạn
+    if (user && user.isLogin) {
+      navigate(`/donate/${data.campaignID}`);
+    } else {
+      setIsDialogOpen(true);
+    }
+  };
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+  const handleContinueLogin = () => {
+    // Navigate to login page or handle the login flow
+    navigate("/login"); // Adjust the login path as necessary
+    setIsDialogOpen(false);
   };
   // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
   const calculateDaysLeft = (endDate) => {
@@ -154,6 +179,29 @@ const RightDetailCampaignSection = ({ data }) => {
           </div>
         </CardFooter>
       </Card>
+      {isDialogOpen && (
+        <AlertDialog open={isDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Vui lòng đăng nhập để có thể ủng hộ chiến dịch
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Bạn hãy vui lòng đăng nhập để có thể ủng hộ chiến dịch, điều này
+                sẽ giúp cho ứng dụng thiện nguyện minh bạch hơn !
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleCloseDialog} className={"m-0"}>
+                Hủy
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={handleContinueLogin} className={"m-0"}>
+                Tiếp tục
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   );
 };

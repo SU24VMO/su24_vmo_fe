@@ -88,7 +88,6 @@ function App() {
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
-            <Route path="/donate/:campaignID" element={<DonatePage />} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
@@ -102,7 +101,7 @@ function App() {
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
               <Route path="/createCampaign" element={<CreateCampaignPage />} />
-
+              <Route path="/donate/:campaignID" element={<DonatePage />} />
             </Route>
 
             {/* Organize && Member role  */}
