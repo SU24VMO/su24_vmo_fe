@@ -9,12 +9,14 @@ import { CREATENEWS } from "../../api/apiConstants";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
+import { Loader2 } from "lucide-react";
 
 
 export default function CreatNewsPage() {
-    
+
     const { user } = useContext(AuthContext)
     const { toast } = useToast();
+    const [loading, setLoading] = useState(false)
 
     const [imageCover, setImageCover] = useState();
     function handleChangeCoverImage(e, setFieldValue) {
@@ -32,18 +34,20 @@ export default function CreatNewsPage() {
     }
 
 
-    const createNews = async (data) => {
+    const createNews = async (data, resetForm) => {
+        setLoading(true)
+
         const formData = new FormData();
         formData.append('Cover', data.imageCover);
         formData.append('Title', data.title);
         formData.append('Content', data.descriptionMain);
         formData.append('Description', data.descriptionEnd);
-    
+
         formData.append('Image', data.imageCenter);
         formData.append('AccountId', user.account_id);
 
         try {
-            const response = await axiosPrivate.post(CREATENEWS , formData, {
+            const response = await axiosPrivate.post(CREATENEWS, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -51,15 +55,16 @@ export default function CreatNewsPage() {
 
             if (response.status === 200) {
                 console.log(response.data);
+                resetForm()
                 toast({
-                    title: "Tạo chiến dịch thành công",
+                    title: "Tạo tin tức thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Tạo chiến dịch thất bại !",
-                    description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                    title: "Tạo tin tức thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo tin tức !",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             }
@@ -67,22 +72,25 @@ export default function CreatNewsPage() {
         } catch (error) {
             toast({
                 variant: "destructive",
-                title: "Tạo chiến dịch thất bại !",
-                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                title: "Tạo tin tức thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo tin tức !",
                 action: <ToastAction altText="undo">Ẩn</ToastAction>,
             });
+        } finally {
+            setLoading(false)
+
         }
     }
 
 
     return (<>
-      <Helmet>
-        <title>Tạo tin tức • VMO</title>
-        <meta
-          name="description"
-          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
-        />
-      </Helmet>
+        <Helmet>
+            <title>Tạo tin tức • VMO</title>
+            <meta
+                name="description"
+                content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+            />
+        </Helmet>
         <Formik
             initialValues={{
                 title: "",
@@ -105,7 +113,7 @@ export default function CreatNewsPage() {
                     errors.imageCover = "Không được để trống!";
                 }
 
-               
+
                 if (!values.imageCenter) {
                     errors.imageCenter = 'Không được để trống'
                 }
@@ -114,11 +122,11 @@ export default function CreatNewsPage() {
                 }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting, resetForm   }) => {
-                createNews(values)
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+                createNews(values, resetForm)
                 setSubmitting(false);
-                resetForm();
-                
+
+
                 setImageCover(null);
                 setImageCenter(null);
             }}
@@ -136,16 +144,21 @@ export default function CreatNewsPage() {
             }) => (
                 <form onSubmit={handleSubmit} >
 
-                    <div className="bg-orange-300 w-full h-14 flex justify-center items-center ">
-                        <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Tạo tin tức</h1>
-                    </div>
+
 
                     <div className="w-4/5 mx-auto rounded-xl my-10">
+                        <div className="w-full h-48 tablet:h-60 my-4 flex justify-center rounded-xl shadow overflow-hidden">
+                            <img
+                                src={require("../../assets/images/thumbnail10.jpg")}
+                                className="w-full h-full object-cover object-center  "
+                                alt="ảnh nền"
+                            />
+                        </div>
                         <div className="grid gap-6 ">
 
                             <div className=" col-span-1  rounded-xl shadow-2xl">
                                 <div className="bg-black mb-6 rounded-tl-xl rounded-tr-xl">
-                                    <h1 className="text-white text-center py-3 font-semibold ">Bắt đầu tin tức mới thôi nào!!</h1>
+                                    <h1 className="text-white text-center py-3 font-semibold ">Đăng tải tin tức của bạn</h1>
                                 </div>
                                 <div className="w-4/5 mx-auto">
                                     <div class="mb-6">
@@ -156,7 +169,7 @@ export default function CreatNewsPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.title}
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên chiến dịch..." required />
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..." required />
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.title && touched.title && errors.title}</p>
 
                                     </div>
@@ -176,7 +189,7 @@ export default function CreatNewsPage() {
 
                                     </div>
 
-                                    
+
                                     <div className="mb-6">
                                         <label for="descriptionMain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nội dung chính</label>
                                         <textarea id="descriptionMain"
@@ -219,10 +232,17 @@ export default function CreatNewsPage() {
 
                                 </div>
                                 <div className="flex justify-center">
-                                    <button type="submit"
-                                        disabled={isSubmitting}
-                                        class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10 ">Gửi</button>
+                                    <button type="submit" disabled={isSubmitting} class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10 ">
 
+                                        {loading ? (
+                                            <>
+                                                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                                            </>
+                                        ) : (
+                                            "Gửi"
+                                        )}
+                                    </button>
                                 </div>
                             </div>
                         </div>

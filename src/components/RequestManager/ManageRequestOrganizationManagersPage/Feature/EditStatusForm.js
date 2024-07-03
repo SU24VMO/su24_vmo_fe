@@ -37,7 +37,7 @@ const [loading, setLoading] = useState(false)
 
       const response = await axiosPrivate.put( UPDATEAPPROVEOMREQUEST, {
         createOrganizationManagerRequestID: organizationManager.createOrganizationManagerRequestID,
-        requestManagerId: user.request_manager_id,
+        moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
 
