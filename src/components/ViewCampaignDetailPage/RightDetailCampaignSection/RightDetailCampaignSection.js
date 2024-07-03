@@ -29,12 +29,13 @@ import {
 } from "../../ui/alert-dialog";
 
 const RightDetailCampaignSection = ({ data }) => {
-  const { user } = React.useContext(AuthContext);
+  const { user, isLogin } = React.useContext(AuthContext);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const navigate = useNavigate();
+  console.log("user", user);
   // Hàm xử lý khi click vào nút ủng hộ
   const handleDonateClick = () => {
-    if (user && user.isLogin) {
+    if (isLogin) {
       navigate(`/donate/${data.campaignID}`);
     } else {
       setIsDialogOpen(true);
@@ -62,6 +63,8 @@ const RightDetailCampaignSection = ({ data }) => {
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return formattedValue;
   };
+
+  console.log("isDialogOpen", isDialogOpen);
 
   return (
     <>
@@ -179,8 +182,8 @@ const RightDetailCampaignSection = ({ data }) => {
           </div>
         </CardFooter>
       </Card>
-      {isDialogOpen && (
-        <AlertDialog open={isDialogOpen}>
+      {isDialogOpen ? (
+        <AlertDialog defaultOpen={isDialogOpen}>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
@@ -195,13 +198,16 @@ const RightDetailCampaignSection = ({ data }) => {
               <AlertDialogCancel onClick={handleCloseDialog} className={"m-0"}>
                 Hủy
               </AlertDialogCancel>
-              <AlertDialogAction onClick={handleContinueLogin} className={"m-0"}>
+              <AlertDialogAction
+                onClick={handleContinueLogin}
+                className={"m-0"}
+              >
                 Tiếp tục
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-      )}
+      ) : null}
     </>
   );
 };
