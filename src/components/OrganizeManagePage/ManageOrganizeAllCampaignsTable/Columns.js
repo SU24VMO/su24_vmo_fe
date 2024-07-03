@@ -112,7 +112,18 @@ export const columns = [
   },
   {
     accessorKey: "startDate",
-    header: () => <div className="">Thời gian bắt đầu</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Thời gian bắt đầu
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{startDate}</div>;
@@ -120,7 +131,18 @@ export const columns = [
   },
   {
     accessorKey: "expectedEndDate",
-    header: () => <div className="">Thời gian kết thúc dự kiến</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Thời gian kết thúc dự kiến
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{endDate}</div>;
@@ -129,7 +151,18 @@ export const columns = [
 
   {
     accessorKey: "actualEndDate",
-    header: () => <div className="">Thời gian kết thúc</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Thời gian kết thúc
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
       return <div className="">{actualEndDate}</div>;

@@ -77,7 +77,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "organizationName",
+    accessorKey: "campaignName",
     header: ({ column }) => {
       return (
         <Button
@@ -85,18 +85,18 @@ export const columns = [
           className="px-0 py-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tổ chức
+          Chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const organizationName = row.getValue("organizationName");
+      const campaignName = row.getValue("campaignName");
       return (
         <div>
          
             <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizationName}
+              {campaignName}
             </span>
          
         </div>
@@ -106,7 +106,18 @@ export const columns = [
 
   {
     accessorKey: "createDate",
-    header: () => <div className="">Thời gian đăng</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Thời gian đăng
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{createDate}</div>;

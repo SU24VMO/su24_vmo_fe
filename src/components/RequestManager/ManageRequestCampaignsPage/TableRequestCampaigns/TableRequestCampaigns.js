@@ -8,7 +8,7 @@ import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
 
 
 // call api get 
-export async function getData(cancelToken, pageSize, pageNo) {
+export async function getData(cancelToken, pageSize, pageNo, setLoading) {
   try {
     const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
       cancelToken: cancelToken
@@ -16,6 +16,8 @@ export async function getData(cancelToken, pageSize, pageNo) {
 
     if (response.status === 200) {
       console.log('Fetched data:', response.data.data);
+      setLoading(false)
+
       return response.data.data;
     }
   } catch (error) {
@@ -23,6 +25,8 @@ export async function getData(cancelToken, pageSize, pageNo) {
       console.log('Request cancelled:', error.message);
     } else {
       console.error("Error fetching data from API:", error);
+      setLoading(false)
+
     }
   }
 
@@ -52,16 +56,14 @@ const TableRequestCampaigns = () => {
   
   const fetchData = async (cancelToken, pageSize, pageNo) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo);
+      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000); 
+      
     }
   };
   

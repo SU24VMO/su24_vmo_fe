@@ -108,18 +108,7 @@ export const columns = [
 
   {
     accessorKey: "createAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Thời gian tạo
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: () => <div className="">Thời gian tạo</div>,
     cell: ({ row }) => {
       const dateCreate = format(new Date(row.getValue("createAt")), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="">{dateCreate}</div>;

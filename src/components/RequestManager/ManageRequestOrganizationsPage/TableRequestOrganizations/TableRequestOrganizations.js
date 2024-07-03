@@ -8,7 +8,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTORGANIZATION } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo) {
+async function getData(cancelToken, pageSize, pageNo, setLoading) {
 
   try {
     const response = await axiosPrivate.get(GETALLREQUESTORGANIZATION + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
@@ -17,6 +17,7 @@ async function getData(cancelToken, pageSize, pageNo) {
 
     if (response.status === 200) {
       console.log('Fetched data:', response.data.data);
+      setLoading(false)
       return response.data.data;
     }
   } catch (error) {
@@ -24,6 +25,8 @@ async function getData(cancelToken, pageSize, pageNo) {
       console.log('Request cancelled:', error.message);
     } else {
       console.error("Lỗi khi lấy dữ liệu từ API:", error);
+      setLoading(false)
+
     }
   }
 
@@ -52,16 +55,14 @@ const TableRequestOrganizations = () => {
   
   const fetchData = async (cancelToken, pageSize, pageNo) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo);
+      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000); 
+    
     }
   };
   

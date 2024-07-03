@@ -49,7 +49,16 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "isActived",
-    header: () => <div className="w-max">Trạng thái</div>,
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Trạng thái
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
       const isActived = row.getValue("isActived");
       return (
@@ -90,7 +99,16 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "createdAt",
-    header: () => <div className="w-max">Ngày tạo</div>,
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Ngày tạo
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
       
       const createdAt = format(new Date(row.getValue("createdAt")), 'dd/MM/yyyy, h:mm:ss a');;

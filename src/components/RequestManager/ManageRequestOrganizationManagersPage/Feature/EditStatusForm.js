@@ -22,13 +22,19 @@ import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEOMREQUEST  } from "../../../../api/apiConstants";
 import { AuthContext } from "../../../../context/AuthContext";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Loader2 } from "lucide-react";
+
+
 const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuccess }) => {
   const { toast } = useToast();
 const {user} = useContext(AuthContext)
+const [loading, setLoading] = useState(false)
 
   const updateStatus = async (data) => {
     try {
+      setLoading(true)
+
       const response = await axiosPrivate.put( UPDATEAPPROVEOMREQUEST, {
         createOrganizationManagerRequestID: organizationManager.createOrganizationManagerRequestID,
         requestManagerId: user.request_manager_id,
@@ -58,6 +64,7 @@ const {user} = useContext(AuthContext)
       });
     } finally {
       onOpenChange(false);
+      setLoading(false)
 
     }
   }
@@ -70,7 +77,6 @@ const {user} = useContext(AuthContext)
       console.log(values.createOrganizationManagerRequestID);
       updateStatus(values)
       setSubmitting(false);
-      onOpenChange(false); // Close the dialog after form submission
     },
   });
 
@@ -241,7 +247,14 @@ const {user} = useContext(AuthContext)
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            Xác nhận
+           {loading ? (
+              <>
+                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+              </>
+            ) : (
+              "Xác nhận"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

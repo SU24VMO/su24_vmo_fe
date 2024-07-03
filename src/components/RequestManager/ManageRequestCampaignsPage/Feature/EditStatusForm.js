@@ -18,21 +18,24 @@ import { Badge } from "../../../ui/badge";
 import { ScrollArea } from "../../../ui/scroll-area"
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { UPDATEAPPROVECAMPAIGNREQUEST  } from "../../../../api/apiConstants";
+import { UPDATEAPPROVECAMPAIGNREQUEST } from "../../../../api/apiConstants";
 import { AuthContext } from "../../../../context/AuthContext";
 import { ImageDown } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { format } from "date-fns";
-import React, { useContext } from "react";
-const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) => {
+import React, { useContext, useState } from "react";
+const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) => {
   const { toast } = useToast();
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
   const updateStatus = async (data) => {
     try {
-      const response = await axiosPrivate.put( UPDATEAPPROVECAMPAIGNREQUEST, {
+      setLoading(true)
+      const response = await axiosPrivate.put(UPDATEAPPROVECAMPAIGNREQUEST, {
         createCampaignRequestID: campaigns.createCampaignRequestID,
-        requestManagerId:user.request_manager_id,
+        requestManagerId: user.request_manager_id,
         isApproved: data.isApproved,
       });
 
@@ -59,6 +62,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
       });
     } finally {
       onOpenChange(false);
+      setLoading(false)
+
     }
   }
   // Formik setup
@@ -70,7 +75,6 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
     onSubmit: (values, { setSubmitting }) => {
       updateStatus(values)
       setSubmitting(false);
-      onOpenChange(false); // Close the dialog after form submission
     },
   });
   /* Giải thích: 
@@ -95,7 +99,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
     // Format the value with thousand separators
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return formattedValue + " VND";
-};
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -106,37 +110,37 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của chiến dịch!
           </DialogDescription>
         </DialogHeader>
-     
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-         <div className="flex flex-col gap-5">
-         <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="name">Tên chiến dịch</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="name"
-                  defaultValue={campaigns?.campaign ? campaigns.campaign?.name : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : ""} />
-              </div>
-            </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="targetAmount">Mục tiêu</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
-                </Badge>
-                <CopyButton
-                  code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
-                />
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+          <div className="flex flex-col gap-5">
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="name">Tên chiến dịch</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="name"
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.name : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex">
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="targetAmount">Mục tiêu</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="image">Ảnh nền</Label>
                 <div className="w-1/3 mx-auto">
@@ -146,7 +150,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
-                {campaigns?.campaign  && campaigns.campaign?.image && (
+                {campaigns?.campaign && campaigns.campaign?.image && (
                   <a href={campaigns.campaign?.image} download>
                     <Button
                       variant="outline"
@@ -160,163 +164,163 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
               </div>
             </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="description">Mô tả</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns?.campaign ? campaigns.campaign?.description : ""}
-                </Badge>
-                <CopyButton
-                  code={campaigns?.campaign ? campaigns.campaign?.description : ""}
-                />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="description">Mô tả</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns?.campaign ? campaigns.campaign?.description : ""}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns?.campaign ? campaigns.campaign?.description : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="address">Địa chỉ</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="address"
-                  defaultValue={campaigns?.campaign ? campaigns.campaign?.address : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="address">Địa chỉ</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="address"
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.address : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : ""} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="applicationConfirmForm"
-                  defaultValue={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="applicationConfirmForm"
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""} />
+                </div>
               </div>
             </div>
-          </div>
 
-         <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="user">Tạo bởi thành viên</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="user"
-                  defaultValue={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName  ) : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName  ) : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="user">Tạo bởi thành viên</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="user"
+                    defaultValue={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""} />
+                </div>
               </div>
             </div>
-          </div>
-         <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="create_by_om">Tạo bởi quản lí tổ chức</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="create_by_om"
-                  defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName)  : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName) : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_by_om">Tạo bởi quản lí tổ chức</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="create_by_om"
+                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName) : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName) : ""} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="organization">Tổ chức</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="organization"
-                  defaultValue={campaigns?.campaign ? campaigns.campaign?.organization : ""}
-                  disabled
-                />
-                <CopyButton code={campaigns?.campaign ? campaigns.campaign?.organization : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="organization">Tổ chức</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="organization"
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.organization : ""}
+                    disabled
+                  />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.organization : ""} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="create_date">Ngày tạo chiến dịch</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_date">Ngày tạo chiến dịch</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="startDate">Ngày bắt đầu</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="startDate">Ngày bắt đầu</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="expectedEndDate">Ngày kết thúc (dự kiến)</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="expectedEndDate">Ngày kết thúc (dự kiến)</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-    
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="approved_by">Duyệt bởi</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {campaigns?.requestManager ? (campaigns.requestManager?.firstName + campaigns.requestManager?.lastName) : "Chưa có"}
-                </Badge>
-                <CopyButton
-                  code={campaigns?.requestManager ? (campaigns.requestManager?.firstName + campaigns.requestManager?.lastName) : "Chưa có"}
-                />
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approved_by">Duyệt bởi</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {campaigns?.requestManager ? (campaigns.requestManager?.firstName + campaigns.requestManager?.lastName) : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={campaigns?.requestManager ? (campaigns.requestManager?.firstName + campaigns.requestManager?.lastName) : "Chưa có"}
+                  />
+                </div>
               </div>
             </div>
+            {campaigns && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isApproved"
+                    checked={formik.values.isApproved}
+                    onCheckedChange={handleSwitchChange("isApproved")}
+                  />
+                  <Label htmlFor="isApproved">Chấp thuận</Label>
+                </div>
+
+              </form>
+            )}
           </div>
-          {campaigns && (
-          <form onSubmit={formik.handleSubmit} className="space-y-3">
-            {/*  */}
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isApproved"
-                checked={formik.values.isApproved}
-                onCheckedChange={handleSwitchChange("isApproved")}
-              />
-              <Label htmlFor="isApproved">Chấp thuận</Label>
-            </div>
-            
-          </form>
-        )}
-         </div>
-          </ScrollArea>
-      
+        </ScrollArea>
+
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
@@ -328,7 +332,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess  }) =
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            Xác nhận
+            {loading ? (
+              <>
+                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+              </>
+            ) : (
+              "Xác nhận"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
