@@ -80,15 +80,17 @@ const SignUpForm = () => {
           // FirstName validation
           if (!values.firstName) {
             errors.firstName = "Không được để trống!";
-          } else if (!/^[a-zA-Z ]+$/.test(values.firstName)) {
-            errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
-          }
+          } 
+          // else if (!/^[a-zA-Z ]+$/.test(values.firstName)) {
+          //   errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
+          // }
           // LastName validation
           if (!values.lastName) {
             errors.lastName = "Không được để trống!";
-          } else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
-            errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
-          }
+          } 
+          // else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
+          //   errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
+          // }
           // UserName validation
           if (!values.username) {
             errors.username = "Không được để trống!";
