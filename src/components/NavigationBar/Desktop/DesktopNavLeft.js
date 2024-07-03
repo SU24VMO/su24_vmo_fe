@@ -49,8 +49,8 @@ const DesktopNavLeft = () => {
         </NavigationMenuItem>
       </NavigationMenu>
 
-      {/* check role có phải Member không mới hiển thị */}
-      {user?.role === "Member" && user.is_verified === "True" ? (
+      {/* check role có phải Volunteer không mới hiển thị */}
+      {user?.role === "Volunteer" && user.is_verified === "True" ? (
         <Link to="/manage/allCampaigns">
           <Button variant="feature">Quản lí</Button>
         </Link>

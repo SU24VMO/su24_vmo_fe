@@ -21,15 +21,18 @@ import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEMEMBERREQUEST } from "../../../../api/apiConstants";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
+import { Loader2 } from "lucide-react";
 
 const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
-  console.log(member);
+  const [loading, setLoading] = useState(false)
+
   const updateStatus = async (data) => {
     try {
+      setLoading(true)
       const response = await axiosPrivate.put(UPDATEAPPROVEMEMBERREQUEST, {
         createMemberRequestID: member.createMemberRequestID,
         requestManagerId: user.request_manager_id,
@@ -59,6 +62,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
       });
     } finally {
       onOpenChange(false);
+      setLoading(false)
 
     }
   }
@@ -68,10 +72,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
       isApproved: member ? member.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
       updateStatus(values)
       setSubmitting(false);
-      onOpenChange(false); // Close the dialog after form submission
     },
   });
 
@@ -330,7 +332,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            Xác nhận
+           {loading ? (
+              <>
+                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+              </>
+            ) : (
+              "Xác nhận"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

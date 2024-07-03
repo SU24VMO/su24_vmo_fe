@@ -57,9 +57,7 @@ const LoginForm = () => {
         </div>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="account">
-              Số điện thoại, tên người dùng hoặc email
-            </Label>
+            <Label htmlFor="account">Email hoặc tên người dùng</Label>
             <Input
               id="account"
               type="text"

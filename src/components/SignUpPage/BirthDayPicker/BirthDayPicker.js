@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { cn } from "../../../lib/utils";
 import { Calendar } from "../../ui/calendar";
-import { Label } from "../../ui/label";
 
 const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
   const [date, setDate] = React.useState(null);
@@ -16,9 +15,9 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
     const formatted = date ? format(date, "yyyy-MM-dd") : null;
     setFormattedDate(formatted);
     setFieldValue("birthday", formatted);
-    console.log(date);
+    // console.log(date);
   };
-  console.log("Formatted date: ", formattedDate);
+  // console.log("Formatted date: ", formattedDate);
 
   return (
     <>

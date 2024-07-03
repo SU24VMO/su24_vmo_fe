@@ -75,7 +75,11 @@ const fetchData = async (cancelToken, pageSize, pageNo) => {
   }, [pageSize, pageNo]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
-
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, pageSize, pageNo);
+  };
   return (
     <div className="flex flex-col">
       <div>
@@ -88,6 +92,8 @@ const fetchData = async (cancelToken, pageSize, pageNo) => {
               setSelectedRow(null);
             }
           }}
+          onSubmitSuccess={handleRefresh}
+
         />
       </div>
       <DataTable 

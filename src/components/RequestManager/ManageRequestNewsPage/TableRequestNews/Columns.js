@@ -66,7 +66,18 @@ export const columns = ({ onEdit, onDelete }) => [
 
   {
     accessorKey: "createDate",
-    header: () => <div>Ngày tạo</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Ngày tạo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const createDate = row?.getValue("createDate") ? format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{createDate}</div>;
@@ -75,13 +86,23 @@ export const columns = ({ onEdit, onDelete }) => [
 
   {
     accessorKey: "approvedDate",
-    header: () => <div>Ngày duyệt</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Ngày duyệt
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const approvedDate =  row?.getValue("approvedDate") ? format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{approvedDate}</div>;
     },
   },
- 
   {
     accessorKey: "requestManager",
     header: ({ column }) => {
@@ -104,7 +125,18 @@ export const columns = ({ onEdit, onDelete }) => [
   },
   {
     accessorKey: "isApproved",
-    header: () => <div>Xác thực</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Xác thực
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const isApproved = row.getValue("isApproved");
 

@@ -15,9 +15,9 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId, userDate }) => {
     const formatted = date ? format(date, "yyyy-MM-dd") : null;
     setFormattedDate(formatted);
     setFieldValue("birthday", formatted);
-    console.log(date);
+    // console.log(date);
   };
-  console.log("Formatted date: ", formattedDate);
+  // console.log("Formatted date: ", formattedDate);
 
   return (
     <>

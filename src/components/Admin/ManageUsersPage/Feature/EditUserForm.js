@@ -16,23 +16,29 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
-const EditUserForm = ({ isOpen, onOpenChange, user }) => {
+import { Loader2 } from "lucide-react";
+
+const EditUserForm = ({ isOpen, onOpenChange, user , onSubmitSuccess}) => {
   const { toast } = useToast();
   // Formik setup
+  const [loading, setLoading] = useState(false)
 
   const updateStatus = async (accountID, isActived) => {
     try {
+      setLoading(true)
+
       const response = await axiosPrivate.put(UPDATEISACTIVED, {
         accountID: accountID,
         isActived: isActived,
       });
 
       if (response.status === 200) {
+        onSubmitSuccess();
         console.log(response);
         toast({
           title: "Cập nhật thành công",
@@ -54,6 +60,9 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+      setLoading(false)
+
     }
   }
 
@@ -68,8 +77,7 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
       console.log(values.accountID);
       updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
-      onOpenChange(false); // Close the dialog after form submission
-    },
+      },
   });
   /* Giải thích: 
   Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
@@ -239,7 +247,14 @@ const EditUserForm = ({ isOpen, onOpenChange, user }) => {
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            Xác nhận
+            {loading ? (
+              <>
+                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+              </>
+            ) : (
+              "Xác nhận"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
