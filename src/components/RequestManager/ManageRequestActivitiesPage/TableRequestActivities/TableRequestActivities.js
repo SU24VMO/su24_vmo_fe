@@ -7,14 +7,16 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTACTIVITIES } from "../../../../api/apiConstants";
 
-async function getData(cancelToken) {
+async function getData(cancelToken, pageSize, pageNo, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTACTIVITIES + `?pageSize=10&pageNo=1`, {
+    const response = await axiosPrivate.get(GETALLREQUESTACTIVITIES + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
       cancelToken: cancelToken
     });
 
     if (response.status === 200) {
+      setLoading(false)
+
  console.log(response.data.data);
       return response.data.data;
     }
@@ -23,6 +25,8 @@ async function getData(cancelToken) {
       console.log('Request cancelled:', error.message);
     } else {
       console.error("Lỗi khi lấy dữ liệu từ API:", error);
+      setLoading(false)
+
     }
   }
 
@@ -33,6 +37,11 @@ const TableRequestActivities = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
+  const [loading, setLoading] = useState(true);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNo, setPageNo] = useState(1);
+  const [list, setList] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -45,9 +54,31 @@ const TableRequestActivities = () => {
     alert(`Deleting activities with ID: ${row.activity_id}`);
   }, []);
 
+  const fetchData = async (cancelToken, pageSize, pageNo) => {
+    try {
+      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
+      setData(result?.list || []);
+      setList(result);
+      setTotalItems(result?.totalItem || 0);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+     
+    }
+  };
+
+
   useEffect(() => {
-    getData().then((data) => setData(data));
-  }, []);
+    const source = axios.CancelToken.source();
+    setLoading(true);
+    fetchData(source.token, pageSize, pageNo);
+
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [pageSize, pageNo]);
+
+  const totalPages = Math.ceil(totalItems / pageSize);
 
   return (
     <div className="flex flex-col">
@@ -63,7 +94,16 @@ const TableRequestActivities = () => {
           }}
         />
       </div>
-      <DataTable columns={columns({ onEdit, onDelete })} data={data} />
+      <DataTable columns={columns({ onEdit, onDelete })}
+       data={data}
+       loading={loading}
+       list={list}
+       pageSize={pageSize}
+       pageNo={pageNo}
+       setPageSize={setPageSize}
+       setPageNo={setPageNo}
+       totalPages={totalPages}
+      />
     </div>
   );
 };

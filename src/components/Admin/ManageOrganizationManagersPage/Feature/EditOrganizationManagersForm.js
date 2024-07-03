@@ -16,17 +16,22 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
-const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManager }) => {
+import { Loader2 } from "lucide-react";
+
+const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuccess }) => {
   const { toast } = useToast();
   // Formik setup
+  const [loading, setLoading] = useState(false)
 
   const updateStatus = async (accountID, isActived) => {
     try {
+      setLoading(true)
+
       const response = await axiosPrivate.put(UPDATEISACTIVED, {
         accountID: accountID,
         isActived: isActived,
@@ -34,6 +39,8 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
 
       if (response.status === 200) {
         console.log(response);
+        onSubmitSuccess()
+
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -54,6 +61,8 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      onOpenChange(false);
+      setLoading(false)
     }
   }
 
@@ -65,10 +74,8 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
       accountID: organizationManager ? organizationManager.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values.accountID);
       updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
-      onOpenChange(false); // Close the dialog after form submission
     },
   });
   /* Giải thích: 
@@ -239,7 +246,14 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            Xác nhận
+            {loading ? (
+              <>
+                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+              </>
+            ) : (
+              "Xác nhận"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

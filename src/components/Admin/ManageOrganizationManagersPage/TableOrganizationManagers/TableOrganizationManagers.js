@@ -74,6 +74,12 @@ const TableOrganizationManagers = () => {
   }, [pageSize, pageNo]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, pageSize, pageNo);
+  };
   return (
     <div className="flex flex-col">
       <div>
@@ -86,6 +92,8 @@ const TableOrganizationManagers = () => {
               setSelectedRow(null);
             }
           }}
+          onSubmitSuccess={handleRefresh}
+
         />
       </div>
       <DataTable 

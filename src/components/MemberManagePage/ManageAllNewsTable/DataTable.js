@@ -1,5 +1,3 @@
-"use client";
-
 import {
   flexRender,
   getCoreRowModel,
@@ -10,27 +8,19 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../../../ui/dropdown-menu";
-
-import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../ui/table";
+} from "../../ui/table";
 
-import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
 import React from "react";
-import { ChevronDown, File } from "lucide-react";
-import { exportToExcel } from "../Feature/exportToExcel";
-import SkeletonTable from "../SkeletonTable/SkeletonTable";
+import { Link } from "react-router-dom";
+import SkeletonNewsTable from "./SkeletonNewsTable/SkeletonNewsTable";
 
 export function DataTable({ 
   columns,
@@ -43,8 +33,8 @@ export function DataTable({
   totalPages,
  }) {
   const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]); //filter
-  const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
+  const [columnFilters, setColumnFilters] = React.useState([]);
+
   const table = useReactTable({
     data: data,
     columns,
@@ -54,25 +44,11 @@ export function DataTable({
     onSortingChange: setSorting, // Sort
     onColumnFiltersChange: setColumnFilters, // Filter
     getFilteredRowModel: getFilteredRowModel(), // Filter
-    onColumnVisibilityChange: setColumnVisibility, // Column visibility
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
     },
   });
-  //Name of column dropdown
-  const columnHeaders = {
-    // title: "Tên bài viết",
-    // create_by: "Tạo bởi",
-    // approved_date: "Ngày duyệt",
-    // update_date: "Ngày cập nhật",
-    // create_date: "Ngày tạo",
-    // is_approved: "Xác thực",
-    // is_pending: "Trạng thái chờ",
-    // is_locked: "Trạng thái khóa",
-    // actions: "Thao tác",
-  };
 
   const [state, setState] = React.useState({
     ...table.initialState, //populate the initial state with all of the default state values from the table instance
@@ -98,60 +74,38 @@ export function DataTable({
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
   return (
-    <div>
+    <>
+     <div className="my-4">
+      <p className="font-bold text-2xl">Danh sách tin tức</p>
+      </div>
+
       <div className="flex items-center py-4">
-        {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập tiêu đề hoạt động cần tìm ..."
-          value={table.getColumn("title")?.getFilterValue() || ""}
+          placeholder="Tìm kiếm tiêu đề ..."
+          value={table.getColumn("newTitle")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table
+              .getColumn("newTitle")
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        {/* Xuất excel */}
-        <Button
-          onClick={() => exportToExcel({ post: data })}
-          className="ml-4"
-          variant="outline"
-        >
-          Tải xuống <File className="ml-2 h-4 w-4" />
-        </Button>
-        {/* Ẩn, hiện cột và hàng */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Cột hiển thị <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) =>
-                  column.getCanHide() && columnHeaders.hasOwnProperty(column.id)
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {columnHeaders[column.id]}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      </div>
+
+      <div className="w-full flex justify-end">
+        <Link to="/createNews">
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Tạo tin tức
+          </button>
+        </Link>
       </div>
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonTable />
+          <SkeletonNewsTable />
         ) : (
           <Table>
             <TableHeader>
@@ -236,6 +190,6 @@ export function DataTable({
           </select> */}
         </div>
       </div>
-    </div>
+    </>
   );
 }
