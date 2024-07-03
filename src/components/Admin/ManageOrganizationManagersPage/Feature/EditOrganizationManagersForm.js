@@ -200,23 +200,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
               <Label htmlFor="role">Role</Label>
               <div className="flex items-center space-x-2">
               <Badge variant="primary">OrganizationManager</Badge>
-                {/* {user ? (
-                  user.role === "Admin" ? (
-                    <Badge variant="success">Admin</Badge>
-                  ) : user.role === "User" ? (
-                    <Badge variant="primary">User</Badge>
-                  ) : user.role === "Member" ? (
-                    <Badge variant="info">Member</Badge>
-                  ) : user.role === "OrganizationManager" ? (
-                    <Badge variant="warning">Organization Manager</Badge>
-                  ) : user.role === "RequestManager" ? (
-                    <Badge variant="danger">Request Manager</Badge>
-                  ) : (
-                    <Badge variant="secondary">Unknown</Badge>
-                  )
-                ) : (
-                  "No user"
-                )} */}
+               
               </div>
             </div>
           </div>

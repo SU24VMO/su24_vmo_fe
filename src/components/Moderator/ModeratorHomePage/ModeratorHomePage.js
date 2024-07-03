@@ -32,17 +32,17 @@ import avatar_4 from "../../../assets/avatars/04.png";
 import avatar_5 from "../../../assets/avatars/05.png";
 import { Helmet } from "react-helmet";
 
-const AdminHomePage = () => {
+const ModeratorHomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Trang chủ Admin • VMO</title>
+        <title>Trang chủ người kiểm duyệt • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Dashboard (Chưa có api, chưa fix export excel, cột hiển thị lỗi)</p>
+      <p className="font-bold text-2xl">Dashboard (Activity đang lỗi lum la)</p>
       {/* CARD FULL*/}
       <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
@@ -312,4 +312,4 @@ const AdminHomePage = () => {
   );
 };
 
-export default AdminHomePage;
+export default ModeratorHomePage;

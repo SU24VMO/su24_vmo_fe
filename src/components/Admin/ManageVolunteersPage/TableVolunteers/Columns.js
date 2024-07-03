@@ -72,6 +72,7 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
+ 
   {
     accessorKey: "role",
     header: () => <div className="w-max">Vai trò</div>,
@@ -79,7 +80,7 @@ export const columns = ({ onEdit, onDelete }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">OrganizationManager</Badge>
+          <Badge variant="primary">Member</Badge>
           
         </div>
       );

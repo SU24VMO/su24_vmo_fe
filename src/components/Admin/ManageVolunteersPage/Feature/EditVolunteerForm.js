@@ -16,17 +16,20 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React, { useState } from "react";
+import React , {useContext, useState} from "react";
+import { AuthContext } from "../../../../context/AuthContext";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
+
 import { Loader2 } from "lucide-react";
 
-const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
+const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) => {
   const { toast } = useToast();
   // Formik setup
   const [loading, setLoading] = useState(false)
+
 
   const updateStatus = async (accountID, isActived) => {
     try {
@@ -38,8 +41,8 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
       });
 
       if (response.status === 200) {
-        onSubmitSuccess();
-        console.log(response);
+        onSubmitSuccess()
+
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -62,7 +65,6 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
     } finally {
       onOpenChange(false);
       setLoading(false)
-
     }
   }
 
@@ -70,30 +72,29 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
 
   const formik = useFormik({
     initialValues: {
-      isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
+      isActived: volunteer ? volunteer.isActived : false,
+      accountID: volunteer ? volunteer.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values.accountID);
       updateStatus(values.accountID, values.isActived)
       setSubmitting(false);
-      },
+    },
   });
   /* Giải thích: 
   Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
   và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
   nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
-   này là sử dụng memberef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
+   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when member changes
+  // Update formik initialValues when user changes
   React.useEffect(() => {
     setValuesRef.current({
-      isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
+      isActived: volunteer ? volunteer.isActived : false,
+      accountID: volunteer ? volunteer.accountID : ""
       
     });
-  }, [member]);
+  }, [volunteer]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
@@ -117,7 +118,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Avatar className="w-20 h-20">
                   <AvatarImage
-                    src={member ? member.avatar : ""}
+                    src={volunteer ? volunteer.avatar : ""}
                     alt="@avatar"
                   />
                   <AvatarFallback>A</AvatarFallback>
@@ -132,24 +133,24 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="accountID"
-                  defaultValue={member ? member.accountID : ""}
+                  defaultValue={volunteer ? volunteer.accountID : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.accountID : ""} />
+                <CopyButton code={volunteer ? volunteer.accountID : ""} />
               </div>
             </div>
           </div>
           {/* Show tên người dùng */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="membername">Tên người dùng</Label>
+              <Label htmlFor="username">Tên người dùng</Label>
               <div className="flex items-center space-x-2">
                 <Input
-                  id="membername"
-                  defaultValue={member ? member.membername : ""}
+                  id="username"
+                  defaultValue={volunteer ? volunteer.username : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.membername : ""} />
+                <CopyButton code={volunteer ? volunteer.username : ""} />
               </div>
             </div>
           </div>
@@ -160,10 +161,10 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="email"
-                  defaultValue={member ? member.email : ""}
+                  defaultValue={volunteer ? volunteer.email : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.email : ""} />
+                <CopyButton code={volunteer ? volunteer.email : ""} />
               </div>
             </div>
           </div>
@@ -174,10 +175,10 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="hashPassword"
-                  defaultValue={member ? member.hashPassword : ""}
+                  defaultValue={volunteer ? volunteer.hashPassword : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.hashPassword : ""} />
+                <CopyButton code={volunteer ? volunteer.hashPassword : ""} />
               </div>
             </div>
           </div>
@@ -189,9 +190,9 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
                 <Input
                   id="createdAt"
                   disabled
-                  defaultValue={member ? member.createdAt : ""}
+                  defaultValue={volunteer ? volunteer.createdAt : ""}
                 />
-                <CopyButton code={member ? member.createdAt : ""} />
+                <CopyButton code={volunteer ? volunteer.createdAt : ""} />
               </div>
             </div>
           </div>
@@ -200,12 +201,12 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
             <div className="grid flex-1 gap-2">
               <Label htmlFor="role">Role</Label>
               <div className="flex items-center space-x-2">
-              <Badge variant="primary">Member</Badge>
+              <Badge variant="primary">Volunteer</Badge>
                 
               </div>
             </div>
           </div>
-          {member && (
+          {volunteer && (
             <form onSubmit={formik.handleSubmit} className="space-y-3">
               {/*  */}
               <div className="flex items-center space-x-2">
@@ -231,7 +232,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-            {loading ? (
+          {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
@@ -246,4 +247,4 @@ const EditMemberForm = ({ isOpen, onOpenChange, member , onSubmitSuccess}) => {
   );
 };
 
-export default EditMemberForm;
+export default EditVolunteerForm;

@@ -47,6 +47,7 @@ export const columns = ({ onEdit, onDelete }) => [
       </Button>
     ),
   },
+ 
   {
     accessorKey: "isActived",
     header: ({ column }) => (
@@ -72,7 +73,6 @@ export const columns = ({ onEdit, onDelete }) => [
       );
     },
   },
- 
   {
     accessorKey: "role",
     header: () => <div className="w-max">Vai trò</div>,
@@ -80,20 +80,8 @@ export const columns = ({ onEdit, onDelete }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">Member</Badge>
-          {/* {role === "Admin" ? (
-            <Badge variant="success">Admin</Badge>
-          ) : role === "User" ? (
-            <Badge variant="primary">User</Badge>
-          ) : role === "Member" ? (
-            <Badge variant="info">Member</Badge>
-          ) : role === "OrganizationManager" ? (
-            <Badge variant="warning">Organization Manager</Badge>
-          ) : role === "RequestManager" ? (
-            <Badge variant="danger">Request Manager</Badge>
-          ) : (
-            <Badge variant="secondary">Unknown</Badge>
-          )} */}
+          <Badge variant="primary">User</Badge>
+         
         </div>
       );
     },
