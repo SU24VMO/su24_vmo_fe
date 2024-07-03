@@ -85,7 +85,7 @@ const MobileNavLeft = () => {
             </>
           )}
 
-          {user?.role === "Member" && user.is_verified ? (
+          {user?.role === "Volunteer" && user.is_verified ? (
             <>
               <Separator className="mb-5" />
               <div className="w-full mb-5">

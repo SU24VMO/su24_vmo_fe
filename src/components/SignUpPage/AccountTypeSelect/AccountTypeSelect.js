@@ -22,7 +22,7 @@ const AccountTypeSelect = ({ setFieldValue, selectTriggerId }) => {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Tài khoản</SelectLabel>
-            <SelectItem value="user">Tài khoản người dùng</SelectItem>
+            <SelectItem value="member">Tài khoản người dùng</SelectItem>
             <SelectItem value="organizationManager">Tài khoản quản lý tổ chức</SelectItem>
           </SelectGroup>
         </SelectContent>
