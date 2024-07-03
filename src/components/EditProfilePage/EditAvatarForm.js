@@ -35,6 +35,11 @@ export default function EditAvatarForm() {
   }
 
   const handleSubmitAvatar = async (e) => {
+    toast({
+      title: "Đang cập nhật ảnh đại diện...",
+      description: "Vui lòng chờ trong giây lát !",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
     e.preventDefault();
     setLoading(true);
     if (file) {
