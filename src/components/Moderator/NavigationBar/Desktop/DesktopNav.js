@@ -10,6 +10,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const DesktopNav = () => {
+
   const location = useLocation();
 
   // Hàm kiểm tra và trả về class tương ứng
@@ -18,10 +19,10 @@ const DesktopNav = () => {
       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
     const activeClass = "bg-muted text-primary hover:text-primary";
     const inactiveClass = "text-muted-foreground hover:text-primary";
-    return `${baseClass} ${
-      location.pathname === path ? activeClass : inactiveClass
-    }`;
+    return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
+      }`;
   };
+
 
   return (
     <>
@@ -29,9 +30,9 @@ const DesktopNav = () => {
       <div className="hidden tablet:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6">
-            <Link to="/admin" className="flex items-center gap-2 font-semibold">
+            <Link to="/moderator" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">VMO Admin</span>
+              <span className="">VMO Nhân viên kiểm duyệt</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -40,37 +41,60 @@ const DesktopNav = () => {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium tablet:px-4">
-              <Link to="/admin" className={getLinkClass("/admin")}>
+              <Link
+                to="/moderator"
+                className={getLinkClass("/moderator")}
+              >
                 <Home className="h-4 w-4" />
-                Trang chủ
+                Thống kê số liệu
               </Link>
               <Link
-                to="/admin/manageVolunteers"
-                className={getLinkClass("/admin/manageVolunteers")}
+                to="/moderator/manageRequestCampaigns"
+                className={getLinkClass("/moderator/manageRequestCampaigns")}
               >
                 <ShoppingCart className="h-4 w-4" />
-                Quản lí thành viên
+                Danh sách yêu cầu chiến dịch
+                {/* Chỉ bỏ comment khi muốn dùng để hiện số lượng thông báo */}
+                {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  6
+                </Badge> */}
               </Link>
               <Link
-                to="/admin/manageOrganizationManagers"
-                className={getLinkClass("/admin/manageOrganizationManagers")}
+              to="/moderator/manageRequestMembers"
+              className={getLinkClass("/moderator/manageRequestMembers")}
               >
                 <Package className="h-4 w-4" />
-                Quản lí thành viên tổ chức
+                {/* Products{" "} */}
+                Danh sách yêu cầu thành viên
               </Link>
               <Link
-                to="/admin/manageModerators"
-                className={getLinkClass("/admin/manageModerators")}
+                to="/moderator/manageRequestOrganizations"
+                className={getLinkClass("/moderator/manageRequestOrganizations")}
               >
                 <Users className="h-4 w-4" />
-               Quản lí nhân viên kiểm duyệt
+                {/* Customers */}
+                Danh sách yêu cầu tổ chức
               </Link>
               <Link
-                to="/admin/manageMembers"
-                className={getLinkClass("/admin/manageMembers")}
+                to="/moderator/manageRequestActivities"
+                className={getLinkClass("/moderator/manageRequestActivities")}
               >
                 <LineChart className="h-4 w-4" />
-                Quản lí người dùng 
+                Danh sách yêu cầu hoạt động
+              </Link>
+              <Link
+                to="/moderator/manageRequestOrganizationManagers"
+                className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
+              >
+                <LineChart className="h-4 w-4" />
+                Danh sách yêu cầu quản lí tổ chức
+              </Link>
+              <Link
+                to="/moderator/manageRequestNews"
+                className={getLinkClass("/moderator/manageRequestNews")}
+              >
+                <LineChart className="h-4 w-4" />
+                Danh sách yêu cầu tin tức
               </Link>
             </nav>
           </div>

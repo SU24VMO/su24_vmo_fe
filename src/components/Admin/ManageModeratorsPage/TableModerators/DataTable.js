@@ -25,18 +25,14 @@ import {
   TableRow,
 } from "../../../ui/table";
 
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../../ui/select";
-
-
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import React from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
-import SkeletonMembersTable from "../SkeletonMembersTable/SkeletonMembersTable";
+import SkeletonModeratorTable from "../SkeletonModeratorTable/SkeletonModeratorTable";
 
-
-export function DataTable({
+export function DataTable({ 
   columns,
   data,
   loading,
@@ -45,7 +41,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
-}) {
+ }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
@@ -66,12 +62,13 @@ export function DataTable({
     },
   });
   //Name of column dropdown
-  const columnHeaders = {
+  const columnHeaders =  {
     avatar: "Avatar",
     username: "Tên người dùng",
     email: "Email",
     hashPassword: "Mật khẩu",
     isActived: "Trạng thái",
+    // isBlocked: "Dừng hoạt động",
     role: "Vai trò",
     createdAt: "Ngày tạo",
     actions: "Thao tác",
@@ -99,10 +96,11 @@ export function DataTable({
   const handleNextPage = () => {
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
+
   return (
     <div>
       <div className="flex items-center py-4">
-        {/* Search filter tên người dùng */}
+      {/* Search filter tên người dùng */}
         <Input
           type="search"
           placeholder="Nhập tên người dùng cần tìm ..."
@@ -146,7 +144,7 @@ export function DataTable({
       </div>
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonMembersTable />
+          <SkeletonModeratorTable />
         ) : (
           <Table>
             <TableHeader>
@@ -157,9 +155,9 @@ export function DataTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   ))}
                 </TableRow>
@@ -197,7 +195,6 @@ export function DataTable({
         )}
       </div>
       <div className="flex items-center justify-between p-2">
-       
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Trang {pageNo} trên {totalPages}
         </div>

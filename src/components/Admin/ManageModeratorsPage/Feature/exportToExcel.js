@@ -1,9 +1,9 @@
 import xlsx from "json-as-xlsx";
 
-export function exportToExcel({ user }) {
+export function exportToExcel({ moderator }) {
   let columns = [
     {
-      sheet: "Users",
+      sheet: "Moderators",
       columns: [
         { label: "Tên người dùng", value: "username" },
         { label: "Email", value: "email" },
@@ -15,12 +15,12 @@ export function exportToExcel({ user }) {
         //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
         // },
       ],
-      content: user,
+      content: moderator,
     },
   ];
 
   let settings = {
-    fileName: "Danh sách người dùng",
+    fileName: "Danh sách người kiểm duyệt",
   };
 
   xlsx(columns, settings);
