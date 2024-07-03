@@ -23,7 +23,6 @@ const getAllOrganizations = async () => {
     if (response.status === 200) {
  const activeOrganizations = response.data.data.list.filter(org => org.isActive);
 
-
       setOrganizations(activeOrganizations); 
     } else {
       console.error("Failed to fetch types of organizations.");
