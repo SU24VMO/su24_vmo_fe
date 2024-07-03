@@ -6,13 +6,18 @@ import { cn } from "../../../lib/utils";
 import { Button } from "../../ui/button";
 import { useToast } from "../../ui/use-toast";
 import { useStepper } from "../../ui/stepper";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { ToastAction } from "../../ui/toast";
+import { axiosPublic } from "../../../api/axiosInstance";
+import { FORGOT_PASSWORD_RESET_PASSWORD } from "../../../api/apiConstants";
 
-const NewPasswordInput = () => {
+const NewPasswordInput = ({ email }) => {
   //State để show/hide password
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] =
     React.useState(false);
+  // State để show/hide loading
+  const [loading, setLoading] = React.useState(false);
 
   //Function để toggle show/hide password
   const toggleNewPasswordVisibility = () =>
@@ -22,6 +27,53 @@ const NewPasswordInput = () => {
 
   const { nextStep } = useStepper();
   const { toast } = useToast();
+
+  // Handle form submission
+  async function handleSubmit(values, setSubmitting, setLoading) {
+    try {
+      toast({
+        title: "Đang thay đổi mật khẩu mới!",
+        description: "Vui chờ trong giây lát!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      setLoading(true); // Start loading
+      const response = await axiosPublic.post(`${FORGOT_PASSWORD_RESET_PASSWORD}`, {
+        email: email,
+        password: values.newPassword,
+      });
+      if (response.status === 200) {
+        toast({
+          title: "Đã đổi mật khẩu thành công!",
+          description: "Vui lòng quay lại đăng nhập tài khoản!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Get OTP successfully: ", response.data);
+        nextStep(); // Move to the next step
+      } else {
+        // Handle any other status code appropriately
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra !",
+          description: "Vui lòng thử lại!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Failed to update profile");
+      }
+    } catch (error) {
+      // Handle error (e.g., show an error message)
+      toast({
+        variant: "destructive",
+        title: "Có lỗi xảy ra !",
+        description: "Vui lòng thử lại!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.error("Error get OTP:", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of the outcome
+      setSubmitting(false); // Set Formik submitting to false
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       newPassword: "",
@@ -47,19 +99,7 @@ const NewPasswordInput = () => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      toast({
-        title: "Nội dung vừa nhập:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>{" "}
-            {/* For testing*/}
-          </pre>
-        ),
-      });
-      setSubmitting(false);
-      nextStep();
+      handleSubmit(values, setSubmitting, setLoading);
     },
   });
 
@@ -132,8 +172,15 @@ const NewPasswordInput = () => {
               formik.errors.confirmNewPassword}
           </p>
         </div>
-        <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
-          Xác nhận
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Xác nhận
+            </>
+          ) : (
+            "Xác nhận"
+          )}
         </Button>
       </form>
     </>
