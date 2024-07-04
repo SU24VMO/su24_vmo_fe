@@ -29,10 +29,10 @@ import {
 } from "../../ui/alert-dialog";
 
 const RightDetailCampaignSection = ({ data }) => {
-  const { user, isLogin } = React.useContext(AuthContext);
+  const { isLogin } = React.useContext(AuthContext);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const navigate = useNavigate();
-  console.log("user", user);
+  // console.log("user", user);
   // Hàm xử lý khi click vào nút ủng hộ
   const handleDonateClick = () => {
     if (isLogin) {
@@ -64,7 +64,7 @@ const RightDetailCampaignSection = ({ data }) => {
     return formattedValue;
   };
 
-  console.log("isDialogOpen", isDialogOpen);
+  // console.log("isDialogOpen", isDialogOpen);
 
   return (
     <>
@@ -77,11 +77,17 @@ const RightDetailCampaignSection = ({ data }) => {
                   data.organization
                     ? data.organization.logo
                     : data.member
-                    ? data.member.logo
+                    ? data.member.account.avatar
                     : img_demo
                 }
               />
-              <AvatarFallback>Logo</AvatarFallback>
+              <AvatarFallback>
+                {data.organization
+                  ? data.organization.name
+                  : data.member
+                  ? data.member.lastname
+                  : "Logo"}
+              </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
@@ -90,7 +96,7 @@ const RightDetailCampaignSection = ({ data }) => {
                   {data.organization
                     ? data.organization.name
                     : data.member
-                    ? data.member.name
+                    ? data.member.firstName + " " +  data.member.lastName
                     : "Không xác định"}
                 </CardTitle>
                 <BadgeCheck className="h-6 w-6 text-green-600" />

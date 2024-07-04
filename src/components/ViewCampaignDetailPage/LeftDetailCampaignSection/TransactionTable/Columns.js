@@ -7,6 +7,7 @@
 //   DropdownMenuTrigger,
 // } from "../../../ui/dropdown-menu";
 // import { MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
 import { Button } from "../../../ui/button";
 import {
   ArrowUpDown,
@@ -23,7 +24,7 @@ import {
 
 export const columns = [
   {
-    accessorKey: "donatorName",
+    accessorKey: "payerName",
     header: ({ column }) => {
       return (
         <Button
@@ -37,7 +38,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "donationAmount",
+    accessorKey: "amount",
     header: ({ column }) => (
       <Button
         className="px-0 py-0"
@@ -49,21 +50,32 @@ export const columns = [
       </Button>
     ),
     cell: ({ row }) => {
-      const donationAmount = parseFloat(row.getValue("donationAmount"));
+      const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
-      }).format(donationAmount);
+      }).format(amount);
 
-      return <div className="text-start font-medium">{formatted}</div>;
+      return <div className="font-medium">{formatted}</div>;
     },
   },
   {
-    accessorKey: "donationDate",
-    header: () => <div className="text-right">Thời gian ủng hộ</div>,
+    accessorKey: "note",
+    header: () => <div className="w-fit">Nội dung chuyển khoản</div>,
     cell: ({ row }) => {
-      const donationDate = row.getValue("donationDate");
-      return <div className="text-right">{donationDate}</div>;
+      const note = row.getValue("note");
+      return <div className="w-fit">{note}</div>;
+    },
+  },
+  {
+    accessorKey: "createDate",
+    header: () => <div>Thời gian ủng hộ</div>,
+    cell: ({ row }) => {
+      const createDate = format(
+        new Date(row.getValue("createDate")),
+        "dd/MM/yyyy, h:mm:ss a"
+      );
+      return <div>{createDate}</div>;
     },
   },
   //   Thêm Actions vào columns
