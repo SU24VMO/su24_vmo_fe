@@ -6,6 +6,8 @@ import TransactionTable from "./TransactionTable/TransactionTable";
 import { AspectRatio } from "../../ui/aspect-ratio";
 
 const LeftDetailCampaignSection = ({ data }) => {
+  const [transaction, setTransaction] = React.useState(data.transactions);
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
@@ -51,7 +53,7 @@ const LeftDetailCampaignSection = ({ data }) => {
             <p>{data.description}</p>
           </TabsContent>
           <TabsContent value="transaction">
-            <TransactionTable />
+            <TransactionTable transaction={transaction} />
           </TabsContent>
         </Tabs>
       </div>

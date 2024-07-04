@@ -46,9 +46,9 @@ export function DataTable({ columns, data }) {
         <Input
           type="search"
           placeholder="Nhập tên người ủng hộ ..."
-          value={table.getColumn("donatorName")?.getFilterValue() || ""}
+          value={table.getColumn("payerName")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("donatorName")?.setFilterValue(event.target.value)
+            table.getColumn("payerName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

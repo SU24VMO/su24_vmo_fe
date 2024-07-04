@@ -27,8 +27,8 @@ const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
     try {
       const response = await axiosPublic.get(GET_CAMPAIGN_TYPE);
       if (response.status === 200) {
-        setData(response.data.data);
-        console.log("All Campaign Type:", response.data.data);
+        setData(response.data.data.list);
+        // console.log("All Campaign Type:", response.data.data.list);
       }
       setDataLoaded(true);
     } catch (error) {
@@ -51,7 +51,9 @@ const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
             className="justify-between"
           >
             {value
-              ? data.find((item) => item.name === value)?.name
+              ? Array.isArray(data)
+                ? data.find((item) => item.name === value)?.name
+                : "Chọn danh mục"
               : "Chọn danh mục"}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -63,29 +65,35 @@ const CustomComboboxCategory = ({ setSelectedCampaignTypeID }) => {
             <CommandGroup>
               <CommandList>
                 {dataLoaded ? (
-                  data.map((item) => (
-                    <CommandItem
-                      key={item.campaignTypeID}
-                      value={item.name}
-                      onSelect={(currentValue) => {
-                        const newValue =
-                          currentValue === value ? "" : currentValue;
-                        setValue(newValue);
-                        setSelectedCampaignTypeID(
-                          newValue === "" ? "" : item.campaignTypeID
-                        );
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          item.name === value ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {item.name}
-                    </CommandItem>
-                  ))
+                  Array.isArray(data) ? (
+                    data.map((item) => (
+                      <CommandItem
+                        key={item.campaignTypeID}
+                        value={item.name}
+                        onSelect={(currentValue) => {
+                          const newValue =
+                            currentValue === value ? "" : currentValue;
+                          setValue(newValue);
+                          setSelectedCampaignTypeID(
+                            newValue === "" ? "" : item.campaignTypeID
+                          );
+                          setOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            item.name === value ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {item.name}
+                      </CommandItem>
+                    ))
+                  ) : (
+                    <CommandEmpty>
+                      Không tìm được danh mục chiến dịch 😥
+                    </CommandEmpty>
+                  )
                 ) : (
                   <CommandItem>
                     <Skeleton className="h-8 w-full" />

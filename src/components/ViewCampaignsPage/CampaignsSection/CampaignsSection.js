@@ -158,7 +158,13 @@ const CampaignsSection = () => {
                 campaignName={item?.name}
                 daysLeft={item.expectedEndDate}
                 imgSrc={item.image}
-                organizerName={item.organization?.name} // Sửa lỗi null bằng cách thêm dấu ? để kiểm tra trước khi truy cập
+                organizerName={
+                  item.organization
+                    ? item.organization?.name
+                    : item.member
+                    ? item.member?.firstName + " " + item.member?.lastName
+                    : "Không xác định"
+                } // Sửa lỗi null bằng cách thêm dấu ? để kiểm tra trước khi truy cập
                 progressValue={item.donatePhase.percent}
                 phases={[
                   item.donatePhase,
