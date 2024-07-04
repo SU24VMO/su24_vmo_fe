@@ -19,7 +19,9 @@ const TypeOfCampaignSelect = ({ setFieldValue, selectTriggerId }) => {
       const response = await axiosPrivate.get(GETALLTYPECAMPAIGN);
 
       if (response.status === 200) {
-        setTypesOfCampaign(response.data.data); 
+        setTypesOfCampaign(response.data.data.list); 
+        console.log("du lieu", response.data.data.list);
+        console.log("du lieu sau set: ", typesOfCampaign);
       } else {
         console.error("Failed to fetch types of campaign.");
       }
