@@ -3,7 +3,7 @@ import HeroSection from "./HeroSection/HeroSection";
 import CampaignsSection from "./CampaignsSection/CampaignsSection";
 import { Helmet } from "react-helmet";
 
-const ViewCampaignsPage = () => {
+const ViewCampaignsOrganizationsPage = () => {
     // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
     React.useEffect(() => {
       window.scrollTo({
@@ -14,7 +14,7 @@ const ViewCampaignsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Danh sách các chiến dịch • VMO</title>
+        <title>Các chiến dịch của tổ chức • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
@@ -28,4 +28,4 @@ const ViewCampaignsPage = () => {
   );
 };
 
-export default ViewCampaignsPage;
+export default ViewCampaignsOrganizationsPage;
