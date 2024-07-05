@@ -92,7 +92,7 @@ const RightDetailCampaignSection = ({ data }) => {
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
-                <CardTitle className="text-lg mobile:text-xl">
+                <CardTitle className="text-lg laptop:text-xl">
                   {data.organization
                     ? data.organization.name
                     : data.member
@@ -109,20 +109,20 @@ const RightDetailCampaignSection = ({ data }) => {
           <div className="flex w-full items-center justify-between">
             {/* Mục tiêu chiến dịch */}
             <div className="flex items-center justify-center gap-x-3">
-              <Target className="h-10 w-10" />
+              <Target className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
-                <p className="text-muted-foreground">Mục tiêu chiến dịch</p>
-                <p className="font-bold">
+                <p className="text-sm laptop:text-base text-muted-foreground">Mục tiêu chiến dịch</p>
+                <p className="text-sm laptop:text-base font-bold">
                   {targetAmountFormat(data.targetAmount)} VND
                 </p>
               </div>
             </div>
             {/* Thời gian còn lại */}
             <div className="flex items-center justify-center gap-x-3">
-              <Clock4 className="h-10 w-10" />
+              <Clock4 className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
-                <p className="text-muted-foreground">Thời gian còn lại</p>
-                <p className="font-bold">
+                <p className="text-sm laptop:text-base text-muted-foreground">Thời gian còn lại</p>
+                <p className="text-sm laptop:text-base font-bold">
                   {calculateDaysLeft(data.expectedEndDate)} ngày
                 </p>
               </div>
@@ -130,7 +130,7 @@ const RightDetailCampaignSection = ({ data }) => {
           </div>
           <div className="flex w-full gap-x-3 my-5">
             <MapPin className="h-6 w-6" />
-            <p>{data.address}</p>
+            <p className="text-sm laptop:text-base">{data.address}</p>
           </div>
           {data.donatePhase.isProcessing ? (
             <div className="w-full mb-3">
