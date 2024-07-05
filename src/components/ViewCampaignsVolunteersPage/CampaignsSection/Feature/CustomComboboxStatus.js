@@ -13,16 +13,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 
 const data = [
   {
-    value: "organization",
-    label: "Tổ chức",
+    value: "Đang thực hiện",
+    label: "Đang thực hiện",
   },
   {
-    value: "volunteer",
-    label: "Tình nguyện viên",
+    value: "Đạt mục tiêu",
+    label: "Đạt mục tiêu",
+  },
+  {
+    value: "Đã kết thúc",
+    label: "Đã kết thúc",
   },
 ];
 
-const CustomComboboxCreateBy = ({ setSelectedCampaignCreateBy }) => {
+const CustomComboboxStatus = ({setSelectedCampaignStatus}) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   return (
@@ -37,7 +41,7 @@ const CustomComboboxCreateBy = ({ setSelectedCampaignCreateBy }) => {
           >
             {value
               ? data.find((item) => item.value === value)?.label
-              : "Chiến dịch được tạo bởi"}
+              : "Chọn trạng thái"}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -53,9 +57,7 @@ const CustomComboboxCreateBy = ({ setSelectedCampaignCreateBy }) => {
                     value={item.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
-                      setSelectedCampaignCreateBy(
-                        currentValue === value ? "" : currentValue
-                      );
+                      setSelectedCampaignStatus(currentValue === value ? "" : currentValue);
                       setOpen(false);
                     }}
                   >
@@ -77,4 +79,4 @@ const CustomComboboxCreateBy = ({ setSelectedCampaignCreateBy }) => {
   );
 };
 
-export default CustomComboboxCreateBy;
+export default CustomComboboxStatus;

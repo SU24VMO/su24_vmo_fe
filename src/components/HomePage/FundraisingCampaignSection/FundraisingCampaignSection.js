@@ -40,9 +40,11 @@ const FundraisingCampaignSection = () => {
         <p className="text-sm mobile:text-base">
           Tạo bởi <b>Cá nhân</b>
         </p>
-        <Button variant="link" className="text-sm mobile:text-base">
-          Xem thêm
-        </Button>
+        <Link to={"/viewCampaignsVolunteers"}>
+          <Button variant="link" className="text-sm mobile:text-base">
+            Xem thêm
+          </Button>
+        </Link>
       </div>
       {/* Card tạo bởi cá nhân */}
       <div className="flex flex-col items-center flex-wrap justify-center p-10">

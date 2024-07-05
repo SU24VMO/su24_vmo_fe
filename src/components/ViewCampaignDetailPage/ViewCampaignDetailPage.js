@@ -67,8 +67,10 @@ const ViewCampaignDetailPage = () => {
   );
 
   React.useEffect(() => {
-    // Cuộn lên đầu trang khi component được mount
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
+    });
     fetchData(campaignId);
   }, [fetchData]);
 
