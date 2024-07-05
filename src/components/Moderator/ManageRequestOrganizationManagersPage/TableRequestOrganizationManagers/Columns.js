@@ -4,7 +4,7 @@ import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
-export const columns = ({ onEdit, onDelete }) => [
+export const columns = ({ onEdit, onDelete, onSort }) => [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -12,7 +12,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("Name")}
         >
           Tên người quản lí tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -27,7 +27,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("PhoneNumber")}
         >
           Số điện thoại
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -43,7 +43,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("Address")}
         >
           Địa chỉ
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -58,7 +58,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("CitizenIdentification")}
         >
           Mã CCCD
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -73,7 +73,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("PersonalTaxCode")}
         >
           Mã số thuế cá nhân
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -88,16 +88,16 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("Moderator.FirstName")}
         >
-          Được duyệt bởi
+          Người duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       
-      const moderator = row.original?.moderator ? (row.original.moderator?.firstName + row.original.moderator?.lastName) : "Chưa có";
+      const moderator = row.original?.moderator ? (row.original.moderator?.firstName + " " + row.original.moderator?.lastName) : "Chưa có";
       return <div className="">{moderator}</div>;
     },
   },
@@ -108,7 +108,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("CreateDate")}
         >
           Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -127,7 +127,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("ApprovedDate")}
         >
           Ngày duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -146,7 +146,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("IsApproved")}
         >
           Xác thực
           <ArrowUpDown className="ml-2 h-4 w-4" />

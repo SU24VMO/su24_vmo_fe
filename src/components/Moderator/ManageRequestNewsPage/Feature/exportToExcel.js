@@ -1,36 +1,53 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLREQUESTNEWS } from "../../../../api/apiConstants";
+import { format } from "date-fns";
 
-export function exportToExcel({ posts }) {
-  let columns = [
-    {
-      sheet: "Request News",
-      columns: [
-        { label: "Tên bài viết", value: "post.title" },
-        { label: "Thành viên", value: "user.lastName" },
-        { label: "Quản lí tổ chức", value: "organizationManager.lastName" },
-        
-        {
-          label: "Ngày tạo",
-          value: "createDate",
-        },
-        {
-          label: "Ngày duyệt",
-          value: "approvedDate",
-        },
-        { label: "Người duyệt", value: "moderator.lastName" },
-        {
-          label: "Xác thực",
-          value: (row) => (row.isApproved === true ? "Đồng ý" : "Từ chối"),
-        },
-    
-      ],
-      content: posts,
-    },
-  ];
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLREQUESTNEWS
+    );
 
-  let settings = {
-    fileName: "Danh sách yêu cầu tạo bài viết",
-  };
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
 
-  xlsx(columns, settings);
+      let listNews = response.data.data.list.map((news) => ({
+        "ID News": news.post?.postID,  
+        "Tên bài viết": news.post?.title,
+        "Tạo bởi thành viên": (news?.member?.firstName + " " + news?.member?.lastName),
+        "Tạo bởi quản lí tổ chức": (news?.organizationManager?.firstName + " " + news?.organizationManager?.lastName),
+        "Người duyệt": (news?.moderator?.firstName + " " + news?.moderator?.lastName),
+        "Ngày tạo": format(new Date(news?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Ngày duyệt": format(new Date(news?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Xác thực": news.isApproved === true ? "Đồng ý" : "Từ chối",
+      }));
+
+      let columns = [
+        {
+          sheet: "Request listNews",
+          columns: [
+            { label: "ID News", value: "ID News" },
+            { label: "Tên bài viết", value: "Tên bài viết" },
+            { label: "Tạo bởi thành viên", value: "Tạo bởi thành viên" },
+            { label: "Tạo bởi quản lí tổ chức", value: "Tạo bởi quản lí tổ chức" },
+            { label: "Người duyệt", value: "Người duyệt" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Xác thực", value: "Xác thực" },
+          ],
+          content: listNews,
+        },
+      ];
+
+      let settings = {
+        fileName: "Bảng danh sách yêu cầu tạo tin tức",
+      };
+
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }
