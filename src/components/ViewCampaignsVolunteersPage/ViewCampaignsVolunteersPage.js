@@ -3,18 +3,18 @@ import HeroSection from "./HeroSection/HeroSection";
 import CampaignsSection from "./CampaignsSection/CampaignsSection";
 import { Helmet } from "react-helmet";
 
-const ViewCampaignsPage = () => {
-    // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
-    React.useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
-      });
-    }, []); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
+const ViewCampaignsVolunteersPage = () => {
+  // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
+  }, []); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
   return (
     <>
       <Helmet>
-        <title>Danh sách các chiến dịch • VMO</title>
+        <title>Các chiến dịch của tổ chức • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
@@ -28,4 +28,4 @@ const ViewCampaignsPage = () => {
   );
 };
 
-export default ViewCampaignsPage;
+export default ViewCampaignsVolunteersPage;

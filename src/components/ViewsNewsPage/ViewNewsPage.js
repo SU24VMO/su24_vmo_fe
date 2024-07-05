@@ -65,6 +65,10 @@ export default function ViewNewsPage() {
 
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
     fetchData(1);
   }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
 

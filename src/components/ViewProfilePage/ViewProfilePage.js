@@ -16,6 +16,10 @@ export default function ViewProfilePage() {
   const { user } = React.useContext(AuthContext);
 
   React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
     async function fetchData() {
       try {
         const response = await axiosPrivate.get(

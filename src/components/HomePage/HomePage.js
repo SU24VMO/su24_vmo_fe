@@ -7,6 +7,13 @@ import CustomerFeedBackSection from "./CustomerFeedBackSection/CustomerFeedBackS
 import { Helmet } from "react-helmet";
 
 const HomePage = () => {
+  // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
+  }, []); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
   return (
     <>
       <Helmet>
