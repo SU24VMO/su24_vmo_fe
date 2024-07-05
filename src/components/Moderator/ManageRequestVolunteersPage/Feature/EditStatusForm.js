@@ -18,23 +18,24 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
-import { ToastAction } from "../../../../components/ui/toast";
+import { ToastAction } from "../../../ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { UPDATEAPPROVEMEMBERREQUEST } from "../../../../api/apiConstants";
+import { UPDATEAPPROVEVOLUNTEERREQUEST } from "../../../../api/apiConstants";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import { Loader2 } from "lucide-react";
 
-const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
+const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
+  console.log(volunteer);
   const updateStatus = async (data) => {
     try {
       setLoading(true)
-      const response = await axiosPrivate.put(UPDATEAPPROVEMEMBERREQUEST, {
-        createMemberRequestID: member.createMemberRequestID,
+      const response = await axiosPrivate.put(UPDATEAPPROVEVOLUNTEERREQUEST, {
+        createVolunteerRequestID: volunteer.createVolunteerRequestID,
         moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
@@ -69,7 +70,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      isApproved: member ? member.isApproved : false,
+      isApproved: volunteer ? volunteer.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
       updateStatus(values)
@@ -78,12 +79,12 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   });
 
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when member changes
+  // Update formik initialValues when volunteer changes
   React.useEffect(() => {
     setValuesRef.current({
-      isApproved: member ? member.isApproved : false,
+      isApproved: volunteer ? volunteer.isApproved : false,
     });
-  }, [member]);
+  }, [volunteer]);
 
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
@@ -108,10 +109,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="memberName"
-                    defaultValue={member ? member.memberName : ""}
+                    defaultValue={volunteer ? volunteer.memberName : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.memberName : ""} />
+                  <CopyButton code={volunteer ? volunteer.memberName : ""} />
                 </div>
               </div>
             </div>
@@ -122,25 +123,25 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="email"
-                    defaultValue={member ? member.email : ""}
+                    defaultValue={volunteer ? volunteer.email : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.email : ""} />
+                  <CopyButton code={volunteer ? volunteer.email : ""} />
                 </div>
               </div>
             </div>
 
-            {/* Show memberAddress thành viên */}
+            {/* Show volunteerAddress thành viên */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="memberAddress">Địa chỉ</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="memberAddress"
-                    defaultValue={member ? member.memberAddress : ""}
+                    defaultValue={volunteer ? volunteer.memberAddress : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.memberAddress : ""} />
+                  <CopyButton code={volunteer ? volunteer.memberAddress : ""} />
                 </div>
               </div>
             </div>
@@ -152,10 +153,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
              
-                  {member ?  format(new Date(member?.birthday), 'dd/MM/yyyy') : ""}
+                  {volunteer ?  format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
                 </Badge>
                 <CopyButton
-                  code={member ? format(new Date(member?.birthday), 'dd/MM/yyyy') : ""}
+                  code={volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
                 />
               </div>
             </div>
@@ -168,10 +169,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <div className="flex items-center space-x-2">
                 <Input
                   id="organization_tax_code"
-                  defaultValue={member ? member.organization_tax_code : ""}
+                  defaultValue={volunteer ? volunteer.organization_tax_code : ""}
                   disabled
                 />
-                <CopyButton code={member ? member.organization_tax_code : ""} />
+                <CopyButton code={volunteer ? volunteer.organization_tax_code : ""} />
               </div>
             </div>
           </div> */}
@@ -181,10 +182,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <Label htmlFor="founding_date">Ngày thành lập</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {member ? member.founding_date : ""}
+                  {volunteer ? volunteer.founding_date : ""}
                 </Badge>
                 <CopyButton
-                  code={member ? member.founding_date : ""}
+                  code={volunteer ? volunteer.founding_date : ""}
                 />
               </div>
             </div>
@@ -196,10 +197,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="socialMediaLink"
-                    defaultValue={member ? member.socialMediaLink : ""}
+                    defaultValue={volunteer ? volunteer.socialMediaLink : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.socialMediaLink : ""} />
+                  <CopyButton code={volunteer ? volunteer.socialMediaLink : ""} />
                 </div>
               </div>
             </div>
@@ -211,10 +212,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="clubName"
-                    defaultValue={member ? member.clubName : ""}
+                    defaultValue={volunteer ? volunteer.clubName : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.clubName : ""} />
+                  <CopyButton code={volunteer ? volunteer.clubName : ""} />
                 </div>
               </div>
             </div>
@@ -223,12 +224,11 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="roleInClub">Vai trò trong CLB</Label>
                 <div className="flex items-center space-x-2">
-                  <Input
-                    id="roleInClub"
-                    defaultValue={member ? member.roleInClub : ""}
-                    disabled
-                  />
-                  <CopyButton code={member ? member.roleInClub : ""} />
+                <Badge variant={"outline"}>
+                {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "") : ""}
+
+                </Badge>
+                  <CopyButton code={volunteer ? volunteer.roleInClub : ""} />
                 </div>
               </div>
             </div>
@@ -242,10 +242,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="achievementLink"
-                    defaultValue={member ? member.achievementLink : ""}
+                    defaultValue={volunteer ? volunteer.achievementLink : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.achievementLink : ""} />
+                  <CopyButton code={volunteer ? volunteer.achievementLink : ""} />
                 </div>
               </div>
             </div>
@@ -258,10 +258,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="detailDescriptionLink"
-                    defaultValue={member ? member.detailDescriptionLink : ""}
+                    defaultValue={volunteer ? volunteer.detailDescriptionLink : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.detailDescriptionLink : ""} />
+                  <CopyButton code={volunteer ? volunteer.detailDescriptionLink : ""} />
                 </div>
               </div>
             </div>
@@ -271,10 +271,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="achievement_link"
-                    defaultValue={member ? member.achievement_link : ""}
+                    defaultValue={volunteer ? volunteer.achievement_link : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.achievement_link : ""} />
+                  <CopyButton code={volunteer ? volunteer.achievement_link : ""} />
                 </div>
               </div>
             </div> */}
@@ -284,10 +284,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="authorization_documents"
-                    defaultValue={member ? member.authorization_documents : ""}
+                    defaultValue={volunteer ? volunteer.authorization_documents : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member.authorization_documents : ""} />
+                  <CopyButton code={volunteer ? volunteer.authorization_documents : ""} />
                 </div>
               </div>
             </div> */}
@@ -298,15 +298,15 @@ const EditStatusForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
              
-                  {member ?  format(new Date(member?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  {volunteer ?  format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 </Badge>
                 <CopyButton
-                  code={member ? format(new Date(member?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  code={volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 />
               </div>
             </div>
           </div>
-            {member && (
+            {volunteer && (
               <form onSubmit={formik.handleSubmit} className="space-y-3">
                 {/*  */}
                 <div className="flex items-center space-x-2">

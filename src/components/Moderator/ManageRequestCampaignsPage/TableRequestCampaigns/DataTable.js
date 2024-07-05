@@ -41,14 +41,14 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
   const columnHeaders = {
-    name: "Tên chiến dịch",
-    user: "Tạo bởi thành viên",
-    organizationManager: "Tạo bởi quản lí tổ chức",
-    approvedBy: "Người duyệt",
-    createDate: "Ngày tạo",
-    approvedDate: "Ngày duyệt",
-    isApproved: "Xác thực",
-    actions: "Thao tác",
+    "campaign.name": "Tên chiến dịch",
+    "member": "Tạo bởi thành viên",
+    "organizationManager": "Tạo bởi quản lí tổ chức",
+    "moderator": "Người duyệt",
+    "createDate": "Ngày tạo",
+    "approvedDate": "Ngày duyệt",
+    "isApproved": "Xác thực",
+    "actions": "Thao tác",
   };
 
   const table = useReactTable({
@@ -70,21 +70,27 @@ export function DataTable({
   });
 
 
-  const [state, setState] = React.useState({
-    ...table.initialState, //populate the initial state with all of the default state values from the table instance
-    pagination: {
-      pageIndex: pageNo - 1,
-      pageSize,
-    },
-  })
+  // const [state, setState] = React.useState({
+  //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
+  //   pagination: {
+  //     pageIndex: pageNo - 1,
+  //     pageSize,
+  //   },
+  // })
 
-  table.setOptions(prev => ({
-    ...prev, //preserve any other options that we have set up above
-    state, //our fully controlled state overrides the internal state
-    onStateChange: setState //any state changes will be pushed up to our own state management
-  }))
+  // table.setOptions(prev => ({
+  //   ...prev, //preserve any other options that we have set up above
+  //   state, //our fully controlled state overrides the internal state
+  //   onStateChange: setState //any state changes will be pushed up to our own state management
+  // }))
 
-
+  //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+  // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
+  // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  React.useEffect(() => {
+    table.setPageSize(pageSize);
+    table.setPageIndex(pageNo - 1);
+  }, [pageNo, pageSize, table]);
 
   const handlePreviousPage = () => {
     if (pageNo > 1) setPageNo(pageNo - 1);
@@ -98,7 +104,7 @@ export function DataTable({
     <div>
       <div className="flex items-center py-4">
         <Button
-          onClick={() => exportToExcel({ campaigns: data })}
+          onClick={() => exportToExcel()}
           className="ml-4"
           variant="outline"
         >

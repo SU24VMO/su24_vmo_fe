@@ -63,31 +63,38 @@ export function DataTable({
   });
   //Name of column dropdown
   const columnHeaders = {
-    // title: "Tên bài viết",
-    // create_by: "Tạo bởi",
-    // approved_date: "Ngày duyệt",
-    // update_date: "Ngày cập nhật",
-    // create_date: "Ngày tạo",
-    // is_approved: "Xác thực",
-    // is_pending: "Trạng thái chờ",
-    // is_locked: "Trạng thái khóa",
-    // actions: "Thao tác",
+    "activity.title": "Tiêu đề",
+    "member": "Tạo bởi thành viên",
+    "organizationManager": "Tạo bởi quản lí tổ chức",
+    "moderator": "Người duyệt", 
+    "createDate": "Ngày tạo",
+    "approvedDate": "Ngày duyệt",
+    "update_date": "Ngày cập nhật",
+    "isApproved": "Xác thực",
+    "actions": "Thao tác",
   };
 
-  const [state, setState] = React.useState({
-    ...table.initialState, //populate the initial state with all of the default state values from the table instance
-    pagination: {
-      pageIndex: pageNo - 1,
-      pageSize,
-    },
-  })
+  // const [state, setState] = React.useState({
+  //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
+  //   pagination: {
+  //     pageIndex: pageNo - 1,
+  //     pageSize,
+  //   },
+  // })
 
-  table.setOptions(prev => ({
-    ...prev, //preserve any other options that we have set up above
-    state, //our fully controlled state overrides the internal state
-    onStateChange: setState //any state changes will be pushed up to our own state management
-  }))
-
+  // table.setOptions(prev => ({
+  //   ...prev, //preserve any other options that we have set up above
+  //   state, //our fully controlled state overrides the internal state
+  //   onStateChange: setState //any state changes will be pushed up to our own state management
+  // }))
+  
+//update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+  // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
+  // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  React.useEffect(() => {
+    table.setPageSize(pageSize);
+    table.setPageIndex(pageNo - 1);
+  }, [pageNo, pageSize, table]);
 
 
   const handlePreviousPage = () => {
@@ -104,15 +111,15 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Nhập tiêu đề hoạt động cần tìm ..."
-          value={table.getColumn("title")?.getFilterValue() || ""}
+          value={table.getColumn("")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         {/* Xuất excel */}
         <Button
-          onClick={() => exportToExcel({ post: data })}
+          onClick={() => exportToExcel()}
           className="ml-4"
           variant="outline"
         >

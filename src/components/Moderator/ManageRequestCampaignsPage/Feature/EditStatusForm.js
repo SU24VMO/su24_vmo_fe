@@ -29,6 +29,12 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+  const description = campaigns?.campaign?.description.replace(/<br>/g, '\r\n');
+  console.log('====================================');
+  console.log(campaigns?.campaign?.description.replace(/<br>/g, '\n'));
+  console.log('====================================');
+
+  
 
   const updateStatus = async (data) => {
     try {
@@ -169,7 +175,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="description">Mô tả</Label>
                 <div className="flex items-center space-x-2 text-sm">
                   <div variant={"outline"}>
-                    {campaigns?.campaign ? campaigns.campaign?.description : ""}
+                    {campaigns?.campaign ? description : ""}
                   </div>
                   
                 </div>
@@ -231,7 +237,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               </div>
             </div>
 
-            <div className="flex">
+            {/* <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="organization">Tổ chức</Label>
                 <div className="flex items-center space-x-2">
@@ -243,7 +249,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                   <CopyButton code={campaigns?.campaign ? campaigns.campaign?.organization : ""} />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex">
               <div className="grid flex-1 gap-2">

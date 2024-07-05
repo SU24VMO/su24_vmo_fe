@@ -4,15 +4,15 @@ import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
-export const columns = ({ onEdit, onDelete }) => [
+export const columns = ({ onEdit, onDelete , onSort}) => [
   {
-    accessorKey: "name",
+    accessorKey: "campaign.name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Campaign.Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -27,13 +27,13 @@ export const columns = ({ onEdit, onDelete }) => [
     },
   },
   {
-    accessorKey: "user",
+    accessorKey: "member",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Member.FirstName")}
         >
           Tạo bởi thành viên
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -42,8 +42,8 @@ export const columns = ({ onEdit, onDelete }) => [
     },
     cell: ({ row }) => {
       
-      const user = row.original?.user ? (row.original?.user?.firstName + row.original?.user?.lastName) : "Chưa có";
-      return <div className="">{user}</div>;
+      const member = row.original?.member ? (row.original?.member?.firstName + ' ' + row.original?.member?.lastName) : "Chưa có";
+      return <div className="">{member}</div>;
     },
   },
  
@@ -54,16 +54,16 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("OrganizationManager.FirstName")}
         >
-          Tạo bởi tổ chức
+          Tạo bởi quản lí tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       
-      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + row.original?.organizationManager?.lastName) : "Chưa có";
+      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + ' ' + row.original?.organizationManager?.lastName) : "Chưa có";
       return <div className="">{organizationManager}</div>;
     },
   },
@@ -74,7 +74,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Moderator.FirstName")}
         >
           Người duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -83,7 +83,7 @@ export const columns = ({ onEdit, onDelete }) => [
     },
     cell: ({ row }) => {
       
-      const moderator = row.original?.moderator ? (row.original?.moderator?.firstName + row.original?.moderator?.lastName) : "Chưa có";
+      const moderator = row.original?.moderator ? (row.original?.moderator?.firstName + ' ' +  row.original?.moderator?.lastName) : "Chưa có";
       return <div className="">{moderator}</div>;
     },
   },
@@ -95,7 +95,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("CreateDate")}
         >
           Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -114,7 +114,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("ApprovedDate")}
         >
           Ngày duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -133,7 +133,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("IsApproved")}
         >
           Xác thực
           <ArrowUpDown className="ml-2 h-4 w-4" />

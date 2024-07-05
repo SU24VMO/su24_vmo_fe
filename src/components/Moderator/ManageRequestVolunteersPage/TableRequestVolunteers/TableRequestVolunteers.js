@@ -6,12 +6,12 @@ import EditStatusForm from "../Feature/EditStatusForm";
 
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { GETALLREQUESTMEMBER } from "../../../../api/apiConstants";
+import { GETALLREQUESTVOLUNTEERS } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo, setLoading) {
+async function getData(cancelToken, pageSize, pageNo,sortConfig, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTMEMBER + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTVOLUNTEERS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
       cancelToken: cancelToken
     });
 
@@ -32,7 +32,7 @@ async function getData(cancelToken, pageSize, pageNo, setLoading) {
 
   return [];
 }
-const TableRequestMembers = () => {
+const TableRequestVolunteers = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
@@ -41,7 +41,10 @@ const TableRequestMembers = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
-
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
 
 
   const onEdit = React.useCallback((row) => {
@@ -56,10 +59,10 @@ const TableRequestMembers = () => {
   }, []);
 
 
-  const fetchData = async (cancelToken, pageSize, pageNo) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
     try {
 
-      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -71,25 +74,33 @@ const TableRequestMembers = () => {
 
     }
   };
-
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true)
 
    
 
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
     return () => {
       source.cancel('Component unmounted');
 
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo,sortConfig ]);
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
   };
 
 
@@ -98,7 +109,7 @@ const TableRequestMembers = () => {
       <div>
         <EditStatusForm
           isOpen={isDialogOpen}
-          member={selectedRow}
+          volunteer={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {
@@ -110,7 +121,7 @@ const TableRequestMembers = () => {
         />
       </div>
       <DataTable
-        columns={columns({ onEdit, onDelete })}
+        columns={columns({ onEdit, onDelete , onSort})}
         data={data}
         loading={loading}
         list={list}
@@ -123,4 +134,4 @@ const TableRequestMembers = () => {
   );
 };
 
-export default TableRequestMembers;
+export default TableRequestVolunteers;

@@ -4,7 +4,7 @@ import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
-export const columns = ({ onEdit, onDelete }) => [
+export const columns = ({ onEdit, onDelete, onSort }) => [
   {
     accessorKey: "activity.title",
     header: ({ column }) => {
@@ -12,7 +12,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Activity.Title")} 
         >
           Tiêu đề
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -21,13 +21,13 @@ export const columns = ({ onEdit, onDelete }) => [
     },
   },
   {
-    accessorKey: "user",
+    accessorKey: "member",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Member.FirstName")} 
         >
           Tạo bởi thành viên
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -36,8 +36,8 @@ export const columns = ({ onEdit, onDelete }) => [
     },
     cell: ({ row }) => {
       
-      const user = row.original?.user ? (row.original?.user?.firstName + row.original?.user?.lastName) : "Chưa có";
-      return <div className="">{user}</div>;
+      const member = row.original?.member ? (row.original?.member?.firstName + row.original?.member?.lastName) : "Chưa có";
+      return <div className="">{member}</div>;
     },
   },
  
@@ -48,9 +48,9 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("OrganizationManager.FirstName")} 
         >
-          Tạo bởi tổ chức
+          Tạo bởi quản lí tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -80,13 +80,52 @@ export const columns = ({ onEdit, onDelete }) => [
   //   },
   // },
   {
+    accessorKey: "moderator",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+           onClick={() => onSort("Moderator.FirstName")} 
+        >
+          Người duyệt
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      
+      const moderator = row.original?.moderator ? (row.original?.moderator?.firstName + row.original?.moderator?.lastName) : "Chưa có";
+      return <div className="">{moderator}</div>;
+    },
+  },
+  {
+    accessorKey: "createDate",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+           onClick={() => onSort("CreateDate")} 
+        >
+          Ngày tạo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const createDate = row?.getValue("createDate") ? format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
+      return <div className="">{createDate}</div>;
+    },
+  },
+  {
     accessorKey: "approvedDate",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("ApprovedDate")} 
         >
           Ngày duyệt
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -105,7 +144,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("UpdateDate")} 
         >
           Ngày cập nhật
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -117,25 +156,7 @@ export const columns = ({ onEdit, onDelete }) => [
       return <div className="">{updateDate}</div>;
     },
   },
-  {
-    accessorKey: "createDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Ngày tạo
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const createDate = row?.getValue("createDate") ? format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
-      return <div className="">{createDate}</div>;
-    },
-  },
+  
   {
     accessorKey: "isApproved",
     header: ({ column }) => {
@@ -143,7 +164,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("IsApproved")} 
         >
           Xác thực
           <ArrowUpDown className="ml-2 h-4 w-4" />
