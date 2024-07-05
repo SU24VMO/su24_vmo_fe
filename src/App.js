@@ -62,6 +62,7 @@ import ModeratorLoginPage from "./components/Moderator/ModeratorLoginPage/Modera
 import ManageModeratorsPage from "./components/Admin/ManageModeratorsPage/ManageModeratorsPage";
 import ManageVolunteerPage from "./components/Admin/ManageVolunteersPage/ManageVolunteerPage";
 import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMembersPage";
+import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizationsPage/ViewCampaignsOrganizationsPage";
 
 
 function App() {
@@ -88,6 +89,7 @@ function App() {
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
+            <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
