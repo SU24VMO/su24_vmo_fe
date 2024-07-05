@@ -60,14 +60,6 @@ export const columns = [
     },
   },
   {
-    accessorKey: "note",
-    header: () => <div className="w-fit">Nội dung chuyển khoản</div>,
-    cell: ({ row }) => {
-      const note = row.getValue("note");
-      return <div className="w-fit">{note}</div>;
-    },
-  },
-  {
     accessorKey: "createDate",
     header: () => <div>Thời gian ủng hộ</div>,
     cell: ({ row }) => {
