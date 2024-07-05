@@ -8,9 +8,11 @@ export const REGISTER = "/api/authentication/register";
 export const UPDATEISACTIVED = "/api/account/update-information";
 export const UPDATEAPPROVEOMREQUEST = "/api/create-organization-manager-request/checking";
 export const UPDATEAPPROVECAMPAIGNREQUEST = "/api/create-campaign-request/checking";
-export const UPDATEAPPROVEMEMBERREQUEST = "/api/create-member-request/checking";
+export const UPDATEAPPROVEVOLUNTEERREQUEST = "/api/create-volunteer-request/checking";
 export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-request/checking";
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
+export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
+
 
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
 export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
@@ -36,7 +38,7 @@ export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all";
 export const GETALLREQUESTORGANIZATION = "/api/create-organization-request/all";
 export const GETALLREQUESTOM = "/api/create-organization-manager-request/all";
-export const GETALLREQUESTMEMBER = "/api/create-member-request/all";
+export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all";
 export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all";
 export const GETALLREQUESTNEWS = "/api/create-post-request/all";
 

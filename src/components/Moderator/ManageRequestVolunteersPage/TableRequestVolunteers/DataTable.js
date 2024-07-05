@@ -30,7 +30,7 @@ import { Input } from "../../../ui/input";
 import React,{useEffect} from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
-import SkeletonMembersTable from "../SkeletonMembersTable/SkeletonMembersTable";
+import SkeletonVolunteersTable from "../SkeletonVolunteersTable/SkeletonVolunteersTable";
 
 export function DataTable({ 
   columns,
@@ -67,7 +67,7 @@ export function DataTable({
     memberName: "Tên thành viên",
     email: "Email",
     memberAddress: "Địa chỉ",
-    approvedBy: "Người duyệt",
+    moderator: "Người duyệt",
     createDate: "Ngày tạo đơn",
     approvedDate: "Ngày duyệt",
     isApproved:"Xác thực",
@@ -75,19 +75,27 @@ export function DataTable({
   };
 
 
-  const [state, setState] = React.useState({
-    ...table.initialState, //populate the initial state with all of the default state values from the table instance
-    pagination: {
-      pageIndex: pageNo - 1,
-      pageSize,
-    },
-  })
+  // const [state, setState] = React.useState({
+  //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
+  //   pagination: {
+  //     pageIndex: pageNo - 1,
+  //     pageSize,
+  //   },
+  // })
 
-  table.setOptions(prev => ({
-    ...prev, //preserve any other options that we have set up above
-    state, //our fully controlled state overrides the internal state
-    onStateChange: setState //any state changes will be pushed up to our own state management
-  }))
+  // table.setOptions(prev => ({
+  //   ...prev, //preserve any other options that we have set up above
+  //   state, //our fully controlled state overrides the internal state
+  //   onStateChange: setState //any state changes will be pushed up to our own state management
+  // }))
+
+  //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+  // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
+  // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  React.useEffect(() => {
+    table.setPageSize(pageSize);
+    table.setPageIndex(pageNo - 1);
+  }, [pageNo, pageSize, table]);
 
   useEffect(() => {
     console.log("Data Length:", data.length);
@@ -118,7 +126,7 @@ export function DataTable({
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel({ member: data })} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel()} className="ml-4" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}
@@ -151,7 +159,7 @@ export function DataTable({
       </div>
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonMembersTable  />
+          <SkeletonVolunteersTable  />
         ) : (
           <Table>
             <TableHeader>

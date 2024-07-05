@@ -177,16 +177,16 @@ const [loading, setLoading] = useState(false)
               </div>
             </div>
           </div>
-          {/* Show Duyệt bởi */}
+          {/* Show Người duyệt */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="approvedBy">Duyệt bởi</Label>
+              <Label htmlFor="approvedBy">Người duyệt</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {organizationManager ? organizationManager.approvedBy : ""}
+                  {organizationManager ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName)  : ""}
                 </Badge>
                 <CopyButton
-                  code={organizationManager ? organizationManager.approvedBy : ""}
+                  code={organizationManager ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
                 />
               </div>
             </div>

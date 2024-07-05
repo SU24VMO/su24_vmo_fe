@@ -13,7 +13,7 @@ const SkeletonTable = () => {
           <TableRow>
             {[...Array(columns)].map((_, index) => (
               <TableHead key={index}>
-                <Skeleton className="w-48 h-11"/>
+                <Skeleton className="h-10 w-40"/>
               </TableHead>
             ))}
           </TableRow>

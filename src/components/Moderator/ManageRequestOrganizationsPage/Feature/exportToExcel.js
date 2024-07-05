@@ -1,37 +1,63 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLREQUESTORGANIZATION } from "../../../../api/apiConstants";
+import { format } from "date-fns";
 
-export function exportToExcel({ organize }) {
-  let columns = [
-    {
-      sheet: "RequestOrganize",
-      columns: [
-        { label: "Mã đơn tạo tổ chức", value: "create_organization_request_id" },
-        { label: "Mã số tổ chức", value: "organization_id" },
-        { label: "Tên tổ chức", value: "organization_name" },
-        { label: "Email", value: "organization_manager_email" },
-        { label: "Mã số thuế", value: "organization_tax_code" },
-        { label: "Ngày thành lập tổ chức", value: "founding_date" },
-        { label: "Mạng xã hội", value: "social_media_link" },
-        { label: "Lĩnh vực hoạt động", value: "area_of_activity" },
-        { label: "Địa chỉ", value: "address" },
-        { label: "Thành tích", value: "achievement_link" },
-        { label: "Đơn xác thực ủy quyền", value: "authorization_documents" },
-        { label: "Duyệt bởi", value: "approved_by" },
-        { label: "Ngày tạo đơn", value: "create_date" },
-        { label: "Ngày duyệt", value: "approved_date" },
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLREQUESTORGANIZATION
+    );
+
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
+
+      let listOrganizations = response.data.data.list.map((organizations) => ({
+        "ID tổ chức": organizations?.organizationID,
+        "Tên tổ chức": organizations?.organizationName,
+        "Mã số thuế": organizations?.organizationTaxCode, 
+        "Địa chỉ": organizations?.address,
+        "Ngày thành lập tổ chức": organizations?.foundingDate,
+       "Mạng xã hội":organizations?.socialMediaLink,
+       "Lĩnh vực hoạt động": organizations?.areaOfActivity ,
+       "Thành tích": organizations?.achievementLink,
+        "Đơn xác thực ủy quyền": organizations?.authorizationDocuments,
+        "Người duyệt": (organizations?.moderator?.firstName + " " + organizations?.moderator?.lastName),
+        "Ngày tạo": format(new Date(organizations?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Ngày duyệt": format(new Date(organizations?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Xác thực": organizations.isApproved === true ? "Đồng ý" : "Từ chối",
+      }));
+
+      let columns = [
         {
-          label: "Xác thực",
-          value: (row) => (row.is_approved === true ? "Đã duyệt" : "Từ chối"),
+          sheet: "Request listOrganizations",
+          columns: [
+            { label: "ID tổ chức", value: "ID tổ chức" },
+            { label: "Tên tổ chức", value: "Tên tổ chức" },
+            { label: "Mã số thuế", value: "Mã số thuế" },
+            { label: "Địa chỉ", value: "Địa chỉ" },
+            { label: "Ngày thành lập tổ chức", value: "Ngày thành lập tổ chức" },
+            { label: "Mạng xã hội", value: "Mạng xã hội" },
+            { label: "Lĩnh vực hoạt động", value: "Lĩnh vực hoạt động" },
+            { label: "Thành tích", value: "Thành tích" },
+            { label: "Đơn xác thực ủy quyền", value: "Đơn xác thực ủy quyền" },
+            { label: "Người duyệt", value: "Người duyệt" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Xác thực", value: "Xác thực" },
+          ],
+          content: listOrganizations,
         },
-        
-      ],
-      content: organize,
-    },
-  ];
+      ];
 
-  let settings = {
-    fileName: "Danh sách các đơn yêu cầu tạo tổ chức",
-  };
+      let settings = {
+        fileName: "Bảng danh sách yêu cầu tạo tổ chức",
+      };
 
-  xlsx(columns, settings);
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }

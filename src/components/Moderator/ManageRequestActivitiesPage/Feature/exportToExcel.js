@@ -1,48 +1,62 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLREQUESTACTIVITIES } from "../../../../api/apiConstants";
+import { format } from "date-fns";
 
-export function exportToExcel({ post }) {
-  let columns = [
-    {
-      sheet: "Persons",
-      columns: [
-        { label: "Id yêu cầu tạo bài viết", value: "create_post_request_id" },
-        { label: "Id bài đăng", value: "post_id" },
-        { label: "Tiêu đề", value: "title" },
-        {
-          label: "Tạo bởi",
-          value: (row) =>
-            row.create_by_user == null && row.create_by_om != null
-              ? "Tạo bởi tổ chức"
-              : "Tạo bởi người dùng",
-        },
-        {
-          label: "Cover",
-          value: "cover",
-        },
-        {
-          label: "Ảnh",
-          value: "image",
-        },
-        { label: "Nội dung", value: "content" },
-        { label: "Ngày duyệt", value: "approved_date" },
-        { label: "Ngày cập nhật", value: "update_date" },
-        { label: "Ngày tạo", value: "create_date" },
-        {
-          label: "Xác thực",
-          value: (row) => (row.is_approved === true ? "Đồng ý" : "Từ chối"),
-        },
-        // {
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
-      ],
-      content: post,
-    },
-  ];
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLREQUESTACTIVITIES
+    );
 
-  let settings = {
-    fileName: "Danh sách yêu cầu tạo hoạt động",
-  };
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
 
-  xlsx(columns, settings);
+      let listActivities = response.data.data.list.map((activity) => ({
+        "ID activity": activity.activity?.activityId,  
+        "Tiêu đề": activity.activity?.title,
+        "Nội dung": activity.activity?.content,
+        // "Nội dung": activity.activity?.content,
+
+        // "Nội dung": activity.activity?.content,
+
+        "Tạo bởi thành viên": (activity?.member?.firstName + " " + activity?.member?.lastName),
+        "Tạo bởi quản lí tổ chức": (activity?.organizationManager?.firstName + " " + activity?.organizationManager?.lastName),
+        "Người duyệt": (activity?.moderator?.firstName + " " + activity?.moderator?.lastName),
+        "Ngày tạo": format(new Date(activity?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Ngày duyệt": format(new Date(activity?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
+        "Ngày cập nhật": format(new Date(activity?.updateDate), 'dd/MM/yyyy, h:mm:ss a'),
+
+        "Xác thực": activity.isApproved === true ? "Đồng ý" : "Từ chối",
+      }));
+
+      let columns = [
+        {
+          sheet: "Request Activities",
+          columns: [
+            { label: "ID activity", value: "ID activity" },
+            { label: "Tiêu đề", value: "Tiêu đề" },
+            { label: "Nội dung", value: "Nội dung" },
+
+            { label: "Tạo bởi thành viên", value: "Tạo bởi thành viên" },
+            { label: "Tạo bởi quản lí tổ chức", value: "Tạo bởi quản lí tổ chức" },
+            { label: "Người duyệt", value: "Người duyệt" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Xác thực", value: "Xác thực" },
+          ],
+          content: listActivities,
+        },
+      ];
+
+      let settings = {
+        fileName: "Bảng danh sách yêu cầu tạo hoạt động",
+      };
+
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }
