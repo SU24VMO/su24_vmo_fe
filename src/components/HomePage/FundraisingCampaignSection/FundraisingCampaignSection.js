@@ -38,7 +38,7 @@ const FundraisingCampaignSection = () => {
       {/* Tạo bởi cá nhân */}
       <div className="flex items-center justify-between mb-5">
         <p className="text-sm mobile:text-base">
-          Tạo bởi <b>Cá nhân</b>
+          Tạo bởi <b>Tình nguyện viên</b>
         </p>
         <Link to={"/viewCampaignsVolunteers"}>
           <Button variant="link" className="text-sm mobile:text-base">
