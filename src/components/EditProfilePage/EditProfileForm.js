@@ -118,6 +118,17 @@ export default function EditProfileForm() {
           // Birthday validation
           if (!values.birthday) {
             errors.birthday = "Không được để trống!";
+          } else {
+            // Chuyển đổi values.birthday sang đối tượng Date nếu cần
+            const birthday = new Date(values.birthday);
+            const today = new Date();
+            // Đảm bảo rằng giờ, phút, giây và mili giây không ảnh hưởng đến so sánh
+            today.setHours(0, 0, 0, 0);
+
+            if (birthday > today) {
+              errors.birthday =
+                "Ngày tháng năm sinh không thể lớn hơn hoặc bằng ngày hiện tại!";
+            }
           }
           // Gender validation
           if (!values.gender) {
