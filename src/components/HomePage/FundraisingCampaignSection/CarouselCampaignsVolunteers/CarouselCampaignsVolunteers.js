@@ -21,6 +21,11 @@ const CarouselCampaignsVolunteers = () => {
 
   // Lấy dữ liệu các campaign từ API
   const fetchData = async () => {
+    toast({
+      title: "Đang tải dữ liệu các chiến dịch của tình nguyện viên...",
+      description: "Vui lòng chờ đợi trong giây lát !",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
     try {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=1&createBy=volunteer`;
       const response = await axiosPublic.get(url);
@@ -38,7 +43,10 @@ const CarouselCampaignsVolunteers = () => {
         setDataLoaded(true);
       }
     } catch (error) {
-     console.log("Lỗi khi lấy các chiến dịch tạo bởi tình nguyện viên: ",error)
+      console.log(
+        "Lỗi khi lấy các chiến dịch tạo bởi tình nguyện viên: ",
+        error
+      );
     }
   };
 

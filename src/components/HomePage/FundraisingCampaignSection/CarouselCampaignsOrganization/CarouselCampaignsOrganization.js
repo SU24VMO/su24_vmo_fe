@@ -23,7 +23,7 @@ const CarouselCampaignsOrganization = () => {
   const fetchData = async () => {
     // if (!hasMore) return;
     toast({
-      title: "Đang tải dữ liệu các chiến dịch...",
+      title: "Đang tải dữ liệu các chiến dịch của tổ chức...",
       description: "Vui lòng chờ đợi trong giây lát !",
       action: <ToastAction altText="undo">Ẩn</ToastAction>
     });
