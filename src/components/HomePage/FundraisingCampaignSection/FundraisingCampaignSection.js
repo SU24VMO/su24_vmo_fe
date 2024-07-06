@@ -1,8 +1,9 @@
 import React from "react";
 import { CarouselAutoScrollDonator } from "./CarouselDonator/CarouselAutoScrollDonator";
 import { Button } from "../../ui/button";
-import CarouselCampaign from "./CarouselCampaign/CarouselCampaign";
 import { Link } from "react-router-dom";
+import CarouselCampaignsOrganization from "./CarouselCampaignsOrganization/CarouselCampaignsOrganization";
+import CarouselCampaignsVolunteers from "./CarouselCampaignsVolunteers/CarouselCampaignsVolunteers";
 
 const FundraisingCampaignSection = () => {
   return (
@@ -32,7 +33,7 @@ const FundraisingCampaignSection = () => {
       </div>
       {/* Card tạo bởi tổ chức */}
       <div className="flex flex-col items-center flex-wrap justify-center p-10">
-        <CarouselCampaign />
+        <CarouselCampaignsOrganization />
       </div>
 
       {/* Tạo bởi cá nhân */}
@@ -48,7 +49,7 @@ const FundraisingCampaignSection = () => {
       </div>
       {/* Card tạo bởi cá nhân */}
       <div className="flex flex-col items-center flex-wrap justify-center p-10">
-        <CarouselCampaign />
+        <CarouselCampaignsVolunteers />
       </div>
     </div>
   );
