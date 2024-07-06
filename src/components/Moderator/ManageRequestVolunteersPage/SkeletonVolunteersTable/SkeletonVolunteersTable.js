@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "../../../ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../ui/table";
 
-const SkeletonMembersTable = () => {
+const SkeletonVolunteersTable = () => {
   const columns = 8; // Adjust this number based on the actual number of columns
   const rows = 10; // Adjust this number based on the number of rows you want to show as skeleton
 
@@ -34,4 +34,4 @@ const SkeletonMembersTable = () => {
   );
 };
 
-export default SkeletonMembersTable;
+export default SkeletonVolunteersTable;

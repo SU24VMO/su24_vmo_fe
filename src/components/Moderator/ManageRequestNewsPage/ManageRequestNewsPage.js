@@ -12,7 +12,7 @@ const ManageRequestNewsPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Manage Request News Page</p>
+      <p className="font-bold text-2xl">Danh sách yêu cầu tin tức</p>
       <TableRequestNews />
     </>
   );

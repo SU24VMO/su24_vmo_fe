@@ -8,9 +8,9 @@ import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
 
 
 // call api get 
-export async function getData(cancelToken, pageSize, pageNo, setLoading) {
+export async function getData(cancelToken, pageSize, pageNo, sortConfig, setLoading) {
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
       cancelToken: cancelToken
     });
 
@@ -42,6 +42,10 @@ const TableRequestCampaigns = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
 
   const onEdit = React.useCallback((row) => {
     setIsDialogOpen(true);
@@ -54,9 +58,9 @@ const TableRequestCampaigns = () => {
 
   
   
-  const fetchData = async (cancelToken, pageSize, pageNo) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -66,23 +70,32 @@ const TableRequestCampaigns = () => {
       
     }
   };
-  
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
   };
 
 
@@ -103,7 +116,7 @@ const TableRequestCampaigns = () => {
       </div>
 
       <DataTable
-        columns={columns({ onEdit, onDelete })}
+        columns={columns({ onEdit, onDelete, onSort })}
         data={data}
         loading={loading}
         list={list}

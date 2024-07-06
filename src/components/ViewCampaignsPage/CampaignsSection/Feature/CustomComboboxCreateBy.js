@@ -17,8 +17,8 @@ const data = [
     label: "Tổ chức",
   },
   {
-    value: "member",
-    label: "Cá nhân",
+    value: "volunteer",
+    label: "Tình nguyện viên",
   },
 ];
 

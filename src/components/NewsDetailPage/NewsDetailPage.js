@@ -64,6 +64,10 @@ export default function NewsDetailPage() {
   }, []);
 
   React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
     fetchData(id);
   }, [id]);
 

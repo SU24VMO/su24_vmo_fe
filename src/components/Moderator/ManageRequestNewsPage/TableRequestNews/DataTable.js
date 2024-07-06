@@ -73,24 +73,27 @@ export function DataTable({
     "isApproved": "Xác thực",
     "actions": "Thao tác",
   };
-  const [state, setState] = React.useState({
-    ...table.initialState, //populate the initial state with all of the default state values from the table instance
-    pagination: {
-      pageIndex: pageNo - 1,
-      pageSize,
-    },
-  })
+  // const [state, setState] = React.useState({
+  //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
+  //   pagination: {
+  //     pageIndex: pageNo - 1,
+  //     pageSize,
+  //   },
+  // })
 
-  table.setOptions(prev => ({
-    ...prev, //preserve any other options that we have set up above
-    state, //our fully controlled state overrides the internal state
-    onStateChange: setState //any state changes will be pushed up to our own state management
-  }))
-
-  useEffect(() => {
-    console.log("Data Length:", data.length);
-    console.log("Table Rows Length:", table.getRowModel().rows?.length);
-  }, [data, table]);
+  // table.setOptions(prev => ({
+  //   ...prev, //preserve any other options that we have set up above
+  //   state, //our fully controlled state overrides the internal state
+  //   onStateChange: setState //any state changes will be pushed up to our own state management
+  // }))
+  
+//update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+  // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
+  // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  React.useEffect(() => {
+    table.setPageSize(pageSize);
+    table.setPageIndex(pageNo - 1);
+  }, [pageNo, pageSize, table]);
 
   const handlePreviousPage = () => {
     if (pageNo > 1) setPageNo(pageNo - 1);
@@ -114,7 +117,7 @@ export function DataTable({
         /> */}
         {/* Xuất excel */}
         <Button
-          onClick={() => exportToExcel({ posts: data })}
+          onClick={() => exportToExcel()}
           className="ml-4"
           variant="outline"
         >

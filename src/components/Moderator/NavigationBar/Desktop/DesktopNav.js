@@ -60,8 +60,8 @@ const DesktopNav = () => {
                 </Badge> */}
               </Link>
               <Link
-              to="/moderator/manageRequestMembers"
-              className={getLinkClass("/moderator/manageRequestMembers")}
+              to="/moderator/manageRequestVolunteers"
+              className={getLinkClass("/moderator/manageRequestVolunteers")}
               >
                 <Package className="h-4 w-4" />
                 {/* Products{" "} */}

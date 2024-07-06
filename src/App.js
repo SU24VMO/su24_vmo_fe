@@ -55,13 +55,16 @@ import ModeratorHomePage from "./components/Moderator/ModeratorHomePage/Moderato
 import ManageRequestActivitiesPage from "./components/Moderator/ManageRequestActivitiesPage/ManageRequestActivitiesPage";
 import ManageRequestOrganizationsPage from "./components/Moderator/ManageRequestOrganizationsPage/ManageRequestOrganizationsPage";
 import ManageRequestOrganizationManagersPage from "./components/Moderator/ManageRequestOrganizationManagersPage/ManageRequestOrganizationManagersPage";
-import ManageRequestMembersPage from "./components/Moderator/ManageRequestMembersPage/ManageRequestMembersPage";
+
 import ManageRequestNewsPage from "./components/Moderator/ManageRequestNewsPage/ManageRequestNewsPage";
 import ManageRequestCampaignsPage from "./components/Moderator/ManageRequestCampaignsPage/ManageRequestCampaignsPage";
 import ModeratorLoginPage from "./components/Moderator/ModeratorLoginPage/ModeratorLoginPage";
 import ManageModeratorsPage from "./components/Admin/ManageModeratorsPage/ManageModeratorsPage";
 import ManageVolunteerPage from "./components/Admin/ManageVolunteersPage/ManageVolunteerPage";
 import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMembersPage";
+import ManageRequestVolunteersPage from "./components/Moderator/ManageRequestVolunteersPage/ManageRequestVolunteersPage";
+import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizationsPage/ViewCampaignsOrganizationsPage";
+import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPage/ViewCampaignsVolunteersPage";
 
 
 function App() {
@@ -88,6 +91,8 @@ function App() {
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
+            <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
+            <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
@@ -175,7 +180,7 @@ function App() {
                 <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage />} />
                 <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage />} />
                 <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage />} />
-                <Route path="manageRequestMembers" element={<ManageRequestMembersPage />} />
+                <Route path="manageRequestVolunteers" element={<ManageRequestVolunteersPage />} />
                 <Route path="manageRequestNews" element={<ManageRequestNewsPage />} />
                 <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage />} />
               </Route>

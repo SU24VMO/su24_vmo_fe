@@ -1,9 +1,9 @@
 import React from "react";
-import TableRequestMembers from "./TableRequestMembers/TableRequestMembers";
 import { Helmet } from "react-helmet";
+import TableRequestVolunteers from "./TableRequestVolunteers/TableRequestVolunteers";
 
 
-const ManageRequestMembersPage = () => {
+const ManageRequestVolunteersPage = () => {
   return (
     <>
       <Helmet>
@@ -13,10 +13,10 @@ const ManageRequestMembersPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Manage Request Members Page</p>
-    <TableRequestMembers/>
+      <p className="font-bold text-2xl">Danh sách yêu cầu thành viên</p>
+    <TableRequestVolunteers/>
     </>
   );
 };
 
-export default ManageRequestMembersPage;
+export default ManageRequestVolunteersPage;
