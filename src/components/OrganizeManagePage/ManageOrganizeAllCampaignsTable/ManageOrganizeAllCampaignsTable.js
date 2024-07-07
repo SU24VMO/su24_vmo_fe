@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
@@ -7,10 +7,11 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLCAMPAIGNBYOMID } from "../../../api/apiConstants";
 import { Helmet } from "react-helmet";
-async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
+  console.log("campaignName truyền vào: " , campaignName);
 
   try {
-    const response = await axiosPrivate.get(GETALLCAMPAIGNBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLCAMPAIGNBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${campaignName}`, {
       cancelToken: cancelToken
     });
 
@@ -28,46 +29,59 @@ async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
       setLoading(false)
 
     }
-  } 
-
+  }
 
   return [];
 }
 const ManageOrganizeAllCampaignsTable = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
+  const [campaignName, setCampaignName] = useState("")
 
 
 
-  
-  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig,campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-     
+
     }
   };
 
 
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo);
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo, campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -80,20 +94,21 @@ const ManageOrganizeAllCampaignsTable = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto">
-      <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <DataTable
-       columns={columns}
-        data={data}
-        loading={loading}
-        list={list}
-        pageSize={pageSize}
-        pageNo={pageNo}
-        setPageSize={setPageSize}
-        setPageNo={setPageNo}
-        totalPages={totalPages}
-         />
-    </div>
+      <div className="w-3/4 mx-auto">
+        <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+        <DataTable
+          columns={columns({ onSort })}
+          setCampaignName={setCampaignName}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   );
 };

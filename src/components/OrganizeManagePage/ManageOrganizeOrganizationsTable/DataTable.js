@@ -31,6 +31,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
+  setOrganizationName
 }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -51,21 +52,28 @@ export function DataTable({
   });
 
 
-  const [state, setState] = React.useState({
-    ...table.initialState, //populate the initial state with all of the default state values from the table instance
-    pagination: {
-      pageIndex: pageNo - 1,
-      pageSize,
-    },
-  })
+  // const [state, setState] = React.useState({
+  //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
+  //   pagination: {
+  //     pageIndex: pageNo - 1,
+  //     pageSize,
+  //   },
+  // })
 
-  table.setOptions(prev => ({
-    ...prev, //preserve any other options that we have set up above
-    state, //our fully controlled state overrides the internal state
-    onStateChange: setState //any state changes will be pushed up to our own state management
-  }))
+  // table.setOptions(prev => ({
+  //   ...prev, //preserve any other options that we have set up above
+  //   state, //our fully controlled state overrides the internal state
+  //   onStateChange: setState //any state changes will be pushed up to our own state management
+  // }))
 
 
+  //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+  // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
+  // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  React.useEffect(() => {
+    table.setPageSize(pageSize);
+    table.setPageIndex(pageNo - 1);
+  }, [pageNo, pageSize, table]);
 
   const handlePreviousPage = () => {
     if (pageNo > 1) setPageNo(pageNo - 1);
@@ -86,9 +94,7 @@ export function DataTable({
           placeholder="Tìm kiếm tên tổ chức ..."
           value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
-            table
-              .getColumn("name")
-              ?.setFilterValue(event.target.value)
+            setOrganizationName(event.target.value)
           }
           className="max-w-sm"
         />

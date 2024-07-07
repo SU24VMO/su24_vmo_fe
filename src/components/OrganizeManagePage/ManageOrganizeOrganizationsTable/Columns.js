@@ -12,7 +12,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { format } from "date-fns";
 
-export const columns = [
+export const columns =({ onSort }) => [
   {
     accessorKey: "logo",
     header: () => <div>Logo</div>,
@@ -33,7 +33,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("Name")}
         >
           Tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -64,7 +64,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -96,7 +96,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => onSort("CreatedAt")}
         >
           Thời gian tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
