@@ -48,7 +48,7 @@ export const GETALLACCOUNTSOM = "/api/account/all/role/organization-manager"
 export const GETALLACCOUNTSMODERATOR = "/api/account/all/role/moderator"
 
 
-
+export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 
 
 

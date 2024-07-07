@@ -12,7 +12,7 @@ import {
 import { format } from "date-fns";
 
 
-export const columns = [
+export const columns =({ onSort }) => [
   
   {
     accessorKey: "title",
@@ -21,7 +21,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("Title")}
         >
           Tên hoạt động
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -37,7 +37,7 @@ export const columns = [
   //       <Button
   //         variant="ghost"
   //         className="px-0 py-0"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //        onClick={() => onSort("IsActived")}
   //       >
   //         Tên chiến dịch
   //         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -52,7 +52,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -83,7 +83,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("CampaignName")}
         >
           Chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -111,7 +111,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("CreateDate")}
         >
           Thời gian đăng
           <ArrowUpDown className="ml-2 h-4 w-4" />

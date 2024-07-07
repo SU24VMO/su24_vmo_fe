@@ -7,11 +7,12 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
+import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
 
-async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
+async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(`https://vmo.azurewebsites.net/api/campaign/create-by/organization-manager/${user.organization_manager_id}/processing-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLPHASE123BYOM + `${user.organization_manager_id}/processing-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${campaignName}`, {
       cancelToken: cancelToken
     });
 
@@ -40,10 +41,15 @@ const ManageOrganizePhase2Table = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
+  const [campaignName, setCampaignName] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo,campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken,user, pageSize, pageNo,sortConfig,campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -54,16 +60,25 @@ const ManageOrganizePhase2Table = () => {
     }
   };
 
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo);
+    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo,campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -80,7 +95,8 @@ const ManageOrganizePhase2Table = () => {
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable
-      columns={columns}
+      columns={columns({onSort})}
+      setCampaignName={setCampaignName}
       data={data}
       loading={loading}
       list={list}
