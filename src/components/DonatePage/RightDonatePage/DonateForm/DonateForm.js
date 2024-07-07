@@ -372,6 +372,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                 firstName={firstname}
                 lastName={lastname}
                 orderID={orderId}
+                campaignID={campaignId}
               />
             </div>
           </DialogContent>
@@ -432,6 +433,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                   firstName={firstname}
                   lastName={lastname}
                   orderID={orderId}
+                  campaignID={campaignId}
                 />
               </div>
             </div>
