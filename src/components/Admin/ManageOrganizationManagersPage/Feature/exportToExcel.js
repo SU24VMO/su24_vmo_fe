@@ -1,27 +1,49 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLACCOUNTSOM } from "../../../../api/apiConstants";
 
-export function exportToExcel({ organizationManager }) {
-  let columns = [
-    {
-      sheet: "OrganizationManagers",
-      columns: [
-        { label: "Tên người dùng", value: "username" },
-        { label: "Email", value: "email" },
-        { label: "Mật khẩu", value: "hashPassword" },
-        { label: "Đang hoạt động", value: (row) => row.isActived === true ? "Có" : "Không", },
-        { label: "Ngày tạo", value: "createdAt" },
-        // { 
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
-      ],
-      content: organizationManager,
-    },
-  ];
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLACCOUNTSOM
+    );
 
-  let settings = {
-    fileName: "Danh sách người quản lí tổ chức",
-  };
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
 
-  xlsx(columns, settings);
+      let organzationManagers = response.data.data.list.map((organzationManager) => ({
+        "ID người dùng": organzationManager?.accountID,
+        "Tên người dùng": organzationManager?.username,
+        "Email": organzationManager?.email ,
+        "Vai trò": "organzationManager",
+        "Ngày tạo": organzationManager?.createdAt,
+        "Trạng thái": organzationManager?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
+      }));
+
+      let columns = [
+        {
+          sheet: "Request organzation managers",
+          columns: [
+            { label: "ID người dùng", value: "ID người dùng" },
+            { label: "Tên người dùng", value: "Tên người dùng" },
+            { label: "Email", value: "Email" },
+            { label: "Vai trò", value: "Vai trò" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Trạng thái", value: "Trạng thái" },
+          ],
+          content: organzationManagers,
+        },
+      ];
+
+      let settings = {
+        fileName: "Bảng danh sách tài khoản thành viên tổ chức",
+      };
+
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }

@@ -24,6 +24,7 @@ import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
 
 import { Loader2 } from "lucide-react";
+import { format } from "date-fns";
 
 const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) => {
   const { toast } = useToast();
@@ -103,7 +104,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-md flex flex-col">
+      <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
           <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
@@ -111,8 +112,9 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          {/* Show avatar người dùng */}
-          <div className="flex">
+         <div className="flex flex-col gap-5">
+           {/* Show avatar người dùng */}
+           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="avatar">Avatar</Label>
               <div className="flex items-center space-x-2">
@@ -168,38 +170,26 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
               </div>
             </div>
           </div>
-          {/* Show mật khẩu */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="hashPassword">Mật khẩu</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="hashPassword"
-                  defaultValue={volunteer ? volunteer.hashPassword : ""}
-                  disabled
-                />
-                <CopyButton code={volunteer ? volunteer.hashPassword : ""} />
-              </div>
-            </div>
-          </div>
+          
           {/* Show ngày tạo */}
+        
           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="createdAt"
-                  disabled
-                  defaultValue={volunteer ? volunteer.createdAt : ""}
-                />
-                <CopyButton code={volunteer ? volunteer.createdAt : ""} />
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_date">Ngày tạo</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {volunteer ? format(new Date(volunteer?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={volunteer ? format(new Date(volunteer?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
           {/* Show role thành viên */}
           <div className="flex mb-3">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="role">Role</Label>
+              <Label htmlFor="role">Vai trò</Label>
               <div className="flex items-center space-x-2">
               <Badge variant="primary">Volunteer</Badge>
                 
@@ -220,6 +210,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
              
             </form>
           )}
+         </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>

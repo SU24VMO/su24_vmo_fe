@@ -5,7 +5,7 @@ import { Badge } from "../../../ui/badge";
 import { format } from "date-fns";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 
-export const columns = ({ onEdit, onDelete }) => [
+export const columns = ({ onEdit, onDelete, onSort }) => [
   {
     accessorKey: "avatar",
     header: () => <div>Avatar</div>,
@@ -26,7 +26,7 @@ export const columns = ({ onEdit, onDelete }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Username")}
         >
           Tên người dùng
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -40,7 +40,7 @@ export const columns = ({ onEdit, onDelete }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("Email")}
       >
         Email
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -54,7 +54,7 @@ export const columns = ({ onEdit, onDelete }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("IsActived")}
       >
         Trạng thái
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -92,7 +92,7 @@ export const columns = ({ onEdit, onDelete }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("CreatedAt")}
       >
         Ngày tạo
         <ArrowUpDown className="ml-2 h-4 w-4" />
