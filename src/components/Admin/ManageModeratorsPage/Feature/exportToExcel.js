@@ -1,27 +1,49 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLACCOUNTSMODERATOR } from "../../../../api/apiConstants";
 
-export function exportToExcel({ moderator }) {
-  let columns = [
-    {
-      sheet: "Moderators",
-      columns: [
-        { label: "Tên người dùng", value: "username" },
-        { label: "Email", value: "email" },
-        { label: "Mật khẩu", value: "hashPassword" },
-        { label: "Đang hoạt động", value: (row) => row.isActived === true ? "Có" : "Không", },
-        { label: "Ngày tạo", value: "createdAt" },
-        // { 
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
-      ],
-      content: moderator,
-    },
-  ];
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLACCOUNTSMODERATOR
+    );
 
-  let settings = {
-    fileName: "Danh sách người kiểm duyệt",
-  };
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
 
-  xlsx(columns, settings);
+      let moderators = response.data.data.list.map((moderator) => ({
+        "ID người dùng": moderator?.accountID,
+        "Tên người dùng": moderator?.username,
+        "Email": moderator?.email ,
+        "Vai trò": "Moderator",
+        "Ngày tạo": moderator?.createdAt,
+        "Trạng thái": moderator?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
+      }));
+
+      let columns = [
+        {
+          sheet: "Request moderators",
+          columns: [
+            { label: "ID người dùng", value: "ID người dùng" },
+            { label: "Tên người dùng", value: "Tên người dùng" },
+            { label: "Email", value: "Email" },
+            { label: "Vai trò", value: "Vai trò" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Trạng thái", value: "Trạng thái" },
+          ],
+          content: moderators,
+        },
+      ];
+
+      let settings = {
+        fileName: "Bảng danh sách tài khoản ngưởi kiểm duyệt",
+      };
+
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }

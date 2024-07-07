@@ -22,6 +22,7 @@ import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEISACTIVED } from "../../../../api/apiConstants";
 import { Loader2 } from "lucide-react";
+import { format } from "date-fns";
 
 const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess }) => {
   const { toast } = useToast();
@@ -103,7 +104,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-md flex flex-col">
+      <DialogContent className="mobile:max-w-screen-table">
         <DialogHeader>
           <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
@@ -111,8 +112,9 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          {/* Show avatar người dùng */}
-          <div className="flex">
+          <div className="flex flex-col gap-5">
+{/* Show avatar người dùng */}
+<div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="avatar">Avatar</Label>
               <div className="flex items-center space-x-2">
@@ -168,57 +170,29 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
               </div>
             </div>
           </div>
-          {/* Show mật khẩu */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="hashPassword">Mật khẩu</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="hashPassword"
-                  defaultValue={moderator ? moderator.hashPassword : ""}
-                  disabled
-                />
-                <CopyButton code={moderator ? moderator.hashPassword : ""} />
-              </div>
-            </div>
-          </div>
+        
           {/* Show ngày tạo */}
+        
           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="createdAt"
-                  disabled
-                  defaultValue={moderator ? moderator.createdAt : ""}
-                />
-                <CopyButton code={moderator ? moderator.createdAt : ""} />
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_date">Ngày tạo</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {moderator ? format(new Date(moderator?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={moderator ? format(new Date(moderator?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
           {/* Show role thành viên */}
           <div className="flex mb-3">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="role">Role</Label>
+              <Label htmlFor="role">Vai trò</Label>
               <div className="flex items-center space-x-2">
               <Badge variant="primary">Moderator</Badge>
-                {/* {user ? (
-                  user.role === "Admin" ? (
-                    <Badge variant="success">Admin</Badge>
-                  ) : user.role === "User" ? (
-                    <Badge variant="primary">User</Badge>
-                  ) : user.role === "Member" ? (
-                    <Badge variant="info">Member</Badge>
-                  ) : user.role === "OrganizationManager" ? (
-                    <Badge variant="warning">Organization Manager</Badge>
-                  ) : user.role === "moderator" ? (
-                    <Badge variant="danger">Request Manager</Badge>
-                  ) : (
-                    <Badge variant="secondary">Unknown</Badge>
-                  )
-                ) : (
-                  "No user"
-                )} */}
+                
               </div>
             </div>
           </div>
@@ -236,6 +210,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
              
             </form>
           )}
+          </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
