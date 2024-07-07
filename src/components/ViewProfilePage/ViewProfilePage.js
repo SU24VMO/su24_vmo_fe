@@ -1,8 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import CarouselCampaign from "./CarouselCampaign/CarouselCampaign";
 import { AuthContext } from "../../context/AuthContext";
-import { axiosPrivate } from "../../api/axiosInstance";
+import { axiosPrivate, axiosPublic } from "../../api/axiosInstance";
 import image_placeholder from "../../assets/images/placeholder.svg";
 import { GET_ACCOUNT_BY_ID } from "../../api/apiConstants";
 import { format } from "date-fns";
@@ -16,6 +15,8 @@ import youtubeIcon from "../../assets/icons/YoutubeIcon.svg";
 import { Button } from "../ui/button";
 import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
+import TransactionsPaid from "./TransactionsPaid/TransactionsPaid";
+import TransactionsPending from "./TransactionsPending/TransactionsPending";
 
 export default function ViewProfilePage() {
   const { toast } = useToast();
@@ -31,8 +32,19 @@ export default function ViewProfilePage() {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } else {
-      window.open(link, '_blank');
+      window.open(link, "_blank");
     }
+  };
+
+  // Hàm format số tiền ủng hộ
+  const formatMoney = (money) => {
+    // Ensure money is a string
+    const moneyStr = money.toString();
+    // Remove non-digit characters from the input money
+    const cleanValue = moneyStr.replace(/\D/g, "");
+    // Format the money with thousand separators
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedValue;
   };
 
   React.useEffect(() => {
@@ -99,16 +111,40 @@ export default function ViewProfilePage() {
                       Xem thêm thông tin tài khoản tại:
                     </p>
                     <div className="w-full flex justify-between">
-                      <Button variant="link" className="p-0" onClick={() => handleSocialMediaRedirect(`mailto:${user.email}`)}>
+                      <Button
+                        variant="link"
+                        className="p-0"
+                        onClick={() =>
+                          handleSocialMediaRedirect(`mailto:${user.email}`)
+                        }
+                      >
                         <img src={emailIcon} alt="" className="w-8 h-8" />
                       </Button>
-                      <Button variant="link" className="p-0" onClick={() => handleSocialMediaRedirect(user.facebooklink)}>
+                      <Button
+                        variant="link"
+                        className="p-0"
+                        onClick={() =>
+                          handleSocialMediaRedirect(user.facebooklink)
+                        }
+                      >
                         <img src={facebookIcon} alt="" className="w-8 h-8" />
                       </Button>
-                      <Button variant="link" className="p-0" onClick={() => handleSocialMediaRedirect(user.tiktoklink)}>
+                      <Button
+                        variant="link"
+                        className="p-0"
+                        onClick={() =>
+                          handleSocialMediaRedirect(user.tiktoklink)
+                        }
+                      >
                         <img src={tiktokIcon} alt="" className="w-8 h-8" />
                       </Button>
-                      <Button variant="link" className="p-0" onClick={() => handleSocialMediaRedirect(user.youtubelink)}>
+                      <Button
+                        variant="link"
+                        className="p-0"
+                        onClick={() =>
+                          handleSocialMediaRedirect(user.youtubelink)
+                        }
+                      >
                         <img src={youtubeIcon} alt="" className="w-8 h-8" />
                       </Button>
                     </div>
@@ -119,22 +155,32 @@ export default function ViewProfilePage() {
             <div className=" mobile:flex justify-around gap-4 items-center">
               <div className="text-center">
                 <h1 className=" text-sx mobile:text-xl font-bold">
-                  1.000.000.000 tỷ
+                  {formatMoney(data.donatedMoney)} VNĐ
                 </h1>
-                <span className="  text-sm mobile:text-sx ">
-                  Số tiền ủng hộ
-                </span>
+                <span className="text-sm mobile:text-sx ">Số tiền ủng hộ</span>
               </div>
               <div className="text-center">
-                <h1 className=" text-sx mobile:text-xl font-bold">2</h1>
+                <h1 className=" text-sx mobile:text-xl font-bold">
+                  {data.numberOfDonations}
+                </h1>
                 <span className="  text-sm mobile:text-sx">Lượt ủng hộ</span>
               </div>
-              {/* <div className="text-center">
-                <h1 className=" text-sx mobile:text-xl font-bold">10</h1>
-                <span className="  text-sm mobile:text-sx">
-                  Chiến dịch đã thực hiện
-                </span>
-              </div> */}
+              <div className="text-center">
+                <h1 className=" text-sx mobile:text-xl font-bold">
+                  {data.role === 0
+                    ? "Admin"
+                    : data.role === 1
+                    ? "Người dùng"
+                    : data.role === 2
+                    ? "Tình nguyện viên"
+                    : data.role === 3
+                    ? "Quản lý tổ chức"
+                    : data.role === 4
+                    ? "Người kiểm duyệt"
+                    : "Chưa xác định"}
+                </h1>
+                <span className="  text-sm mobile:text-sx">Loại tài khoản</span>
+              </div>
             </div>
           </div>
         ) : (
@@ -156,23 +202,19 @@ export default function ViewProfilePage() {
         </div>
         <div className="mb-8">
           <h1 className="text-sx mobile:text-xl  font-bold my-2">
-            Chiến dịch gây quỹ:
+            Ủng hộ của tôi:
           </h1>
         </div>
-        <Tabs defaultValue="process" className="w-full">
+        <Tabs defaultValue="paid" className="w-full">
           <TabsList>
-            <TabsTrigger value="process">Đang thực hiện</TabsTrigger>
-            <TabsTrigger value="waitAccept">Chờ phê duyệt</TabsTrigger>
-            <TabsTrigger value="end">Đã kết thúc</TabsTrigger>
+            <TabsTrigger value="paid">Đã thanh toán</TabsTrigger>
+            <TabsTrigger value="pending">Chưa thanh toán</TabsTrigger>
           </TabsList>
-          <TabsContent value="process">
-            <CarouselCampaign></CarouselCampaign>
+          <TabsContent value="paid">
+            <TransactionsPaid accountId={user.account_id}/>
           </TabsContent>
-          <TabsContent value="waitAccept">
-            <CarouselCampaign></CarouselCampaign>
-          </TabsContent>
-          <TabsContent value="end">
-            <CarouselCampaign></CarouselCampaign>
+          <TabsContent value="pending">
+            <TransactionsPending accountId={user.account_id}/>
           </TabsContent>
         </Tabs>
       </div>
