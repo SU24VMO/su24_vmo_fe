@@ -7,10 +7,10 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import { Helmet } from "react-helmet";
-async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
+async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizationName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&organizationName=${organizationName}`, {
       cancelToken: cancelToken
     });
 
@@ -22,6 +22,7 @@ async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
+      
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -39,10 +40,15 @@ const ManageOrganizeOrganizationsTable = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
+  const [organizationName, setOrganizationName] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig,  organizationName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -52,17 +58,25 @@ const ManageOrganizeOrganizationsTable = () => {
       
     }
   };
-
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo);
+    fetchData(source.token, user, pageSize, pageNo,organizationName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo,organizationName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -79,7 +93,8 @@ const ManageOrganizeOrganizationsTable = () => {
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable
-       columns={columns}
+       columns={columns({onSort})}
+       setOrganizationName={setOrganizationName}
         data={data}
         loading={loading}
         list={list}

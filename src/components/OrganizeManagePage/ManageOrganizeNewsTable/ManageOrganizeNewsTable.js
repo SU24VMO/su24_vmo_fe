@@ -9,10 +9,10 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLNEWSBYOMID } from "../../../api/apiConstants";
 
-async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
+async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&title=${title}`, {
       cancelToken: cancelToken
     });
 
@@ -24,6 +24,7 @@ async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
+      
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -42,29 +43,45 @@ const ManageOrganizeNewsTable = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
-  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
+  const [title, setTitle] = useState("")
+ 
+
+  const fetchData = async (cancelToken, user, pageSize, pageNo, title, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig, title, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-     
+      
     }
   };
 
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
 
-  useEffect(() => {
+ useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo);
+    fetchData(source.token, user, pageSize, pageNo,title, sortConfig, );
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo,title, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
   return (
@@ -79,7 +96,8 @@ const ManageOrganizeNewsTable = () => {
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable 
-      columns={columns} 
+      columns={columns({onSort})} 
+      setTitle={setTitle}
       data={data}
       loading={loading}
       list={list}
