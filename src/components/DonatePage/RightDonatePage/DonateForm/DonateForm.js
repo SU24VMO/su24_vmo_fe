@@ -22,85 +22,61 @@ import {
   DrawerTitle,
 } from "../../../ui/drawer";
 import img_placeholder from "../../../../assets/images/placeholder.svg";
-import logo_vietQR from "../../../../assets/images/logo_vietqr.png";
-import logo_napas from "../../../../assets/images/logo_napas.png";
 import { Separator } from "../../../ui/separator";
-import { CopyButton } from "./CopyButton";
 import { ButtonStatusDonate } from "./ButtonStatusDonate";
+import { axiosPublic } from "../../../../api/axiosInstance";
+import { CREATE_TRANSACTION } from "../../../../api/apiConstants";
+import { useToast } from "../../../ui/use-toast";
+import { ToastAction } from "../../../ui/toast";
+import { Loader2 } from "lucide-react";
 
-const DonateForm = () => {
+const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
   const [selectedAmount, setSelectedAmount] = React.useState(null);
   const [formattedValue, setFormattedValue] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [qrCode, setQrCode] = React.useState(null);
+  const [orderId, setOrderId] = React.useState(null);
   const [isDialogOpen, setDialogOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({});
   const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  React.useEffect(() => {
-    console.log("====================================");
-    console.log("Form value lấy được: ", formValues);
-    console.log("====================================");
-  }, [formValues]); // This effect runs whenever formValues changes
+  const { toast } = useToast();
 
   const formatCurrency = (value) => {
     const numberValue = Number(value);
     if (isNaN(numberValue)) return "";
-    return new Intl.NumberFormat("it-IT", {
-      // style: "currency",
-      // currency: "VND",
-    }).format(numberValue);
+    return new Intl.NumberFormat("it-IT", {}).format(numberValue);
   };
   const handleButtonClick = (value, setFieldValue) => {
     setSelectedAmount(value);
-    setFieldValue("moneyDonate", value);
+    setFieldValue("price", value);
   };
   const handleMoneyDonateChange = (event) => {
     const value = event.target.value;
     const numericValue = value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-    formik.setFieldValue("moneyDonate", numericValue);
+    formik.setFieldValue("price", numericValue);
     setFormattedValue(formatCurrency(numericValue));
   };
 
   const formik = useFormik({
     initialValues: {
-      moneyDonate: "",
-      wish: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      isAnonymously: false,
+      note: "",
+      price: "",
+      isIncognito: false,
+      accountId: accountId,
+      campaignId: campaignId,
     },
     validate: (values) => {
       const errors = {};
       const maxAmount = 500000000;
-      // Email validation
-      if (!values.email) {
-        errors.email = "Không được để trống!";
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-      ) {
-        errors.email = "Email không hợp lệ!";
-      }
-      // FirstName validation
-      if (!values.firstName) {
-        errors.firstName = "Không được để trống!";
-      } else if (!/^[a-zA-Z ]+$/.test(values.firstName)) {
-        errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
-      }
-      // LastName validation
-      if (!values.lastName) {
-        errors.lastName = "Không được để trống!";
-      } else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
-        errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
-      }
-      // moneyDonate validation
-      if (!values.moneyDonate) {
-        errors.moneyDonate = "Không được để trống!";
+      // price validation
+      if (!values.price) {
+        errors.price = "Không được để trống!";
       } else {
-        const moneyDonateValue = Number(values.moneyDonate);
+        const moneyDonateValue = Number(values.price);
         if (isNaN(moneyDonateValue)) {
-          errors.moneyDonate = "Số tiền không hợp lệ!";
+          errors.price = "Số tiền không hợp lệ!";
         } else if (moneyDonateValue > maxAmount) {
-          errors.moneyDonate = `Số tiền phải nhỏ hơn ${maxAmount.toLocaleString(
+          errors.price = `Số tiền phải nhỏ hơn ${maxAmount.toLocaleString(
             "it-IT"
           )} VND!`;
         }
@@ -108,19 +84,55 @@ const DonateForm = () => {
 
       return errors;
     },
-    onSubmit: (values, { setSubmitting }) => {
-      // setTimeout(() => {
-      //   alert(JSON.stringify(values, null, 2)); // For testing
-      //   setSubmitting(false);
-      // }, 400);
-      setFormValues(values);
-      setDialogOpen(true);
-      setSubmitting(false);
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        if (typeof setLoading === "function") {
+          setLoading(true); // Start loading
+        }
+        toast({
+          title: "Đang xử lý...",
+          description: "Vui lòng chờ trong giây lát!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        // Step 4: Make the API call to update the user information
+        const response = await axiosPublic.post(CREATE_TRANSACTION, values);
+        if (response.status === 200) {
+          setOrderId(response.data.orderID);
+          console.log("orderID: ", orderId);
+          console.log("Thông tin donate: ", values);
+          console.log("Thông tin từ donate api", response.data);
+          setQrCode(response.data.qrCode);
+          setFormValues(values);
+          setDialogOpen(true);
+        } else {
+          // Handle any other status code appropriately
+          toast({
+            variant: "destructive",
+            title: "Có lỗi xảy ra !",
+            description: "Vui lòng thử lại!",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+          console.log("Lấy dữ liệu từ api donate không thành công!");
+        }
+      } catch (error) {
+        let errorMessage = "Có lỗi xảy ra. Vui lòng thử lại!";
+        // Hiển thị thông điệp lỗi
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra!",
+          description: errorMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.error("Lỗi lấy dữ liệu khi gọi api lấy mã QR:", errorMessage);
+      } finally {
+        setLoading(false); // Stop loading regardless of the outcome
+        setSubmitting(false); // Set Formik submitting to false
+      }
     },
   });
   React.useEffect(() => {
-    setFormattedValue(formatCurrency(formik.values.moneyDonate));
-  }, [formik.values.moneyDonate]);
+    setFormattedValue(formatCurrency(formik.values.price));
+  }, [formik.values.price]);
 
   return (
     <>
@@ -129,15 +141,15 @@ const DonateForm = () => {
           <p className="text-3xl text-muted-foreground font-bold">
             Thông tin ủng hộ
           </p>
-          {/* moneyDonate */}
+          {/* price */}
           <div className="grid gap-2">
             <div>
-              <Label htmlFor="moneyDonate">
+              <Label htmlFor="price">
                 Nhập số tiền ủng hộ <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
                 <Input
-                  id="moneyDonate"
+                  id="price"
                   type="text"
                   inputMode="numeric"
                   maxLength="15"
@@ -158,16 +170,16 @@ const DonateForm = () => {
               </div>
 
               <p className={cn("text-sm font-medium text-destructive")}>
-                {formik.errors.moneyDonate &&
-                  formik.touched.moneyDonate &&
-                  formik.errors.moneyDonate}
+                {formik.errors.price &&
+                  formik.touched.price &&
+                  formik.errors.price}
               </p>
             </div>
             <div className="flex items-center justify-between">
               <div
                 onClick={() => handleButtonClick(50000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  formik.values.moneyDonate === 50000
+                  formik.values.price === 50000
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
@@ -177,7 +189,7 @@ const DonateForm = () => {
               <div
                 onClick={() => handleButtonClick(100000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  formik.values.moneyDonate === 100000
+                  formik.values.price === 100000
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
@@ -187,7 +199,7 @@ const DonateForm = () => {
               <div
                 onClick={() => handleButtonClick(200000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  formik.values.moneyDonate === 200000
+                  formik.values.price === 200000
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
@@ -197,7 +209,7 @@ const DonateForm = () => {
               <div
                 onClick={() => handleButtonClick(500000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  formik.values.moneyDonate === 500000
+                  formik.values.price === 500000
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
@@ -208,15 +220,15 @@ const DonateForm = () => {
           </div>
           {/* Lời chúc */}
           <div className="grid gap-2">
-            <Label htmlFor="wish">Lời chúc</Label>
+            <Label htmlFor="note">Lời chúc</Label>
             <Input
-              id="wish"
-              type="wish"
-              name="wish"
+              id="note"
+              type="note"
+              name="note"
               placeholder="Nhập lời chúc trao gửi yêu thương"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.wish}
+              value={formik.values.note}
             />
           </div>
           <p className="text-3xl text-muted-foreground font-bold">
@@ -229,30 +241,18 @@ const DonateForm = () => {
               <Input
                 id="firstName"
                 placeholder="Nguyen"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.firstName}
+                disabled
+                defaultValue={firstname}
               />
-              <p className={cn("text-sm font-medium text-destructive")}>
-                {formik.errors.firstName &&
-                  formik.touched.firstName &&
-                  formik.errors.firstName}
-              </p>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="lastName">Tên</Label>
               <Input
                 id="lastName"
                 placeholder="Van A"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
+                disabled
+                defaultValue={lastname}
               />
-              <p className={cn("text-sm font-medium text-destructive")}>
-                {formik.errors.lastName &&
-                  formik.touched.lastName &&
-                  formik.errors.lastName}
-              </p>
             </div>
           </div>
           {/* Email */}
@@ -263,31 +263,25 @@ const DonateForm = () => {
               type="email"
               name="email"
               placeholder="Nhập email của bạn"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
+              disabled
+              defaultValue={email}
             />
             <p className="text-muted-foreground text-sm">
               Bạn sẽ nhận được một email xác nhận về thông tin đóng góp của mình
-            </p>
-            <p className={cn("text-sm font-medium text-destructive")}>
-              {formik.errors.email &&
-                formik.touched.email &&
-                formik.errors.email}
             </p>
           </div>
           {/*  */}
           <div className="grid gap-2">
             <div className="flex items-center space-x-2">
               <Checkbox
-                id="isAnonymously"
-                checked={formik.values.isAnonymously}
+                id="isIncognito"
+                checked={formik.values.isIncognito}
                 onCheckedChange={(checked) =>
-                  formik.setFieldValue("isAnonymously", checked)
+                  formik.setFieldValue("isIncognito", checked)
                 }
               />
               <label
-                htmlFor="isAnonymously"
+                htmlFor="isIncognito"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Ủng hộ ẩn danh
@@ -297,9 +291,16 @@ const DonateForm = () => {
           <Button
             type="submit"
             className="w-full text-xl py-6"
-            disabled={formik.isSubmitting}
+            disabled={loading}
           >
-            Ủng hộ
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Ủng hộ
+              </>
+            ) : (
+              "Ủng hộ"
+            )}
           </Button>
         </div>
         <p className="text-center mt-3">
@@ -332,60 +333,31 @@ const DonateForm = () => {
                   </p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm w-[40%]">Chủ tài khoản thiện nguyện:</p>
-                  <p className="text-sm font-bold w-[60%]">150</p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
                   <p className="text-sm w-[40%]">Chủ tài khoản:</p>
                   <p className="text-sm font-bold w-[60%]">CHAU NHAT TRUONG</p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <p className="text-sm w-[40%]">Số tiền:</p>
                   <p className="text-sm font-bold w-[60%]">
-                    {formatCurrency(formValues.moneyDonate)} VND
+                    {formatCurrency(formValues.price)} VND
                   </p>
                 </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm w-[40%]">Nội dung chuyển khoản:</p>
-                  <div className="w-[60%] flex items-center gap-x-1">
-                    <p className="text-sm font-bold ">
-                      UH2J2DNJIIU5RW 'TTK_viettat' 2024
-                    </p>
-                    <CopyButton code={"UH2J2DNJIIU5RW 'TTK_viettat' 2024"} />
-                  </div>
-                </div>
                 <p className="text-sm text-center text-muted-foreground italic">
-                  Vui lòng sao chép mã này vào nội dung chuyển khoản để chúng
-                  tôi nhận ra ủng hộ của bạn <br />
-                  <b>Lưu ý: Mã chỉ hoạt động một lần trên mỗi chuyển khoản</b>
+                  <b>
+                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
+                  </b>
                 </p>
               </div>
               <div className="col-span-1 place-self-center">
                 <div className="flex flex-col items-center justify-center w-full">
                   <div className="max-w-40">
                     <img
-                      src={img_placeholder}
+                      src={qrCode ? qrCode : img_placeholder}
                       alt="Image"
-                      width="160"
-                      height="160"
+                      width="200"
+                      height="200"
                       className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                     />
-                    <div className="flex items-center">
-                      <div className="self-start w-2/4 mr-4">
-                        <img
-                          src={logo_vietQR}
-                          alt="logo_vietQR"
-                          className="w-full h-auto"
-                        />
-                      </div>
-                      <div className="self-end w-2/4">
-                        <img
-                          src={logo_napas}
-                          alt="logo_napas"
-                          className="w-full h-auto"
-                        />
-                      </div>
-                    </div>
                   </div>
                   <p className="text-sm text-center text-muted-foreground italic">
                     Sử dụng ứng dụng ngân hàng hoặc ứng dụng thanh toán hỗ trợ
@@ -395,7 +367,13 @@ const DonateForm = () => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <ButtonStatusDonate />
+              <ButtonStatusDonate
+                email={email}
+                firstName={firstname}
+                lastName={lastname}
+                orderID={orderId}
+                campaignID={campaignId}
+              />
             </div>
           </DialogContent>
         </Dialog>
@@ -413,28 +391,12 @@ const DonateForm = () => {
               <div className="flex flex-col items-center justify-center w-full">
                 <div className="max-w-40">
                   <img
-                    src={img_placeholder}
+                    src={qrCode ? qrCode : img_placeholder}
                     alt="Image"
                     width="160"
                     height="160"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
-                  <div className="flex items-center">
-                    <div className="self-start w-2/4 mr-4">
-                      <img
-                        src={logo_vietQR}
-                        alt="logo_vietQR"
-                        className="w-full h-auto"
-                      />
-                    </div>
-                    <div className="self-end w-2/4">
-                      <img
-                        src={logo_napas}
-                        alt="logo_napas"
-                        className="w-full h-auto"
-                      />
-                    </div>
-                  </div>
                 </div>
                 <p className="text-sm text-center text-muted-foreground italic">
                   Sử dụng ứng dụng ngân hàng hoặc ứng dụng thanh toán hỗ trợ QR
@@ -449,37 +411,30 @@ const DonateForm = () => {
                   </p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm">Chủ tài khoản thiện nguyện:</p>
-                  <p className="text-sm font-bold">150</p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
                   <p className="text-sm">Chủ tài khoản:</p>
                   <p className="text-sm font-bold">CHAU NHAT TRUONG</p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <p className="text-sm">Số tiền:</p>
                   <p className="text-sm font-bold">
-                    {formatCurrency(formValues.moneyDonate)} VND
+                    {formatCurrency(formValues.price)} VND
                   </p>
                 </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm">Nội dung chuyển khoản:</p>
-                  <div className="flex items-center gap-x-1">
-                    <p className="text-sm font-bold ">
-                      UH2J2DNJIIU5RW 'TTK_viettat' 2024
-                    </p>
-                    <CopyButton code={"UH2J2DNJIIU5RW 'TTK_viettat' 2024"} />
-                  </div>
-                </div>
                 <p className="text-sm text-center text-muted-foreground italic">
-                  Vui lòng sao chép mã này vào nội dung chuyển khoản để chúng
-                  tôi nhận ra ủng hộ của bạn
                   <br />
-                  <b>Lưu ý: Mã chỉ hoạt động một lần trên mỗi chuyển khoản</b>
+                  <b>
+                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
+                  </b>
                 </p>
               </div>
               <div className="my-3">
-                <ButtonStatusDonate />
+                <ButtonStatusDonate
+                  email={email}
+                  firstName={firstname}
+                  lastName={lastname}
+                  orderID={orderId}
+                  campaignID={campaignId}
+                />
               </div>
             </div>
           </DrawerContent>

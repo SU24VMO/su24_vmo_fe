@@ -41,7 +41,7 @@ const LeftDonatePage = ({ data }) => {
                   data.organization
                     ? data.organization.logo
                     : data.member
-                    ? data.member.logo
+                    ? data.member.account.avatar
                     : img_demo
                 }
               />
@@ -51,10 +51,10 @@ const LeftDonatePage = ({ data }) => {
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
                 <CardTitle className="text-lg mobile:text-xl">
-                  {data.organization
+                {data.organization
                     ? data.organization.name
                     : data.member
-                    ? data.member.name
+                    ? data.member.firstName + " " +  data.member.lastName
                     : "Không xác định"}
                 </CardTitle>
                 <BadgeCheck className="h-6 w-6 text-green-600" />
