@@ -5,7 +5,7 @@ export const LOGIN = "/api/authentication/login";
 export const REGISTER = "/api/authentication/register";
 
 //
-export const UPDATEISACTIVED = "/api/account/update-information";
+export const UPDATEISACTIVED = "/api/account/update-status";
 export const UPDATEAPPROVEOMREQUEST = "/api/create-organization-manager-request/checking";
 export const UPDATEAPPROVECAMPAIGNREQUEST = "/api/create-campaign-request/checking";
 export const UPDATEAPPROVEVOLUNTEERREQUEST = "/api/create-volunteer-request/checking";
@@ -41,6 +41,12 @@ export const GETALLREQUESTOM = "/api/create-organization-manager-request/all";
 export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all";
 export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all";
 export const GETALLREQUESTNEWS = "/api/create-post-request/all";
+
+export const GETALLACCOUNTSMEMBER = "/api/account/all/role/member"
+export const GETALLACCOUNTSVOLUNTEER = "/api/account/all/role/volunteer"
+export const GETALLACCOUNTSOM = "/api/account/all/role/organization-manager"
+export const GETALLACCOUNTSMODERATOR = "/api/account/all/role/moderator"
+
 
 
 

@@ -1,27 +1,49 @@
 import xlsx from "json-as-xlsx";
+import { axiosPrivate } from "../../../../api/axiosInstance";
+import { GETALLACCOUNTSVOLUNTEER } from "../../../../api/apiConstants";
 
-export function exportToExcel({ member }) {
-  let columns = [
-    {
-      sheet: "Members",
-      columns: [
-        { label: "Tên người dùng", value: "username" },
-        { label: "Email", value: "email" },
-        { label: "Mật khẩu", value: "hashPassword" },
-        { label: "Đang hoạt động", value: (row) => row.isActived === true ? "Có" : "Không", },
-        { label: "Ngày tạo", value: "createdAt" },
-        // { 
-        //   label: "Date of Birth",
-        //   value: (row) => new Date(row.date_of_birth).toLocaleDateString(),
-        // },
-      ],
-      content: member,
-    },
-  ];
+export async function exportToExcel() {
+  try {
+    const response = await axiosPrivate.get(
+      GETALLACCOUNTSVOLUNTEER
+    );
 
-  let settings = {
-    fileName: "Danh sách người quản lí tổ chức",
-  };
+    if (response.status === 200) {
+      console.log("Fetched data:", response.data.data);
 
-  xlsx(columns, settings);
+      let volunteers = response.data.data.list.map((volunteer) => ({
+        "ID người dùng": volunteer?.accountID,
+        "Tên người dùng": volunteer?.username,
+        "Email": volunteer?.email ,
+        "Vai trò": "Volunteer",
+        "Ngày tạo": volunteer?.createdAt,
+        "Trạng thái": volunteer?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
+      }));
+
+      let columns = [
+        {
+          sheet: "Request volunteers",
+          columns: [
+            { label: "ID người dùng", value: "ID người dùng" },
+            { label: "Tên người dùng", value: "Tên người dùng" },
+            { label: "Email", value: "Email" },
+            { label: "Vai trò", value: "Vai trò" },
+            { label: "Ngày tạo", value: "Ngày tạo" },
+            { label: "Ngày duyệt", value: "Ngày duyệt" },
+            { label: "Trạng thái", value: "Trạng thái" },
+          ],
+          content: volunteers,
+        },
+      ];
+
+      let settings = {
+        fileName: "Bảng danh sách tài khoản thành viên",
+      };
+
+      xlsx(columns, settings);
+    }
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    // Handle error as needed
+  }
 }
