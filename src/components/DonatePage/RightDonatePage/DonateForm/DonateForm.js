@@ -24,7 +24,7 @@ import {
 import img_placeholder from "../../../../assets/images/placeholder.svg";
 import { Separator } from "../../../ui/separator";
 import { ButtonStatusDonate } from "./ButtonStatusDonate";
-import { axiosPrivate } from "../../../../api/axiosInstance";
+import { axiosPublic } from "../../../../api/axiosInstance";
 import { CREATE_TRANSACTION } from "../../../../api/apiConstants";
 import { useToast } from "../../../ui/use-toast";
 import { ToastAction } from "../../../ui/toast";
@@ -35,6 +35,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
   const [formattedValue, setFormattedValue] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [qrCode, setQrCode] = React.useState(null);
+  const [orderId, setOrderId] = React.useState(null);
   const [isDialogOpen, setDialogOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState({});
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -94,8 +95,10 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
         // Step 4: Make the API call to update the user information
-        const response = await axiosPrivate.post(CREATE_TRANSACTION, values);
+        const response = await axiosPublic.post(CREATE_TRANSACTION, values);
         if (response.status === 200) {
+          setOrderId(response.data.orderID);
+          console.log("orderID: ", orderId);
           console.log("Thông tin donate: ", values);
           console.log("Thông tin từ donate api", response.data);
           setQrCode(response.data.qrCode);
@@ -340,7 +343,9 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                   </p>
                 </div>
                 <p className="text-sm text-center text-muted-foreground italic">
-                  <b>Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản</b>
+                  <b>
+                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
+                  </b>
                 </p>
               </div>
               <div className="col-span-1 place-self-center">
@@ -362,7 +367,12 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <ButtonStatusDonate />
+              <ButtonStatusDonate
+                email={email}
+                firstName={firstname}
+                lastName={lastname}
+                orderID={orderId}
+              />
             </div>
           </DialogContent>
         </Dialog>
@@ -411,11 +421,18 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                 </div>
                 <p className="text-sm text-center text-muted-foreground italic">
                   <br />
-                  <b>Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản</b>
+                  <b>
+                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
+                  </b>
                 </p>
               </div>
               <div className="my-3">
-                <ButtonStatusDonate />
+                <ButtonStatusDonate
+                  email={email}
+                  firstName={firstname}
+                  lastName={lastname}
+                  orderID={orderId}
+                />
               </div>
             </div>
           </DrawerContent>
