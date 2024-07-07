@@ -8,14 +8,22 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import { BadgeCheck, Target, Clock4, MapPin } from "lucide-react";
+import {
+  BadgeCheck,
+  Target,
+  Clock4,
+  MapPin,
+  Share,
+  Share2,
+  ExternalLink,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import img_demo from "../../../assets/images/placeholder.svg";
 import { Progress } from "../../ui/progress";
 import { Button } from "../../ui/button";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Badge } from "../../ui/badge";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import {
   AlertDialog,
@@ -27,8 +35,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../../ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../ui/dialog";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
+import { CopyButton } from "./Feature/CopyButton";
 
 const RightDetailCampaignSection = ({ data }) => {
+  const { id: campaignId } = useParams();
   const { isLogin } = React.useContext(AuthContext);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -96,7 +116,7 @@ const RightDetailCampaignSection = ({ data }) => {
                   {data.organization
                     ? data.organization.name
                     : data.member
-                    ? data.member.firstName + " " +  data.member.lastName
+                    ? data.member.firstName + " " + data.member.lastName
                     : "Không xác định"}
                 </CardTitle>
                 <BadgeCheck className="h-6 w-6 text-green-600" />
@@ -111,7 +131,9 @@ const RightDetailCampaignSection = ({ data }) => {
             <div className="flex items-center justify-center gap-x-3">
               <Target className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
-                <p className="text-sm laptop:text-base text-muted-foreground">Mục tiêu chiến dịch</p>
+                <p className="text-sm laptop:text-base text-muted-foreground">
+                  Mục tiêu chiến dịch
+                </p>
                 <p className="text-sm laptop:text-base font-bold">
                   {targetAmountFormat(data.targetAmount)} VND
                 </p>
@@ -121,7 +143,9 @@ const RightDetailCampaignSection = ({ data }) => {
             <div className="flex items-center justify-center gap-x-3">
               <Clock4 className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
-                <p className="text-sm laptop:text-base text-muted-foreground">Thời gian còn lại</p>
+                <p className="text-sm laptop:text-base text-muted-foreground">
+                  Thời gian còn lại
+                </p>
                 <p className="text-sm laptop:text-base font-bold">
                   {calculateDaysLeft(data.expectedEndDate)} ngày
                 </p>
@@ -165,7 +189,7 @@ const RightDetailCampaignSection = ({ data }) => {
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex items-center justify-center">
+          <div className="w-full flex flex-col items-center justify-center">
             {data.donatePhase.isProcessing ? (
               <Button
                 variant="default"
@@ -185,6 +209,41 @@ const RightDetailCampaignSection = ({ data }) => {
                 Ủng hộ
               </Button>
             )}
+            <div className="flex items-center justify-center">
+              <blockquote className="mt-2 italic">
+                "Chia sẻ chiến dịch để lan tỏa yêu thương đến mọi người"{" "}
+              </blockquote>
+              <Dialog>
+                <DialogTrigger>
+                  <ExternalLink className="h-6 w-6 ml-2" />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Lan tỏa yêu thương đến cộng đồng</DialogTitle>
+                    <DialogDescription>
+                      Bằng cách chia sẻ chiến dịch{" "}
+                      <span className="font-bold text-black">{data.name}</span>,
+                      bạn sẽ góp phần giúp đỡ những hoàn cảnh khó khăn.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex">
+                    <div className="grid flex-1 gap-2">
+                      <Label htmlFor="link">Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch</Label>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          id="link"
+                          defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
+                          disabled
+                        />
+                        <CopyButton
+                          code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         </CardFooter>
       </Card>
