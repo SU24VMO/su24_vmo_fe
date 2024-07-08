@@ -31,7 +31,12 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+  const content = posts?.post?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const endDescription = posts?.post?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
 
+  console.log('====================================');
+  console.log(JSON.stringify(content));
+  console.log('====================================');
   const updateStatus = async (data) => {
     try {
       setLoading(true)
@@ -42,7 +47,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
         isApproved: data.isApproved,
       });
 
-    
+
 
       if (response.status === 200) {
         onSubmitSuccess()
@@ -100,7 +105,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet">
+      <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Chi tiết bài viết</DialogTitle>
           <DialogDescription>
@@ -108,8 +113,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          <div className="flex flex-col gap-5">
+        <ScrollArea className="h-[65vh]  shadow-inner ">
+          <div className="flex flex-col p-5 gap-5">
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -124,30 +129,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 </div>
               </div>
             </div>
-
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="content">Nội dung</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="content"
-                    defaultValue={posts?.post ? posts.post?.content : ""}
-                    disabled
-                  />
-                  <CopyButton code={posts?.post ? posts.post?.content : ""} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="cover">Cover</Label>
-                <div className="max-w-40">
+                <Label htmlFor="cover">Ảnh nền</Label>
+                <div className="w-1/3 mx-auto">
                   <img
                     src={posts?.post ? posts.post?.cover : ""}
                     alt="cover"
-                    width="160"
-                    height="160"
+
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
@@ -164,16 +153,28 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 )}
               </div>
             </div>
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="content">Nội dung chính</Label>
+                <div className="flex items-center space-x-2">
+                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: content }} />
+                </div>
+              </div>
+            </div>
+
+
+
+
+
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="image">Ảnh</Label>
-                <div className="max-w-40">
+                <Label htmlFor="image">Ảnh chính</Label>
+                <div className="w-1/3 mx-auto">
                   <img
                     src={posts?.post ? posts.post?.image : ""}
                     alt="image_volunteer"
-                    width="160"
-                    height="160"
+
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
                 </div>
@@ -190,7 +191,16 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 )}
               </div>
             </div>
-
+            
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="content">Nội dung kết</Label>
+                <div className="w-full">
+                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: endDescription }} />
+                </div>
+              </div>
+            </div>
+            
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="user">Thành viên</Label>
@@ -252,33 +262,33 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
             </div>
 
 
-          {posts && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              {/*  */}
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isApproved"
-                  checked={formik.values.isApproved}
-                  onCheckedChange={handleSwitchChange("isApproved")}
-                />
-                <Label htmlFor="isApproved">Chấp thuận</Label>
-              </div>
-            </form>
-          )}
-        </div>
-      </ScrollArea>
-      <DialogFooter>
-        <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Đóng
-          </Button>
-        </DialogClose>
-        <Button
-          type="button"
-          disabled={formik.isSubmitting}
-          onClick={formik.handleSubmit}
-        >
-          {loading ? (
+            {posts && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isApproved"
+                    checked={formik.values.isApproved}
+                    onCheckedChange={handleSwitchChange("isApproved")}
+                  />
+                  <Label htmlFor="isApproved">Chấp thuận</Label>
+                </div>
+              </form>
+            )}
+          </div>
+        </ScrollArea>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Đóng
+            </Button>
+          </DialogClose>
+          <Button
+            type="button"
+            disabled={formik.isSubmitting}
+            onClick={formik.handleSubmit}
+          >
+            {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
@@ -286,9 +296,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
             ) : (
               "Xác nhận"
             )}
-        </Button>
-      </DialogFooter>
-    </DialogContent>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog >
   );
 };

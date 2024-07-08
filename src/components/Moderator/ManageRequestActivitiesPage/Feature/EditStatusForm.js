@@ -26,12 +26,29 @@ import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEACTIVITYREQUEST } from "../../../../api/apiConstants";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 
-const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => {
+} from "../../../ui/carousel"
+
+
+const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
+
+
+
+
+  const content = activities?.activity?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  console.log('====================================');
+  console.log(JSON.stringify(content));
+  console.log('====================================');
 
   const updateStatus = async (data) => {
     try {
@@ -39,7 +56,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
 
       const response = await axiosPrivate.put(UPDATEAPPROVEACTIVITYREQUEST, {
 
-        createActivityRequestId: activity.createActivityRequestID,
+        createActivityRequestId: activities.createActivityRequestID,
         moderatorId: user.moderator_id,
         isApproved: data.isApproved,
       });
@@ -78,7 +95,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      isApproved: activity ? activity.isApproved : false,
+      isApproved: activities ? activities.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values);
@@ -90,33 +107,55 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
   Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when activity changes
+  // Update formik initialValues when activities changes
   React.useEffect(() => {
     setValuesRef.current({
-      isApproved: activity ? activity.isApproved : false,
+      isApproved: activities ? activities.isApproved : false,
     });
-  }, [activity]);
+  }, [activities]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
   };
 
 
+
+  //handle caroulsel
+
+  const [api, setApi] = React.useState()
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }, [api])
+
+
   console.log('====================================');
-  console.log(activity);
+  console.log(activities);
   console.log('====================================');
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet">
+      <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Chi tiết hoạt động</DialogTitle>
+          
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của hoạt động!
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          <div className="flex flex-col gap-5">
+        <ScrollArea className="h-[65vh] shadow-inner ">
+          <div className="flex flex-col p-5 gap-5">
             {/* Show tên hoạt động */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -124,10 +163,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="title"
-                    defaultValue={activity ? activity.activity.title : ""}
+                    defaultValue={activities ? activities.activity.title : ""}
                     disabled
                   />
-                  <CopyButton code={activity ? activity.activity.title : ""} />
+                  <CopyButton code={activities ? activities.activity.title : ""} />
                 </div>
               </div>
             </div>
@@ -137,10 +176,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"
-                    defaultValue={activity?.member ? (activity.member?.firstName + " " + activity.member?.lastName) : ""}
+                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""}
                     disabled
                   />
-                  <CopyButton code={activity?.member ? (activity.member?.firstName + " " + activity.member?.lastName) : ""} />
+                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""} />
                 </div>
               </div>
             </div>
@@ -150,21 +189,20 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"
-                    defaultValue={activity?.organizationManager ? (activity.organizationManager?.firstName + activity.organizationManager?.lastName) : ""}
+                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""}
                     disabled
                   />
-                  <CopyButton code={activity?.organizationManager ? (activity.organizationManager?.firstName + activity.organizationManager?.lastName) : ""} />
+                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""} />
                 </div>
               </div>
             </div>
             {/* Show nội dung bài đăng*/}
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="content">Nội dung tiêu điểm</Label>
+                <Label htmlFor="content">Nội dung </Label>
                 <div className="flex items-center space-x-2">
-                  <p>
-                    {activity ? activity.activity?.content : ""}
-                  </p>
+
+                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: content }} />
                 </div>
               </div>
             </div>
@@ -172,7 +210,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="link">Ảnh</Label>
-                <div className="max-w-40">
+                {/* <div className="max-w-40">
                   <img
                     src={activity ? activity.link : ""}
                     alt="link"
@@ -191,7 +229,34 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                       Tải về
                     </Button>
                   </a>
-                )}
+                )} */}
+
+
+
+                <div className="">
+                  <Carousel setApi={setApi} className="w-full">
+                    <CarouselContent>
+                      {activities?.activity?.activityImages.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <div className=" w-full mobile:w-1/3   mx-auto">
+                            <img
+                              src={image.link}
+                              alt=""
+                              className="h-full w-full object-cover shadow block"
+                            />
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                  <div className="py-2 text-center text-sm text-muted-foreground">
+                    Ảnh {current} trên {count}
+                  </div>
+                </div>
+
+
               </div>
             </div>
 
@@ -201,10 +266,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <Label htmlFor="createDate">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activity ? format(new Date(activity?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   </Badge>
                   <CopyButton
-                    code={activity ? format(new Date(activity?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   />
                 </div>
               </div>
@@ -216,10 +281,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <Label htmlFor="approvedDate">Ngày duyệt</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activity ? format(new Date(activity?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   </Badge>
                   <CopyButton
-                    code={activity ? format(new Date(activity?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   />
                 </div>
               </div>
@@ -231,16 +296,16 @@ const EditStatusForm = ({ isOpen, onOpenChange, activity, onSubmitSuccess }) => 
                 <Label htmlFor="updateDate">Ngày cập nhật</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activity ? format(new Date(activity?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   </Badge>
                   <CopyButton
-                    code={activity ? format(new Date(activity?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   />
                 </div>
               </div>
             </div>
 
-            {activity && (
+            {activities && (
               <form onSubmit={formik.handleSubmit} className="space-y-3">
                 {/*  */}
                 <div className="flex items-center space-x-2">

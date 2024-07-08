@@ -111,7 +111,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet ">
+      <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Thông tin đơn duyệt chiến dịch</DialogTitle>
           <DialogDescription>
@@ -119,8 +119,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          <div className="flex flex-col gap-5">
+        <ScrollArea className="h-[65vh]  shadow-inner ">
+          <div className="flex flex-col p-5 gap-5">
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="name">Tên chiến dịch</Label>
