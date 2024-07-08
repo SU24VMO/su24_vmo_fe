@@ -1,14 +1,13 @@
-import { ChevronDownIcon, DollarSignIcon } from "lucide-react";
+import { DollarSignIcon } from "lucide-react";
 import React from "react";
-import { Card, CardContent, CardHeader } from "../../ui/card";
-import { Collapsible } from "../../ui/collapsible";
+import { Card } from "../../../ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../../ui/accordion";
-import { Button } from "../../ui/button";
+} from "../../../ui/accordion";
+import { Button } from "../../../ui/button";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
@@ -78,7 +77,7 @@ const CardTransactionPaid = ({
               </div>
               <div className="flex items-center justify-between">
                 <div className="text-muted-foreground">Trạng thái</div>
-                <div className="text-green-500">Đã thanh toán</div>
+                <div className="text-red-500">Chưa thanh toán</div>
               </div>
             </div>
           </AccordionContent>
