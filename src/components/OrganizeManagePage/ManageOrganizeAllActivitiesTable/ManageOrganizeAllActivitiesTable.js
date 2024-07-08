@@ -9,10 +9,10 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLACTIVITIESOM } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 
-async function getData(cancelToken, user,  pageSize, pageNo, setLoading) {
-
+async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, activityTitle, setLoading) {
+console.log("Activity truyền vào: " , activityTitle);
   try {
-    const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityTitle=${activityTitle}`, {
       cancelToken: cancelToken
     });
 
@@ -43,10 +43,16 @@ const ManageOrganizeAllActivitiesTable = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
+const [activityTitle, setActivityTitle] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo) => {
+
+  const fetchData = async (cancelToken, user, pageSize, pageNo, activityTitle, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -56,17 +62,27 @@ const ManageOrganizeAllActivitiesTable = () => {
       
     }
   };
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
+
 
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo);
+    fetchData(source.token, user, pageSize, pageNo,activityTitle, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo,activityTitle, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -83,7 +99,8 @@ const ManageOrganizeAllActivitiesTable = () => {
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable 
-       columns={columns}
+       columns={columns({onSort})}
+       setActivityTitle={setActivityTitle}
        data={data}
        loading={loading}
        list={list}

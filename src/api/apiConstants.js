@@ -5,7 +5,7 @@ export const LOGIN = "/api/authentication/login";
 export const REGISTER = "/api/authentication/register";
 
 //
-export const UPDATEISACTIVED = "/api/account/update-information";
+export const UPDATEISACTIVED = "/api/account/update-status";
 export const UPDATEAPPROVEOMREQUEST = "/api/create-organization-manager-request/checking";
 export const UPDATEAPPROVECAMPAIGNREQUEST = "/api/create-campaign-request/checking";
 export const UPDATEAPPROVEVOLUNTEERREQUEST = "/api/create-volunteer-request/checking";
@@ -42,7 +42,13 @@ export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all";
 export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all";
 export const GETALLREQUESTNEWS = "/api/create-post-request/all";
 
+export const GETALLACCOUNTSMEMBER = "/api/account/all/role/member"
+export const GETALLACCOUNTSVOLUNTEER = "/api/account/all/role/volunteer"
+export const GETALLACCOUNTSOM = "/api/account/all/role/organization-manager"
+export const GETALLACCOUNTSMODERATOR = "/api/account/all/role/moderator"
 
+
+export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 
 
 
@@ -78,3 +84,8 @@ export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-typ
 //post 
 export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all";
 export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
+
+//transaction
+export const GET_TRANSACTION_BY_ACCOUNT_ID = "https://vmo.azurewebsites.net/api/transaction/history-transaction/account/";
+export const CREATE_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/create-transaction";
+export const CHECK_TRANSACTION_BY_ORDER_ID = "https://vmo.azurewebsites.net/api/transaction/check-transaction/send-email";

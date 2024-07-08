@@ -5,9 +5,9 @@ import EditOrganizationManagerForm from "../Feature/EditOrganizationManagersForm
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 
-async function getData(cancelToken,  pageSize, pageNo, setLoading) {
+async function getData(cancelToken,  pageSize, pageNo,sortConfig,  setLoading) {
   try {
-    const response = await axiosPrivate.get(`/api/account/all/role/organization-manager?pageSize=${pageSize}&pageNo=${pageNo}`, {
+    const response = await axiosPrivate.get(`/api/account/all/role/organization-manager?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
       cancelToken: cancelToken
     });
 
@@ -39,7 +39,10 @@ const TableOrganizationManagers = () => {
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
-
+  const [sortConfig, setSortConfig] = useState({
+    orderByProperty: '',
+    orderByDirection: 'asc',
+  });
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog
@@ -51,9 +54,9 @@ const TableOrganizationManagers = () => {
     alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -63,22 +66,33 @@ const TableOrganizationManagers = () => {
      
     }
   };
+
+  const onSort = (property) => {
+    setSortConfig((prevConfig) => ({
+      orderByProperty: property,
+      orderByDirection:
+        prevConfig.orderByProperty === property
+          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
+          : 'asc',
+    }));
+  };
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo]);
+  }, [pageSize, pageNo, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo);
+    fetchData(source.token, pageSize, pageNo, sortConfig);
   };
   return (
     <div className="flex flex-col">
@@ -97,7 +111,7 @@ const TableOrganizationManagers = () => {
         />
       </div>
       <DataTable 
-      columns={columns({ onEdit, onDelete })} 
+      columns={columns({ onEdit, onDelete, onSort })} 
       data={data}
       loading={loading}
       list={list}

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-export const columns = [
+export const columns =({ onSort }) => [
  
   {
     accessorKey: "title",
@@ -18,7 +18,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Title")}
         >
           Tiêu đề
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,7 +49,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -81,7 +81,7 @@ export const columns = [
   //       <Button
   //         variant="ghost"
   //         className="px-0 py-0"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //          onClick={() => onSort("Title")}
   //       >
   //         Tổ chức
   //         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -113,7 +113,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("CreateAt")}
         >
           Thời gian tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />

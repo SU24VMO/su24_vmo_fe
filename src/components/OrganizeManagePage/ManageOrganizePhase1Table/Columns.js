@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 
-export const columns = [
+export const columns =({ onSort }) => [
  
   {
     accessorKey: "name",
@@ -23,7 +23,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -38,7 +38,7 @@ export const columns = [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -60,7 +60,7 @@ export const columns = [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+         onClick={() => onSort("DonatePhase.CurrentMoney")}
       >
         Số tiền đạt được
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -83,7 +83,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("Organization.Name")}
         >
           Tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -111,7 +111,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -131,7 +131,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("ExpectedEndDate")}
         >
           Thời gian kết thúc dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -150,7 +150,7 @@ export const columns = [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+           onClick={() => onSort("ActualEndDate")}
         >
           Thời gian kết thúc
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -167,7 +167,6 @@ export const columns = [
     id: "actions",
     cell: ({ row }) => {
       const infoRow = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

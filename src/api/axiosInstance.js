@@ -1,7 +1,5 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-
-// const BASE_URL = "https://localhost:7173";
+import {jwtDecode} from "jwt-decode";
 
 const BASE_URL = "https://vmo.azurewebsites.net";
 
@@ -9,9 +7,8 @@ const axiosPublic = axios.create({
   baseURL: BASE_URL,
 });
 
-let token = localStorage.getItem("accessToken")
-  ? localStorage.getItem("accessToken")
-  : null;
+let token = localStorage.getItem("accessToken") || null;
+let refreshTokenPromise = null;
 
 const axiosPrivate = axios.create({
   baseURL: BASE_URL,
@@ -22,87 +19,79 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(async (req) => {
   if (!token) {
-    // eslint-disable-next-line no-const-assign
-    token = localStorage.getItem("accessToken")
-      ? localStorage.getItem("accessToken")
-      : null;
-    req.headers.Authorization = `Bearer ${token}`;
-  } else {
+    token = localStorage.getItem("accessToken") || null;
     req.headers.Authorization = `Bearer ${token}`;
   }
 
-  const time = jwtDecode(token);
-  let date = new Date();
+  const decodedToken = jwtDecode(token);
+  const currentTime = new Date().getTime() / 1000;
 
   // Check if the token is expired
-  const isExpired = time.exp < date.getTime() / 1000;
-  const params = {
-    refreshToken: localStorage.getItem("refreshToken"),
-  };
+  if (decodedToken.exp < currentTime) {
+    if (!refreshTokenPromise) {
+      refreshTokenPromise = axios.post(`${BASE_URL}/api/authentication/refresh-token`, {
+        refreshToken: localStorage.getItem("refreshToken"),
+      });
+    }
 
-  if (!isExpired) {
-    return req;
+    try {
+      const response = await refreshTokenPromise;
+      refreshTokenPromise = null;
+
+      const newAccessToken = response.data.data.accessToken;
+      const newRefreshToken = response.data.data.refreshToken;
+
+      localStorage.setItem("accessToken", newAccessToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
+      localStorage.setItem("user", JSON.stringify(jwtDecode(newAccessToken)));
+
+      token = newAccessToken;
+      req.headers.Authorization = `Bearer ${newAccessToken}`;
+    } catch (error) {
+      refreshTokenPromise = null;
+      console.error("Failed to refresh token:", error);
+      // Handle refresh token failure (e.g., logout the user)
+      throw error;
+    }
   }
-  else {
-    console.log(req);
 
-    const response = await axios.post(
-      `${BASE_URL}/api/authentication/refresh-token`,
-      params
-    );
-
-    const user = jwtDecode(response.data.data.accessToken)
-
-    // localStorage.setItem("loginInfo", JSON.stringify(response.data));
-    localStorage.setItem("accessToken", response.data.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(user));
-    req.headers.Authorization = `Bearer ${response.data.accessToken}`;
-
-    // Return the updated request
-    return req;
-  }
+  return req;
 });
 
-// Add a response interceptor to handle 401 errors
 axiosPrivate.interceptors.response.use(
-  (response) => {
-    // If the response is successful, just return it
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // If the error response status is 401, attempt to refresh the token
     if (error.response && error.response.status === 401) {
       try {
-        const params = {
-          refreshToken: localStorage.getItem("refreshToken"),
-        };
+        if (!refreshTokenPromise) {
+          refreshTokenPromise = axios.post(`${BASE_URL}/api/authentication/refresh-token`, {
+            refreshToken: localStorage.getItem("refreshToken"),
+          });
+        }
 
-        const response = await axios.post(`${BASE_URL}/api/authentication/refresh-token`, params);
+        const response = await refreshTokenPromise;
+        refreshTokenPromise = null;
 
-        const newToken = response.data.data.accessToken;
+        const newAccessToken = response.data.data.accessToken;
         const newRefreshToken = response.data.data.refreshToken;
-        const user = jwtDecode(newToken);
 
-        localStorage.setItem("accessToken", newToken);
+        localStorage.setItem("accessToken", newAccessToken);
         localStorage.setItem("refreshToken", newRefreshToken);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(jwtDecode(newAccessToken)));
 
-        // Update the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-        // Retry the original request
         return axiosPrivate(originalRequest);
       } catch (refreshError) {
-        // Handle refresh token error, e.g., logout the user or redirect to login
+        refreshTokenPromise = null;
         console.error("Failed to refresh token:", refreshError);
+        // Handle refresh token error (e.g., logout the user or redirect to login)
         return Promise.reject(refreshError);
       }
     }
 
-    // If it's a different error, just throw it
     return Promise.reject(error);
   }
 );

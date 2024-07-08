@@ -3,7 +3,7 @@ import { Skeleton } from "../../ui/skeleton";
 
 const SkeletonProfile = () => {
   return (
-    <div className="grid gap-6 tablet:grid-cols-2 bg-vmo rounded-xl p-10 drop-shadow-lg ">
+    <div className="grid gap-6 tablet:grid-cols-2 rounded-xl p-10 drop-shadow-lg ">
       <div className="justify-center mobile:justify-evenly mobile:flex gap-4 items-center">
         <div className="rounded-full flex justify-center">
           <Skeleton className="h-36 w-36 rounded-full" />

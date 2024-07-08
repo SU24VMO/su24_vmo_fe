@@ -22,7 +22,7 @@ const ViewCampaignDetailPage = () => {
   const fetchData = React.useCallback(
     async (campaignId) => {
       toast({
-        title: "Đang tải dữ liệu chiến dịch...",
+        title: "Đang tải dữ liệu chi tiết chiến dịch...",
         description: "Vui lòng chờ đợi trong giây lát !",
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
@@ -38,7 +38,7 @@ const ViewCampaignDetailPage = () => {
           setCampaign(response.data.data);
           setDataLoaded(true);
           toast({
-            title: "Đã lấy dữ liệu chiến dịch thành công!",
+            title: "Đã lấy dữ liệu chi tiết chiến dịch thành công!",
             action: <ToastAction altText="undo">Ẩn</ToastAction>,
           });
           console.log("Campaign get được: ", response.data.data);
