@@ -6,10 +6,8 @@ import React from "react";
 const SearchBar = ({ setSelectedCampaignName }) => {
   const [searchValue, setSearchValue] = React.useState("");
   const handleSearch = () => {
-    // console.log("searchValue đang nhấn vào:", searchValue);
-    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
-    const searchParams = normalizeAndEncode(searchValue);
-    setSelectedCampaignName(searchParams);
+    console.log("searchValue đang nhấn vào:", searchValue);
+    setSelectedCampaignName(searchValue);
   };
   return (
     <>

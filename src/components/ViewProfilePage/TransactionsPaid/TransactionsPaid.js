@@ -1,5 +1,5 @@
 import React from "react";
-import CardTransactionPaid from "../CardTransactionPaid/CardTransactionPaid";
+import CardTransactionPaid from "./CardTransactionPaid/CardTransactionPaid";
 import CardTransactionSkeleton from "../CardTransactionSkeleton/CardTransactionSkeleton";
 import { useToast } from "../../ui/use-toast";
 import { axiosPublic } from "../../../api/axiosInstance";
