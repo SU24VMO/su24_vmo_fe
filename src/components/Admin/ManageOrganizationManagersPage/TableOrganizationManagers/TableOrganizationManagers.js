@@ -5,9 +5,9 @@ import EditOrganizationManagerForm from "../Feature/EditOrganizationManagersForm
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 
-async function getData(cancelToken,  pageSize, pageNo,sortConfig,  setLoading) {
+async function getData(cancelToken,  pageSize, pageNo,sortConfig, name, setLoading) {
   try {
-    const response = await axiosPrivate.get(`/api/account/all/role/organization-manager?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
+    const response = await axiosPrivate.get(`/api/account/all/role/organization-manager?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&name=${name}`, {
       cancelToken: cancelToken
     });
 
@@ -43,6 +43,10 @@ const TableOrganizationManagers = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
+
+const [name, setName] = useState("")
+
+
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog
@@ -54,9 +58,9 @@ const TableOrganizationManagers = () => {
     alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, name, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, name,  setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -80,19 +84,19 @@ const TableOrganizationManagers = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo, name, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, sortConfig]);
+  }, [pageSize, pageNo, name,  sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo, name, sortConfig);
   };
   return (
     <div className="flex flex-col">
@@ -112,6 +116,7 @@ const TableOrganizationManagers = () => {
       </div>
       <DataTable 
       columns={columns({ onEdit, onDelete, onSort })} 
+      setName={setName}
       data={data}
       loading={loading}
       list={list}
