@@ -9,7 +9,10 @@ import { GETALLREQUESTNEWS } from "../../../../api/apiConstants";
 
 async function getData(cancelToken, pageSize, pageNo, sortConfig,postTitle, setLoading) {
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&postTitle=${postTitle}`, {
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(postTitle);
+    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&postTitle=${encoded}`, {
       cancelToken: cancelToken
     });
 
