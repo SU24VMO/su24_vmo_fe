@@ -66,6 +66,7 @@ import ManageRequestVolunteersPage from "./components/Moderator/ManageRequestVol
 import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizationsPage/ViewCampaignsOrganizationsPage";
 import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPage/ViewCampaignsVolunteersPage";
 import ViewCampaignDetailExplorePage from "./components/ViewCampaignDetailExplorePage/ViewCampaignDetailExplorePage";
+import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
 
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
             <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
             <Route path="/viewCampaigns/campaignDetail/explore/:id" element={<ViewCampaignDetailExplorePage></ViewCampaignDetailExplorePage>} />
+            <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
