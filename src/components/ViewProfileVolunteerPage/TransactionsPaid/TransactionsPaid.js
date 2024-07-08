@@ -7,7 +7,7 @@ import { GET_TRANSACTION_BY_ACCOUNT_ID } from "../../../api/apiConstants";
 import { Button } from "../../ui/button";
 import { ToastAction } from "../../ui/toast";
 
-const TransactionsPaid = ({ accountId }) => {
+const TransactionsPaid = ({ accountId, setTotalTransactionPaid }) => {
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [pageNo, setPageNo] = React.useState(1);
@@ -39,6 +39,7 @@ const TransactionsPaid = ({ accountId }) => {
             setData(fetchedData);
             console.log("Transaction Paid lấy được lần đầu", fetchedData);
           }
+          setTotalTransactionPaid(response.data.data.totalItem);
           setDataLoaded(true);
           toast({
             title: "Đã tải thành công các giao dịch được thanh toán!",

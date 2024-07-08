@@ -23,6 +23,9 @@ export default function ViewProfileVolunteerPage() {
   const { id: volunteersId } = useParams();
   const { toast } = useToast();
   const [data, setData] = React.useState([]);
+  const [totalTransactionPaid, setTotalTransactionPaid] = React.useState("");
+  const [totalTransactionPending, setTotalTransactionPending] =
+    React.useState("");
   const [dataLoaded, setDataLoaded] = React.useState(false);
   console.log("volunteersId:", volunteersId);
   // Hàm xử lý khi click vào các icon mạng xã hội
@@ -61,7 +64,7 @@ export default function ViewProfileVolunteerPage() {
           description: "Vui lòng chờ đợi trong giây lát !",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-        const response = await axiosPrivate.get(
+        const response = await axiosPublic.get(
           GET_ACCOUNT_BY_ID + `${volunteersId}?accountId=${volunteersId}`
         );
         if (response.status === 200) {
@@ -75,7 +78,7 @@ export default function ViewProfileVolunteerPage() {
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
         toast({
-          title: "Đang tải dữ liệu người dùng...",
+          title: "Lỗi...",
           variant: "destructive",
           description: "Lỗi khi lấy dữ liệu !" + error,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -106,8 +109,8 @@ export default function ViewProfileVolunteerPage() {
                     alt="Avatar User"
                   />
                   <AvatarFallback>
-                  {/* {data.lastname[0]} */}
-                  Logo
+                    {/* {data.lastname[0]} */}
+                    Logo
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -227,14 +230,34 @@ export default function ViewProfileVolunteerPage() {
         </div>
         <Tabs defaultValue="paid" className="w-full">
           <TabsList>
-            <TabsTrigger value="paid">Đã thanh toán</TabsTrigger>
-            <TabsTrigger value="pending">Chưa thanh toán</TabsTrigger>
+            <TabsTrigger value="paid">
+              Đã thanh toán
+              {totalTransactionPaid ? (
+                <span className="ml-1"> ({totalTransactionPaid})</span>
+              ) : (
+                ""
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="pending">
+              Chưa thanh toán
+              {totalTransactionPending ? (
+                <span className="ml-1"> ({totalTransactionPending})</span>
+              ) : (
+                ""
+              )}
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="paid">
-            <TransactionsPaid accountId={volunteersId} />
+            <TransactionsPaid
+              accountId={volunteersId}
+              setTotalTransactionPaid={setTotalTransactionPaid}
+            />
           </TabsContent>
           <TabsContent value="pending">
-            <TransactionsPending accountId={volunteersId} />
+            <TransactionsPending
+              accountId={volunteersId}
+              setTotalTransactionPending={setTotalTransactionPending}
+            />
           </TabsContent>
         </Tabs>
       </div>

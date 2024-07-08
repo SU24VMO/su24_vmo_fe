@@ -8,7 +8,7 @@ import { Button } from "../../ui/button";
 import { ToastAction } from "../../ui/toast";
 import CardTransactionPending from "../CardTransactionPending/CardTransactionPending";
 
-const TransactionsPending = ({ accountId }) => {
+const TransactionsPending = ({ accountId, setTotalTransactionPending }) => {
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [pageNo, setPageNo] = React.useState(1);
@@ -40,6 +40,7 @@ const TransactionsPending = ({ accountId }) => {
             setData(fetchedData);
             console.log("Transaction Pending lấy được lần đầu", fetchedData);
           }
+          setTotalTransactionPending(response.data.data.totalItem);
           setDataLoaded(true);
           toast({
             title: "Đã tải thành công các giao dịch chưa thanh toán!",
