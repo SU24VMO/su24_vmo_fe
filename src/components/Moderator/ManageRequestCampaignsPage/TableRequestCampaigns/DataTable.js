@@ -25,6 +25,7 @@ import { Button } from "../../../ui/button";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonCampaignsTable from "../SkeletonCampaignsTable/SkeletonCampaignsTable";
+import { Input } from "../../../ui/input";
 
 export function DataTable({
   columns,
@@ -35,13 +36,14 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
+  setCampaignName
 }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
   const columnHeaders = {
-    "campaign.name": "Tên chiến dịch",
+    "name": "Tên chiến dịch",
     "member": "Tạo bởi thành viên",
     "organizationManager": "Tạo bởi quản lí tổ chức",
     "moderator": "Người duyệt",
@@ -103,6 +105,16 @@ export function DataTable({
   return (
     <div>
       <div className="flex items-center py-4">
+
+      <Input
+          type="search"
+          placeholder="Nhập tên chiến dịch cần tìm ..."
+          onChange={(event) =>
+            setCampaignName(event.target.value)
+          }
+          className="max-w-sm"
+        />
+
         <Button
           onClick={() => exportToExcel()}
           className="ml-4"

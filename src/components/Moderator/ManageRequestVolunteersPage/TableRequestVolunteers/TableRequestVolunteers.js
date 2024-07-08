@@ -8,10 +8,10 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTVOLUNTEERS } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo,sortConfig, setLoading) {
+async function getData(cancelToken, pageSize, pageNo,sortConfig,volunteerName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTVOLUNTEERS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTVOLUNTEERS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&volunteerName=${volunteerName}`, {
       cancelToken: cancelToken
     });
 
@@ -45,7 +45,7 @@ const TableRequestVolunteers = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
-
+  const [volunteerName, setVolunteerName] = useState("")
 
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -59,10 +59,10 @@ const TableRequestVolunteers = () => {
   }, []);
 
 
-  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo,volunteerName, sortConfig) => {
     try {
 
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo,sortConfig,volunteerName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -89,18 +89,18 @@ const TableRequestVolunteers = () => {
 
    
 
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,volunteerName, sortConfig);
     return () => {
       source.cancel('Component unmounted');
 
     };
-  }, [pageSize, pageNo,sortConfig ]);
+  }, [pageSize, pageNo,volunteerName, sortConfig ]);
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,volunteerName, sortConfig);
   };
 
 
@@ -122,6 +122,7 @@ const TableRequestVolunteers = () => {
       </div>
       <DataTable
         columns={columns({ onEdit, onDelete , onSort})}
+        setVolunteerName={setVolunteerName}
         data={data}
         loading={loading}
         list={list}

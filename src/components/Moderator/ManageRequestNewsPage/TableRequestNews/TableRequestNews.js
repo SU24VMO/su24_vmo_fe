@@ -7,9 +7,9 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTNEWS } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo, sortConfig, setLoading) {
+async function getData(cancelToken, pageSize, pageNo, sortConfig,postTitle, setLoading) {
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTNEWS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&postTitle=${postTitle}`, {
       cancelToken: cancelToken
     });
 
@@ -43,6 +43,7 @@ const TableRequestNews = () => {
 
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
+  const [postTitle, setPostTitle] = useState("")  
 
   const onEdit = React.useCallback((row) => {
     setIsDialogOpen(true);
@@ -53,9 +54,9 @@ const TableRequestNews = () => {
     alert(`Deleting user with ID: ${row.id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo,postTitle, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, postTitle, setLoading);
       console.log(result?.list);
       setData(result?.list || []);
       setList(result);
@@ -78,19 +79,19 @@ const TableRequestNews = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo, postTitle, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, sortConfig]);
+  }, [pageSize, pageNo, postTitle, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo, postTitle, sortConfig);
   };
 
   return (
@@ -110,6 +111,8 @@ const TableRequestNews = () => {
       </div>
       <DataTable 
         columns={columns({ onEdit, onDelete, onSort })}
+      setPostTitle={setPostTitle}
+
         data={data}
         loading={loading}
         list={list}

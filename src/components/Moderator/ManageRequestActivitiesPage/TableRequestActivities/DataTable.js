@@ -41,6 +41,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
+  setActivityName
  }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
@@ -63,7 +64,7 @@ export function DataTable({
   });
   //Name of column dropdown
   const columnHeaders = {
-    "activity.title": "Tiêu đề",
+    "title": "Tiêu đề",
     "member": "Tạo bởi thành viên",
     "organizationManager": "Tạo bởi quản lí tổ chức",
     "moderator": "Người duyệt", 
@@ -111,9 +112,8 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Nhập tiêu đề hoạt động cần tìm ..."
-          value={table.getColumn("")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("")?.setFilterValue(event.target.value)
+            setActivityName(event.target.value)
           }
           className="max-w-sm"
         />
