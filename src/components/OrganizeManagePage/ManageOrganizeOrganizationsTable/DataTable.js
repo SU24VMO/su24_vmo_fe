@@ -92,7 +92,6 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Tìm kiếm tên tổ chức ..."
-          value={table.getColumn("name")?.getFilterValue() || ""}
           onChange={(event) =>
             setOrganizationName(event.target.value)
           }

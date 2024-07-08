@@ -35,12 +35,12 @@ export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/
 
 
 export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
-export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all";
-export const GETALLREQUESTORGANIZATION = "/api/create-organization-request/all";
-export const GETALLREQUESTOM = "/api/create-organization-manager-request/all";
-export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all";
-export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all";
-export const GETALLREQUESTNEWS = "/api/create-post-request/all";
+export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all/filter/campaign-name";
+export const GETALLREQUESTORGANIZATION = "/api/create-organization-request/all/filter/organization-name";
+export const GETALLREQUESTOM = "/api/create-organization-manager-request/all/filter/organization-manager-name";
+export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all/filter/volunteer-name";
+export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all/filter/activity-name";
+export const GETALLREQUESTNEWS = "/api/create-post-request/all/filter/post-title";
 
 export const GETALLACCOUNTSMEMBER = "/api/account/all/role/member"
 export const GETALLACCOUNTSVOLUNTEER = "/api/account/all/role/volunteer"

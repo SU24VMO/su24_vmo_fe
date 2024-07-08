@@ -41,6 +41,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
+  setOrganizationManagerName
 }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
@@ -113,9 +114,9 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Nhập tên quản lí cần tìm ..."
-          value={table.getColumn("name")?.getFilterValue() || ""}
+      
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            setOrganizationManagerName(event.target.value)
           }
           className="max-w-sm"
         />

@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 export const columns = ({ onEdit, onDelete, onSort }) => [
   {
-    accessorKey: "post.title",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
@@ -18,6 +18,11 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      
+      const title = row.original?.post?.title;
+      return <div className="">{title}</div>;
     },
   },
 

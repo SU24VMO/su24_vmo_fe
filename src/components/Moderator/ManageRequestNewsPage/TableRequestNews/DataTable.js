@@ -41,6 +41,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
+  setPostTitle
  }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
@@ -64,7 +65,7 @@ export function DataTable({
   });
   //Name of column dropdown
   const columnHeaders = {
-    "post.title": "Tên bài viết",
+    "title": "Tên bài viết",
     "user": "Thành viên",
     "organizationManager": "Quản lí tổ chức",
     "createDate": "Ngày tạo",
@@ -106,15 +107,14 @@ export function DataTable({
     <div>
       <div className="flex items-center py-4">
         {/* Search filter tên người dùng */}
-        {/* <Input
+        <Input
           type="search"
           placeholder="Nhập tên bài viết cần tìm ..."
-          value={table.getColumn("")?.getFilterValue() || ""}
           onChange={(event) =>
-            table.getColumn("")?.setFilterValue(event.target.value)
+            setPostTitle(event.target.value)
           }
           className="max-w-sm"
-        /> */}
+        />
         {/* Xuất excel */}
         <Button
           onClick={() => exportToExcel()}

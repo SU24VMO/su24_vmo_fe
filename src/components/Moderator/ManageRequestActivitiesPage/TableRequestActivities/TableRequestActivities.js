@@ -7,10 +7,10 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTACTIVITIES } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo,sortConfig, setLoading) {
+async function getData(cancelToken, pageSize, pageNo,sortConfig,activityName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTACTIVITIES + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTACTIVITIES + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityName=${activityName}`, {
       cancelToken: cancelToken
     });
 
@@ -46,6 +46,7 @@ const TableRequestActivities = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
+const [activityName, setActivityName] = useState("")
   
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
@@ -58,9 +59,9 @@ const TableRequestActivities = () => {
     alert(`Deleting activities with ID: ${row.activity_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo,activityName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, activityName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -84,19 +85,19 @@ const TableRequestActivities = () => {
   useEffect(() => {
   setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,activityName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, sortConfig]);
+  }, [pageSize, pageNo,activityName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,activityName, sortConfig);
   };
   return (
     <div className="flex flex-col">
@@ -114,6 +115,7 @@ const TableRequestActivities = () => {
         />
       </div>
       <DataTable columns={columns({ onEdit, onDelete, onSort })}
+      setActivityName={setActivityName}
        data={data}
        loading={loading}
        list={list}

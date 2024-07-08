@@ -8,9 +8,9 @@ import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
 
 
 // call api get 
-export async function getData(cancelToken, pageSize, pageNo, sortConfig, setLoading) {
+export async function getData(cancelToken, pageSize, pageNo, sortConfig,campaignName, setLoading) {
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}`, {
+    const response = await axiosPrivate.get(GETALLREQUESTCAMPAIGN + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${campaignName}`, {
       cancelToken: cancelToken
     });
 
@@ -47,6 +47,9 @@ const TableRequestCampaigns = () => {
     orderByDirection: 'asc',
   });
 
+  const [campaignName, setCampaignName] = useState("")
+
+
   const onEdit = React.useCallback((row) => {
     setIsDialogOpen(true);
     setSelectedRow(row);
@@ -58,9 +61,9 @@ const TableRequestCampaigns = () => {
 
   
   
-  const fetchData = async (cancelToken, pageSize, pageNo, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo,campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig,campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -83,19 +86,19 @@ const TableRequestCampaigns = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, sortConfig]);
+  }, [pageSize, pageNo,campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, sortConfig);
+    fetchData(source.token, pageSize, pageNo,campaignName, sortConfig);
   };
 
 
@@ -117,6 +120,7 @@ const TableRequestCampaigns = () => {
 
       <DataTable
         columns={columns({ onEdit, onDelete, onSort })}
+        setCampaignName={setCampaignName}
         data={data}
         loading={loading}
         list={list}

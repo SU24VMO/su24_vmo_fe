@@ -25,15 +25,17 @@ import { Loader2 } from "lucide-react";
 
 import { format } from "date-fns";
 import React, { useContext, useState } from "react";
+
+
+
 const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-  const description = campaigns?.campaign?.description.replace(/<br>/g, '\r\n');
+  const description = campaigns?.campaign?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
   console.log('====================================');
-  console.log(campaigns?.campaign?.description.replace(/<br>/g, '\n'));
+  console.log(JSON.stringify(description));
   console.log('====================================');
-
   
 
   const updateStatus = async (data) => {
@@ -174,10 +176,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="description">Mô tả</Label>
                 <div className="flex items-center space-x-2 text-sm">
-                  <div variant={"outline"}>
-                    {campaigns?.campaign ? description : ""}
-                  </div>
                   
+                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
               </div>
             </div>
