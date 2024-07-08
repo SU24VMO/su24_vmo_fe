@@ -95,15 +95,15 @@ const [loading, setLoading] = useState(false)
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet">
+      <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Thông tin đơn duyệt quản lí tổ chức</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo quản lí tổ chức!
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner "> {/* Set a specific height for ScrollArea */}
-         <div className="flex flex-col gap-5">
+        <ScrollArea className="h-[65vh] shadow-inner ">
+         <div className="flex flex-col p-5 gap-5">
           
            {/* Show tên quản lí tổ chức */}
            <div className="flex">

@@ -7,17 +7,22 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTACTIVITIES } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo,sortConfig,activityName, setLoading) {
-
+async function getData(cancelToken, pageSize, pageNo, sortConfig, activityName, setLoading) {
   try {
-    const response = await axiosPrivate.get(GETALLREQUESTACTIVITIES + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityName=${activityName}`, {
-      cancelToken: cancelToken
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(activityName);
+
+    const response = await axiosPrivate.get(`${GETALLREQUESTACTIVITIES}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityName=${encoded}`, {
+      cancelToken: cancelToken,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
     });
 
     if (response.status === 200) {
-      setLoading(false)
-
- console.log(response.data.data);
+      setLoading(false);
+      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -25,8 +30,7 @@ async function getData(cancelToken, pageSize, pageNo,sortConfig,activityName, se
       console.log('Request cancelled:', error.message);
     } else {
       console.error("Lỗi khi lấy dữ liệu từ API:", error);
-      setLoading(false)
-
+      setLoading(false);
     }
   }
 
@@ -46,8 +50,8 @@ const TableRequestActivities = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
-const [activityName, setActivityName] = useState("")
-  
+  const [activityName, setActivityName] = useState("")
+
   const onEdit = React.useCallback((row) => {
     // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog
@@ -59,7 +63,7 @@ const [activityName, setActivityName] = useState("")
     alert(`Deleting activities with ID: ${row.activity_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo,activityName, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, activityName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig, activityName, setLoading);
       setData(result?.list || []);
@@ -68,7 +72,7 @@ const [activityName, setActivityName] = useState("")
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-     
+
     }
   };
 
@@ -83,28 +87,28 @@ const [activityName, setActivityName] = useState("")
   };
 
   useEffect(() => {
-  setLoading(true);
+    setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo,activityName, sortConfig);
+    fetchData(source.token, pageSize, pageNo, activityName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,activityName, sortConfig]);
+  }, [pageSize, pageNo, activityName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo,activityName, sortConfig);
+    fetchData(source.token, pageSize, pageNo, activityName, sortConfig);
   };
   return (
     <div className="flex flex-col">
       <div>
         <EditStatusForm
           isOpen={isDialogOpen}
-          activity={selectedRow}
+          activities={selectedRow}
           onOpenChange={(value) => {
             setIsDialogOpen(value);
             if (!value) {
@@ -115,15 +119,15 @@ const [activityName, setActivityName] = useState("")
         />
       </div>
       <DataTable columns={columns({ onEdit, onDelete, onSort })}
-      setActivityName={setActivityName}
-       data={data}
-       loading={loading}
-       list={list}
-       pageSize={pageSize}
-       pageNo={pageNo}
-       setPageSize={setPageSize}
-       setPageNo={setPageNo}
-       totalPages={totalPages}
+        setActivityName={setActivityName}
+        data={data}
+        loading={loading}
+        list={list}
+        pageSize={pageSize}
+        pageNo={pageNo}
+        setPageSize={setPageSize}
+        setPageNo={setPageNo}
+        totalPages={totalPages}
       />
     </div>
   );

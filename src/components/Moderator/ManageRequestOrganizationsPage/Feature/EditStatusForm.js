@@ -30,7 +30,13 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+               
 
+  const planInformation = organize?.planInformation.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  console.log('====================================');
+  console.log(JSON.stringify(planInformation));
+  console.log('====================================');
+  
   const updateStatus = async (data) => {
     try {
       setLoading(true)
@@ -95,15 +101,15 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet">
+      <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Thông tin đơn duyệt tổ chức</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo tổ chức!
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner "> {/* Set a specific height for ScrollArea */}
-         <div className="flex flex-col gap-5">
+        <ScrollArea className="h-[65vh] shadow-inner"> {/* Set a specific height for ScrollArea */}
+         <div className="flex flex-col p-5 gap-5">
            {/* Show tên tổ chức */}
            <div className="flex">
             <div className="grid flex-1 gap-2">
@@ -205,12 +211,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
             <div className="grid flex-1 gap-2">
               <Label htmlFor="planInformation">Kế hoạch của tổ chức</Label>
               <div className="flex items-center space-x-2">
-                <Input
-                  id="planInformation"
-                  defaultValue={organize ? organize?.planInformation : ""}
-                  disabled
-                />
-                <CopyButton code={organize ? organize?.planInformation : ""} />
+               
+               <div variant={"outline"} dangerouslySetInnerHTML={{ __html: planInformation }} />
               </div>
             </div>
           </div>
