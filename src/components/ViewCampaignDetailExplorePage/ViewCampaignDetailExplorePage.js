@@ -11,7 +11,7 @@ import { ToastAction } from "../ui/toast";
 import LeftDetailCampaignSkeleton from "./LeftDetailCampaignSection/LeftDetailCampaignSkeleton/LeftDetailCampaignSkeleton";
 import RightDetailCampaignSkeleton from "./RightDetailCampaignSection/RightDetailCampaignSkeleton/RightDetailCampaignSkeleton";
 
-const ViewCampaignDetailPage = () => {
+const ViewCampaignDetailExplorePage = () => {
   const { id: campaignId } = useParams();
   const [campaign, setCampaign] = React.useState(null);
   const [dataLoaded, setDataLoaded] = React.useState(false);
@@ -115,4 +115,4 @@ const ViewCampaignDetailPage = () => {
   );
 };
 
-export default ViewCampaignDetailPage;
+export default ViewCampaignDetailExplorePage;
