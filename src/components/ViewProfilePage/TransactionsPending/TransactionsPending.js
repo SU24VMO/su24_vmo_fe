@@ -1,12 +1,12 @@
 import React from "react";
-import CardTransactionPaid from "../CardTransactionPaid/CardTransactionPaid";
+import CardTransactionPaid from "../TransactionsPaid/CardTransactionPaid/CardTransactionPaid";
 import CardTransactionSkeleton from "../CardTransactionSkeleton/CardTransactionSkeleton";
 import { useToast } from "../../ui/use-toast";
 import { axiosPublic } from "../../../api/axiosInstance";
 import { GET_TRANSACTION_BY_ACCOUNT_ID } from "../../../api/apiConstants";
 import { Button } from "../../ui/button";
 import { ToastAction } from "../../ui/toast";
-import CardTransactionPending from "../CardTransactionPending/CardTransactionPending";
+import CardTransactionPending from "./CardTransactionPending/CardTransactionPending";
 
 const TransactionsPending = ({ accountId }) => {
   const [dataLoaded, setDataLoaded] = React.useState(false);
