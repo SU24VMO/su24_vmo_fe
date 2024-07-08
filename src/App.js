@@ -66,6 +66,7 @@ import ManageRequestVolunteersPage from "./components/Moderator/ManageRequestVol
 import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizationsPage/ViewCampaignsOrganizationsPage";
 import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPage/ViewCampaignsVolunteersPage";
 import ViewCampaignDetailExplorePage from "./components/ViewCampaignDetailExplorePage/ViewCampaignDetailExplorePage";
+import ViewCampaignsSearchPage from "./components/ViewCampaignsSearchPage/ViewCampaignsSearchPage";
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
             <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
+            <Route path="/viewCampaigns/search/:id" element={<ViewCampaignsSearchPage key={window.location.pathname}></ViewCampaignsSearchPage>} />
             <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
             <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
