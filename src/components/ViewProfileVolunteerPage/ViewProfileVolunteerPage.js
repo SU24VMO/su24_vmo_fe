@@ -277,7 +277,7 @@ export default function ViewProfileVolunteerPage() {
             <TransactionsPending accountId={volunteersId} />
           </TabsContent>
           <TabsContent value="campaigns">
-            <Campaigns campaigns={campaigns} />
+            <Campaigns campaigns={campaigns} dataLoaded={dataLoaded}/>
           </TabsContent>
         </Tabs>
       </div>

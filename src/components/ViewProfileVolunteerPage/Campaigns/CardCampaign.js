@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "../../ui/card";
 import { AspectRatio } from "../../ui/aspect-ratio";
 import { Badge } from "../../ui/badge";
-import { Progress } from "../../ui/progress";
+// import { Progress } from "../../ui/progress";
 
 const CardCampaign = ({
   campaignId,
