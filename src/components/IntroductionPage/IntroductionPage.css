@@ -1,0 +1,15 @@
+    .left-image {
+        opacity: 0;
+        transform: translateX(100%);
+        transition: opacity 0.5s ease, transform 1s ease;
+    }
+
+    .right-image {
+        opacity: 0;
+        transform: translateX(-100%);
+        transition: opacity 0.5s ease, transform 1s ease;
+    }
+
+    .main-image {
+        z-index: 1;
+    }
