@@ -7,7 +7,10 @@ import { axiosPrivate } from "../../../../api/axiosInstance";
 import EditModeratorForm from "../Feature/EditModeratorForm";
 async function getData(cancelToken,  pageSize, pageNo, sortConfig,name, setLoading) {
   try {
-    const response = await axiosPrivate.get(`/api/account/all/role/moderator?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&name=${name}`, {
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(name);
+    const response = await axiosPrivate.get(`/api/account/all/role/moderator?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&name=${encoded}`, {
       cancelToken: cancelToken
     });
 
