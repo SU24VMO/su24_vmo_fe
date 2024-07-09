@@ -28,6 +28,17 @@ const CustomCardCampaign = ({
     (phase) => phase?.isProcessing
   )?.name;
 
+    // Hàm format số tiền ủng hộ
+    const formatMoney = (money) => {
+      // Ensure money is a string
+      const moneyStr = money.toString();
+      // Remove non-digit characters from the input money
+      const cleanValue = moneyStr.replace(/\D/g, "");
+      // Format the money with thousand separators
+      const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return formattedValue;
+    };
+
   return (
     <>
       <Link to={`/viewCampaigns/campaignDetail/${campaignId}`}>
@@ -65,7 +76,7 @@ const CustomCardCampaign = ({
                 />
                 <div className="w-full flex justify-between">
                   <p className="text-sm mobile:text-lg mb-2">
-                    Đã đạt được <b>{achievedAmount}</b>
+                    Đã đạt được <b>{formatMoney(achievedAmount)} VND</b>
                   </p>
                   <p className="text-sm mobile:text-base text-muted-foreground">{`${progressValue}%`}</p>
                 </div>
