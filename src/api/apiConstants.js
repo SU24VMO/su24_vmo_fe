@@ -24,7 +24,7 @@ export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-reque
 
 
 
-
+//Om
 
 export const GETALLORGANIZATIONBYID = "/api/organization/all/filter/organization-manager/";
 export const GETALLCAMPAIGNBYOMID = "/api/campaign/create-by/organization-manager/";
@@ -32,6 +32,16 @@ export const GETALLNEWSBYOMID = "/api/post/all/organization-manager/";
 
 export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organization-manager'
 export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/'
+export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
+
+
+//volunteer
+export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";
+export const GETALLCAMPAIGNBYVOLUNTEERID = "/api/campaign/create-by/volunteer/";
+export const GETALLNEWSBYVOLUNTEERID = "/api/post/all/volunteer/";    // /<----- thầy phát chưa đổi tên /
+export const GETALLPHASE123BYVOLUNTEER = "/api/campaign/create-by/volunteer/"
+
+
 
 
 export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
@@ -48,7 +58,8 @@ export const GETALLACCOUNTSOM = "/api/account/all/role/organization-manager"
 export const GETALLACCOUNTSMODERATOR = "/api/account/all/role/moderator"
 
 
-export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
+
+
 
 
 
