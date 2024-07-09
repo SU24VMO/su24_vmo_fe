@@ -67,6 +67,7 @@ import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizati
 import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPage/ViewCampaignsVolunteersPage";
 import ViewCampaignDetailExplorePage from "./components/ViewCampaignDetailExplorePage/ViewCampaignDetailExplorePage";
 import ViewCampaignsSearchPage from "./components/ViewCampaignsSearchPage/ViewCampaignsSearchPage";
+import IntroductionPage from "./components/IntroductionPage/IntroductionPage";
 import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
 
 
@@ -90,6 +91,9 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
             <Route path="/loginModeratorVMO" element={<ModeratorLoginPage />} />
+            <Route path="/introduction" element={<IntroductionPage />} />
+
+
 
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/home" element={<HomePage></HomePage>} />
