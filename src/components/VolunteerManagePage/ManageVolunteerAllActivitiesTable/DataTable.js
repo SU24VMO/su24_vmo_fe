@@ -20,9 +20,9 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import React from "react";
 import { Link } from "react-router-dom";
-import SkeletonCampaignsTable from "./SkeletonCampaignsTable/SkeletonCampaignsTable";
+import SkeletonActivitiesTable from "./SkeletonActivitiesTable/SkeletonActivitiesTable";
 
-export function DataTable({
+export function DataTable({ 
   columns,
   data,
   loading,
@@ -31,8 +31,8 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
-  setCampaignName
- }) {
+  setActivityTitle
+}) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
 
@@ -63,7 +63,7 @@ export function DataTable({
   //   state, //our fully controlled state overrides the internal state
   //   onStateChange: setState //any state changes will be pushed up to our own state management
   // }))
-
+  
 //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
   // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
   // được khởi tạo của nó mà cụ thể là pagination là 1 state)
@@ -82,29 +82,31 @@ export function DataTable({
   return (
     <>
       <div className="my-4">
-      <p className="font-bold text-2xl">Danh sách chiến dịch</p>
+      <p className="font-bold text-2xl">Danh sách hoạt động</p>
       </div>
 
       <div className="flex items-center py-4">
         <Input
           type="search"
-          placeholder="Tìm kiếm tên chiến dịch ..."
+          placeholder="Tìm kiếm ..."
           onChange={(event) =>
-            setCampaignName(event.target.value)
+            setActivityTitle(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
 
       <div className="w-full flex justify-end">
-        <Link to="/createCampaignOrganizationManager">
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tạo chiến dịch</button>
-
+        <Link to="/createActivityVolunteer">
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+          Tạo bài đăng
+        </button>
+        
         </Link>
       </div>
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonCampaignsTable />
+          <SkeletonActivitiesTable />
         ) : (
           <Table>
             <TableHeader>

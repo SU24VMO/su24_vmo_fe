@@ -51,7 +51,7 @@ const DesktopNavLeft = () => {
 
       {/* check role có phải Volunteer không mới hiển thị */}
       {user?.role === "Volunteer" && user.is_verified === "True" ? (
-        <Link to="/manage/allCampaigns">
+        <Link to="/manage/volunteer/allCampaigns">
           <Button variant="feature">Quản lí</Button>
         </Link>
       ) : (
