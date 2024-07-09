@@ -90,7 +90,6 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Tìm kiếm tiêu đề ..."
-          value={table.getColumn("newTitle")?.getFilterValue() || ""}
           onChange={(event) =>
             setTitle(event.target.value)
           }

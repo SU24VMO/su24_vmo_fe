@@ -90,7 +90,6 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Tìm kiếm tên chiến dịch ..."
-          value={table.getColumn("nameOfCampaign")?.getFilterValue() || ""}
           onChange={(event) =>
            setCampaignName(event.target.value)
           }

@@ -10,7 +10,10 @@ import { Helmet } from "react-helmet";
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizationName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&organizationName=${organizationName}`, {
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(organizationName);
+    const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&organizationName=${encoded}`, {
       cancelToken: cancelToken
     });
 
