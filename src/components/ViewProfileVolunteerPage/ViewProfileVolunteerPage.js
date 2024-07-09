@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { AuthContext } from "../../context/AuthContext";
-import { axiosPrivate, axiosPublic } from "../../api/axiosInstance";
+import { axiosPublic } from "../../api/axiosInstance";
 import image_placeholder from "../../assets/images/placeholder.svg";
 import { GET_ACCOUNT_BY_ID } from "../../api/apiConstants";
 import { format } from "date-fns";
@@ -30,7 +29,7 @@ export default function ViewProfileVolunteerPage() {
   console.log("volunteersId:", volunteersId);
   // Hàm xử lý khi click vào các icon mạng xã hội
   const handleSocialMediaRedirect = (link) => {
-    if (link === "") {
+    if (link === "" || link === null || link === undefined) {
       toast({
         variant: "destructive",
         title: `Tài khoản chưa thiết lập thông tin này!`,
@@ -109,8 +108,7 @@ export default function ViewProfileVolunteerPage() {
                     alt="Avatar User"
                   />
                   <AvatarFallback>
-                    {/* {data.lastname[0]} */}
-                    Logo
+                    {data.lastName[0]}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -137,36 +135,36 @@ export default function ViewProfileVolunteerPage() {
                       <Button
                         variant="link"
                         className="p-0"
-                        // onClick={() =>
-                        //   handleSocialMediaRedirect(`mailto:${user.email}`)
-                        // }
+                        onClick={() =>
+                          handleSocialMediaRedirect(`mailto:${data.email}`)
+                        }
                       >
                         <img src={emailIcon} alt="" className="w-8 h-8" />
                       </Button>
                       <Button
                         variant="link"
                         className="p-0"
-                        // onClick={() =>
-                        //   handleSocialMediaRedirect(user.facebooklink)
-                        // }
+                        onClick={() =>
+                          handleSocialMediaRedirect(data.linkFacebook)
+                        }
                       >
                         <img src={facebookIcon} alt="" className="w-8 h-8" />
                       </Button>
                       <Button
                         variant="link"
                         className="p-0"
-                        // onClick={() =>
-                        //   handleSocialMediaRedirect(user.tiktoklink)
-                        // }
+                        onClick={() =>
+                          handleSocialMediaRedirect(data.linkTiktok)
+                        }
                       >
                         <img src={tiktokIcon} alt="" className="w-8 h-8" />
                       </Button>
                       <Button
                         variant="link"
                         className="p-0"
-                        // onClick={() =>
-                        //   handleSocialMediaRedirect(user.youtubelink)
-                        // }
+                        onClick={() =>
+                          handleSocialMediaRedirect(data.linkYoutube)
+                        }
                       >
                         <img src={youtubeIcon} alt="" className="w-8 h-8" />
                       </Button>
