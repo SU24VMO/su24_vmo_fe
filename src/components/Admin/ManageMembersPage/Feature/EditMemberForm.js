@@ -102,7 +102,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-table">
+      <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
           <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
