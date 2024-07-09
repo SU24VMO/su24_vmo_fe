@@ -12,7 +12,11 @@ import { GETALLNEWSBYOMID } from "../../../api/apiConstants";
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&title=${title}`, {
+    
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(title);
+    const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&title=${encoded}`, {
       cancelToken: cancelToken
     });
 

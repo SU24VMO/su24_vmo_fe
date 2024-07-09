@@ -12,7 +12,11 @@ import { AuthContext } from "../../../context/AuthContext";
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, activityTitle, setLoading) {
 console.log("Activity truyền vào: " , activityTitle);
   try {
-    const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityTitle=${activityTitle}`, {
+
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(activityTitle);
+    const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityTitle=${encoded}`, {
       cancelToken: cancelToken
     });
 

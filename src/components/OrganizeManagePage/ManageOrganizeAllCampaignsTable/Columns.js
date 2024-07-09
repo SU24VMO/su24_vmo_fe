@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 export const columns = ({ onSort }) => [
 
@@ -192,8 +193,14 @@ export const columns = ({ onSort }) => [
               Copy tên chiến dịch
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-            <DropdownMenuItem>Xóa</DropdownMenuItem>
+           
+            {infoRow?.isActive === true ? (<DropdownMenuItem
+              
+              >
+              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+              Xem chiến dịch 
+              </Link>
+              </DropdownMenuItem>) : "" }
           </DropdownMenuContent>
         </DropdownMenu>
       );

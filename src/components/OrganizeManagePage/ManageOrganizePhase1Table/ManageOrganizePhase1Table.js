@@ -11,7 +11,10 @@ import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
 
   try {
-    const response = await axiosPrivate.get(GETALLPHASE123BYOM + `${user.organization_manager_id}/donate-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${campaignName}`, {
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+
+    const encoded= normalizeAndEncode(campaignName);
+    const response = await axiosPrivate.get(GETALLPHASE123BYOM + `${user.organization_manager_id}/donate-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
     });
 

@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-export const columns =({ onSort }) => [
- 
+import { Link } from "react-router-dom";
+export const columns = ({ onSort }) => [
+
   {
     accessorKey: "title",
     header: ({ column }) => {
@@ -18,7 +19,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Title")}
+          onClick={() => onSort("Title")}
         >
           Tiêu đề
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,7 +50,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("IsActive")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -113,7 +114,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("CreateAt")}
+          onClick={() => onSort("CreateAt")}
         >
           Thời gian tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -149,9 +150,13 @@ export const columns =({ onSort }) => [
             >
               Copy tiêu đề
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-            <DropdownMenuItem>Xóa</DropdownMenuItem>
+
+            {infoRow?.isActive === true  ? (<DropdownMenuItem
+
+            >
+              <Link
+                to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
+            </DropdownMenuItem>) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );
