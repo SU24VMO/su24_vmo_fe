@@ -11,12 +11,8 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import NotFound from "./routes/NotFound";
 import NewsDetailPage from "./components/NewsDetailPage/NewsDetailPage";
 import ViewNewsPage from "./components/ViewsNewsPage/ViewNewsPage";
-import ManageAllCampaignsTable from "./components/MemberManagePage/ManageAllCampaignsTable/ManageAllCampaignsTable";
-import ManagePhase1Table from "./components/MemberManagePage/ManagePhase1Table/ManagePhase1Table";
-import ManagePhase2Table from "./components/MemberManagePage/ManagePhase2Table/ManagePhase2Table";
-import ManagePhase3Table from "./components/MemberManagePage/ManagePhase3Table/ManagePhase3Table";
-import ManageAllActivitiesTable from "./components/MemberManagePage/ManageAllActivitiesTable/ManageAllActivitiesTable";
-import CreateCampaignPage from "./components/CreateCampaignPage/CreateCampaignPage";
+
+import CreateCampaignPage from "./components/CreateCampaignOrganizationManagerPage/CreateCampaignOrganizationManagerPage";
 import ViewProfilePage from "./components/ViewProfilePage/ViewProfilePage";
 
 
@@ -68,6 +64,14 @@ import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPag
 import ViewCampaignDetailExplorePage from "./components/ViewCampaignDetailExplorePage/ViewCampaignDetailExplorePage";
 import ViewCampaignsSearchPage from "./components/ViewCampaignsSearchPage/ViewCampaignsSearchPage";
 import IntroductionPage from "./components/IntroductionPage/IntroductionPage";
+import ManageVolunteerAllActivitiesTable from "./components/VolunteerManagePage/ManageVolunteerAllActivitiesTable/ManageVolunteerAllActivitiesTable";
+import ManageVolunteerAllCampaignsTable from "./components/VolunteerManagePage/ManageVolunteerAllCampaignsTable/ManageVolunteerAllCampaignsTable";
+import ManageVolunteerNewsTable from "./components/VolunteerManagePage/ManageVolunteerNewsTable/ManageVolunteerNewsTable";
+import ManageVolunteerPhase1Table from "./components/VolunteerManagePage/ManageVolunteerPhase1Table/ManageVolunteerPhase1Table";
+import ManageVolunteerPhase2Table from "./components/VolunteerManagePage/ManageVolunteerPhase2Table/ManageVolunteerPhase2Table";
+import ManageVolunteerPhase3Table from "./components/VolunteerManagePage/ManageVolunteerPhase3Table/ManageVolunteerPhase3Table";
+import CreateCampaignVolunteerPage from "./components/CreateCampaignVolunteerPage/CreateCampaignVolunteerPage";
+import CreateCampaignOrganizationManagerPage from "./components/CreateCampaignOrganizationManagerPage/CreateCampaignOrganizationManagerPage";
 import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
 
 
@@ -116,25 +120,27 @@ function App() {
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
-              <Route path="/createCampaign" element={<CreateCampaignPage />} />
               <Route path="/donate/:campaignID" element={<DonatePage />} />
             </Route>
 
-            {/* Organize && Member role  */}
-            {/* <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Member"]} />}>
+            {/* Organize && Volunteer role  */}
+            {/* <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Volunteer"]} />}>
             </Route> */}
 
-            {/* Only Member */}
+            {/* Only Volunteer */}
             <Route element={<PrivateRoute allowedRoles={["Volunteer"]} />}>
 
-              {/* Member manager */}
-              <Route path="/manage/allCampaigns" element={<ManageAllCampaignsTable />} />
-              <Route path="/manage/allPhase1" element={<ManagePhase1Table></ManagePhase1Table>} />
-              <Route path="/manage/allPhase2" element={<ManagePhase2Table></ManagePhase2Table>} />
-              <Route path="/manage/allPhase3" element={<ManagePhase3Table></ManagePhase3Table>} />
-              <Route path="/manage/allActivities" element={<ManageAllActivitiesTable />} />
+              {/* Volunteer manager */}
+              <Route path="/manage/volunteer/allCampaigns" element={<ManageVolunteerAllCampaignsTable />} />
+              <Route path="/manage/volunteer/allNews" element={<ManageVolunteerNewsTable/>} />
+              <Route path="/manage/volunteer/allPhase1" element={<ManageVolunteerPhase1Table/>} />
+              <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table/>} />
+              <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table/>} />
+              <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
               <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
-              <Route path="/createActivityMembers" element={<CreateActivityMemberPage />} />
+              <Route path="/createActivityVolunteer" element={<CreateActivityMemberPage />} />
+              <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
+
 
             </Route>
 
@@ -152,6 +158,7 @@ function App() {
               <Route path="/createOrganization" element={<CreateOrganizePage />} />
               <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
               <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
+              <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage/>} />
 
 
             </Route>

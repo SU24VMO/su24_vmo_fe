@@ -1,5 +1,4 @@
 import React from "react";
-import CardTransactionPaid from "../CardTransactionPaid/CardTransactionPaid";
 import CardTransactionSkeleton from "../CardTransactionSkeleton/CardTransactionSkeleton";
 import { useToast } from "../../ui/use-toast";
 import { axiosPublic } from "../../../api/axiosInstance";
@@ -8,7 +7,7 @@ import { Button } from "../../ui/button";
 import { ToastAction } from "../../ui/toast";
 import CardTransactionPending from "../CardTransactionPending/CardTransactionPending";
 
-const TransactionsPending = ({ accountId, setTotalTransactionPending }) => {
+const TransactionsPending = ({ accountId }) => {
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [pageNo, setPageNo] = React.useState(1);
@@ -40,7 +39,6 @@ const TransactionsPending = ({ accountId, setTotalTransactionPending }) => {
             setData(fetchedData);
             console.log("Transaction Pending lấy được lần đầu", fetchedData);
           }
-          setTotalTransactionPending(response.data.data.totalItem);
           setDataLoaded(true);
           toast({
             title: "Đã tải thành công các giao dịch chưa thanh toán!",

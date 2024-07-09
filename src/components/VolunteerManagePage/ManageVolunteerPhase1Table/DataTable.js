@@ -20,9 +20,9 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import React from "react";
 import { Link } from "react-router-dom";
-import SkeletonCampaignsTable from "./SkeletonCampaignsTable/SkeletonCampaignsTable";
+import SkeletonPhase1Table from "./SkeletonPhase1Table/SkeletonPhase1Table";
 
-export function DataTable({
+export function DataTable({ 
   columns,
   data,
   loading,
@@ -50,6 +50,8 @@ export function DataTable({
       columnFilters,
     },
   });
+
+  
   // const [state, setState] = React.useState({
   //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
   //   pagination: {
@@ -79,16 +81,17 @@ export function DataTable({
   const handleNextPage = () => {
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
+
   return (
     <>
-      <div className="my-4">
-      <p className="font-bold text-2xl">Danh sách chiến dịch</p>
+       <div className="my-4">
+      <p className="font-bold text-2xl">Danh sách giai đoạn 1</p>
       </div>
 
       <div className="flex items-center py-4">
         <Input
           type="search"
-          placeholder="Tìm kiếm tên chiến dịch ..."
+          placeholder="Tìm kiếm ..."
           onChange={(event) =>
             setCampaignName(event.target.value)
           }
@@ -96,15 +99,10 @@ export function DataTable({
         />
       </div>
 
-      <div className="w-full flex justify-end">
-        <Link to="/createCampaignOrganizationManager">
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tạo chiến dịch</button>
-
-        </Link>
-      </div>
+      
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonCampaignsTable />
+          <SkeletonPhase1Table />
         ) : (
           <Table>
             <TableHeader>

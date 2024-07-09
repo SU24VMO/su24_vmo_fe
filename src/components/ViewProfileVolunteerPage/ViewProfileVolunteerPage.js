@@ -17,14 +17,14 @@ import { useToast } from "../ui/use-toast";
 import TransactionsPaid from "./TransactionsPaid/TransactionsPaid";
 import TransactionsPending from "./TransactionsPending/TransactionsPending";
 import { useParams } from "react-router-dom";
+import Campaigns from "./Campaigns/Campaigns";
 
 export default function ViewProfileVolunteerPage() {
   const { id: volunteersId } = useParams();
   const { toast } = useToast();
   const [data, setData] = React.useState([]);
-  const [totalTransactionPaid, setTotalTransactionPaid] = React.useState("");
-  const [totalTransactionPending, setTotalTransactionPending] =
-    React.useState("");
+  const [transactions, setTransactions] = React.useState([]);
+  const [campaigns, setCampaigns] = React.useState([]);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   console.log("volunteersId:", volunteersId);
   // Hàm xử lý khi click vào các icon mạng xã hội
@@ -68,6 +68,8 @@ export default function ViewProfileVolunteerPage() {
         );
         if (response.status === 200) {
           setData(response.data.data);
+          setTransactions(response.data.data.transactions);
+          setCampaigns(response.data.data.campaigns);
           setDataLoaded(true);
           toast({
             title: "Tải dữ liệu người dùng thành công...",
@@ -87,6 +89,15 @@ export default function ViewProfileVolunteerPage() {
     fetchData();
   }, [toast, volunteersId]); // Chỉ gọi lại khi volunteersId thay đổi
   console.log("data profile người dùng:", data);
+  // Duyệt qua mảng transactions và phân loại dựa trên transactionStatus
+  const pendingTransactions = transactions.filter(
+    (transaction) => transaction.transactionStatus === 0
+  );
+  const paidTransactions = transactions.filter(
+    (transaction) => transaction.transactionStatus === 1
+  );
+  console.log("pendingTransactions:", pendingTransactions.length);
+  console.log("paidTransactions:", paidTransactions.length);
 
   return (
     <>
@@ -107,9 +118,7 @@ export default function ViewProfileVolunteerPage() {
                     src={data ? data.avatar : image_placeholder}
                     alt="Avatar User"
                   />
-                  <AvatarFallback>
-                    {data.lastName[0]}
-                  </AvatarFallback>
+                  <AvatarFallback>{data.lastName[0]}</AvatarFallback>
                 </Avatar>
               </div>
               <div className="flex justify-center">
@@ -202,6 +211,14 @@ export default function ViewProfileVolunteerPage() {
                 </h1>
                 <span className="  text-sm mobile:text-sx">Loại tài khoản</span>
               </div>
+              <div className="text-center">
+                <h1 className=" text-sx mobile:text-xl font-bold">
+                  {data.numberOfActiveCampaign}
+                </h1>
+                <span className="  text-sm mobile:text-sx">
+                  Số lượng chiến dịch
+                </span>
+              </div>
             </div>
           </div>
         ) : (
@@ -230,32 +247,37 @@ export default function ViewProfileVolunteerPage() {
           <TabsList>
             <TabsTrigger value="paid">
               Đã thanh toán
-              {totalTransactionPaid ? (
-                <span className="ml-1"> ({totalTransactionPaid})</span>
+              {paidTransactions ? (
+                <span className="ml-1"> ({paidTransactions.length})</span>
               ) : (
                 ""
               )}
             </TabsTrigger>
             <TabsTrigger value="pending">
               Chưa thanh toán
-              {totalTransactionPending ? (
-                <span className="ml-1"> ({totalTransactionPending})</span>
+              {pendingTransactions ? (
+                <span className="ml-1"> ({pendingTransactions.length})</span>
+              ) : (
+                ""
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="campaigns">
+              Chiến dịch
+              {data.campaigns ? (
+                <span className="ml-1"> ({data.campaigns.length})</span>
               ) : (
                 ""
               )}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="paid">
-            <TransactionsPaid
-              accountId={volunteersId}
-              setTotalTransactionPaid={setTotalTransactionPaid}
-            />
+            <TransactionsPaid accountId={volunteersId} />
           </TabsContent>
           <TabsContent value="pending">
-            <TransactionsPending
-              accountId={volunteersId}
-              setTotalTransactionPending={setTotalTransactionPending}
-            />
+            <TransactionsPending accountId={volunteersId} />
+          </TabsContent>
+          <TabsContent value="campaigns">
+            <Campaigns campaigns={campaigns} />
           </TabsContent>
         </Tabs>
       </div>
