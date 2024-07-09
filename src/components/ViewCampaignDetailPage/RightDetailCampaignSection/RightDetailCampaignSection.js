@@ -23,7 +23,7 @@ import { Progress } from "../../ui/progress";
 import { Button } from "../../ui/button";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Badge } from "../../ui/badge";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import {
   AlertDialog,
@@ -54,17 +54,16 @@ const RightDetailCampaignSection = ({ data }) => {
   const navigate = useNavigate();
   // console.log("user", user);
 
-    // Hàm format số tiền ủng hộ
-    const formatMoney = (money) => {
-      // Ensure money is a string
-      const moneyStr = money.toString();
-      // Remove non-digit characters from the input money
-      const cleanValue = moneyStr.replace(/\D/g, "");
-      // Format the money with thousand separators
-      const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      return formattedValue;
-    };
-
+  // Hàm format số tiền ủng hộ
+  const formatMoney = (money) => {
+    // Ensure money is a string
+    const moneyStr = money.toString();
+    // Remove non-digit characters from the input money
+    const cleanValue = moneyStr.replace(/\D/g, "");
+    // Format the money with thousand separators
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedValue;
+  };
 
   // Hàm xử lý khi click vào nút ủng hộ
   const handleDonateClick = () => {
@@ -104,34 +103,79 @@ const RightDetailCampaignSection = ({ data }) => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-x-3">
-            <Avatar className="w-20 h-20">
-              <AvatarImage
-                src={
-                  data.organization
-                    ? data.organization.logo
-                    : data.member
-                    ? data.member.account.avatar
-                    : img_demo
-                }
-              />
-              <AvatarFallback>
-                {data.organization
-                  ? data.organization.name
-                  : data.member
-                  ? data.member.lastname
-                  : "Logo"}
-              </AvatarFallback>
-            </Avatar>
+            {data.organization ? (
+              <Link to={`/organization/`}>
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src={
+                      data.organization
+                        ? data.organization.logo
+                        : data.member
+                        ? data.member.account.avatar
+                        : img_demo
+                    }
+                  />
+                  <AvatarFallback>
+                    {data.organization
+                      ? data.organization.name
+                      : data.member
+                      ? data.member.lastname
+                      : "Logo"}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+            ) : data.member ? (
+              <Link to={`/volunteer/${data.member.accountID}`}>
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src={
+                      data.organization
+                        ? data.organization.logo
+                        : data.member
+                        ? data.member.account.avatar
+                        : img_demo
+                    }
+                  />
+                  <AvatarFallback>
+                    {data.organization
+                      ? data.organization.name
+                      : data.member
+                      ? data.member.lastname
+                      : "Logo"}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+            ) : (
+              img_demo
+            )}
             <div className="flex flex-col">
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
-                <CardTitle className="text-lg laptop:text-xl">
-                  {data.organization
-                    ? data.organization.name
-                    : data.member
-                    ? data.member.firstName + " " + data.member.lastName
-                    : "Không xác định"}
-                </CardTitle>
+                {data.organization ? (
+                  <Link to={`/organization/`}>
+                    <CardTitle className="text-lg laptop:text-xl">
+                      {data.organization
+                        ? data.organization.name
+                        : data.member
+                        ? data.member.firstName + " " + data.member.lastName
+                        : "Không xác định"}
+                    </CardTitle>
+                  </Link>
+                ) : data.member ? (
+                  <Link to={`/volunteer/${data.member.accountID}`}>
+                    <CardTitle className="text-lg laptop:text-xl">
+                      {data.organization
+                        ? data.organization.name
+                        : data.member
+                        ? data.member.firstName + " " + data.member.lastName
+                        : "Không xác định"}
+                    </CardTitle>
+                  </Link>
+                ) : (
+                  <CardTitle className="text-lg laptop:text-xl">
+                    Không xác định
+                  </CardTitle>
+                )}
                 <BadgeCheck className="h-6 w-6 text-green-600" />
               </div>
             </div>
@@ -193,7 +237,8 @@ const RightDetailCampaignSection = ({ data }) => {
             />
             <div className="w-full flex justify-between">
               <p className="text-lg mb-2">
-                Đã đạt được <b>{formatMoney(data.donatePhase.currentMoney)} VND</b>
+                Đã đạt được{" "}
+                <b>{formatMoney(data.donatePhase.currentMoney)} VND</b>
               </p>
               <p className="text-muted-foreground">
                 {data.donatePhase.percent}%
@@ -241,7 +286,9 @@ const RightDetailCampaignSection = ({ data }) => {
                   </DialogHeader>
                   <div className="flex">
                     <div className="grid flex-1 gap-2">
-                      <Label htmlFor="link">Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch</Label>
+                      <Label htmlFor="link">
+                        Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch
+                      </Label>
                       <div className="flex items-center space-x-2">
                         <Input
                           id="link"
