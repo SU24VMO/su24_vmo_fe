@@ -12,6 +12,7 @@ import OrganizationsSelect from "./OrganizationsSelect/OrganizationsSelect";
 import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,6 +24,7 @@ export default function CreateCampaignOrganizationManagerPage() {
 
     const [loading, setLoading] = useState(false)
 
+    const navigate = useNavigate()
 
     function handleImageBackgroundChange(e, setFieldValue) {
         console.log(e.target.files);
@@ -95,6 +97,7 @@ export default function CreateCampaignOrganizationManagerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
+                navigate("/manage/organize/allCampaigns")
                 resetForm();
 
                 toast({

@@ -97,8 +97,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
     });
   }, [campaigns]);
   // Handle switch change
-  const handleSwitchChange = (field) => (isChecked) => {
-    formik.setFieldValue(field, isChecked);
+  const handleSwitchChange = (isApproved) => {
+    formik.setFieldValue("isApproved", isApproved);
   };
 
   const formatAmount = (value) => {
@@ -309,19 +309,27 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               </div>
             </div>
             {campaigns && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
-                {/*  */}
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="isApproved"
                     checked={formik.values.isApproved}
-                    onCheckedChange={handleSwitchChange("isApproved")}
+                    onCheckedChange={() => handleSwitchChange(true)}
                   />
                   <Label htmlFor="isApproved">Chấp thuận</Label>
                 </div>
-
-              </form>
-            )}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isApproved"
+                    checked={!formik.values.isApproved}
+                    onCheckedChange={() => handleSwitchChange(false)}
+                  />
+                  <Label htmlFor="isApproved">Từ chối</Label>
+                </div>
+              </div>
+            </form>
+          )}
           </div>
         </ScrollArea>
 

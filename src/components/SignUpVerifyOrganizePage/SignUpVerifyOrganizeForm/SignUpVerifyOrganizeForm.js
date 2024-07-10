@@ -7,6 +7,7 @@ import { useToast } from "../../../components/ui/use-toast";
 
 import { AuthContext } from "../../../context/AuthContext";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpVerifyOrganizeForm() {
 
@@ -14,7 +15,9 @@ export default function SignUpVerifyOrganizeForm() {
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
-  const verifyOrganizationManager = async (data) => {
+  const navigate = useNavigate()
+
+  const verifyOrganizationManager = async (data, resetForm) => {
     try {
       setLoading(true)
       const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
@@ -28,6 +31,9 @@ export default function SignUpVerifyOrganizeForm() {
 
       });
       if (response.status === 200) {
+        resetForm()
+        navigate("/")
+
         console.log(response.data);
         toast({
           title: "Tạo tổ chức thành công",
@@ -94,9 +100,10 @@ export default function SignUpVerifyOrganizeForm() {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber,
-            values.address, values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          // verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber,
+          //   values.address, values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
+          verifyOrganizationManager(values, resetForm)
           setSubmitting(false);
         }}
       >
