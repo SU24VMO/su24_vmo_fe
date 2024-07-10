@@ -100,3 +100,6 @@ export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
 export const GET_TRANSACTION_BY_ACCOUNT_ID = "https://vmo.azurewebsites.net/api/transaction/history-transaction/account/";
 export const CREATE_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/create-transaction";
 export const CHECK_TRANSACTION_BY_ORDER_ID = "https://vmo.azurewebsites.net/api/transaction/check-transaction/send-email";
+
+//organization 
+export const GET_ORGANIZATION_BY_ID = "https://vmo.azurewebsites.net/api/organization/";
