@@ -104,7 +104,7 @@ const RightDetailCampaignSection = ({ data }) => {
         <CardHeader>
           <div className="flex items-center gap-x-3">
             {data.organization ? (
-              <Link to={`/organization/`}>
+              <Link to={`/organization/${data.organization.organizationID}`}>
                 <Avatar className="w-20 h-20">
                   <AvatarImage
                     src={
@@ -152,7 +152,7 @@ const RightDetailCampaignSection = ({ data }) => {
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
                 {data.organization ? (
-                  <Link to={`/organization/`}>
+                  <Link to={`/organization/${data.organization.organizationID}`}>
                     <CardTitle className="text-lg laptop:text-xl">
                       {data.organization
                         ? data.organization.name

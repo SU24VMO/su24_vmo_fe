@@ -73,6 +73,7 @@ import ManageVolunteerPhase3Table from "./components/VolunteerManagePage/ManageV
 import CreateCampaignVolunteerPage from "./components/CreateCampaignVolunteerPage/CreateCampaignVolunteerPage";
 import CreateCampaignOrganizationManagerPage from "./components/CreateCampaignOrganizationManagerPage/CreateCampaignOrganizationManagerPage";
 import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
+import ViewProfileOrganizationPage from "./components/ViewProfileOrganizationPage/ViewProfileOrganizationPage";
 
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
             <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
             <Route path="/viewCampaigns/campaignDetail/explore/:id" element={<ViewCampaignDetailExplorePage></ViewCampaignDetailExplorePage>} />
             <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
+            <Route path="/organization/:id" element={<ViewProfileOrganizationPage></ViewProfileOrganizationPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />
             <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
             <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
