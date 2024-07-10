@@ -38,8 +38,21 @@ export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/
 //volunteer
 export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";
 export const GETALLCAMPAIGNBYVOLUNTEERID = "/api/campaign/create-by/volunteer/";
-export const GETALLNEWSBYVOLUNTEERID = "/api/post/all/volunteer/";    // /<----- thầy phát chưa đổi tên /
+export const GETALLNEWSBYVOLUNTEERID = "/api/post/all/volunteer/";   
+export const GETOPTIONPROCESSINGPHASEVOLUNTEER = '/api/processing-phase/create-by/volunteer'
+
 export const GETALLPHASE123BYVOLUNTEER = "/api/campaign/create-by/volunteer/"
+
+export const VERIFYVOLUNTEER = "/api/create-volunteer-request/create-new";
+
+
+
+export const PUTPROCESSINGPHASE = "/api/processing-phase/status/update";
+export const PUTSTATEMENTPHASE = "/api/statement-phase/status/update";
+
+
+
+
 
 
 

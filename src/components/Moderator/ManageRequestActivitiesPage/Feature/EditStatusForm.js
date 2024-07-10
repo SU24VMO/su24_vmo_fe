@@ -113,11 +113,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
       isApproved: activities ? activities.isApproved : false,
     });
   }, [activities]);
-  // Handle switch change
-  const handleSwitchChange = (field) => (isChecked) => {
-    formik.setFieldValue(field, isChecked);
-  };
-
+ // Handle switch change
+ const handleSwitchChange = (isApproved) => {
+  formik.setFieldValue("isApproved", isApproved);
+};
 
 
   //handle caroulsel
@@ -306,18 +305,27 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
             </div>
 
             {activities && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
-                {/*  */}
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="isApproved"
                     checked={formik.values.isApproved}
-                    onCheckedChange={handleSwitchChange("isApproved")}
+                    onCheckedChange={() => handleSwitchChange(true)}
                   />
                   <Label htmlFor="isApproved">Chấp thuận</Label>
                 </div>
-              </form>
-            )}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isApproved"
+                    checked={!formik.values.isApproved}
+                    onCheckedChange={() => handleSwitchChange(false)}
+                  />
+                  <Label htmlFor="isApproved">Từ chối</Label>
+                </div>
+              </div>
+            </form>
+          )}
           </div>
         </ScrollArea>
         <DialogFooter>

@@ -62,6 +62,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
     ),
     cell: ({ row }) => {
       const isActived = row.getValue("isActived");
+
       return (
         <div className="w-max">
           {isActived === true ? (

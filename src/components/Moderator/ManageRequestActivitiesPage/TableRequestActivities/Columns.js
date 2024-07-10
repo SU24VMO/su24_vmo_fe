@@ -177,16 +177,22 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const isApproved = row.getValue("isApproved");
-
+      const isApproved = row.original.isApproved;
+      const isLocked = row.original.isLocked;
+      const isPending = row.original.isPending;
+      const isRejected = row.original.isRejected;
+      let statusBadge;
+      if (isApproved === true) {
+        statusBadge = <Badge variant="success">Đồng ý</Badge>;
+      } else if (isLocked === true) {
+        statusBadge = <Badge variant="warning">Đang khóa</Badge>;
+      } else if (isRejected === true) {
+        statusBadge = <Badge variant="destructive">Từ chối</Badge>;
+      }  else if (isPending === true) {
+        statusBadge = <Badge variant="info">Đang chờ</Badge>;
+      }
       return (
-        <div>
-          {isApproved === true ? (
-            <Badge variant="success">Đồng ý</Badge>
-          ) : (
-            <Badge variant="destructive">Từ chối</Badge>
-          )}
-        </div>
+        <div>{statusBadge}</div>
       );
     },
   },

@@ -13,8 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
-export const columns =({ onSort }) => [
+export const columns =({ onSort, onConfirm }) => [
   
   {
     accessorKey: "name",
@@ -139,7 +140,7 @@ export const columns =({ onSort }) => [
     id: "actions",
     cell: ({ row }) => {
       const infoRow = row.original;
-
+      console.log(infoRow);
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -158,8 +159,19 @@ export const columns =({ onSort }) => [
               Copy tên chiến dịch
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-            <DropdownMenuItem>Xóa</DropdownMenuItem>
+            {infoRow?.isActive === true ? (<DropdownMenuItem
+              
+              >
+              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+              Xem chiến dịch 
+              </Link>
+              </DropdownMenuItem>) : "" }
+           <DropdownMenuItem
+           onClick={() => onConfirm(row.original)}
+            >
+              Kết thúc giai đoạn 2
+            </DropdownMenuItem>
+            
           </DropdownMenuContent>
         </DropdownMenu>
       );

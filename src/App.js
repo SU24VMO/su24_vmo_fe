@@ -12,7 +12,6 @@ import NotFound from "./routes/NotFound";
 import NewsDetailPage from "./components/NewsDetailPage/NewsDetailPage";
 import ViewNewsPage from "./components/ViewsNewsPage/ViewNewsPage";
 
-import CreateCampaignPage from "./components/CreateCampaignOrganizationManagerPage/CreateCampaignOrganizationManagerPage";
 import ViewProfilePage from "./components/ViewProfilePage/ViewProfilePage";
 
 
@@ -37,13 +36,11 @@ import ChangePassswordPage from "./components/ChangePassswordPage/ChangePassswor
 import LoginAdminPage from "./components/Admin/LoginAdminPage/LoginAdminPage";
 import AdminHomePage from "./components/Admin/AdminHomePage/AdminHomePage";
 import Admin from "./components/Admin/Admin";
-import ManageOrganizationManagers from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizationManagersPage/ManageOrganizationManagersPage";
 
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import { Helmet } from "react-helmet";
 import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
-import CreateActivityMemberPage from "./components/CreateActivityMemberPage/CreateActivityMemberPage";
 import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
 import DonatePage from "./components/DonatePage/DonatePage";
 import Moderator from "./components/Moderator/Moderator";
@@ -73,6 +70,7 @@ import ManageVolunteerPhase3Table from "./components/VolunteerManagePage/ManageV
 import CreateCampaignVolunteerPage from "./components/CreateCampaignVolunteerPage/CreateCampaignVolunteerPage";
 import CreateCampaignOrganizationManagerPage from "./components/CreateCampaignOrganizationManagerPage/CreateCampaignOrganizationManagerPage";
 import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
+import CreateActivityVolunteerPage from "./components/CreateActivityVolunteerPage/CreateActivityVolunteerPage";
 import ViewProfileOrganizationPage from "./components/ViewProfileOrganizationPage/ViewProfileOrganizationPage";
 
 
@@ -123,6 +121,8 @@ function App() {
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
               <Route path="/donate/:campaignID" element={<DonatePage />} />
+              <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
+
             </Route>
 
             {/* Organize && Volunteer role  */}
@@ -134,13 +134,12 @@ function App() {
 
               {/* Volunteer manager */}
               <Route path="/manage/volunteer/allCampaigns" element={<ManageVolunteerAllCampaignsTable />} />
-              <Route path="/manage/volunteer/allNews" element={<ManageVolunteerNewsTable/>} />
-              <Route path="/manage/volunteer/allPhase1" element={<ManageVolunteerPhase1Table/>} />
-              <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table/>} />
-              <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table/>} />
+              <Route path="/manage/volunteer/allNews" element={<ManageVolunteerNewsTable />} />
+              <Route path="/manage/volunteer/allPhase1" element={<ManageVolunteerPhase1Table />} />
+              <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table />} />
+              <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table />} />
               <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
-              <Route path="/sigupVerifyUserForm" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
-              <Route path="/createActivityVolunteer" element={<CreateActivityMemberPage />} />
+              <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
               <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
 
 
@@ -149,7 +148,6 @@ function App() {
             <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} />}>
 
               {/* Only Organize manager */}
-              <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
               <Route path="/manage/organize/allOrganizations" element={<ManageOrganizeOrganizationsTable />} />
               <Route path="/manage/organize/allCampaigns" element={<ManageOrganizeAllCampaignsTable></ManageOrganizeAllCampaignsTable>} />
               <Route path="/manage/organize/allNews" element={<ManageOrganizeNewsTable></ManageOrganizeNewsTable>} />
@@ -158,9 +156,9 @@ function App() {
               <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
               <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
               <Route path="/createOrganization" element={<CreateOrganizePage />} />
-              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
+              {/* <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} /> */}
               <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
-              <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage/>} />
+              <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage />} />
 
 
             </Route>
@@ -177,6 +175,14 @@ function App() {
             </Route>
 
 
+            <Route element={<PrivateRoute allowedRoles={["Member"]} requireVerification={false} />}>
+
+              {/* Only Volunteer */}
+              <Route path="/createVerifyVolunteer" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
+
+
+
+            </Route>
 
 
 

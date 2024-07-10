@@ -7,6 +7,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
+import ConfirmDialog from "./Feature/ConformDialog";
 async function getData(cancelToken, user,  pageSize, pageNo, sortConfig,campaignName, setLoading) {
 
   try {
@@ -36,6 +37,8 @@ async function getData(cancelToken, user,  pageSize, pageNo, sortConfig,campaign
 }
 const ManageOrganizePhase3Table = () => {
   const [data, setData] = useState([]);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
@@ -83,7 +86,17 @@ const ManageOrganizePhase3Table = () => {
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
+  };
   return (
     <>
       <Helmet>
@@ -95,8 +108,20 @@ const ManageOrganizePhase3Table = () => {
       </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+      <ConfirmDialog
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
       <DataTable 
-       columns={columns({onSort})}
+       columns={columns({onSort, onConfirm})}
       setCampaignName={setCampaignName}
        data={data}
        loading={loading}

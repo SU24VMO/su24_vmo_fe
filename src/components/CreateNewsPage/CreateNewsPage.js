@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreatNewsPage() {
@@ -19,6 +20,9 @@ export default function CreatNewsPage() {
     const [loading, setLoading] = useState(false)
 
     const [imageCover, setImageCover] = useState();
+
+    const navigate = useNavigate()
+
     function handleChangeCoverImage(e, setFieldValue) {
         console.log(e.target.files);
         setImageCover(URL.createObjectURL(e.target.files[0]));
@@ -38,15 +42,16 @@ export default function CreatNewsPage() {
         setLoading(true)
 
         const formData = new FormData();
-        formData.append('Cover', data.imageCover);
-        formData.append('Title', data.title);
-        formData.append('Content', data.descriptionMain);
-        formData.append('Description', data.descriptionEnd);
+            formData.append('Cover', data.imageCover);
+            formData.append('Title', data.title);
+            formData.append('Content', data.descriptionMain);
+            formData.append('Description', data.descriptionEnd);
+    
+            formData.append('Image', data.imageCenter);
+            formData.append('AccountId', user.account_id);
 
-        formData.append('Image', data.imageCenter);
-        formData.append('AccountId', user.account_id);
-
-        try {
+        try { 
+           
             const response = await axiosPrivate.post(CREATENEWS, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -55,7 +60,13 @@ export default function CreatNewsPage() {
 
             if (response.status === 200) {
                 console.log(response.data);
-                resetForm()
+                if(user.role === "Volunteer"){
+                    navigate("/manage/volunteer/allNews")
+                    resetForm()
+                }else if(user.role === "OrganizationManager"){
+                    navigate("/manage/organize/allNews")
+                    resetForm()
+                }
                 toast({
                     title: "Tạo tin tức thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
