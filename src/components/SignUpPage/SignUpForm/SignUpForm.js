@@ -8,14 +8,85 @@ import BirthDayPicker from "../BirthDayPicker/BirthDayPicker";
 import GenderSelect from "../GenderSelect/GenderSelect";
 import AccountTypeSelect from "../AccountTypeSelect/AccountTypeSelect";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { AuthContext } from "../../../context/AuthContext";
+import { useToast } from "../../ui/use-toast";
+import { ToastAction } from "../../ui/toast";
+import { axiosPublic } from "../../../api/axiosInstance";
+import { REGISTER_SEND_OTP } from "../../../api/apiConstants";
+import { useStepper } from "../../ui/stepper";
 
-const SignUpForm = () => {
+const SignUpForm = ({ setSignUpInformation, setOTP }) => {
+  const { nextStep } = useStepper();
+  const { toast } = useToast(); 
   //State để show/hide password
   const [showPassword, setShowPassword] = React.useState(false);
-  const { registerAction, loading } = React.useContext(AuthContext);
+  const [loading, setLoading] = React.useState(false);
   //Function để toggle show/hide password
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+ // Handle form submission
+ async function handleSubmit(values, setSubmitting, setLoading) {
+  try {
+    toast({
+      title: "Đang xử lý...",
+      description: "Vui chờ trong giây lát!",
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
+    setLoading(true); // Start loading
+    // Step 4: Make the API call to update the user information
+    const response = await axiosPublic.post(
+      REGISTER_SEND_OTP,
+      {
+        email: values.email, 
+        password: values.password, 
+        username: values.username, 
+        phoneNumber: values.phoneNumber, 
+        firstName: values.firstName, 
+        lastName: values.lastName, 
+        gender: values.gender, 
+        avatar: values.avatar, 
+        facebookUrl: values.facebookUrl, 
+        youtubeUrl: values.youtubeUrl, 
+        tiktokUrl: values.tiktokUrl, 
+        birthday: values.birthday, 
+        accountType: values.accountType
+      }
+    );
+    if (response.status === 200) {
+      toast({
+        title: "Lấy mã OTP thành công!",
+        description: "Vui lòng kiểm tra mã OTP đã gửi tới email của bạn!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.log("Get OTP successfully: ", response.data);
+      setOTP(response.data.data);
+      setSignUpInformation(values);
+      nextStep(); // Move to the next step
+    } else {
+      // Handle any other status code appropriately
+      toast({
+        variant: "destructive",
+        title: "Có lỗi xảy ra !",
+        description: "Vui lòng thử lại!",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.log("Failed to update profile");
+    }
+  } catch (error) {
+    // Handle error (e.g., show an error message)
+    toast({
+      variant: "destructive",
+      title: "Có lỗi xảy ra !",
+      description: "Lỗi: " + error.message,
+      action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    });
+    console.error("Error get OTP:", error);
+  } finally {
+    setLoading(false); // Stop loading regardless of the outcome
+    setSubmitting(false); // Set Formik submitting to false
+  }
+}
+
+
   return (
     <>
       <Formik
@@ -113,22 +184,7 @@ const SignUpForm = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          registerAction(
-            values.email,
-            values.password,
-            values.username,
-            values.phoneNumber,
-            values.firstName,
-            values.lastName,
-            values.gender,
-            values.avatar,
-            values.facebookUrl,
-            values.youtubeUrl,
-            values.tiktokUrl,
-            values.birthday,
-            values.accountType
-          );
-          setSubmitting(false);
+          handleSubmit(values, setSubmitting, setLoading);
         }}
       >
         {({

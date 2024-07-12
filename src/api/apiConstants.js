@@ -2,7 +2,8 @@
 // Example:
 //authentication
 export const LOGIN = "/api/authentication/login";
-export const REGISTER = "/api/authentication/register";
+export const REGISTER = "https://vmo.azurewebsites.net/api/authentication/register";
+export const REGISTER_SEND_OTP = "https://vmo.azurewebsites.net/api/authentication/register/send-otp";
 
 //
 export const UPDATEISACTIVED = "/api/account/update-status";

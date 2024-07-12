@@ -12,8 +12,20 @@ import {
 import SignUpForm from "./SignUpForm/SignUpForm";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { Step, Stepper } from "../ui/stepper";
+import OTPInputForm from "./OTPInputForm/OTPInputForm";
+
+const steps = [
+  { label: "Nhập thông tin", description: "Nhập đầy đủ thông tin để đăng ký" },
+  { label: "OTP", description: "Nhập mã OTP" },
+];
 
 const SignUpPage = () => {
+  const [otp, setOTP] = React.useState(null);
+  const [signUpInformation, setSignUpInformation] = React.useState(null);
+  console.log("OTP nhận được: ", otp);
+  console.log("Thông tin đăng ký nhận được: ", signUpInformation);
+  console.log("Thông tin đăng ký email: ", signUpInformation?.email)
   return (
     <>
       <Helmet>
@@ -39,11 +51,32 @@ const SignUpPage = () => {
           <CardHeader>
             <CardTitle className="text-2xl font-bold">Đăng ký</CardTitle>
             <CardDescription className="text-base">
-              Điền vào thông tin của bạn để tạo tài khoản
+              Làm theo các bước sau để đăng ký tài khoản
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SignUpForm />
+            <Stepper variant="circle-alt" initialStep={0} steps={steps}>
+              {steps.map((stepProps, index) => {
+                if (index === 0) {
+                  return (
+                    <Step key={stepProps.label} {...stepProps}>
+                      <SignUpForm
+                        setSignUpInformation={setSignUpInformation}
+                        setOTP={setOTP}
+                      />
+                    </Step>
+                  );
+                }
+                return (
+                  <Step key={stepProps.label} {...stepProps}>
+                    <OTPInputForm
+                      otp={otp}
+                      signUpInformation={signUpInformation}
+                    />
+                  </Step>
+                );
+              })}
+            </Stepper>
             <div className="mt-4 text-center text-sm">
               Bạn đã có tài khoản ư?{" "}
               <Link to="/login" className="underline">
