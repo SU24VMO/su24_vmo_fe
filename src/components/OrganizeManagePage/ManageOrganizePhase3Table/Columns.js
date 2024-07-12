@@ -15,7 +15,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort, onConfirm }) => [
+export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
 
   {
     accessorKey: "name",
@@ -171,6 +171,11 @@ export const columns =({ onSort, onConfirm }) => [
               Xem chiến dịch 
               </Link>
               </DropdownMenuItem>) : "" }
+              <DropdownMenuItem
+           onClick={() => onSubmitStatementFile(row.original)}
+            >
+              Đăng tải sao kê
+            </DropdownMenuItem>
               <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
