@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "../../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo_img from "../../../assets/images/logo1.svg";
 import { HandHeart, Goal, Newspaper } from "lucide-react";
@@ -16,9 +16,21 @@ import { AuthContext } from "../../../context/AuthContext";
 
 const DesktopNavLeft = () => {
   const { user } = useContext(AuthContext);
+  const location = useLocation();
+
+  // Hàm kiểm tra và trả về class tương ứng
+  const getLinkClass = (paths) => {
+    const baseClass =
+      "";
+    const activeClass = "bg-muted text-foreground hover:text-foreground";
+    const inactiveClass = "";
+    return `${baseClass} ${
+      paths.includes(location.pathname) ? activeClass : inactiveClass
+    }`;
+  };
 
   return (
-    <div className="mr-4 gap-2 flex items-center">
+    <div className="mr-4 gap-4 flex items-center">
       <Link to="/">
         <Button variant="ghost" className="h-20 w-20 rounded-full">
           <Avatar className="h-20 w-20">
@@ -28,20 +40,22 @@ const DesktopNavLeft = () => {
         </Button>
       </Link>
       <Link to="/home">
-        <Button variant="ghost">Trang chủ</Button>
+        <Button variant="ghost" className={getLinkClass(["/", "/home"])}>
+          Trang chủ
+        </Button>
       </Link>
       <NavigationMenu className="list-none">
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Mở rộng</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={getLinkClass(["/introduction", "/viewCampaigns", "/news"])}>Mở rộng</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="p-6 mobile:w-[400px]">
-              <ListItem to="/introduction" title="Giới thiệu" icon={HandHeart}>
+            <ul className="p-6 mobile:w-[400px] space-y-3">
+              <ListItem to="/introduction" title="Giới thiệu" icon={HandHeart} className={getLinkClass(["/introduction"])}>
                 Trang giới thiệu chung về ứng dụng VMO
               </ListItem>
-              <ListItem to="/viewCampaigns" title="Chiến dịch" icon={Goal}>
+              <ListItem to="/viewCampaigns" title="Chiến dịch" icon={Goal} className={getLinkClass(["/viewCampaigns"])}>
                 Trang xem tổng quan các chiến dịch đang diễn ra
               </ListItem>
-              <ListItem to="/news" title="Tin tức" icon={Newspaper}>
+              <ListItem to="/news" title="Tin tức" icon={Newspaper} className={getLinkClass(["/news"])}>
                 Trang xem các tin tức thiện nguyện mới nhất
               </ListItem>
             </ul>
@@ -52,7 +66,7 @@ const DesktopNavLeft = () => {
       {/* check role có phải Volunteer không mới hiển thị */}
       {user?.role === "Volunteer" && user.is_verified === "True" ? (
         <Link to="/manage/volunteer/allCampaigns">
-          <Button variant="feature">Quản lí</Button>
+          <Button variant="ghost" className={getLinkClass(["/manage/volunteer/allCampaigns"])}>Quản lí</Button>
         </Link>
       ) : (
         ""
@@ -60,7 +74,7 @@ const DesktopNavLeft = () => {
       {/* check role có phải OrganizationManager không mới hiển thị */}
       {user?.role === "OrganizationManager" && user.is_verified === "True" ? (
         <Link to="/manage/organize/allOrganizations">
-          <Button variant="feature">Quản lí tổ chức</Button>
+          <Button variant="ghost" className={getLinkClass(["/manage/organize/allOrganizations"])}>Quản lí tổ chức</Button>
         </Link>
       ) : (
         ""

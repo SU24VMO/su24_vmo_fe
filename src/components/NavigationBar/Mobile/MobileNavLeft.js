@@ -4,7 +4,7 @@ import { Button } from "../../ui/button";
 import { Menu as MenuIcon } from "lucide-react";
 import { Separator } from "../../ui/separator";
 import SearchBar from "../Feature/SearchBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo_img from "../../../assets/images/logo1.svg";
 import { AuthContext } from "../../../context/AuthContext";
@@ -12,6 +12,18 @@ import { AuthContext } from "../../../context/AuthContext";
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
   const { user, isLogin } = useContext(AuthContext);
+  const location = useLocation();
+
+  // Hàm kiểm tra và trả về class tương ứng
+  const getLinkClass = (paths) => {
+    const baseClass =
+      "";
+    const activeClass = "bg-muted text-foreground hover:text-foreground";
+    const inactiveClass = "";
+    return `${baseClass} ${
+      paths.includes(location.pathname) ? activeClass : inactiveClass
+    }`;
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -37,7 +49,7 @@ const MobileNavLeft = () => {
             <Link to="/home">
               <Button
                 variant="ghost"
-                className="w-full items-start justify-start"
+                className={"w-full items-start justify-start" + getLinkClass(["/", "/home"])}
               >
                 Trang chủ
               </Button>
@@ -45,7 +57,7 @@ const MobileNavLeft = () => {
             <Link to="/introduction">
               <Button
                 variant="ghost"
-                className="w-full items-start justify-start"
+                className={"w-full items-start my-3 justify-start" + getLinkClass(["/introduction"])}
               >
                 Giới thiệu
               </Button>
@@ -53,7 +65,7 @@ const MobileNavLeft = () => {
             <Link to="/viewCampaigns">
               <Button
                 variant="ghost"
-                className="w-full items-start justify-start"
+                className={"w-full items-start justify-start" + getLinkClass(["/viewCampaigns"])}
               >
                 Chiến dịch
               </Button>
@@ -68,7 +80,7 @@ const MobileNavLeft = () => {
                 <Link to="/login">
                   <Button
                     variant="ghost"
-                    className="w-full items-start justify-start"
+                    className={"w-full items-start justify-start" + getLinkClass(["/login"])}
                   >
                     Đăng nhập
                   </Button>
@@ -76,7 +88,7 @@ const MobileNavLeft = () => {
                 <Link to="/signup">
                   <Button
                     variant="ghost"
-                    className="w-full items-start justify-start"
+                    className={"w-full items-start justify-start" + getLinkClass(["/signup"])}
                   >
                     Đăng ký
                   </Button>
@@ -91,8 +103,8 @@ const MobileNavLeft = () => {
               <div className="w-full mb-5">
                 <Link to="/manage/volunteer/allCampaigns">
                   <Button
-                    variant="feature"
-                    className="w-full items-start justify-start"
+                    variant="ghost"
+                    className={"w-full items-start justify-start" + getLinkClass(["/manage/volunteer/allCampaigns"])}
                   >
                     Quản lý
                   </Button>
@@ -108,8 +120,8 @@ const MobileNavLeft = () => {
               <div className="w-full mb-5">
                 <Link to="/manage/organize/allOrganizations">
                   <Button
-                    variant="feature"
-                    className="w-full items-start justify-start"
+                    variant="ghost"
+                    className={"w-full items-start justify-start" + getLinkClass(["/manage/organize/allOrganizations"])}
                   >
                     Quản lí tổ chức
                   </Button>

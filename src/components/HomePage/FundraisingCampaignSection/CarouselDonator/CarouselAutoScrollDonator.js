@@ -1,46 +1,51 @@
 import * as React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "../../../ui/carousel";
-import avatar_img1 from "../../../../assets/avatars/01.png";
-import avatar_img2 from "../../../../assets/avatars/02.png";
-import avatar_img3 from "../../../../assets/avatars/03.png";
-import avatar_img4 from "../../../../assets/avatars/04.png";
-import avatar_img5 from "../../../../assets/avatars/05.png";
 import CustomCardDonator from "./CustomCardDonator";
-
-const cardData = [
-  {
-    avatar_img: avatar_img1,
-    name: "Người ủng hộ ẩn danh 1",
-    donation: "100.000đ",
-    time: "1 giờ trước",
-  },
-  {
-    avatar_img: avatar_img2,
-    name: "Người ủng hộ ẩn danh 2",
-    donation: "200.000đ",
-    time: "2 giờ trước",
-  },
-  {
-    avatar_img: avatar_img3,
-    name: "Người ủng hộ ẩn danh 3",
-    donation: "300.000đ",
-    time: "3 giờ trước",
-  },
-  {
-    avatar_img: avatar_img4,
-    name: "Người ủng hộ ẩn danh 4",
-    donation: "400.000đ",
-    time: "4 giờ trước",
-  },
-  {
-    avatar_img: avatar_img5,
-    name: "Người ủng hộ ẩn danh 5",
-    donation: "500.000đ",
-    time: "5 giờ trước",
-  },
-];
+import { axiosPublic } from "../../../../api/axiosInstance";
+import { GET_ALL_RECENTLY_TRANSACTION } from "../../../../api/apiConstants";
+import CarouselDonatorSkeleton from "./CarouselDonatorSkeleton/CarouselDonatorSkeleton";
+import { useToast } from "../../../ui/use-toast";
+import { ToastAction } from "../../../ui/toast";
 
 export function CarouselAutoScrollDonator() {
+  const [dataLoaded, setDataLoaded] = React.useState(false);
+  const [data, setData] = React.useState([]);
+  const { toast } = useToast();
+
+  React.useEffect(() => {
+    async function fetchUnreadNotification() {
+      try {
+        toast({
+          variant: "destructive",
+          title: "Đang tải các giao dịch gần đây...",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        const response = await axiosPublic.get(
+          GET_ALL_RECENTLY_TRANSACTION +
+            `?pageSize=10&pageNo=1&numberOfTransaction=6`
+        );
+        if (response.status === 200) {
+          console.log("Các giao dịch gần đây: ", response.data.data.list);
+          setData(response.data.data.list);
+          setDataLoaded(true);
+          toast({
+            title: "Tải các giao dịch gần đây thành công!",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu từ API:", error);
+        toast({
+          variant: "destructive",
+          title: "Lỗi!",
+          description: "Có lỗi xảy ra" + error,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    }
+    fetchUnreadNotification();
+  }, [toast]);
+
   return (
     <Carousel
       opts={{
@@ -53,18 +58,25 @@ export function CarouselAutoScrollDonator() {
       className="w-full max-w-lg"
     >
       <CarouselContent className="-mt-1 h-[200px] max-w-lg">
-        {cardData.map((item, index) => (
-          <CarouselItem key={index} className="pt-1 md:basis-1/2">
-            <div className="p-1">
-              <CustomCardDonator
-                avatar_img={item.avatar_img}
-                name={item.name}
-                donation={item.donation}
-                time={item.time}
-              />
-            </div>
-          </CarouselItem>
-        ))}
+        {dataLoaded ? (
+          data.map((item) => (
+            <CarouselItem
+              key={item.transactionID}
+              className="pt-1 md:basis-1/2"
+            >
+              <div className="p-1">
+                <CustomCardDonator
+                  avatar_img={item.avatar}
+                  name={item.payerName}
+                  donation={item.amount}
+                  time={item.donatationPeriod}
+                />
+              </div>
+            </CarouselItem>
+          ))
+        ) : (
+          <CarouselDonatorSkeleton />
+        )}
       </CarouselContent>
       {/* <CarouselPrevious />
       <CarouselNext /> */}

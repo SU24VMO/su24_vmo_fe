@@ -2,7 +2,8 @@
 // Example:
 //authentication
 export const LOGIN = "/api/authentication/login";
-export const REGISTER = "/api/authentication/register";
+export const REGISTER = "https://vmo.azurewebsites.net/api/authentication/register";
+export const REGISTER_SEND_OTP = "https://vmo.azurewebsites.net/api/authentication/register/send-otp";
 
 //
 export const UPDATEISACTIVED = "/api/account/update-status";
@@ -114,6 +115,7 @@ export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
 export const GET_TRANSACTION_BY_ACCOUNT_ID = "https://vmo.azurewebsites.net/api/transaction/history-transaction/account/";
 export const CREATE_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/create-transaction";
 export const CHECK_TRANSACTION_BY_ORDER_ID = "https://vmo.azurewebsites.net/api/transaction/check-transaction/send-email";
+export const GET_ALL_RECENTLY_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/recently-transaction";
 
 //organization 
 export const GET_ORGANIZATION_BY_ID = "https://vmo.azurewebsites.net/api/organization/";

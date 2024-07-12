@@ -35,7 +35,7 @@ const CampaignsSection = ({ searchParams }) => {
     selectedCampaignName
   ) => {
     // if (!hasMore) return;
-    setDataLoaded(false);
+    // setDataLoaded(false);
     setLoadingMore(true);
     toast({
       title: "Đang tải dữ liệu các chiến dịch...",
@@ -109,7 +109,7 @@ const CampaignsSection = ({ searchParams }) => {
   };
 
   const renderSkeletons = () => {
-    return Array.from({ length: 6 }).map((_, index) => (
+    return Array.from({ length: 3 }).map((_, index) => (
       <CampaignsSectionSkeleton key={index} />
     ));
   };
