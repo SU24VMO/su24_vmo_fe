@@ -30,12 +30,13 @@ const AuthProvider = ({ children }) => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const registerAction = async (email, password, username, phoneNumber, firstName, lastName, gender, avatar, facebookUrl, youtubeUrl, tiktokUrl, birthday, accountType) => {
+  const registerAction = async (email, password, username, avatar, phoneNumber, firstName, lastName, gender, birthday,  facebookUrl, youtubeUrl, tiktokUrl, accountType) => {
     setLoading(true); // Start loading
     try {
       const response = await axiosPublic.post(REGISTER, {
-        email, password, username, phoneNumber, firstName, lastName, gender, avatar, facebookUrl, youtubeUrl, tiktokUrl, birthday, accountType
-      });
+        email, password, username, avatar, phoneNumber, firstName, lastName, gender, birthday,  facebookUrl, youtubeUrl, tiktokUrl, accountType
+      }
+    );
 
       if (response.status === 200) {
         const accessToken = response.data.data.accessToken;
