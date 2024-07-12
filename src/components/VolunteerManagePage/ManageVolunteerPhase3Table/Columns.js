@@ -15,7 +15,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort, onConfirm }) => [
+export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
 
   {
     accessorKey: "name",
@@ -46,7 +46,7 @@ export const columns =({ onSort, onConfirm }) => [
       </Button>
     ),
     cell: ({ row }) => {
-      const targetAmount = parseFloat(row.getValue("TargetAmount"));
+      const targetAmount = parseFloat(row.getValue("targetAmount"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
@@ -146,11 +146,18 @@ export const columns =({ onSort, onConfirm }) => [
               Xem chiến dịch 
               </Link>
               </DropdownMenuItem>) : "" }
-            <DropdownMenuItem
+
+              <DropdownMenuItem
+           onClick={() => onSubmitStatementFile(row.original)}
+            >
+              Đăng tải sao kê
+            </DropdownMenuItem>
+
+         {row.original?.statementPhase?.statementFiles !== null ? (   <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
               Kết thúc chiến dịch
-            </DropdownMenuItem>
+            </DropdownMenuItem>) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

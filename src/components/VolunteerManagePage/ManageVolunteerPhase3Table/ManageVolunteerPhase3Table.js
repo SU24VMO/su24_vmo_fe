@@ -8,6 +8,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYVOLUNTEER } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
 import ConfirmDialog from "./Feature/ConformDialog";
+import StatementFileDiaglog from "./Feature/StatementFileDiaglog";
 async function getData(cancelToken, user,  pageSize, pageNo, sortConfig,campaignName, setLoading) {
 
   try {
@@ -92,6 +93,15 @@ const ManageVolunteerPhase3Table = () => {
     setSelectedRow(row);
   }, []);
 
+
+  const onSubmitStatementFile = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
+
+
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -121,8 +131,20 @@ const ManageVolunteerPhase3Table = () => {
           onSubmitSuccess={handleRefresh}
 
         />
+         <StatementFileDiaglog
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
       <DataTable 
-       columns={columns({onSort, onConfirm})}
+       columns={columns({onSort, onConfirm, onSubmitStatementFile})}
       setCampaignName={setCampaignName}
        data={data}
        loading={loading}

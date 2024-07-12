@@ -168,7 +168,7 @@ export default function CreateCampaignVolunteerPage() {
                     }
                 }
 
-                // Kiểm tra ngày kết thúc
+                // // Kiểm tra ngày kết thúc
                 if (!values.endDate) {
                     errors.endDate = "Không được để trống!";
                 } else {

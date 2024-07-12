@@ -49,6 +49,7 @@ export const VERIFYVOLUNTEER = "/api/create-volunteer-request/create-new";
 
 export const PUTPROCESSINGPHASE = "/api/processing-phase/status/update";
 export const PUTSTATEMENTPHASE = "/api/statement-phase/status/update";
+export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 
 
 
