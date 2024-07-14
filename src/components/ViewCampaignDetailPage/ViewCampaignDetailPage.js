@@ -74,7 +74,7 @@ const ViewCampaignDetailPage = () => {
     fetchData(campaignId);
   }, [fetchData]);
 
-  console.log("campaignId của campaign", campaignId);
+  // console.log("campaignId của campaign", campaignId);
 
   if (error) {
     return <Navigate to="/404" />; // Redirect người dùng nếu có lỗi

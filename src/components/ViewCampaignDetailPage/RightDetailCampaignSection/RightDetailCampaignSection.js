@@ -152,7 +152,9 @@ const RightDetailCampaignSection = ({ data }) => {
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
                 {data.organization ? (
-                  <Link to={`/organization/${data.organization.organizationID}`}>
+                  <Link
+                    to={`/organization/${data.organization.organizationID}`}
+                  >
                     <CardTitle className="text-lg laptop:text-xl">
                       {data.organization
                         ? data.organization.name
@@ -213,15 +215,18 @@ const RightDetailCampaignSection = ({ data }) => {
             <MapPin className="h-6 w-6" />
             <p className="text-sm laptop:text-base">{data.address}</p>
           </div>
-          {data.donatePhase.isProcessing ? (
+          {data.donatePhase.isProcessing === true &&
+          data.donatePhase.isEnd === false ? (
             <div className="w-full mb-3">
               <Badge variant="default">{data.donatePhase.name}</Badge>
             </div>
-          ) : data.processingPhase.isProcessing ? (
+          ) : data.processingPhase.isProcessing === true &&
+            data.processingPhase.isEnd === false ? (
             <div className="w-full mb-3">
               <Badge variant="default">{data.processingPhase.name}</Badge>
             </div>
-          ) : data.statementPhase.isProcessing ? (
+          ) : data.statementPhase.isProcessing === true &&
+            data.statementPhase.isEnd === false ? (
             <div className="w-full mb-3">
               <Badge variant="default">{data.statementPhase.name}</Badge>
             </div>
