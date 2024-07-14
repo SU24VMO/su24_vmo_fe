@@ -25,7 +25,7 @@ const CustomCardCampaign = ({
   };
   // Logic xác định phase đang isProcessing
   const processingPhaseName = phases?.find(
-    (phase) => phase?.isProcessing
+    (phase) => phase?.isProcessing && !phase?.isEnd
   )?.name;
   // Hàm format số tiền ủng hộ
   const formatMoney = (money) => {
