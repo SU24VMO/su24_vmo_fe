@@ -35,7 +35,21 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       );
     },
   },
- 
+  {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => onSort("Email")}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "address",
     header: ({ column }) => {

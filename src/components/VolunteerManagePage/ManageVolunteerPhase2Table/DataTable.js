@@ -82,8 +82,8 @@ export function DataTable({
   };
   return (
     <>
-        <div className="my-4">
-      <p className="font-bold text-2xl">Danh sách giai đoạn 2</p>
+        <div className="my-4 w-fit bg-vmo pr-10 pl-5 py-2 rounded-tr-md rounded-br-2xl drop-shadow-md animate-slide-in-left">
+      <p className="font-bold text-2xl">Giai đoạn hoạt động thiện nguyện</p>
       </div>
 
       <div className="flex items-center py-4">

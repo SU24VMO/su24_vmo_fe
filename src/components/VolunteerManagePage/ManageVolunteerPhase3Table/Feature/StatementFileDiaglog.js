@@ -11,7 +11,7 @@ import {
 
 import { useToast } from "../../../ui/use-toast";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Loader2 } from "lucide-react";
 import { axiosPrivate } from "../../../../api/axiosInstance";
@@ -25,24 +25,35 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
     const [loading, setLoading] = useState(false);
     const { user } = useContext(AuthContext);
     const [fileSheet, setFileSheet] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+
 
     const handleSelectSheet = (e, setFieldValue) => {
         const files = Array.from(e.target.files);
+        const filePreviews = files.map(file => URL.createObjectURL(file));
 
         setFileSheet((prevFiles) => {
             const newFiles = [...prevFiles, ...files];
-            setFieldValue('statementFiles', newFiles);  
+            setFieldValue('statementFiles', newFiles);
             return newFiles;
         });
+        setImagePreviews((prevPreviews) => [...prevPreviews, ...filePreviews]);
     };
 
     function removeFile(index, setFieldValue) {
         setFileSheet((prevFiles) => {
             const newFiles = prevFiles.filter((_, i) => i !== index);
-            setFieldValue('statementFiles', newFiles);  
+            setFieldValue('statementFiles', newFiles);
             return newFiles;
         });
+        setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
     }
+
+
+    function viewImage(index, imagePreview) {
+        
+    }
+
 
     const submitStatementFile = async (data) => {
         setLoading(true);
@@ -89,7 +100,17 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
         }
     };
 
+
+
+
+    useEffect(() => {
+        return () => {
+            imagePreviews.forEach(file => URL.revokeObjectURL(file));
+        };
+    }, []);
+
     return (
+        <>
         <Formik
             initialValues={{
                 statementFiles: []
@@ -137,14 +158,47 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                         multiple
                                     />
                                     <div>
-                                        {values.statementFiles.map((file, index) => (
+                                        {/* {values.statementFiles.map((file, index) => (
                                             <div key={index} className="flex items-center gap-3 mt-2">
                                                 <span>{file.name}</span>
                                                 <Button type="button" variant="destructive" onClick={() => removeFile(index, setFieldValue)}>
                                                     Xóa
                                                 </Button>
                                             </div>
-                                        ))}
+                                        ))} */}
+                                        <ScrollArea className="h-[40vh] shadow-inner ">
+                                            <ul className="flex flex-wrap justify-center">
+                                                {imagePreviews.map((imagePreview, index) => (
+                                                    <li key={index} className="flex m-1 ">
+
+                                  
+
+                                                        <div class="w-52 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl ">
+                                                            {/* <!-- Image --> */}
+                                                            <img class="h-40 object-cover rounded-xl mx-auto" src={imagePreview} alt=""/>
+                                                            <div class="p-2">
+                                                                {/* <!-- Heading --> */}
+                                                                <h2 class="font-bold text-lg mb-2 ">File {index + 1}</h2>
+                                                                {/* <!-- Description --> */}
+                                                                {/* <p class="text-sm text-gray-600">Simple Yet Beautiful Card Design with TaiwlindCss. Subscribe to our Youtube channel for more ...</p> */}
+                                                            </div>
+                                                            {/* <!-- CTA --> */}
+                                                            <div class="flex justify-evenly">
+                                                                <button   class="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
+                                                                onClick={() => removeFile(index, setFieldValue)}
+                                                                >Xóa</button>
+                                                                  <button   class="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
+                                                                onClick={() => viewImage(index, imagePreview)}
+                                                                >Xem</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                        </ScrollArea>
+
                                     </div>
                                     <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {errors.statementFiles && touched.statementFiles && errors.statementFiles}
@@ -157,7 +211,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                         Đóng
                                     </Button>
                                 </DialogClose>
-                                <Button type="submit" disabled={isSubmitting} onClick={handleSubmit}>
+                                <Button className="" type="submit" disabled={isSubmitting} onClick={handleSubmit}>
                                     {loading ? (
                                         <Loader2 className="animate-spin flex items-center justify-center w-full" />
                                     ) : (
@@ -170,6 +224,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                 </form>
             )}
         </Formik>
+        </>
     );
 };
 

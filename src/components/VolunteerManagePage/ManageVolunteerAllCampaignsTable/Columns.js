@@ -24,12 +24,16 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Name")}
+          onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      return <div className="w-52  line-clamp-3 ">{name}</div>;
     },
   },
   {
@@ -39,7 +43,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("IsActive")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,14 +53,14 @@ export const columns = ({ onSort }) => [
     cell: ({ row }) => {
       const statusCampaign = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {statusCampaign ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              "Đang hoạt động"
+              "Đã duyệt"
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              "Dừng hoạt động"
+              "Chưa duyệt"
             </span>
           )}
         </div>
@@ -69,7 +73,7 @@ export const columns = ({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("TargetAmount")}
+        onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -85,7 +89,7 @@ export const columns = ({ onSort }) => [
       return <div className="text-start font-medium">{formatted}</div>;
     },
   },
-  
+
   {
     accessorKey: "startDate",
     header: ({ column }) => {
@@ -93,7 +97,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("StartDate")}
+          onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -102,7 +106,7 @@ export const columns = ({ onSort }) => [
     },
     cell: ({ row }) => {
       const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{startDate}</div>;
+      return <div className="w-max">{startDate}</div>;
     },
   },
   {
@@ -111,17 +115,17 @@ export const columns = ({ onSort }) => [
       return (
         <Button
           variant="ghost"
-          className="px-0 py-0"
+          className="px-0 py-0  "
            onClick={() => onSort("ExpectedEndDate")}
         >
-          Thời gian kết thúc dự kiến
+          Thời gian kết thúc giai đoạn ủng hộ dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{endDate}</div>;
+      return <div className="w-max">{endDate}</div>;
     },
   },
 
@@ -132,7 +136,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("ActualEndDate")}
+          onClick={() => onSort("ActualEndDate")}
         >
           Thời gian kết thúc
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -167,18 +171,24 @@ export const columns = ({ onSort }) => [
               Copy tên chiến dịch
             </DropdownMenuItem>
 
-              {infoRow?.isActive === true ? (<DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>) : "" }
+            {infoRow?.isActive === true ? (
 
-            
+              <div>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+
+                >
+
+                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+                    Xem chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+              </div>) : ""}
 
 
-            <DropdownMenuSeparator />
+
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

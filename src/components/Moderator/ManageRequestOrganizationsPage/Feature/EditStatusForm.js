@@ -30,6 +30,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false); 
                
 
   const planInformation = organize?.planInformation.replace(/(?:\r\n|\r|\n)/g, "<br>");
@@ -97,6 +98,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
   // Handle switch change
   const handleSwitchChange = (isApproved) => {
     formik.setFieldValue("isApproved", isApproved);
+  };
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
@@ -210,9 +214,13 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="planInformation">Kế hoạch của tổ chức</Label>
-              <div className="flex items-center space-x-2">
-               
-               <div variant={"outline"} dangerouslySetInnerHTML={{ __html: planInformation }} />
+              <div className="flex items-center space-x-2 text-sm">
+              <div variant={"outline"}>
+              <div dangerouslySetInnerHTML={{ __html: isExpanded ? planInformation : planInformation?.substring(0, 500) + '...' }} />
+                    <Button variant="link" onClick={toggleDescription}>
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                    </Button>
+              </div>
               </div>
             </div>
           </div>

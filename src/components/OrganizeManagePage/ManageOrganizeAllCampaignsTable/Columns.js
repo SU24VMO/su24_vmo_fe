@@ -31,6 +31,10 @@ export const columns = ({ onSort }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      return <div className="w-52  line-clamp-3 ">{name}</div>;
+    },
   },
   {
     accessorKey: "isActive",
@@ -49,7 +53,7 @@ export const columns = ({ onSort }) => [
     cell: ({ row }) => {
       const statusCampaign = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {statusCampaign ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
               "Đang hoạt động"
@@ -102,7 +106,7 @@ export const columns = ({ onSort }) => [
     cell: ({ row }) => {
       const organizeName = row.original?.organization?.name;
       return (
-        <div>
+        <div className="w-48 line-clamp-2">
             <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
               {organizeName}
             </span>
@@ -127,7 +131,7 @@ export const columns = ({ onSort }) => [
     },
     cell: ({ row }) => {
       const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{startDate}</div>;
+      return <div className="w-max">{startDate}</div>;
     },
   },
   {
@@ -139,14 +143,14 @@ export const columns = ({ onSort }) => [
           className="px-0 py-0"
            onClick={() => onSort("ExpectedEndDate")}
         >
-          Thời gian kết thúc dự kiến
+          Thời gian kết thúc giai đoạn ủng hộ dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{endDate}</div>;
+      return <div className="w-max">{endDate}</div>;
     },
   },
 
@@ -166,7 +170,7 @@ export const columns = ({ onSort }) => [
     },
     cell: ({ row }) => {
       const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
-      return <div className="">{actualEndDate}</div>;
+      return <div className="w-max">{actualEndDate}</div>;
     },
   },
   //   Thêm Actions vào columns
@@ -192,15 +196,20 @@ export const columns = ({ onSort }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            
            
-            {infoRow?.isActive === true ? (<DropdownMenuItem
+            {infoRow?.isActive === true ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
               
               >
               <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
               Xem chiến dịch 
               </Link>
-              </DropdownMenuItem>) : "" }
+              </DropdownMenuItem>
+              </div>
+            ) : "" }
           </DropdownMenuContent>
         </DropdownMenu>
       );

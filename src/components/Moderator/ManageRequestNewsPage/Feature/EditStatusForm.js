@@ -31,12 +31,13 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-  const content = posts?.post?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
-  const endDescription = posts?.post?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const [isExpandedContent, setIsExpandedContent] = useState(false);
+  const [isExpandedDescription, setIsExpandedDescription] = useState(false);
 
-  console.log('====================================');
-  console.log(JSON.stringify(content));
-  console.log('====================================');
+  const content = posts?.post?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const description = posts?.post?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+
+
   const updateStatus = async (data) => {
     try {
       setLoading(true)
@@ -98,9 +99,16 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
       isApproved: posts ? posts.isApproved : false,
     });
   }, [posts]);
-   // Handle switch change
-   const handleSwitchChange = (isApproved) => {
+  // Handle switch change
+  const handleSwitchChange = (isApproved) => {
     formik.setFieldValue("isApproved", isApproved);
+  };
+
+  const toggleContent = () => {
+    setIsExpandedContent(!isExpandedContent);
+  };
+  const toggleDescription = () => {
+    setIsExpandedDescription(!isExpandedDescription);
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -155,8 +163,13 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="content">Nội dung chính</Label>
-                <div className="flex items-center space-x-2">
-                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: content }} />
+                <div className="flex items-center space-x-2 text-sm">
+                  <div variant={"outline"}>
+                    <div dangerouslySetInnerHTML={{ __html: isExpandedContent ? content : content?.substring(0, 500) + '...' }} />
+                    <Button variant="link" onClick={toggleContent}>
+                      {isExpandedContent ? "Thu gọn" : "Xem thêm"}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -190,16 +203,21 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 )}
               </div>
             </div>
-            
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="content">Nội dung kết</Label>
-                <div className="w-full">
-                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: endDescription }} />
+                <div className="flex items-center space-x-2 text-sm">
+                  <div variant={"outline"}>
+                    <div dangerouslySetInnerHTML={{ __html: isExpandedDescription ? description : description?.substring(0, 500) + '...' }} />
+                    <Button variant="link" onClick={toggleDescription}>
+                      {isExpandedDescription ? "Thu gọn" : "Xem thêm"}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="user">Thành viên</Label>
@@ -262,27 +280,27 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
 
             {posts && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
-                  />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
-                </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
           </div>
         </ScrollArea>
         <DialogFooter>

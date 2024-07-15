@@ -39,7 +39,8 @@ async function getData(cancelToken, user,  pageSize, pageNo, sortConfig,campaign
 const ManageVolunteerPhase3Table = () => {
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [isStatementFileDialogOpen, setIsStatementFileDialogOpen] = useState(false);
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
@@ -88,15 +89,12 @@ const ManageVolunteerPhase3Table = () => {
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const onConfirm = React.useCallback((row) => {
-    // Implement edit logic here.
-    setIsDialogOpen(true); // Mở dialog
+    setIsConfirmDialogOpen(true); // Mở dialog Confirm
     setSelectedRow(row);
   }, []);
-
-
+  
   const onSubmitStatementFile = React.useCallback((row) => {
-    // Implement edit logic here.
-    setIsDialogOpen(true); // Mở dialog
+    setIsStatementFileDialogOpen(true); // Mở dialog StatementFile
     setSelectedRow(row);
   }, []);
 
@@ -120,29 +118,28 @@ const ManageVolunteerPhase3Table = () => {
     <div className="w-3/4 mx-auto">
     <ManageVolunteerSlideBar/>
     <ConfirmDialog
-          isOpen={isDialogOpen}
-          row={selectedRow}
-          onOpenChange={(value) => {
-            setIsDialogOpen(value);
-            if (!value) {
-              setSelectedRow(null);
-            }
-          }}
-          onSubmitSuccess={handleRefresh}
+  isOpen={isConfirmDialogOpen}
+  row={selectedRow}
+  onOpenChange={(value) => {
+    setIsConfirmDialogOpen(value);
+    if (!value) {
+      setSelectedRow(null);
+    }
+  }}
+  onSubmitSuccess={handleRefresh}
+/>
 
-        />
-         <StatementFileDiaglog
-          isOpen={isDialogOpen}
-          row={selectedRow}
-          onOpenChange={(value) => {
-            setIsDialogOpen(value);
-            if (!value) {
-              setSelectedRow(null);
-            }
-          }}
-          onSubmitSuccess={handleRefresh}
-
-        />
+<StatementFileDiaglog
+  isOpen={isStatementFileDialogOpen}
+  row={selectedRow}
+  onOpenChange={(value) => {
+    setIsStatementFileDialogOpen(value);
+    if (!value) {
+      setSelectedRow(null);
+    }
+  }}
+  onSubmitSuccess={handleRefresh}
+/>
       <DataTable 
        columns={columns({onSort, onConfirm, onSubmitStatementFile})}
       setCampaignName={setCampaignName}

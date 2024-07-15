@@ -42,10 +42,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
   const [loading, setLoading] = useState(false)
 
 
+  const [isExpanded, setIsExpanded] = useState(false); 
+  const content = activities?.activity?.content.replace(/(?:\r\n|\r|\n)/g, "<br>")
 
 
-
-  const content = activities?.activity?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
   console.log('====================================');
   console.log(JSON.stringify(content));
   console.log('====================================');
@@ -139,9 +139,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
   }, [api])
 
 
-  console.log('====================================');
-  console.log(activities);
-  console.log('====================================');
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
@@ -199,9 +199,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="content">Nội dung </Label>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-sm">
 
-                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: content }} />
+                <div variant={"outline"}>
+                    <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
+                    <Button variant="link" onClick={toggleDescription}>
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

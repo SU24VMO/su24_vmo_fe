@@ -1,3 +1,4 @@
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Button } from "../../../ui/button";
 import {
   Dialog,
@@ -22,25 +23,18 @@ import { UPDATEAPPROVECAMPAIGNREQUEST } from "../../../../api/apiConstants";
 import { AuthContext } from "../../../../context/AuthContext";
 import { ImageDown } from "lucide-react";
 import { Loader2 } from "lucide-react";
-
 import { format } from "date-fns";
-import React, { useContext, useState } from "react";
-
-
 
 const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) => {
   const { toast } = useToast();
-  const { user } = useContext(AuthContext)
-  const [loading, setLoading] = useState(false)
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false); 
   const description = campaigns?.campaign?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
-  console.log('====================================');
-  console.log(JSON.stringify(description));
-  console.log('====================================');
-  
 
   const updateStatus = async (data) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axiosPrivate.put(UPDATEAPPROVECAMPAIGNREQUEST, {
         createCampaignRequestID: campaigns.createCampaignRequestID,
         moderatorId: user.moderator_id,
@@ -48,7 +42,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
       });
 
       if (response.status === 200) {
-        onSubmitSuccess()
+        onSubmitSuccess();
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -70,43 +64,40 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
       });
     } finally {
       onOpenChange(false);
-      setLoading(false)
-
+      setLoading(false);
     }
-  }
-  // Formik setup
+  };
+
   const formik = useFormik({
     initialValues: {
       isApproved: campaigns ? campaigns.isApproved : false,
-
     },
     onSubmit: (values, { setSubmitting }) => {
-      updateStatus(values)
+      updateStatus(values);
       setSubmitting(false);
     },
   });
-  /* Giải thích: 
-  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
-   */
-  const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when campaign changes
-  React.useEffect(() => {
+
+  const setValuesRef = useRef(formik.setValues);
+
+  useEffect(() => {
     setValuesRef.current({
       isApproved: campaigns ? campaigns.isApproved : false,
-
     });
   }, [campaigns]);
-  // Handle switch change
+
   const handleSwitchChange = (isApproved) => {
     formik.setFieldValue("isApproved", isApproved);
   };
 
   const formatAmount = (value) => {
-    // Remove non-digit characters from the input value
     const cleanValue = value.replace(/\D/g, '');
-    // Format the value with thousand separators
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return formattedValue + " VND";
+  };
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
@@ -119,7 +110,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
           </DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="h-[65vh]  shadow-inner ">
+        <ScrollArea className="h-[65vh] shadow-inner">
           <div className="flex flex-col p-5 gap-5">
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -148,6 +139,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 </div>
               </div>
             </div>
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="image">Ảnh nền</Label>
@@ -176,8 +168,12 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="description">Mô tả</Label>
                 <div className="flex items-center space-x-2 text-sm">
-                  
-                  <div variant={"outline"} dangerouslySetInnerHTML={{ __html: description }} />
+                  <div variant={"outline"}>
+                    <div dangerouslySetInnerHTML={{ __html: isExpanded ? description : description?.substring(0, 500) + '...' }} />
+                    <Button variant="link" onClick={toggleDescription}>
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -223,6 +219,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 </div>
               </div>
             </div>
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="create_by_om">Tạo bởi quản lí tổ chức</Label>
@@ -236,20 +233,6 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 </div>
               </div>
             </div>
-
-            {/* <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="organization">Tổ chức</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="organization"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.organization : ""}
-                    disabled
-                  />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.organization : ""} />
-                </div>
-              </div>
-            </div> */}
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -293,11 +276,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               </div>
             </div>
 
-
-
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="approved_by">Duyệt bởi</Label>
+                <Label htmlFor="approved_by">Người duyệt</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
                     {campaigns?.moderator ? (campaigns.moderator?.firstName + campaigns.moderator?.lastName) : "Chưa có"}
@@ -308,28 +289,29 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 </div>
               </div>
             </div>
+
             {campaigns && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
-                  />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
-                </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
           </div>
         </ScrollArea>
 
@@ -347,7 +329,6 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
             {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
-
               </>
             ) : (
               "Xác nhận"

@@ -142,11 +142,11 @@ export default function CreateActivityVolunteerPage() {
                 setFieldValue,
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="justify-center items-center w-full h-modal">
+                    <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="justify-center items-center w-full h-modal animate-fadeInRight">
                         <div className="p-4 mx-auto w-3/4 h-full tablet:h-auto">
                             <div className="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mobile:p-5">
                                 <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b mobile:mb-5 dark:border-gray-600">
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    <h3 className=" text-base mobile:text-lg font-semibold text-gray-900 dark:text-white">
                                         Đăng tải hoạt động của bạn!
                                     </h3>
                                     <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
