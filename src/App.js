@@ -72,6 +72,7 @@ import CreateCampaignOrganizationManagerPage from "./components/CreateCampaignOr
 import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/ViewProfileVolunteerPage";
 import CreateActivityVolunteerPage from "./components/CreateActivityVolunteerPage/CreateActivityVolunteerPage";
 import ViewProfileOrganizationPage from "./components/ViewProfileOrganizationPage/ViewProfileOrganizationPage";
+import TermsPage from "./components/TermsPage/TermsPage";
 
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
             <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
             <Route path="/loginModeratorVMO" element={<ModeratorLoginPage />} />
             <Route path="/introduction" element={<IntroductionPage />} />
+            <Route path="/terms" element={<TermsPage></TermsPage>} />
 
 
 
