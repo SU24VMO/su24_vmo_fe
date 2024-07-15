@@ -24,9 +24,8 @@ const DesktopNavLeft = () => {
       "";
     const activeClass = "bg-muted text-foreground hover:text-foreground";
     const inactiveClass = "";
-    return `${baseClass} ${
-      paths.includes(location.pathname) ? activeClass : inactiveClass
-    }`;
+    return `${baseClass} ${paths.includes(location.pathname) ? activeClass : inactiveClass
+      }`;
   };
 
   return (
@@ -66,7 +65,12 @@ const DesktopNavLeft = () => {
       {/* check role có phải Volunteer không mới hiển thị */}
       {user?.role === "Volunteer" && user.is_verified === "True" ? (
         <Link to="/manage/volunteer/allCampaigns">
-          <Button variant="ghost" className={getLinkClass(["/manage/volunteer/allCampaigns"])}>Quản lí</Button>
+          <Button variant="ghost" className={getLinkClass(["/manage/volunteer/allCampaigns",
+            "/manage/volunteer/allNews",
+            "/manage/volunteer/allPhase1",
+            "/manage/volunteer/allPhase2",
+            "/manage/volunteer/allPhase3",
+            "/manage/volunteer/allActivities"])}>Quản lí</Button>
         </Link>
       ) : (
         ""
@@ -74,11 +78,38 @@ const DesktopNavLeft = () => {
       {/* check role có phải OrganizationManager không mới hiển thị */}
       {user?.role === "OrganizationManager" && user.is_verified === "True" ? (
         <Link to="/manage/organize/allOrganizations">
-          <Button variant="ghost" className={getLinkClass(["/manage/organize/allOrganizations"])}>Quản lí tổ chức</Button>
+          <Button variant="ghost" className={getLinkClass(["/manage/organize/allOrganizations",
+            "/manage/organize/allCampaigns",
+            "/manage/organize/allNews",
+            "/manage/organize/allPhase1",
+            "/manage/organize/allPhase2",
+            "/manage/organize/allPhase3",
+            "/manage/organize/allActivities"
+
+          ])}>Quản lí tổ chức</Button>
         </Link>
       ) : (
         ""
       )}
+
+      {user?.role === "Member" && user.is_verified === "False" ? (
+        <Link to="/createVerifyVolunteer">
+          <Button variant="ghost" className={getLinkClass(["/createVerifyVolunteer",
+          ])}>Đăng kí tình nguyện viên</Button>
+        </Link>
+      ) : (
+        ""
+      )}
+      {user?.role === "OrganizationManager" && user.is_verified === "False" ? (
+        <Link to="/createVerifyOrganizationManager">
+          <Button variant="ghost" className={getLinkClass(["/createVerifyOrganizationManager",
+          ])}>Đăng kí quản lí tổ chức</Button>
+        </Link>
+      ) : (
+        ""
+      )}
+
+
     </div>
   );
 };

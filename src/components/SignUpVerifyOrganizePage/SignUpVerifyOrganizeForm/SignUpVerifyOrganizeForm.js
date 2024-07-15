@@ -24,6 +24,7 @@ export default function SignUpVerifyOrganizeForm() {
         organizationManagerID: user.organization_manager_id,
         name: data.name,
         phoneNumber: data.phoneNumber,
+        email: data.email,
         address: data.address,
         citizenIdentification: data.citizenIdentification,
         personalTaxCode: data.personalTaxCode,
@@ -66,6 +67,7 @@ export default function SignUpVerifyOrganizeForm() {
           name: "",
           phoneNumber: "",
           address: "",
+          email: "",
           citizenIdentification: null,
           personalTaxCode: null,
           isAcceptTermOfUse: false,
@@ -79,7 +81,9 @@ export default function SignUpVerifyOrganizeForm() {
           // citizenIdentification validation
           if (!values.citizenIdentification) {
             errors.citizenIdentification = "Không được để trống!";
-          }
+          }else if(values.citizenIdentification.length !== 12){
+            errors.citizenIdentification = "Số CCCD không hợp lệ!"
+        }
           // PhoneNumber validation
           if (!values.phoneNumber) {
             errors.phoneNumber = "Không được để trống!";
@@ -94,9 +98,21 @@ export default function SignUpVerifyOrganizeForm() {
           if (!values.address) {
             errors.address = "Không được để trống!";
           }
+          // Email validation
+          if (!values.email) {
+            errors.email = "Không được để trống!";
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = "Email không hợp lệ!";
+          }
           // personalTaxCode validation
           if (!values.personalTaxCode) {
             errors.personalTaxCode = "Không được để trống!";
+          } else if (values.personalTaxCode.length < 10) {
+            errors.personalTaxCode = "Số thuế không hợp lệ";
+          } else if (values.personalTaxCode.length > 10) {
+            errors.personalTaxCode = "Số thuế không hợp lệ";
           }
           return errors;
         }}
@@ -171,6 +187,19 @@ export default function SignUpVerifyOrganizeForm() {
                   touched.phoneNumber &&
                   errors.phoneNumber}
               </p>
+            </div>
+            <div class="mb-5">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email tài khoản người dùng của tổ chức trên ứng dụng VMO (tochucthiennguyen@gmail.com) *</label>
+              <input type="email"
+                id="email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                autoComplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="vd: tddkhoa0811@gmail.com -> email đã đăng ký trên hệ thống" />
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.email && touched.email && errors.email}</p>
+
             </div>
             <div class="mb-5">
               <label

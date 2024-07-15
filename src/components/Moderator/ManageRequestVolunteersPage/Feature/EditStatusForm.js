@@ -176,20 +176,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               </div>
             </div>
           </div> */}
-            {/* Show ngày thành lập thành viên
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="founding_date">Ngày thành lập</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {volunteer ? volunteer.founding_date : ""}
-                </Badge>
-                <CopyButton
-                  code={volunteer ? volunteer.founding_date : ""}
-                />
-              </div>
-            </div>
-          </div> */}
+         
             {/* Show mạng xã hội thành viên */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -238,7 +225,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="achievementLink">Đường dẫn mô tả một số hoạt động thiện nguyện trước đó</Label>
+                <Label htmlFor="achievementLink">Thành tích trước đó</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="achievementLink"
@@ -254,7 +241,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
           
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="detailDescriptionLink">Mô tả về hoạt động tương lai</Label>
+                <Label htmlFor="detailDescriptionLink">Đường dẫn/link. . .mô tả, giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện nguyện, cộng đồng đã triển khai</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="detailDescriptionLink"

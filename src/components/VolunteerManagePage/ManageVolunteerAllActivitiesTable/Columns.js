@@ -29,6 +29,10 @@ export const columns =({ onSort }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const title = row.getValue("title");
+      return <div className="w-52  line-clamp-3 ">{title}</div>;
+    },
   },
  
   // {
@@ -63,14 +67,14 @@ export const columns =({ onSort }) => [
     cell: ({ row }) => {
       const isActive = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {isActive ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              Đang hoạt động
+              Đã duyệt
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              Chưa hoạt động
+              Chưa duyệt
             </span>
           )}
         </div>
@@ -94,9 +98,9 @@ export const columns =({ onSort }) => [
     cell: ({ row }) => {
       const campaignName = row.getValue("campaignName");
       return (
-        <div>
+        <div className="w-52  line-clamp-3">
          
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-md dark:bg-orange-900 dark:text-orange-300 ">
               {campaignName}
             </span>
          
@@ -121,7 +125,7 @@ export const columns =({ onSort }) => [
     },
     cell: ({ row }) => {
       const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{createDate}</div>;
+      return <div className="w-max">{createDate}</div>;
     },
   },
 
@@ -148,14 +152,20 @@ export const columns =({ onSort }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {infoRow?.isActive === true ? (<DropdownMenuItem
+            {infoRow?.isActive === true ? (
+           <div>
+             <DropdownMenuSeparator />
+              
+              <DropdownMenuItem
               
               >
               <Link to={`/viewCampaigns/campaignDetail/${row.original?.processingPhase?.campaignId}`}>
               Xem chiến dịch 
               </Link>
-              </DropdownMenuItem>) : "" }
+              </DropdownMenuItem>
+           </div>
+           
+           ) : "" }
           </DropdownMenuContent>
         </DropdownMenu>
       );

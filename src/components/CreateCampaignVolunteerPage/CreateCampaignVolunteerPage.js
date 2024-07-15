@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useNavigate } from "react-router-dom";
+import SelectBanks from "./SelectBanks/SelectBanks";
 
 
 
@@ -20,6 +21,7 @@ export default function CreateCampaignVolunteerPage() {
 
     const { user } = useContext(AuthContext)
     const [fileImageBackground, setFileImageBackground] = useState();
+    const [fileImageQR, setFileImageQR] = useState()
 
     const [loading, setLoading] = useState(false)
 
@@ -33,6 +35,7 @@ export default function CreateCampaignVolunteerPage() {
     }
     function handleImageQRCode(e, setFieldValue) {
         console.log(e.target.files);
+        setFileImageQR(URL.createObjectURL(e.target.files[0]));
         setFieldValue("imageQRCode", e.target.files[0]);
 
     }
@@ -41,12 +44,17 @@ export default function CreateCampaignVolunteerPage() {
         setFieldValue("imageLocalDocument", e.target.files[0]);
 
     }
-    function removeImage(e, setFieldValue) {
+    function removeImageBackground(e, setFieldValue) {
         setFileImageBackground('');
         setFieldValue("imageBackgroundFile", null);
 
     }
 
+    function removeImageQRcode(e, setFieldValue) {
+        setFileImageQR('');
+        setFieldValue("imageQRCode", null);
+
+    }
 
 
     const formatAmount = (value) => {
@@ -152,7 +160,7 @@ export default function CreateCampaignVolunteerPage() {
             }}
             validate={(values) => {
                 const errors = {};
-                console.log("lỗi",errors);
+                console.log("lỗi", errors);
                 var today = new Date();
                 today.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0 để so sánh chính xác hơn
                 var startDate = new Date(values.startDate);
@@ -177,13 +185,13 @@ export default function CreateCampaignVolunteerPage() {
                     } else if (endDate <= startDate) {
                         errors.endDate = "Ngày kết thúc phải lớn hơn ngày bắt đầu!";
 
-                    }else if (startDate && endDate && (endDate - startDate) / (1000 * 60 * 60 * 24) < 1) {
+                    } else if (startDate && endDate && (endDate - startDate) / (1000 * 60 * 60 * 24) < 1) {
                         errors.startDate = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc ít nhất 1 ngày!";
                         errors.endDate = "Ngày kết thúc và ngày bắt đầu phải cách nhau ít nhất 1 ngày!";
                     }
                 }
 
-                
+
                 // typeOfCampaign validation
                 if (!values.typeOfCampaign) {
                     errors.typeOfCampaign = "Không được để trống!";
@@ -243,7 +251,10 @@ export default function CreateCampaignVolunteerPage() {
                         errors.targetAmount = "Số tiền mục tiêu không được vượt quá 500,000,000 VND!";
                     }
                 }
-
+                // imageLocalDocument validation
+                if (!values.imageLocalDocument) {
+                    errors.imageLocalDocument = "Không được để trống!";
+                }
 
                 return errors;
             }}
@@ -273,7 +284,7 @@ export default function CreateCampaignVolunteerPage() {
                     <div className="w-4/5 mx-auto rounded-xl">
                         <div className="grid gap-6 grid-cols-1 laptop:grid-cols-3 ">
 
-                            <div className=" col-span-2 laptop:col-span-1 border-2 shadow rounded-xl">
+                            <div className=" col-span-2 laptop:col-span-1 border-2 shadow rounded-xl animate-fadeInRight">
                                 <div >
                                     <div className="bg-vmo mb-6  rounded-tl-xl rounded-tr-xl ">
                                         <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Ảnh chiến dịch</h1>
@@ -287,10 +298,10 @@ export default function CreateCampaignVolunteerPage() {
                                                 id="image"
 
                                                 value={fileImageBackground}
-                                                src={fileImageBackground} width={220} height={220} alt="avatar" />
+                                                src={fileImageBackground} width={220} height={220} alt="bgimage" />
                                             <button type="button"
-                                                onClick={(e) => { removeImage(e, setFieldValue) }}
-                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove Image</button>
+                                                onClick={(e) => { removeImageBackground(e, setFieldValue) }}
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
 
                                         </div> : <label for="imageBackgroundFile" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -334,7 +345,7 @@ export default function CreateCampaignVolunteerPage() {
 
                                     <div class=" w-4/5 mx-auto">
                                         <label for="nameOfBank" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên ngân hàng *</label>
-                                        <div class="relative mb-6">
+                                        {/* <div class="relative mb-6">
                                             <input type="text"
                                                 id="nameOfBank"
                                                 onChange={handleChange}
@@ -344,7 +355,11 @@ export default function CreateCampaignVolunteerPage() {
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên ngân hàng..." />
 
                                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfBank && touched.nameOfBank && errors.nameOfBank}</p>
-                                        </div>
+                                        </div> */}
+                                         <SelectBanks
+                                            setFieldValue={setFieldValue}
+                                            selectTriggerId="nameOfBank"></SelectBanks>
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfBank && touched.nameOfBank && errors.nameOfBank}</p>
                                         <label for="nameOfUserBank" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên tài khoản *</label>
                                         <div class="relative mb-6">
                                             <input type="text"
@@ -373,18 +388,30 @@ export default function CreateCampaignVolunteerPage() {
                                         </div>
 
                                         <div className="mb-6 mt-10">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                for="imageQRCode">QR code tài khoản(ảnh) *</label>
-                                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                aria-describedby="imageQRCode"
-                                                id="imageQRCode"
-                                                name="imageQRCode"
-                                                onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
-                                                type="file"
-                                                accept="image/png, image/jpeg, image/jpg"
+                                            {fileImageQR ? (<div className=" flex flex-col justify-center items-center">
+                                                <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
+                                                    id="image"
 
-                                            />
-                                            <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
+                                                    value={fileImageQR}
+                                                    src={fileImageQR} width={220} height={220} alt="qr-code" />
+                                                <button type="button"
+                                                    onClick={(e) => { removeImageQRcode(e, setFieldValue) }}
+                                                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                                            </div>) : (<div>
+                                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                    for="imageQRCode">QR code tài khoản (ảnh)*</label>
+                                                <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    aria-describedby="imageQRCode"
+                                                    id="imageQRCode"
+                                                    name="imageQRCode"
+                                                    onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg"
+
+                                                />
+                                                <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
+                                            </div>)}
 
                                         </div>
                                     </div>
@@ -393,7 +420,7 @@ export default function CreateCampaignVolunteerPage() {
 
                             </div>
 
-                            <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl">
+                            <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl animate-fadeInRight">
                                 <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
                                     <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Tạo chiến dịch</h1>
                                 </div>
@@ -436,7 +463,12 @@ export default function CreateCampaignVolunteerPage() {
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.description && touched.description && errors.description}</p>
 
                                     </div>
+                                    <div className="mb-2">
+                                    <label for="" class=" bg-vmo p-1 rounded-sm w-fit block mb-2 text-sm font-medium text-gray-900 dark:text-white">-Thời gian cho giai đoạn ủng hộ quyên góp-</label>
+
+                                    </div>
                                     <div className=" laptop:flex justify-between w-full items-center mb-6">
+
                                         <div className="laptop:w-2/5">
                                             <label for="dateFrom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diễn ra từ *</label>
 
@@ -452,7 +484,7 @@ export default function CreateCampaignVolunteerPage() {
 
                                         </div>
 
-                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-black border-0 rounded  dark:bg-gray-700"></hr>
+                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-vmo border-0 rounded  dark:bg-gray-700"></hr>
 
                                         <div className="laptop:w-2/5">
                                             <label for="dateTo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">đến ngày *</label>
@@ -508,9 +540,9 @@ export default function CreateCampaignVolunteerPage() {
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.typeOfCampaign && touched.typeOfCampaign && errors.typeOfCampaign}</p>
 
                                     </div>
-                                    
+
                                     <div className="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương(ảnh) *</label>
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
                                         <input
                                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                             aria-describedby="imageLocalDocument"

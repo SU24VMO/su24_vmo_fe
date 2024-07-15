@@ -31,6 +31,10 @@ export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      return <div className="w-52  line-clamp-3 ">{name}</div>;
+    },
   },
 
   {
@@ -39,14 +43,14 @@ export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-       onClick={() => onSort("Title")}
+       onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const targetAmount = parseFloat(row.getValue("TargetAmount"));
+      const targetAmount = parseFloat(row.getValue("targetAmount"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
@@ -73,7 +77,7 @@ export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
     cell: ({ row }) => {
       const organizeName = row.original?.organization.name
       return (
-        <div>
+        <div className="w-48 line-clamp-3">
           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
             {organizeName}
           </span>
@@ -97,49 +101,49 @@ export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
       );
     },
     cell: ({ row }) => {
-      const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{startDate}</div>;
+      const startDate = format(new Date(row.original?.statementPhase?.startDate), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="w-max">{startDate}</div>;
     },
   },
-  {
-    accessorKey: "expectedEndDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-         onClick={() => onSort("ExpectedEndDate")}
-        >
-          Thời gian kết thúc dự kiến
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const expectedEndDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{expectedEndDate}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "expectedEndDate",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //        onClick={() => onSort("ExpectedEndDate")}
+  //       >
+  //         Thời gian kết thúc dự kiến
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const expectedEndDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
+  //     return <div className="">{expectedEndDate}</div>;
+  //   },
+  // },
 
-  {
-    accessorKey: "actualEndDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-         onClick={() => onSort("ActualEndDate")}
-        >
-          Thời gian kết thúc
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
-      return <div className="">{actualEndDate}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "actualEndDate",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //        onClick={() => onSort("ActualEndDate")}
+  //       >
+  //         Thời gian kết thúc
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const actualEndDate = row.original?.statementPhase?.endDate ? (format(new Date(row.original?.statementPhase?.endDate), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
+  //     return <div className="w-max">{actualEndDate}</div>;
+  //   },
+  // },
   //   Thêm Actions vào columns
   {
     id: "actions",
@@ -163,24 +167,29 @@ export const columns =({ onSort, onConfirm, onSubmitStatementFile }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
+            {infoRow?.isActive === true ? (
+              <div>
             <DropdownMenuSeparator />
-            {infoRow?.isActive === true ? (<DropdownMenuItem
+
+                <DropdownMenuItem
               
               >
               <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
               Xem chiến dịch 
               </Link>
-              </DropdownMenuItem>) : "" }
+              </DropdownMenuItem>
+              </div>
+            ) : "" }
               <DropdownMenuItem
            onClick={() => onSubmitStatementFile(row.original)}
             >
               Đăng tải sao kê
             </DropdownMenuItem>
-              <DropdownMenuItem
+            {row.original?.statementPhase?.statementFiles.length > 0 ? (   <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
               Kết thúc chiến dịch
-            </DropdownMenuItem>
+            </DropdownMenuItem>) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-export const columns =({ onSort }) => [
- 
+import { Link } from "react-router-dom";
+export const columns = ({ onSort }) => [
+
   {
     accessorKey: "title",
     header: ({ column }) => {
@@ -18,29 +19,17 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Title")}
+          onClick={() => onSort("Title")}
         >
           Tiêu đề
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    // cell: ({ row }) => {
-    //   const newTitle = row.getValue("newTitle");
-    //   return (
-    //     <div>
-    //       {newTitle ? (
-    //         <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-    //           {newTitle}
-    //         </span>
-    //       ) : (
-    //         <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-    //           {newTitle}
-    //         </span>
-    //       )}
-    //     </div>
-    //   );
-    // },
+    cell: ({ row }) => {
+      const title = row.getValue("title");
+      return <div className="w-52  line-clamp-3 ">{title}</div>;
+    },
   },
   {
     accessorKey: "isActive",
@@ -49,7 +38,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("IsActive")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -59,7 +48,7 @@ export const columns =({ onSort }) => [
     cell: ({ row }) => {
       const newStatus = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {newStatus ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
               Đã duyệt
@@ -113,7 +102,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("CreateAt")}
+          onClick={() => onSort("CreateAt")}
         >
           Thời gian tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -122,7 +111,7 @@ export const columns =({ onSort }) => [
     },
     cell: ({ row }) => {
       const dateCreate = format(new Date(row.getValue("createAt")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{dateCreate}</div>;
+      return <div className="w-max">{dateCreate}</div>;
     },
   },
 
@@ -149,9 +138,18 @@ export const columns =({ onSort }) => [
             >
               Copy tiêu đề
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-            <DropdownMenuItem>Xóa</DropdownMenuItem>
+            {infoRow?.isActive === true ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link
+                    to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
+                </DropdownMenuItem>
+              </div>
+
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

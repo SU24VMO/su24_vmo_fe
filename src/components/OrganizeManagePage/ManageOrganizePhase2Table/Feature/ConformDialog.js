@@ -76,7 +76,7 @@ const ConfirmDialog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-mobile">
         <DialogHeader>
-          <DialogTitle>Bạn có chắc rằng kết thúc giai đoạn 2 của chiến dịch này</DialogTitle>
+          <DialogTitle>Bạn có chắc rằng kết thúc "giai đoạn hoạt động thiện nguyện" của chiến dịch này</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể làm điều này duy nhất 1 lần!
           </DialogDescription>

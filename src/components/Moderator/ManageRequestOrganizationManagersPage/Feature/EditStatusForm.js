@@ -31,6 +31,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
 const {user} = useContext(AuthContext)
 const [loading, setLoading] = useState(false)
 
+console.log(organizationManager);
   const updateStatus = async (data) => {
     try {
       setLoading(true)
@@ -133,6 +134,22 @@ const [loading, setLoading] = useState(false)
               </div>
             </div>
           </div>
+
+          {/* Show sdt quản lí tổ chức */}
+          <div className="flex">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="email">Email</Label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="email"
+                  defaultValue={organizationManager ? organizationManager.email : ""}
+                  disabled
+                />
+                <CopyButton code={organizationManager ? organizationManager.email : ""} />
+              </div>
+            </div>
+          </div>
+
           {/* Show mã số thuế  */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
@@ -183,10 +200,10 @@ const [loading, setLoading] = useState(false)
               <Label htmlFor="approvedBy">Người duyệt</Label>
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                  {organizationManager ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName)  : ""}
+                  {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName)  : ""}
                 </Badge>
                 <CopyButton
-                  code={organizationManager ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
+                  code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
                 />
               </div>
             </div>
@@ -198,10 +215,10 @@ const [loading, setLoading] = useState(false)
               <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
              
-                  {organizationManager ?  format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  {organizationManager?.createDate ?  format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 </Badge>
                 <CopyButton
-                  code={organizationManager ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
                 />
               </div>
             </div>

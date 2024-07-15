@@ -157,8 +157,8 @@ export default function CreatNewsPage() {
 
 
 
-                    <div className="w-4/5 mx-auto rounded-xl my-10">
-                        <div className="w-full h-48 tablet:h-60 my-4 flex justify-center rounded-xl shadow overflow-hidden">
+                    <div className="w-4/5 mx-auto rounded-xl my-10 animate-fadeInLeft">
+                        <div className="w-full h-48 tablet:h-60 my-4 flex justify-center rounded-xl shadow overflow-hidden ">
                             <img
                                 src={require("../../assets/images/thumbnail10.jpg")}
                                 className="w-full h-full object-cover object-center  "
@@ -168,8 +168,8 @@ export default function CreatNewsPage() {
                         <div className="grid gap-6 ">
 
                             <div className=" col-span-1  rounded-xl shadow-2xl">
-                                <div className="bg-black mb-6 rounded-tl-xl rounded-tr-xl">
-                                    <h1 className="text-white text-center py-3 font-semibold ">Đăng tải tin tức của bạn</h1>
+                                <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
+                                    <h1 className="text-white text-2xl text-center py-3 font-semibold ">Đăng tải tin tức của bạn</h1>
                                 </div>
                                 <div className="w-4/5 mx-auto">
                                     <div class="mb-6">
@@ -180,7 +180,7 @@ export default function CreatNewsPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.title}
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..." required />
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..."  />
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.title && touched.title && errors.title}</p>
 
                                     </div>

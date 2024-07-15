@@ -88,18 +88,27 @@ module.exports = {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
         },
-        fadeInLeft: {
+        "fadeInLeft": {
           '0%': { opacity: 0, transform: 'translateX(50%) translateY(20)',  },
           '100%': { opacity: 1, transform: 'translateX(0) translateY(20), ' },
         },
-        fadeInRight: {
+        "fadeInRight": {
           '0%': { opacity: 0, transform: 'translateX(-50%) translateY(20)' },
           '100%': { opacity: 1, transform: 'translateX(0) translateY(20)' },
         },
-        zoomInOut: {
+        "zoomInOut": {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.1)' },
         },
+        "slide-in-left" : {
+          '0%': {opacity: 0 , transform: 'translateX(-10%)'},
+          '100%': {opacity: 1, transform: 'translateX(0)'}
+        },
+        "slide-width" : {
+          '0%': {opacity: 0 , width: '0%',},
+          '100%': {opacity: 1, width: '100%'}
+        }
+        
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -107,9 +116,11 @@ module.exports = {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
-        fadeInLeft: 'fadeInLeft 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
-        fadeInRight: 'fadeInRight 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
-        zoomInOut: 'zoomInOut 1s ease-in-out '
+        "fadeInLeft": 'fadeInLeft 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+        "fadeInRight": 'fadeInRight 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+        "zoomInOut": 'zoomInOut 1s ease-in-out ',
+        "slide-in-left": 'slide-in-left 1s  forwards',
+        "slide-width": 'slide-width 1s  forwards'
       },
     },
   },

@@ -67,6 +67,7 @@ export function DataTable({
   const columnHeaders =  {
     "name": "Tên quản lí tổ chức",
     "phoneNumber": "Số điện thoại",
+    "email": "Email",
     "address": "Địa chỉ",
     "citizenIdentification": "CCCD",
     "personalTaxCode": "Mã số thuế cá nhân",

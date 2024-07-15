@@ -26,22 +26,10 @@ export const columns = ({ onSort }) => [
         </Button>
       );
     },
-    // cell: ({ row }) => {
-    //   const newTitle = row.getValue("newTitle");
-    //   return (
-    //     <div>
-    //       {newTitle ? (
-    //         <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-    //           {newTitle}
-    //         </span>
-    //       ) : (
-    //         <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-    //           {newTitle}
-    //         </span>
-    //       )}
-    //     </div>
-    //   );
-    // },
+    cell: ({ row }) => {
+      const title = row.getValue("title");
+      return <div className="w-52  line-clamp-3 ">{title}</div>;
+    },
   },
   {
     accessorKey: "isActive",
@@ -60,7 +48,7 @@ export const columns = ({ onSort }) => [
     cell: ({ row }) => {
       const newStatus = row.getValue("isActive");
       return (
-        <div>
+        <div className="w-max">
           {newStatus ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
               Đã duyệt
@@ -123,7 +111,7 @@ export const columns = ({ onSort }) => [
     },
     cell: ({ row }) => {
       const dateCreate = format(new Date(row.getValue("createAt")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{dateCreate}</div>;
+      return <div className="w-max">{dateCreate}</div>;
     },
   },
 
@@ -151,12 +139,17 @@ export const columns = ({ onSort }) => [
               Copy tiêu đề
             </DropdownMenuItem>
 
-            {infoRow?.isActive === true  ? (<DropdownMenuItem
+            {infoRow?.isActive === true  ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
 
-            >
-              <Link
-                to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
-            </DropdownMenuItem>) : ""}
+>
+  <Link
+    to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
+</DropdownMenuItem>
+              </div>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

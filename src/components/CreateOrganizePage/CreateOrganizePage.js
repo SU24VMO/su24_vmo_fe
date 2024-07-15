@@ -13,7 +13,7 @@ export default function CreateOrganizePage() {
         />
       </Helmet>
 
-      <div className="w-3/4 mx-auto">
+      <div className="w-3/4 mx-auto animate-fadeInRight">
         <div className="w-full h-48 tablet:h-60 my-4 flex justify-center rounded-xl shadow overflow-hidden">
           <img
             src={require("../../assets/images/thumbnail4.jpg")}

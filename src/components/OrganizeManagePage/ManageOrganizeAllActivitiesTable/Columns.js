@@ -13,8 +13,8 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
 
-export const columns =({ onSort }) => [
-  
+export const columns = ({ onSort }) => [
+
   {
     accessorKey: "title",
     header: ({ column }) => {
@@ -22,15 +22,19 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("Title")}
+          onClick={() => onSort("Title")}
         >
           Tên hoạt động
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const title = row.getValue("title");
+      return <div className="w-52   line-clamp-3 ">{title}</div>;
+    },
   },
- 
+
   // {
   //   accessorKey: "nameOfCampaign",
   //   header: ({ column }) => {
@@ -53,7 +57,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("IsActive")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -66,11 +70,11 @@ export const columns =({ onSort }) => [
         <div>
           {isActive ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              Đang hoạt động
+              Đã duyệt
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              Chưa hoạt động
+              Chưa duyệt
             </span>
           )}
         </div>
@@ -84,7 +88,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("CampaignName")}
+          onClick={() => onSort("CampaignName")}
         >
           Chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -94,12 +98,12 @@ export const columns =({ onSort }) => [
     cell: ({ row }) => {
       const campaignName = row.getValue("campaignName");
       return (
-        <div>
-         
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {campaignName}
-            </span>
-         
+        <div className="w-52  line-clamp-3 ">
+
+          <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-md dark:bg-orange-900 dark:text-orange-300">
+            {campaignName}
+          </span>
+
         </div>
       );
     },
@@ -112,7 +116,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("CreateDate")}
+          onClick={() => onSort("CreateDate")}
         >
           Thời gian đăng
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -121,7 +125,7 @@ export const columns =({ onSort }) => [
     },
     cell: ({ row }) => {
       const createDate = format(new Date(row.getValue("createDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="">{createDate}</div>;
+      return <div className="w-max">{createDate}</div>;
     },
   },
 
@@ -148,14 +152,18 @@ export const columns =({ onSort }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {infoRow?.isActive === true ? (<DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.processingPhase?.campaignId}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>) : "" }
+            {infoRow?.isActive === true ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.processingPhase?.campaignId}`}>
+                    Xem chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

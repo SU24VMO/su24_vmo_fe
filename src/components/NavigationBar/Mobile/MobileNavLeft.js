@@ -104,7 +104,12 @@ const MobileNavLeft = () => {
                 <Link to="/manage/volunteer/allCampaigns">
                   <Button
                     variant="ghost"
-                    className={"w-full items-start justify-start" + getLinkClass(["/manage/volunteer/allCampaigns"])}
+                    className={"w-full items-start justify-start" + getLinkClass(["/manage/volunteer/allCampaigns",
+                      "/manage/volunteer/allNews",
+                      "/manage/volunteer/allPhase1",
+                      "/manage/volunteer/allPhase2", 
+                      "/manage/volunteer/allPhase3", 
+                      "/manage/volunteer/allActivities"])}
                   >
                     Quản lý
                   </Button>
@@ -121,7 +126,14 @@ const MobileNavLeft = () => {
                 <Link to="/manage/organize/allOrganizations">
                   <Button
                     variant="ghost"
-                    className={"w-full items-start justify-start" + getLinkClass(["/manage/organize/allOrganizations"])}
+                    className={"w-full items-start justify-start" + getLinkClass(["/manage/organize/allOrganizations",
+                      "/manage/organize/allCampaigns",
+                      "/manage/organize/allNews",
+                      "/manage/organize/allPhase1",
+                      "/manage/organize/allPhase2", 
+                      "/manage/organize/allPhase3", 
+                      "/manage/organize/allActivities"
+                    ])}
                   >
                     Quản lí tổ chức
                   </Button>
