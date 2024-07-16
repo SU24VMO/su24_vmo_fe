@@ -6,8 +6,8 @@ import { Outlet } from "react-router-dom";
 
 const Moderator = () => {
   return (
-    <div className="grid min-h-screen w-full grid-cols-1 tablet:grid-cols-5">
-      <div className="col-span-1 border-r bg-muted/40">
+    <div className=" contents tablet:grid min-h-screen  w-full grid-cols-1 tablet:grid-cols-5 ">
+      <div className="col-span-1 border-r bg-muted/40 bg-vmo">
         <DesktopNav />
       </div>
       <div className="flex flex-col tablet:col-span-4">

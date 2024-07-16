@@ -230,7 +230,10 @@ function App() {
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-          <Footer />
+          <ShowNavBarFooter>
+            {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
+            <Footer />
+          </ShowNavBarFooter>
           <Toaster />
         </AuthProvider>
 

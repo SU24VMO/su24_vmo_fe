@@ -70,6 +70,12 @@ export const PUTPROCESSINGPHASE = "/api/processing-phase/status/update";
 export const PUTSTATEMENTPHASE = "/api/statement-phase/status/update";
 export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 
+//admin
+
+export const GETALLACCOUNT = "/api/account/all"
+export const GETALLCAMPAIGN = "/api/campaign/all"
+export const GETALLORGANIZATION = "/api/organization/all"
+export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
 
 
 

@@ -22,9 +22,8 @@ const MobileNav = () => {
       "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2";
     const activeClass = "bg-muted text-foreground hover:text-foreground";
     const inactiveClass = "text-muted-foreground hover:text-foreground";
-    return `${baseClass} ${
-      location.pathname === path ? activeClass : inactiveClass
-    }`;
+    return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
+      }`;
   };
   return (
     <>
@@ -47,45 +46,46 @@ const MobileNav = () => {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <p>VMO Admin</p>
+              <p>VMO Quản trị hệ thống</p>
             </Link>
             <Separator />
             <Link to="/admin" className={getLinkClass("/admin")}>
               <Home className="h-4 w-4" />
-              Home
+              Thống kê số liệu hệ thống
             </Link>
             <Link
               to="/admin/manageMembers"
               className={getLinkClass("/admin/manageMembers")}
             >
               <ShoppingCart className="h-5 w-5" />
-              Manage members
+              Quản lý tài khoản thành viên
               {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
               {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                     6
                   </Badge> */}
             </Link>
             <Link
+              to="/admin/manageVolunteers"
+              className={getLinkClass("/admin/manageVolunteers")}
+            >
+              <LineChart className="h-5 w-5" />
+              Quản lý tài khoản tình nguyện viên
+            </Link>
+            <Link
               to="/admin/manageOrganizationManagers"
               className={getLinkClass("/admin/manageOrganizationManagers")}
             >
               <Package className="h-5 w-5" />
-              Manage organization managers
+              Quản lý tài khoản tổ chức
             </Link>
             <Link
               to="/admin/manageModerators"
               className={getLinkClass("/admin/manageModerators")}
             >
               <Users className="h-5 w-5" />
-              Manage request managers
+              Quản lý tài khoản nhân viên kiểm duyệt
             </Link>
-            <Link
-              to="/admin/manageMembers"
-              className={getLinkClass("/admin/manageMembers")}
-            >
-              <LineChart className="h-5 w-5" />
-              Manage users
-            </Link>
+
           </nav>
           {/* <div className="mt-auto">
                 <Card>

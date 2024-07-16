@@ -68,6 +68,7 @@ export function DataTable({
     memberName: "Tên thành viên",
     email: "Email",
     memberAddress: "Địa chỉ",
+    citizenIdentification: "CCCD",
     moderator: "Người duyệt",
     createDate: "Ngày tạo đơn",
     approvedDate: "Ngày duyệt",

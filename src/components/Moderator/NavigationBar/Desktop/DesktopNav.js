@@ -18,7 +18,7 @@ const DesktopNav = () => {
     const baseClass =
       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
     const activeClass = "bg-muted text-primary hover:text-primary";
-    const inactiveClass = "text-muted-foreground hover:text-primary";
+    const inactiveClass = " hover:text-gray-600";
     return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
       }`;
   };
@@ -27,11 +27,11 @@ const DesktopNav = () => {
   return (
     <>
       {/* Nav Desktop */}
-      <div className="hidden tablet:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6">
+      <div className="hidden tablet:block ">
+        <div className="flex h-full max-h-screen flex-col gap-2 ">
+          <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6 bg-vmo">
             <Link to="/moderator" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
+              <Package2 className="h-6 w-6 " />
               <span className="">VMO Nhân viên kiểm duyệt</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
@@ -39,21 +39,21 @@ const DesktopNav = () => {
               <span className="sr-only">Toggle notifications</span>
             </Button> */}
           </div>
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium tablet:px-4">
+          <div className="flex-1 ">
+            <nav className="grid gap-2 items-start px-2 text-sm font-medium tablet:px-4 ">
               <Link
                 to="/moderator"
                 className={getLinkClass("/moderator")}
               >
                 <Home className="h-4 w-4" />
-                Thống kê số liệu
+                Thống kê số liệu hệ thống
               </Link>
               <Link
                 to="/moderator/manageRequestCampaigns"
                 className={getLinkClass("/moderator/manageRequestCampaigns")}
               >
                 <ShoppingCart className="h-4 w-4" />
-                Danh sách yêu cầu chiến dịch
+                Danh sách yêu cầu tạo chiến dịch
                 {/* Chỉ bỏ comment khi muốn dùng để hiện số lượng thông báo */}
                 {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   6
@@ -65,7 +65,14 @@ const DesktopNav = () => {
               >
                 <Package className="h-4 w-4" />
                 {/* Products{" "} */}
-                Danh sách yêu cầu thành viên
+                Danh sách yêu cầu tài khoản tình nguyện viên
+              </Link>
+              <Link
+                to="/moderator/manageRequestOrganizationManagers"
+                className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
+              >
+                <LineChart className="h-4 w-4" />
+                Danh sách yêu cầu tài khoản tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizations"
@@ -73,28 +80,22 @@ const DesktopNav = () => {
               >
                 <Users className="h-4 w-4" />
                 {/* Customers */}
-                Danh sách yêu cầu tổ chức
+                Danh sách yêu cầu tạo tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestActivities"
                 className={getLinkClass("/moderator/manageRequestActivities")}
               >
                 <LineChart className="h-4 w-4" />
-                Danh sách yêu cầu hoạt động
+                Danh sách yêu cầu tạo hoạt động
               </Link>
-              <Link
-                to="/moderator/manageRequestOrganizationManagers"
-                className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
-              >
-                <LineChart className="h-4 w-4" />
-                Danh sách yêu cầu quản lí tổ chức
-              </Link>
+             
               <Link
                 to="/moderator/manageRequestNews"
                 className={getLinkClass("/moderator/manageRequestNews")}
               >
                 <LineChart className="h-4 w-4" />
-                Danh sách yêu cầu tin tức
+                Danh sách yêu cầu tạo bài đăng
               </Link>
             </nav>
           </div>

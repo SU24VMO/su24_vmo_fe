@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -31,8 +31,187 @@ import avatar_3 from "../../../assets/avatars/03.png";
 import avatar_4 from "../../../assets/avatars/04.png";
 import avatar_5 from "../../../assets/avatars/05.png";
 import { Helmet } from "react-helmet";
+import { axiosPrivate } from "../../../api/axiosInstance";
+import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY } from "../../../api/apiConstants";
+import { toast } from "../../ui/use-toast";
+import { ToastAction } from "../../ui/toast";
 
 const ModeratorHomePage = () => {
+
+
+    const [numberAccount, setNumberAccount] = useState()
+    const [numberCampaign, setNumberCampaign] = useState()
+    const [numberOrganization, setNumberOrganization] = useState()
+
+
+
+  const getAllAccount = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLACCOUNT, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("đây là:", response.data);
+        setNumberAccount(response?.data?.data?.totalItem)
+        toast({
+          title: "thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+
+  }
+
+  const getAllCampaign = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLCAMPAIGN, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("đây là:", response.data);
+        setNumberCampaign(response?.data?.data?.totalItem)
+        toast({
+          title: "thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+
+  }
+
+  const getAllOrganization = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLORGANIZATION, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("đây là:", response.data);
+        setNumberOrganization(response?.data?.data?.totalItem)
+        toast({
+          title: "thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+
+  }
+
+  const getAllTransaction = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLTRANSACTIONRECENTLY + ``, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("đây là:", response.data);
+        setNumberOrganization(response?.data?.data?.totalItem)
+        toast({
+          title: "thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+    }
+
+  }
+
+
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
+    getAllAccount();
+    getAllCampaign();
+    getAllOrganization();
+    // getAllTransaction();
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       <Helmet>
@@ -42,16 +221,16 @@ const ModeratorHomePage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Dashboard</p>
+      <p className="font-bold text-2xl">Thống kê số liệu</p>
       {/* CARD FULL*/}
       <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium">Số lượng người dùng</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">{numberAccount}</div>
             <p className="text-xs text-muted-foreground">
               +20.1% from last month
             </p>
@@ -59,11 +238,11 @@ const ModeratorHomePage = () => {
         </Card>
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+            <CardTitle className="text-sm font-medium">Số lượng chiến dịch</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
+            <div className="text-2xl font-bold">{numberCampaign}</div>
             <p className="text-xs text-muted-foreground">
               +180.1% from last month
             </p>
@@ -71,11 +250,11 @@ const ModeratorHomePage = () => {
         </Card>
         <Card x-chunk="dashboard-01-chunk-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <CardTitle className="text-sm font-medium">Số lượng tổ chức</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
+            <div className="text-2xl font-bold">{numberOrganization}</div>
             <p className="text-xs text-muted-foreground">
               +19% from last month
             </p>
@@ -83,11 +262,11 @@ const ModeratorHomePage = () => {
         </Card>
         <Card x-chunk="dashboard-01-chunk-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <CardTitle className="text-sm font-medium">Số lượng tình nguyện viên</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
+            <div className="text-2xl font-bold">600</div>
             <p className="text-xs text-muted-foreground">
               +201 since last hour
             </p>
@@ -99,14 +278,14 @@ const ModeratorHomePage = () => {
         <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
-              <CardTitle>Transactions</CardTitle>
+              <CardTitle>Giao dịch</CardTitle>
               <CardDescription>
-                Recent transactions from your store.
+                Giao dịch gần đây
               </CardDescription>
             </div>
             <Button asChild size="sm" className="ml-auto gap-1">
               <Link to="#">
-                View All
+                Xem tất cả
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -235,7 +414,10 @@ const ModeratorHomePage = () => {
         </Card>
         <Card x-chunk="dashboard-01-chunk-5">
           <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
+            <CardTitle>Tài khoản</CardTitle>
+            <CardDescription>
+              Tài khoản gần đây
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-8">
             <div className="flex items-center gap-4">

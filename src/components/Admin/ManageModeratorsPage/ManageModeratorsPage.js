@@ -6,13 +6,13 @@ const ManageModeratorsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lí nhân viên kiểm duyệt • VMO</title>
+        <title>Quản lý tài khoản nhân viên kiểm duyệt • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lí nhân viên kiểm duyệt</p>
+      <p className="font-bold text-2xl">Quản lý tài khoản nhân viên kiểm duyệt</p>
       <TableModerators></TableModerators>
     </>
   );

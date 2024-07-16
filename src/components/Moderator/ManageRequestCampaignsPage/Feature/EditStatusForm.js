@@ -210,14 +210,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="user">Tạo bởi thành viên</Label>
+                <Label htmlFor="member">Tạo bởi thành viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
-                    id="user"
-                    defaultValue={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""}
+                    id="member"
+                    defaultValue={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""}
                     disabled
                   />
-                  <CopyButton code={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""} />
+                  <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""} />
                 </div>
               </div>
             </div>

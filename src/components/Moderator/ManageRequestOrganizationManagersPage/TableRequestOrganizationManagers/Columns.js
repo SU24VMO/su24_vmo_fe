@@ -64,6 +64,11 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      
+      const address = row.original?.address ? (row.original?.address) : "Không có";
+      return <div className="w-40 truncate">{address}</div>;
+    },
   },
   {
     accessorKey: "citizenIdentification",

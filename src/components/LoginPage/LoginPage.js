@@ -31,17 +31,15 @@ const LoginPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden bg-muted tablet:block">
+        <div className="hidden  tablet:block h-fit">
           <img
-            src={img_src}
+            src={require('../../assets/images/thumbnail7.jpg')}
             alt="Image"
-            width="1920"
-            height="1080"
-            className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            className="w-full object-cover object-top  h-2/3"
           />
         </div>
         {/* RIGHT */}
-        <div className="flex items-center justify-center py-12">
+        <div className="flex items-center justify-center py-12 tablet:h-2/3 min-h-screen">
           <LoginForm />
         </div>
       </div>

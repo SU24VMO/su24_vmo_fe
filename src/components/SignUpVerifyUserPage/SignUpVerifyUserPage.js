@@ -32,7 +32,7 @@ export default function SignUpVerifyUserPage() {
 
       <div className=" shadow rounded-xl">
         <div className="bg-vmo text-center rounded-tl-xl rounded-tr-xl py-3">
-          <span className="text-white text-sm mobile:text-xl font-semibold ">Đăng kí tài khoản thiện nguyện cá nhân</span>
+          <span className="text-white text-sm mobile:text-xl font-semibold ">Đăng ký trở thành tình nguyện viên</span>
         </div>
         <SignUpVerifyUserForm></SignUpVerifyUserForm>
       </div>

@@ -7,13 +7,13 @@ const ManageVolunteerPage = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lí thành viên • VMO</title>
+        <title>Quản lý tài khoản tình nguyện viên • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lí thành viên</p>
+      <p className="font-bold text-2xl">Quản lý tài khoản tình nguyện viên</p>
       <TableVolunteers />
     </>
   );

@@ -10,9 +10,22 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MobileNav = () => {
+  const location = useLocation();
+
+
+  // Hàm kiểm tra và trả về class tương ứng
+  const getLinkClass = (path) => {
+    const baseClass =
+      "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
+    const activeClass = "bg-muted text-primary hover:text-primary";
+    const inactiveClass = "text-muted-foreground hover:text-primary";
+    return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
+      }`;
+  };
+
   return (
     <>
     {/* MOBILE NAV */}
@@ -33,83 +46,65 @@ const MobileNav = () => {
               to="/moderator"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">VMO Nhân viên kiểm duyệt</span>
+             <div className="bg-vmo flex items-center py-2 px-5 rounded-full ">
+             <Package2 className="h-6 w-6" />
+             <span className="mx-[-0.65rem] flex items-center gap-4 rounded-xl text-xl px-4 py-2 ">VMO Nhân viên kiểm duyệt </span>
+             </div>
             </Link>
             <Link
               to="/moderator"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+              className={getLinkClass("/moderator")}
             >
               <Home className="h-5 w-5" />
-              Thống kê số liệu
+              Thống kê số liệu hệ thống
             </Link>
             <Link
               to="/moderator/manageRequestCampaigns"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={getLinkClass("/moderator/manageRequestCampaigns")}
             >
               <ShoppingCart className="h-5 w-5" />
-              Danh sách yêu cầu chiến dịch
+              Danh sách yêu cầu tạo chiến dịch
 
-              {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
-              {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
-                  </Badge> */}
             </Link>
             <Link
               to="/moderator/manageRequestVolunteers"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={getLinkClass("/moderator/manageRequestVolunteers")}
             >
               <Package className="h-5 w-5" />
-              Danh sách yêu cầu thành viên
+              Danh sách yêu cầu tài khoản tình nguyện viên
 
+            </Link>
+            <Link
+               to="/moderator/manageRequestOrganizationManagers"
+              className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
+            >
+              <LineChart className="h-5 w-5" />
+              Danh sách yêu cầu tài khoản tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestOrganizations"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={getLinkClass("/moderator/manageRequestOrganizations")}
             >
               <Users className="h-5 w-5" />
-              Danh sách yêu cầu tổ chức
+              Danh sách yêu cầu tạo tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestActivities"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={getLinkClass("/moderator/manageRequestActivities")}
             >
               <LineChart className="h-5 w-5" />
-              Danh sách yêu cầu hoạt động
-            </Link>
-
-            <Link
-               to="/moderator/manageRequestOrganizationManagers"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <LineChart className="h-5 w-5" />
-              Danh sách yêu cầu quản lí tổ chức
+              Danh sách yêu cầu tạo hoạt động
             </Link>
 
             <Link
               to="/moderator/manageRequestNews"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={getLinkClass("/moderator/manageRequestNews")}
             >
               <LineChart className="h-5 w-5" />
-              Danh sách yêu cầu tin tức
+              Danh sách yêu cầu tạo bài đăng
             </Link>
           </nav>
-          {/* <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div> */}
+          
         </SheetContent>
       </Sheet>
     </>

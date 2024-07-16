@@ -146,6 +146,21 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               </div>
             </div>
 
+             {/* Show volunteerAddress thành viên */}
+             <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="citizenIdentification">CCCD</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="citizenIdentification"
+                    defaultValue={volunteer ? volunteer.citizenIdentification : ""}
+                    disabled
+                  />
+                  <CopyButton code={volunteer ? volunteer.citizenIdentification : ""} />
+                </div>
+              </div>
+            </div>
+
        {/* Show Ngày sinh*/}
        <div className="flex">
             <div className="grid flex-1 gap-2">
@@ -212,7 +227,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <Label htmlFor="roleInClub">Vai trò trong CLB</Label>
                 <div className="flex items-center space-x-2">
                 <Badge variant={"outline"}>
-                {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "") : ""}
+                {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
 
                 </Badge>
                   <CopyButton code={volunteer ? volunteer.roleInClub : ""} />
