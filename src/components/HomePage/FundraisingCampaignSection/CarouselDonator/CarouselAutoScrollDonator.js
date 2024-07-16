@@ -59,21 +59,25 @@ export function CarouselAutoScrollDonator() {
     >
       <CarouselContent className="-mt-1 h-[200px] max-w-lg">
         {dataLoaded ? (
-          data.map((item) => (
-            <CarouselItem
-              key={item.transactionID}
-              className="pt-1 md:basis-1/2"
-            >
-              <div className="p-1">
-                <CustomCardDonator
-                  avatar_img={item.avatar}
-                  name={item.payerName}
-                  donation={item.amount}
-                  time={item.donatationPeriod}
-                />
-              </div>
-            </CarouselItem>
-          ))
+          data.length > 0 ? (
+            data.map((item) => (
+              <CarouselItem
+                key={item.transactionID}
+                className="pt-1 md:basis-1/2"
+              >
+                <div className="p-1">
+                  <CustomCardDonator
+                    avatar_img={item.avatar}
+                    name={item.payerName}
+                    donation={item.amount}
+                    time={item.donatationPeriod}
+                  />
+                </div>
+              </CarouselItem>
+            ))
+          ) : (
+            <CarouselDonatorSkeleton />
+          )
         ) : (
           <CarouselDonatorSkeleton />
         )}

@@ -7,13 +7,19 @@ import { AuthContext } from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 const LoginPage = () => {
+  // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
+  }, []); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
   const { isLogin } = useContext(AuthContext);
   //Check trạng thái login của nó xem login chưa,
   //  nếu login rồi sẽ ngăn không cho vào lại trang login ╰(*°▽°*)╯
   if (isLogin === true) {
     return <Navigate to="/" />;
   }
-
   return (
     <>
       <Helmet>

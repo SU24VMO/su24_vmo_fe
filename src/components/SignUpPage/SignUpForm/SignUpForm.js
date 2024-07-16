@@ -76,7 +76,7 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
     toast({
       variant: "destructive",
       title: "Có lỗi xảy ra !",
-      description: "Lỗi: " + error.message,
+      description: "Lỗi: " + error.response.data.message,
       action: <ToastAction altText="undo">Ẩn</ToastAction>,
     });
     console.error("Error get OTP:", error);

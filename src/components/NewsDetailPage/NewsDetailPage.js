@@ -66,7 +66,7 @@ export default function NewsDetailPage() {
   React.useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+      behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
     fetchData(id);
   }, [id]);
@@ -74,6 +74,14 @@ export default function NewsDetailPage() {
   if (error) {
     return <Navigate to="/404" />; // Redirect người dùng nếu có lỗi
   }
+
+  const newContent = news?.content;
+  const newContentFormat = newContent.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const newDescription = news?.description;
+  const newDescriptionFormat = newDescription.replace(
+    /(?:\r\n|\r|\n)/g,
+    "<br>"
+  );
 
   return (
     <div>
@@ -100,13 +108,21 @@ export default function NewsDetailPage() {
               <h1 className="text-xl mobile:text-3xl font-bold mb-6 text-justify">
                 {news.title}
               </h1>
-              <p className="my-3 text-sx mobile:text-xl font-bold text-justify">
-                {news.content}
+              <p
+                className="my-3 text-sx text-justify"
+                dangerouslySetInnerHTML={{ __html: newContentFormat }}
+              >
+                {/* {news.content} */}
               </p>
               <div className="flex justify-center my-10 w-full ">
                 <img className=" w-1/2 h-1/2" src={news.image} alt="" />
               </div>
-              <p className="text-sm text-justify">{news.description}</p>
+              <p
+                className="text-sm text-justify"
+                dangerouslySetInnerHTML={{ __html: newDescriptionFormat }}
+              >
+                {/* {news.description} */}
+              </p>
 
               <div className="flex justify-end text-end pr-10 my-5">
                 <div className="flex-col">

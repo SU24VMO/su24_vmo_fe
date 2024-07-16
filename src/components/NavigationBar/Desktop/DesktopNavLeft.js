@@ -92,14 +92,14 @@ const DesktopNavLeft = () => {
         ""
       )}
 
-      {user?.role === "Member" && user.is_verified === "False" ? (
+      {/* {user?.role === "Member" && user.is_verified === "False" ? (
         <Link to="/createVerifyVolunteer">
           <Button variant="ghost" className={getLinkClass(["/createVerifyVolunteer",
           ])}>Đăng kí tình nguyện viên</Button>
         </Link>
       ) : (
         ""
-      )}
+      )} */}
       {user?.role === "OrganizationManager" && user.is_verified === "False" ? (
         <Link to="/createVerifyOrganizationManager">
           <Button variant="ghost" className={getLinkClass(["/createVerifyOrganizationManager",

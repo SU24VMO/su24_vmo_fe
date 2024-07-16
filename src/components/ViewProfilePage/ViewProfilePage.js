@@ -54,19 +54,33 @@ export default function ViewProfilePage() {
     });
     async function fetchData() {
       try {
+        toast({
+          title: `Đang tải thông tin người dùng...`,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
         const response = await axiosPrivate.get(
           GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`
         );
         if (response.status === 200) {
           setData(response.data.data);
           setDataLoaded(true);
+          toast({
+            title: `Tải thông tin người dùng thành công!`,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
         }
       } catch (error) {
+        toast({
+          title: `Lỗi!`,
+          variant: "destructive",
+          description: error.response.data.message,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
       }
     }
     fetchData();
-  }, [user.account_id]); // Chỉ gọi lại khi user.account_id thay đổi
+  }, [toast, user.account_id]); // Chỉ gọi lại khi user.account_id thay đổi
   console.log("data profile người dùng:", data);
 
   return (
@@ -78,7 +92,7 @@ export default function ViewProfilePage() {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <div className="w-4/5 mx-auto rounded-xl">
+      <div className="w-4/5 mx-auto rounded-xl min-h-screen">
         {dataLoaded ? (
           <div className="grid gap-6 tablet:grid-cols-2 rounded-xl p-10 drop-shadow-lg ">
             <div className=" justify-center mobile:justify-evenly mobile:flex  gap-4 items-center">

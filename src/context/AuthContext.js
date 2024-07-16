@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
-import { axiosPublic } from "../api/axiosInstance";
+import { axiosPrivate, axiosPublic } from "../api/axiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LOGIN, REGISTER } from "../api/apiConstants";
+import { GET_ACCOUNT_BY_ID, LOGIN, REGISTER } from "../api/apiConstants";
 import { jwtDecode } from "jwt-decode"; // Note the import style
 import { useToast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
@@ -15,6 +15,7 @@ const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const [unreadCount, setUnreadCount] = React.useState(0);
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
@@ -30,13 +31,38 @@ const AuthProvider = ({ children }) => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const registerAction = async (email, password, username, avatar, phoneNumber, firstName, lastName, gender, birthday,  facebookUrl, youtubeUrl, tiktokUrl, accountType) => {
+  const registerAction = async (
+    email,
+    password,
+    username,
+    avatar,
+    phoneNumber,
+    firstName,
+    lastName,
+    gender,
+    birthday,
+    facebookUrl,
+    youtubeUrl,
+    tiktokUrl,
+    accountType
+  ) => {
     setLoading(true); // Start loading
     try {
       const response = await axiosPublic.post(REGISTER, {
-        email, password, username, avatar, phoneNumber, firstName, lastName, gender, birthday,  facebookUrl, youtubeUrl, tiktokUrl, accountType
-      }
-    );
+        email,
+        password,
+        username,
+        avatar,
+        phoneNumber,
+        firstName,
+        lastName,
+        gender,
+        birthday,
+        facebookUrl,
+        youtubeUrl,
+        tiktokUrl,
+        accountType,
+      });
 
       if (response.status === 200) {
         const accessToken = response.data.data.accessToken;
@@ -77,7 +103,52 @@ const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false); // Stop loading when action is complete or fails
     }
-  }
+  };
+
+  const handleRefreshHeader = async () => {
+    try {
+      const accountInformation = await axiosPrivate.get(
+        GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`
+      );
+      if (accountInformation.status === 200) {
+        // Tính toán số lượng isSeen: false
+        const unread = accountInformation.data.data.notifications.reduce(
+          (acc, noti) => acc + (noti.isSeen ? 0 : 1),
+          0
+        );
+        setUnreadCount(unread); // Cập nhật state với tổng số lượng tính được
+        setUser((currentUser) => {
+          const updatedUser = {
+            ...currentUser,
+            is_verified:
+              accountInformation.data.data.isVerified === true
+                ? "True"
+                : "False",
+            role:
+              accountInformation.data.data.role === 0
+                ? "Admin"
+                : accountInformation.data.data.role === 1
+                ? "Member"
+                : accountInformation.data.data.role === 2
+                ? "Volunteer"
+                : accountInformation.data.data.role === 3
+                ? "OrganizationManager"
+                : "Moderator",
+          };
+          // Cập nhật localStorage với thông tin người dùng đã cập nhật
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+          return updatedUser;
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Có lỗi xảy ra !",
+        description: error.response.data.message,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    }
+  };
 
   const loginAction = async (account, password) => {
     toast({
@@ -110,14 +181,12 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userDecode));
 
         // Navigate to the specified page
-        if(userDecode.role === "Admin"){
-            navigate("/admin")
-        }else if(userDecode.role === "Moderator"){
-          navigate("/moderator")
-
-        }else{
-            navigate(from, { replace: true });
-
+        if (userDecode.role === "Admin") {
+          navigate("/admin");
+        } else if (userDecode.role === "Moderator") {
+          navigate("/moderator");
+        } else {
+          navigate(from, { replace: true });
         }
         toast({
           title: "Đăng nhập thành công",
@@ -157,15 +226,24 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const updateUserInformation = (firstname, lastname, birthday, gender, phonenumber, facebooklink, tiktoklink, youtubelink) => {
+  const updateUserInformation = (
+    firstname,
+    lastname,
+    birthday,
+    gender,
+    phonenumber,
+    facebooklink,
+    tiktoklink,
+    youtubelink
+  ) => {
     setUser((currentUser) => {
       const updatedUser = {
         ...currentUser,
         firstname: firstname,
         lastname: lastname,
         birthday: birthday,
-        gender: gender, 
-        phonenumber: phonenumber, 
+        gender: gender,
+        phonenumber: phonenumber,
         facebooklink: facebooklink,
         tiktoklink: tiktoklink,
         youtubelink: youtubelink,
@@ -204,7 +282,10 @@ const AuthProvider = ({ children }) => {
         logOut,
         loading,
         updateUserAvatar,
-        updateUserInformation
+        updateUserInformation,
+        handleRefreshHeader,
+        unreadCount,
+        setUnreadCount,
       }}
     >
       {children}

@@ -253,7 +253,8 @@ const RightDetailCampaignSection = ({ data }) => {
         </CardContent>
         <CardFooter>
           <div className="w-full flex flex-col items-center justify-center">
-            {data.donatePhase.isProcessing ? (
+            {data.donatePhase.isProcessing &&
+            data.donatePhase.isEnd === false ? (
               <Button
                 variant="default"
                 size="lg"

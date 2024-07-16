@@ -88,7 +88,7 @@ export default function ViewNewsPage() {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <div className="w-4/5 mx-auto">
+      <div className="w-4/5 mx-auto min-h-screen">
         <div className="bg-white dark:bg-gray-800  py-6 mobile:py-8 laptop:py-12">
           <div className="mx-auto max-w-screen-2xl px-4 tablet:px-8">
             <div className="mb-4 flex items-center justify-between gap-8 mobile:mb-8 tablet:mb-12">

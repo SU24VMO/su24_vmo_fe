@@ -17,6 +17,13 @@ const steps = [
 ];
 
 const ResetPasswordPage = () => {
+  // Sử dụng useEffect để cuộn trang lên đầu sau khi component được render
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+    });
+  }, []); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
   const [otp, setOTP] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   console.log("OTP nhận được: ", otp);

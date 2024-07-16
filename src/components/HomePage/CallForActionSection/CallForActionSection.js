@@ -9,7 +9,7 @@ const CallForActionSection = () => {
   return (
     <>
       {/* Icon Blocks */}
-      <div className="bg-gray-100 dark:bg-gray-900 p-24">
+      <div className="bg-green-theme-thirdly dark:bg-gray-900 p-24">
         <div className="max-w-screen-desktop mx-auto">
           {/* Grid */}
           <div className="grid tablet:grid-cols-3 gap-6 lg:gap-12">

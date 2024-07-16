@@ -6,7 +6,7 @@ import logo from "../../assets/images/512x512.svg";
 
 const Footer = () => {
   return (
-    <div className="bg-[#14452f] pt-20 pb-10 relative tablet:px-24 px-5">
+    <div className="bg-green-theme-primary pt-20 pb-10 relative tablet:px-24 px-5">
       <div className="bg-[url('/src/assets/images/Footer_OB_Pattern-Bg.png')] bg-no-repeat bg-cover opacity-100 mix-blend-multiply bg-center absolute w-full h-full top-0 left-0 pointer-events-none"></div>
       <div className="relative w-full max-w-screen-desktop pt-12 border border-solid border-[#E7E7E759] border-x-0 border-b-0">
         <div className="flex flex-col lg:items-start justify-center tablet:flex-none tablet:px-0">

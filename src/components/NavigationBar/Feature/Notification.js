@@ -22,38 +22,25 @@ import NotificationSkeleton from "./NotificationSkeleton/NotificationSkeleton";
 import { format } from "date-fns";
 import { useToast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
+import { useLocation } from "react-router-dom";
 
 const Notification = () => {
-  const { user } = React.useContext(AuthContext);
+  const location = useLocation();
+  const { user, handleRefreshHeader, unreadCount, setUnreadCount } =
+    React.useContext(AuthContext);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [data, setData] = React.useState([]);
-  const [unreadCount, setUnreadCount] = React.useState(0);
+  // const [unreadCount, setUnreadCount] = React.useState(0);
   const [pageNo, setPageNo] = React.useState(1);
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [hasMore, setHasMore] = React.useState(true);
   const { toast } = useToast();
 
   // Mục đích là lấy ra tổng số lượng notification chưa đọc
-  React.useEffect(() => {
-    async function fetchUnreadNotification() {
-      try {
-        const response = await axiosPrivate.get(
-          GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`
-        );
-        if (response.status === 200) {
-          // Tính toán số lượng isSeen: false
-          const unread = response.data.data.notifications.reduce(
-            (acc, noti) => acc + (noti.isSeen ? 0 : 1),
-            0
-          );
-          setUnreadCount(unread); // Cập nhật state với tổng số lượng tính được
-        }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu từ API:", error);
-      }
-    }
-    fetchUnreadNotification();
-  }, [user.account_id]); // Chỉ gọi lại khi user.account_id thay đổi
+  // React.useEffect(() => {
+  //   handleRefreshHeader();
+  //   fetchData(1);
+  // }, [location]); // Chỉ gọi lại khi user.account_id thay đổi
 
   // Hàm lấy dữ liệu notification từ API
   const fetchData = React.useCallback(
@@ -85,7 +72,8 @@ const Notification = () => {
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
     fetchData(1);
-  }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
+    handleRefreshHeader();
+  }, [fetchData, location]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
 
   // Chức năng load more (xem thêm notification)
   const handleLoadMore = () => {
@@ -173,7 +161,9 @@ const Notification = () => {
                   Xem thêm
                 </Button>
               ) : (
-                <p className="text-center text-sm font-medium mt-2">Đã tải hết thông báo!</p> // Hiển thị khi đã tải hết dữ liệu
+                <p className="text-center text-sm font-medium mt-2">
+                  Đã tải hết thông báo!
+                </p> // Hiển thị khi đã tải hết dữ liệu
               )}
             </ScrollArea>
           ) : (

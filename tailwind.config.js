@@ -122,6 +122,16 @@ module.exports = {
         "slide-in-left": 'slide-in-left 1s  forwards',
         "slide-width": 'slide-width 1s  forwards'
       },
+      backgroundColor: {
+        "green-theme-primary": "#14452F", // green
+        "green-theme-secondary": "#7cff77", // light green (neon green)
+        "green-theme-thirdly": "#f2f8f1", // light green (background green)
+      },
+      textColor: {
+        "green-theme-primary": "#14452F", // green
+        "green-theme-secondary": "#7cff77", // light green (neon green)
+        "green-theme-thirdly": "#f2f8f1", // light green (background green)
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("flowbite/plugin")],

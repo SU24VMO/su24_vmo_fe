@@ -11,7 +11,7 @@ const FundraisingCampaignSection = () => {
       {/* Separator */}
       <div className="flex items-center justify-center">
         <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
-        <p className="text-[10px] mobile:text-lg font-bold px-4">
+        <p className="text-[10px] mobile:text-lg font-bold px-4 text-green-theme-primary">
           Chiến dịch gây quỹ nổi bật
         </p>
         <hr className="w-[100px] mobile:w-64 h-[1px] mobile:h-[2px] my-8 bg-black border-0 rounded dark:bg-gray-700" />
