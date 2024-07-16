@@ -150,6 +150,18 @@ export const columns = ({ onSort }) => [
               </div>
 
             ) : ""}
+            {infoRow?.isActive === false ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/updateNews/${row.original?.createPostRequest?.createPostRequestID}`}>
+                    Chỉnh sửa tin tức
+                  </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

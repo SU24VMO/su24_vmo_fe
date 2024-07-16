@@ -29,9 +29,11 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false);
   const description = campaigns?.campaign?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
-
+  console.log('====================================');
+  console.log(campaigns);
+  console.log('====================================');
   const updateStatus = async (data) => {
     try {
       setLoading(true);

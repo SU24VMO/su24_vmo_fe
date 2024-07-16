@@ -1,22 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TypeOfCampaignSelect from "./TypeOfCampaignSelect/TypeOfCampaignSelect";
 import EndDayPicker from "./EndDayPicker/EndDayPicker";
 import StartDayPicker from "./StartDayPicker/StartDayPicker";
 import { Formik } from "formik";
 import { axiosPrivate } from "../../api/axiosInstance";
-import { CREATECAMPAIGN } from "../../api/apiConstants";
+import { CREATECAMPAIGN, GETREQUESTCAMPAIGNTOUPDATE, UPDATECAMPAIGNOM } from "../../api/apiConstants";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
+import OrganizationsSelect from "./OrganizationsSelect/OrganizationsSelect";
 import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SelectBanks from "./SelectBanks/SelectBanks";
+import { TailSpin } from "react-loader-spinner";
 
 
 
-export default function CreateCampaignVolunteerPage() {
+export default function UpdateCampaignOrganizationManagerPage() {
+
+    const { id } = useParams();
+
     const { toast } = useToast();
 
     const { user } = useContext(AuthContext)
@@ -24,23 +29,42 @@ export default function CreateCampaignVolunteerPage() {
     const [fileImageQR, setFileImageQR] = useState()
 
     const [loading, setLoading] = useState(false)
+    const [loadingData, setLoadingData] = useState(false)
+
+    const [initialValues, setInitialValues  ] = useState(
+        {
+            nameOfCampaign:'',
+            address:"",
+            typeOfCampaign:"" ,
+            description:"" ,
+            startDate:"",
+            endDate: "",
+            targetAmount: "",
+            organizations: "",
+            imageLocalDocument: null,
+            imageBackgroundFile: null,
+            nameOfBank: "",
+            nameOfUserBank: "",
+            numberOfBankAccount: "",
+            imageQRCode: null,
+
+
+        }
+    )
 
     const navigate = useNavigate()
 
     function handleImageBackgroundChange(e, setFieldValue) {
-        console.log(e.target.files);
         setFileImageBackground(URL.createObjectURL(e.target.files[0]));
         setFieldValue("imageBackgroundFile", e.target.files[0]);
 
     }
     function handleImageQRCode(e, setFieldValue) {
-        console.log(e.target.files);
         setFileImageQR(URL.createObjectURL(e.target.files[0]));
         setFieldValue("imageQRCode", e.target.files[0]);
 
     }
     function handleImageLocalDocument(e, setFieldValue) {
-        console.log(e.target.files);
         setFieldValue("imageLocalDocument", e.target.files[0]);
 
     }
@@ -49,7 +73,6 @@ export default function CreateCampaignVolunteerPage() {
         setFieldValue("imageBackgroundFile", null);
 
     }
-
     function removeImageQRcode(e, setFieldValue) {
         setFileImageQR('');
         setFieldValue("imageQRCode", null);
@@ -74,14 +97,80 @@ export default function CreateCampaignVolunteerPage() {
     const cleanFormattedAmount = (formattedValue) => {
         return formattedValue.replace(/\./g, '');
     };
-    const createCampaign = async (data, resetForm) => {
+
+
+    const getRequestCampaign = async (id) => {
+        setLoadingData(true)
+        try {
+            const response = await axiosPrivate.get(`${GETREQUESTCAMPAIGNTOUPDATE}${id}`, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log("đây là:", response.data);
+                setInitialValues({
+                    nameOfCampaign:response.data?.data?.campaign?.name,
+                    address: response.data?.data?.campaign?.address,
+                    typeOfCampaign: response.data?.data?.campaign?.campaignTypeID,
+                    description: response.data?.data?.campaign?.description,
+                    startDate: response.data?.data?.campaign?.startDate,
+                    endDate: response.data?.data?.campaign?.expectedEndDate,
+                    targetAmount: response.data?.data?.campaign?.targetAmount,
+                    organizations: response.data?.data?.campaign?.organizationID,
+                    imageLocalDocument: null,
+                    imageBackgroundFile: null,
+                    nameOfBank:  response.data?.data?.campaign?.bankingAccount?.bankingName,
+                    nameOfUserBank: response.data?.data?.campaign?.bankingAccount?.accountName,
+                    numberOfBankAccount: response.data?.data?.campaign?.bankingAccount?.accountNumber,
+                    imageQRCode: null,
+    
+    
+                })
+                toast({
+                    title: "Lấy chiến dịch thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Lấy chiến dịch thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Lấy chiến dịch !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Lấy chiến dịch thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Lấy chiến dịch !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        } finally {
+            setLoadingData(false)
+        }
+
+    }
+    React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+        });
+        getRequestCampaign(id);
+        console.log("the hell");
+    }, []);
+
+
+
+    const updateCampaign = async (data, resetForm) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
         formData.append('QRCode', data.imageQRCode);
 
-        // Thêm các trường dữ liệu văn bản vào formData
         formData.append('Name', data.nameOfCampaign);
         formData.append('Address', data.address);
         formData.append('CampaignTypeId', data.typeOfCampaign);
@@ -89,12 +178,13 @@ export default function CreateCampaignVolunteerPage() {
         formData.append('StartDate', data.startDate);
         formData.append('ExpectedEndDate', data.endDate);
         formData.append('TargetAmount', cleanFormattedAmount(data.targetAmount));
+        formData.append('OrganizationId', data.organizations);
         formData.append('BankingName', data.nameOfBank);
         formData.append('AccountName', data.nameOfUserBank);
         formData.append('BankingAccountNumber', data.numberOfBankAccount);
 
         try {
-            const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, formData, {
+            const response = await axiosPrivate.put(UPDATECAMPAIGNOM + `?createCampaignRequestId=${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -103,8 +193,9 @@ export default function CreateCampaignVolunteerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
-                navigate("/manage/volunteer/allCampaigns")
+                navigate("/manage/organize/allCampaigns")
                 resetForm();
+
                 toast({
                     title: "Tạo chiến dịch thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -140,27 +231,25 @@ export default function CreateCampaignVolunteerPage() {
                 content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
             />
         </Helmet>
-        <Formik
-            initialValues={{
-                nameOfCampaign: "",
-                address: "",
-                typeOfCampaign: null,
-                description: "",
-                startDate: null,
-                endDate: null,
-                targetAmount: "",
-                imageLocalDocument: null,
-                imageBackgroundFile: null,
-                nameOfBank: "",
-                nameOfUserBank: "",
-                numberOfBankAccount: "",
-                imageQRCode: null,
-
-
-            }}
+        {loadingData ? (
+            <div>
+            <TailSpin
+                visible={true}
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass="w-max h-screen  mx-auto items-center"
+            />
+        </div>
+        ) : (
+            <Formik
+            initialValues={initialValues}
+            enableReinitialize
             validate={(values) => {
                 const errors = {};
-                console.log("lỗi", errors);
                 var today = new Date();
                 today.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0 để so sánh chính xác hơn
                 var startDate = new Date(values.startDate);
@@ -176,7 +265,7 @@ export default function CreateCampaignVolunteerPage() {
                     }
                 }
 
-                // // Kiểm tra ngày kết thúc
+                // Kiểm tra ngày kết thúc
                 if (!values.endDate) {
                     errors.endDate = "Không được để trống!";
                 } else {
@@ -251,7 +340,12 @@ export default function CreateCampaignVolunteerPage() {
                         errors.targetAmount = "Số tiền mục tiêu không được vượt quá 500,000,000 VND!";
                     }
                 }
-                // imageLocalDocument validation
+
+                // organizations validate 
+                if (!values.organizations) {
+                    errors.organizations = "Không được để trống!";
+                }
+                // imageLocalDocument validate 
                 if (!values.imageLocalDocument) {
                     errors.imageLocalDocument = "Không được để trống!";
                 }
@@ -259,7 +353,7 @@ export default function CreateCampaignVolunteerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                createCampaign(values, resetForm)
+                updateCampaign(values, resetForm)
                 setSubmitting(false);
 
 
@@ -281,10 +375,10 @@ export default function CreateCampaignVolunteerPage() {
                         <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Tạo chiến dịch của bạn!</h1>
                     </div> */}
 
-                    <div className="w-4/5 mx-auto rounded-xl">
+                    <div className="w-4/5 mx-auto rounded-xl animate-fadeInLeft">
                         <div className="grid gap-6 grid-cols-1 laptop:grid-cols-3 ">
 
-                            <div className=" col-span-2 laptop:col-span-1 border-2 shadow rounded-xl animate-fadeInRight">
+                            <div className=" col-span-2 laptop:col-span-1 border-2 shadow rounded-xl">
                                 <div >
                                     <div className="bg-vmo mb-6  rounded-tl-xl rounded-tr-xl ">
                                         <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Ảnh chiến dịch</h1>
@@ -298,10 +392,10 @@ export default function CreateCampaignVolunteerPage() {
                                                 id="image"
 
                                                 value={fileImageBackground}
-                                                src={fileImageBackground} width={220} height={220} alt="bgimage" />
+                                                src={fileImageBackground} width={220} height={220} alt="avatar" />
                                             <button type="button"
                                                 onClick={(e) => { removeImageBackground(e, setFieldValue) }}
-                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove Image</button>
 
                                         </div> : <label for="imageBackgroundFile" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -356,9 +450,12 @@ export default function CreateCampaignVolunteerPage() {
 
                                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfBank && touched.nameOfBank && errors.nameOfBank}</p>
                                         </div> */}
-                                         <SelectBanks
+
+                                        <SelectBanks
                                             setFieldValue={setFieldValue}
-                                            selectTriggerId="nameOfBank"></SelectBanks>
+                                            selectTriggerId="nameOfBank"
+                                            nameOfBankSelected={values.nameOfBank}
+                                            ></SelectBanks>
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.nameOfBank && touched.nameOfBank && errors.nameOfBank}</p>
                                         <label for="nameOfUserBank" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên tài khoản *</label>
                                         <div class="relative mb-6">
@@ -420,7 +517,7 @@ export default function CreateCampaignVolunteerPage() {
 
                             </div>
 
-                            <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl animate-fadeInRight">
+                            <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl">
                                 <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
                                     <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Tạo chiến dịch</h1>
                                 </div>
@@ -464,11 +561,10 @@ export default function CreateCampaignVolunteerPage() {
 
                                     </div>
                                     <div className="mb-2">
-                                    <label for="" class=" bg-vmo p-1 rounded-sm w-fit block mb-2 text-sm font-medium text-gray-900 dark:text-white">-Thời gian cho giai đoạn ủng hộ quyên góp-</label>
+                                        <label for="" class=" bg-vmo p-1 rounded-sm w-fit block mb-2 text-sm font-medium text-gray-900 dark:text-white">-Thời gian cho giai đoạn ủng hộ quyên góp-</label>
 
                                     </div>
                                     <div className=" laptop:flex justify-between w-full items-center mb-6">
-
                                         <div className="laptop:w-2/5">
                                             <label for="dateFrom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diễn ra từ *</label>
 
@@ -478,13 +574,14 @@ export default function CreateCampaignVolunteerPage() {
                                                     popOverTriggerIdStart="startDate"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
+                                                    startDateSelected={values.startDate}
                                                 ></StartDayPicker>
                                                 <p class=" z-10 mt-2 text-sm text-red-600 dark:text-red-500"> {errors.startDate && touched.startDate && errors.startDate}</p>
                                             </div>
 
                                         </div>
 
-                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-vmo border-0 rounded  dark:bg-gray-700"></hr>
+                                        <hr class=" hidden laptop:block w-10 h-1 mx-auto my-4 bg-black border-0 rounded  dark:bg-gray-700"></hr>
 
                                         <div className="laptop:w-2/5">
                                             <label for="dateTo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">đến ngày *</label>
@@ -494,6 +591,7 @@ export default function CreateCampaignVolunteerPage() {
                                                     popOverTriggerIdEnd="endDate"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
+                                                    endDateSelected={values.endDate}
                                                 ></EndDayPicker>
                                                 <p class=" z-10 mt-2 text-sm text-red-600 dark:text-red-500"> {errors.endDate && touched.endDate && errors.endDate}</p>
                                             </div>
@@ -518,7 +616,6 @@ export default function CreateCampaignVolunteerPage() {
                                                 aria-describedby="price-currency"
                                             />
 
-
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                                 <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
                                                     VND
@@ -536,11 +633,26 @@ export default function CreateCampaignVolunteerPage() {
 
                                         <TypeOfCampaignSelect
                                             setFieldValue={setFieldValue}
-                                            selectTriggerId="typeOfCampaign"></TypeOfCampaignSelect>
+                                            selectTriggerId="typeOfCampaign"
+                                            typeOfCampaignSelected={values.typeOfCampaign}
+                                            
+                                            ></TypeOfCampaignSelect>
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.typeOfCampaign && touched.typeOfCampaign && errors.typeOfCampaign}</p>
 
                                     </div>
+                                    {user.role === "OrganizationManager" ?
+                                        <div className="mb-6">
+                                            <label for="organizations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chọn tổ chức *</label>
 
+                                            <OrganizationsSelect
+                                                setFieldValue={setFieldValue}
+                                                selectTriggerId="organizations"
+                                                organizationSelected={values.organizations}
+                                                ></OrganizationsSelect>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.organizations && touched.organizations && errors.organizations}</p>
+
+                                        </div> : ""
+                                    }
                                     <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
                                         <input
@@ -575,5 +687,6 @@ export default function CreateCampaignVolunteerPage() {
                 </form>
             )}
         </Formik>
+        )}
     </>);
 }

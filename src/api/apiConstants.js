@@ -35,6 +35,24 @@ export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organ
 export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/'
 export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 
+// -----------------
+
+export const GETREQUESTNEWSTOUPDATE = '/api/create-post-request/'
+export const GETREQUESTCAMPAIGNTOUPDATE = '/api/create-campaign-request/'
+export const GETREQUESTACTIVITYTOUPDATE = '/api/create-activity-request/'
+export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/'
+
+
+export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
+export const UPDATENEWS = '/api/create-post-request/update/post-information'
+export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-information'
+export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
+
+export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
+
+
+
+// ------------------
 
 //volunteer
 export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";

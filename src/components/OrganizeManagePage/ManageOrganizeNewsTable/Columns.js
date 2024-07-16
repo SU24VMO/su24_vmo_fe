@@ -139,15 +139,27 @@ export const columns = ({ onSort }) => [
               Copy tiêu đề
             </DropdownMenuItem>
 
-            {infoRow?.isActive === true  ? (
+            {infoRow?.isActive === true ? (
               <div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
 
->
-  <Link
-    to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
-</DropdownMenuItem>
+                >
+                  <Link
+                    to={`/news/newsDetail/${row.original?.postID}`}>Xem tin tức</Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
+             {infoRow?.isActive === false ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/updateNews/${row.original?.createPostRequest?.createPostRequestID}`}>
+                    Chỉnh sửa tin tức
+                  </Link>
+                </DropdownMenuItem>
               </div>
             ) : ""}
           </DropdownMenuContent>
