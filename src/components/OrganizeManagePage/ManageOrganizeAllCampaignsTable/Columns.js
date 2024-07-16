@@ -24,7 +24,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Name")}
+          onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -43,7 +43,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("IsActive")}
+          onClick={() => onSort("IsActive")}
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -56,11 +56,11 @@ export const columns = ({ onSort }) => [
         <div className="w-max">
           {statusCampaign ? (
             <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              "Đang hoạt động"
+              "Đã duyệt"
             </span>
           ) : (
             <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              "Dừng hoạt động"
+              "Chưa duyệt"
             </span>
           )}
         </div>
@@ -73,7 +73,7 @@ export const columns = ({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("TargetAmount")}
+        onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -96,7 +96,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Organization.Name")}
+          onClick={() => onSort("Organization.Name")}
         >
           Tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -107,10 +107,10 @@ export const columns = ({ onSort }) => [
       const organizeName = row.original?.organization?.name;
       return (
         <div className="w-48 line-clamp-2">
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          
+          <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+            {organizeName}
+          </span>
+
         </div>
       );
     },
@@ -122,7 +122,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("StartDate")}
+          onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -141,7 +141,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("ExpectedEndDate")}
+          onClick={() => onSort("ExpectedEndDate")}
         >
           Thời gian kết thúc giai đoạn ủng hộ dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -161,7 +161,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("ActualEndDate")}
+          onClick={() => onSort("ActualEndDate")}
         >
           Thời gian kết thúc
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -196,20 +196,33 @@ export const columns = ({ onSort }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
-            
-           
+
+
             {infoRow?.isActive === true ? (
               <div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>
+
+                >
+                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+                    Xem chiến dịch
+                  </Link>
+                </DropdownMenuItem>
               </div>
-            ) : "" }
+            ) : ""}
+
+            {infoRow?.isActive === false ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/updateCampaignOrganizationManager/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
+                    Chỉnh sửa chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

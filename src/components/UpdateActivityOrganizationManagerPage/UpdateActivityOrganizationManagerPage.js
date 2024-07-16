@@ -1,0 +1,379 @@
+import React, { useContext, useEffect, useState } from "react";
+import { Formik } from "formik";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../../components/ui/use-toast";
+import { ToastAction } from "../../components/ui/toast";
+import { Helmet } from "react-helmet";
+import { CREATEACTIVITYOFOM, GETREQUESTACTIVITYTOUPDATE, UPDATEACTIVITY } from "../../api/apiConstants";
+import { axiosPrivate } from "../../api/axiosInstance";
+import SelectionProcessingPhase from "./SelectionProcessingPhase/SelectionProcessingPhase";
+import { Loader2 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
+export default function UpdateActivityOrganizationManagerPage() {
+    const { id } = useParams();
+
+    const { toast } = useToast();
+    const { user } = useContext(AuthContext)
+    const [listImageFile, setListImageFile] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [loadingData, setLoadingData] = useState(false)
+
+
+    const navigate = useNavigate()
+
+    const [initialValues, setInitialValues] = useState(
+        {
+            title: "",
+            processingPhase: "",
+            listImageFile: [],
+            description: "",
+
+        }
+    )
+
+    function fileSelectedHandler(e, setFieldValue) {
+        const files = Array.from(e.target.files);
+        const filePreviews = files.map(file => URL.createObjectURL(file));
+
+        setListImageFile((prevFiles) => {
+            const newFiles = [...prevFiles, ...files];
+            setFieldValue('listImageFile', newFiles);
+            return newFiles;
+        });
+
+        setImagePreviews((prevPreviews) => [...prevPreviews, ...filePreviews]);
+    }
+
+    function removeImage(index, setFieldValue) {
+        setListImageFile((prevFiles) => {
+            const newFiles = prevFiles.filter((_, i) => i !== index);
+            setFieldValue('listImageFile', newFiles);
+            return newFiles;
+        });
+
+        setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    }
+
+    useEffect(() => {
+        return () => {
+            imagePreviews.forEach(file => URL.revokeObjectURL(file));
+        };
+    }, []);
+
+
+
+
+    const getRequestActivity = async (id) => {
+        setLoadingData(true)
+        try {
+            const response = await axiosPrivate.get(`${GETREQUESTACTIVITYTOUPDATE}${id}`, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log("đây là:", response.data);
+                setInitialValues({
+
+                    title: response?.data?.data?.activity?.title,
+                    processingPhase: response?.data?.data?.activity?.processingPhaseId,
+                    listImageFile: [],
+                    description: response?.data?.data?.activity?.content,
+
+                })
+                console.log(initialValues.numberOfBankAccount);
+                toast({
+                    title: "Lấy hoạt động thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Lấy hoạt động thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Lấy hoạt động !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Lấy hoạt động thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Lấy hoạt động !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        } finally {
+            setLoadingData(false)
+        }
+
+    }
+    React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+        });
+        getRequestActivity(id);
+        console.log("the hell");
+    }, []);
+
+
+
+
+    const updateActivity = async (data, resetForm) => {
+        setLoading(true)
+        const formData = new FormData();
+        formData.append('ProcessingPhaseId', data.processingPhase);
+        formData.append('Title', data.title);
+        formData.append('Content', data.description);
+        formData.append('AccountId', user.account_id);
+        data.listImageFile.forEach(file => {
+            formData.append('ActivityImages', file);
+        });
+
+        try {
+            const response = await axiosPrivate.put(UPDATEACTIVITY + `?createActivityRequestId=${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                navigate("/manage/organize/allActivities")
+                resetForm();
+                setListImageFile([]);
+                setImagePreviews([]);
+                toast({
+                    title: "Tạo hoạt động thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo hoạt động thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo hoạt động !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo hoạt động thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo hoạt động !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (<>
+        <Helmet>
+            <title>Tạo hoạt động • VMO</title>
+            <meta
+                name="description"
+                content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+            />
+        </Helmet>
+        {loadingData ? (
+            <div>
+                <TailSpin
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass="w-max h-screen  mx-auto items-center"
+                />
+            </div>
+        ) : (<Formik
+            initialValues={initialValues}
+            enableReinitialize
+            validate={(values) => {
+                const errors = {};
+                if (!values.title) {
+                    errors.title = 'Không được để trống'
+                }
+                if (!values.processingPhase) {
+                    errors.processingPhase = 'Không được để trống'
+                }
+                if (!values.listImageFile.length) {
+                    errors.listImageFile = 'Không được để trống'
+                }
+                if (!values.description) {
+                    errors.description = 'Không được để trống'
+                }
+                return errors;
+            }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+                updateActivity(values, resetForm)
+                setSubmitting(false)
+            }}
+        >
+            {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                setFieldValue,
+            }) => (
+                <form onSubmit={handleSubmit}>
+                    <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="justify-center items-center w-full h-modal">
+                        <div className="p-4 mx-auto w-3/4 h-full tablet:h-auto animate-fadeInLeft">
+                            <div className="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mobile:p-5">
+                                <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b mobile:mb-5 dark:border-gray-600">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                        Đăng tải hoạt động của bạn!
+                                    </h3>
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div className="grid gap-4 mb-4 grid-rows-1">
+                                        <div>
+                                            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Tiêu đề
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                id="title"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.title}
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                placeholder="Tiêu đề cho hoạt động của bạn..."
+                                            />
+                                            <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.title && touched.title && errors.title}</p>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="processingPhase" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Chọn chiến dịch cần đăng
+                                            </label>
+                                            <SelectionProcessingPhase
+                                                setFieldValue={setFieldValue}
+                                                selectTriggerId="processingPhase"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                processingPhaseSelected={values.processingPhase}
+                                            />
+                                            <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.processingPhase && touched.processingPhase && errors.processingPhase}</p>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="listImagesPreview" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Danh sách hình ảnh:
+                                            </label>
+                                            <div>
+                                                <ul className="flex justify-stretch flex-wrap gap-3">
+                                                    {imagePreviews.map((imagePreview, index) => (
+                                                        <li key={index} className="relative">
+                                                            <img
+                                                                className="w-48 h-48"
+                                                                src={imagePreview}
+                                                                alt=""
+                                                                width={200}
+                                                                height={200}
+                                                            />
+                                                            <button className="absolute top-2 right-2"
+                                                                type="button"
+                                                                onClick={() => removeImage(index, setFieldValue)}>
+                                                                <svg
+                                                                    className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                    aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24"
+                                                                    height="24"
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        fillRule="evenodd"
+                                                                        d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
+                                                                        clipRule="evenodd"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                        </li>
+                                                    ))}
+                                                    <li>
+                                                        <div className="flex items-center justify-center w-full">
+                                                            <label
+                                                                htmlFor="listImageFile"
+                                                                className="flex flex-col items-center justify-center w-48 h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                            >
+                                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                                        <path fillRule="evenodd" d="M12 3a1 1 0 0 1 .78.375l4 5a1 1 0 1 1-1.56 1.25L13 6.85V14a1 1 0 1 1-2 0V6.85L8.78 9.626a1 1 0 1 1-1.56-1.25l4-5A1 1 0 0 1 12 3ZM9 14v-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4v1a3 3 0 1 1-6 0Zm8 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clipRule="evenodd" />
+                                                                    </svg>
+
+                                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                                                                        Upload image
+                                                                    </p>
+                                                                    <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
+                                                                </div>
+                                                                <input
+                                                                    multiple
+                                                                    id="listImageFile"
+                                                                    type="file"
+                                                                    accept=".jpg"
+                                                                    alt="image"
+                                                                    className="hidden"
+                                                                    name="listImageFile"
+                                                                    onChange={(e) => { fileSelectedHandler(e, setFieldValue) }} />
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listImageFile && touched.listImageFile && errors.listImageFile}</p>
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Nội dung
+                                            </label>
+                                            <textarea
+                                                id="description"
+                                                rows="4"
+                                                name="description"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.description}
+                                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                placeholder="Mô tả hoạt động của bạn..."
+                                            ></textarea>
+                                            <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.description && touched.description && errors.description}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
+                                        >
+                                            {loading ? (
+                                                <>
+                                                    <Loader2 className="animate-spin flex items-center justify-center w-full" />
+                                                </>
+                                            ) : (
+                                                "Gửi"
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            )}
+        </Formik>)}
+    </>);
+}

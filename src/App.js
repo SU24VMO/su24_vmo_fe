@@ -73,6 +73,12 @@ import ViewProfileVolunteerPage from "./components/ViewProfileVolunteerPage/View
 import CreateActivityVolunteerPage from "./components/CreateActivityVolunteerPage/CreateActivityVolunteerPage";
 import ViewProfileOrganizationPage from "./components/ViewProfileOrganizationPage/ViewProfileOrganizationPage";
 import TermsPage from "./components/TermsPage/TermsPage";
+import UpdateCampaignOrganizationManagerPage from "./components/UpdateCampaignOrganizationManagerPage/UpdateCampaignOrganizationManagerPage";
+import UpdateNewsPage from "./components/UpdateNewsPage/UpdateNewsPage";
+import UpdateActivityOrganizationManagerPage from "./components/UpdateActivityOrganizationManagerPage/UpdateActivityOrganizationManagerPage";
+import UpdateOrganizationPage from "./components/UpdateOrganizationPage/UpdateOrganizationPage";
+import UpdateCampaignVolunteerPage from "./components/UpdateCampaignVolunteerPage/UpdateCampaignVolunteerPage";
+import UpdateActivityVolunteerPage from "./components/UpdateActivityVolunteerPage/UpdateActivityVolunteerPage";
 
 
 function App() {
@@ -124,6 +130,7 @@ function App() {
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
               <Route path="/donate/:campaignID" element={<DonatePage />} />
               <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
+              <Route path="/updateNews/:id" element={<UpdateNewsPage/>} />
 
             </Route>
 
@@ -143,6 +150,8 @@ function App() {
               <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
               <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
               <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
+              <Route path="/updateCampaignVolunteer/:id" element={<UpdateCampaignVolunteerPage />} />
+              <Route path="/updateActivityVolunteer/:id" element={<UpdateActivityVolunteerPage />} />
 
 
             </Route>
@@ -161,6 +170,11 @@ function App() {
               {/* <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} /> */}
               <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
               <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage />} />
+              <Route path="/updateCampaignOrganizationManager/:id" element={<UpdateCampaignOrganizationManagerPage />} />
+              <Route path="/updateActivityOrganizationManager/:id" element={<UpdateActivityOrganizationManagerPage />} />
+              <Route path="/updateOrganization/:id" element={<UpdateOrganizationPage/>} />
+
+
 
 
             </Route>
@@ -216,7 +230,10 @@ function App() {
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-          <Footer />
+          <ShowNavBarFooter>
+            {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
+            <Footer />
+          </ShowNavBarFooter>
           <Toaster />
         </AuthProvider>
 

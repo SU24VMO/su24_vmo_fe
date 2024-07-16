@@ -327,7 +327,7 @@ export default function CreateCampaignVolunteerPage() {
 
                                     <div className="bg-vmo m-4 rounded-xl w-3/5 mx-auto laptop:w-4/5">
                                         <div className="p-4 mobile:flex mobile:justify-center gap-3 items-center">
-                                            {user?.avatar !== "" ? (<img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src={user?.avatar} alt="Rounded avatar" />)
+                                            {user?.avatar !== "string" ? (<img class=" w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0" src={user?.avatar} alt="Rounded avatar" />)
                                                 : (<Avatar className="w-24 h-24  mobile:w-16 mobile:h-16 rounded-full mx-auto mobile:mx-0">
                                                     <AvatarImage
                                                         alt="Avatar User"

@@ -164,6 +164,18 @@ export const columns = ({ onSort }) => [
                 </DropdownMenuItem>
               </div>
             ) : ""}
+            {infoRow?.isActive === false ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/updateActivityOrganizationManager/${row.original?.createActivityRequest?.createActivityRequestID}`}>
+                    Chỉnh sửa hoạt động
+                  </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

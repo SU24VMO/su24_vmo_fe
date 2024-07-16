@@ -1,0 +1,343 @@
+import React, { useState, useContext } from "react";
+import { PreviewImageCoverPopover } from "./PreviewImageCoverPopover/PreviewImageCoverPopover";
+import { PreviewImageCenterPopover } from "./PreviewImageCenterPopover/PreviewImageCenterPopover";
+import { Formik } from "formik";
+import { Helmet } from "react-helmet";
+
+import { axiosPrivate } from "../../api/axiosInstance";
+import { CREATENEWS, GETREQUESTNEWSTOUPDATE, UPDATENEWS } from "../../api/apiConstants";
+import { AuthContext } from "../../context/AuthContext";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import { Loader2 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
+
+
+export default function UpdateNewsPage() {
+    const { id } = useParams();
+
+    const { user } = useContext(AuthContext)
+    const { toast } = useToast();
+    const [loading, setLoading] = useState(false)
+    const [loadingData, setLoadingData] = useState(false)
+
+
+    const [imageCover, setImageCover] = useState();
+
+    const navigate = useNavigate()
+
+    const [initialValues, setInitialValues] = useState(
+        {
+            title: "",
+            imageCover: null,
+            descriptionMain: "",
+            imageCenter: null,
+            descriptionEnd: ""
+
+        }
+    )
+
+    function handleChangeCoverImage(e, setFieldValue) {
+        console.log(e.target.files);
+        setImageCover(URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageCover", e.target.files[0]);
+    }
+
+    const [imageCenter, setImageCenter] = useState();
+    function handleChangeCenterImage(e, setFieldValue) {
+        console.log(e.target.files);
+        setImageCenter(URL.createObjectURL(e.target.files[0]));
+        setFieldValue("imageCenter", e.target.files[0]);
+
+    }
+
+
+
+    const getRequestNews = async (id) => {
+        setLoadingData(true)
+        try {
+            const response = await axiosPrivate.get(`${GETREQUESTNEWSTOUPDATE}${id}`, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log("đây là:", response.data);
+                setInitialValues({
+                    title: response?.data?.data?.post?.title,
+                    imageCover: null,
+                    descriptionMain: response?.data?.data?.post?.content,
+                    imageCenter: null,
+                    descriptionEnd: response?.data?.data?.post?.description
+
+                })
+                console.log(initialValues.numberOfBankAccount);
+                toast({
+                    title: "Lấy tin tức thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Lấy tin tức thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Lấy tin tức !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Lấy tin tức thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Lấy tin tức !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        } finally {
+            setLoadingData(false)
+        }
+
+    }
+
+    React.useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+        });
+        getRequestNews(id);
+        console.log("the hell");
+    }, []);
+
+
+    const updateNews = async (data, resetForm) => {
+        setLoading(true)
+
+        const formData = new FormData();
+        formData.append('Cover', data.imageCover);
+        formData.append('Title', data.title);
+        formData.append('Content', data.descriptionMain);
+        formData.append('Description', data.descriptionEnd);
+
+        formData.append('Image', data.imageCenter);
+        formData.append('AccountId', user.account_id);
+
+        try {
+
+            const response = await axiosPrivate.put(UPDATENEWS + `?createPostRequestId=${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log(response.data);
+                if (user.role === "Volunteer") {
+                    navigate("/manage/volunteer/allNews")
+                    resetForm()
+                } else if (user.role === "OrganizationManager") {
+                    navigate("/manage/organize/allNews")
+                    resetForm()
+                }
+                toast({
+                    title: "Tạo tin tức thành công",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Tạo tin tức thất bại !",
+                    description: "Vui lòng kiểm tra lại thông tin Tạo tin tức !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Tạo tin tức thất bại !",
+                description: "Vui lòng kiểm tra lại thông tin Tạo tin tức !",
+                action: <ToastAction altText="undo">Ẩn</ToastAction>,
+            });
+        } finally {
+            setLoading(false)
+
+        }
+    }
+
+
+    return (<>
+        <Helmet>
+            <title>Tạo tin tức • VMO</title>
+            <meta
+                name="description"
+                content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+            />
+        </Helmet>
+        {loadingData ? (
+            <div>
+                <TailSpin
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass="w-max h-screen  mx-auto items-center"
+                />
+            </div>
+        ) : (
+            <Formik
+                initialValues={initialValues}
+                enableReinitialize
+                validate={(values) => {
+                    const errors = {};
+                    if (!values.title) {
+                        errors.title = 'Không được để trống'
+                    }
+
+
+                    if (!values.imageCover) {
+                        errors.imageCover = "Không được để trống!";
+                    }
+
+
+                    if (!values.imageCenter) {
+                        errors.imageCenter = 'Không được để trống'
+                    }
+                    if (!values.descriptionEnd) {
+                        errors.descriptionEnd = 'Không được để trống'
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                    updateNews(values, resetForm)
+                    setSubmitting(false);
+
+
+                    setImageCover(null);
+                    setImageCenter(null);
+                }}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    setFieldValue,
+
+                }) => (
+                    <form onSubmit={handleSubmit} >
+
+                        <div className="w-4/5 mx-auto rounded-xl my-10 animate-fadeInLeft">
+                            <div className="w-full h-48 tablet:h-60 my-4 flex justify-center rounded-xl shadow overflow-hidden ">
+                                <img
+                                    src={require("../../assets/images/thumbnail10.jpg")}
+                                    className="w-full h-full object-cover object-center  "
+                                    alt="ảnh nền"
+                                />
+                            </div>
+                            <div className="grid gap-6 ">
+
+                                <div className=" col-span-1  rounded-xl shadow-2xl">
+                                    <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
+                                        <h1 className="text-white text-2xl text-center py-3 font-semibold ">Đăng tải tin tức của bạn</h1>
+                                    </div>
+                                    <div className="w-4/5 mx-auto">
+                                        <div class="mb-6">
+                                            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tiêu đề</label>
+                                            <input type="title"
+                                                id="title"
+                                                name="title"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.title}
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..." />
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.title && touched.title && errors.title}</p>
+
+                                        </div>
+                                        <div className="mb-6">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCover">Ảnh cover</label>
+                                            <div className=" mobile:flex mobile:gap-6 ">
+                                                <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    aria-describedby="imageCover_help"
+                                                    id="imageCover"
+                                                    type="file"
+                                                    name="imageCover"
+                                                    onChange={(e) => { handleChangeCoverImage(e, setFieldValue) }} />
+                                                {imageCover ? <PreviewImageCoverPopover imageCover={imageCover} ></PreviewImageCoverPopover> : ''}
+
+                                            </div>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.imageCover && touched.imageCover && errors.imageCover}</p>
+
+                                        </div>
+
+
+                                        <div className="mb-6">
+                                            <label for="descriptionMain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nội dung chính</label>
+                                            <textarea id="descriptionMain"
+                                                rows="4"
+                                                name="descriptionMain"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.descriptionMain}
+                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mô tả..."></textarea>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.descriptionMain && touched.descriptionMain && errors.descriptionMain}</p>
+
+                                        </div>
+                                        <div className="mb-6 ">
+
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCenter">Ảnh giữa</label>
+                                            <div className=" mobile:flex mobile:gap-6 ">
+                                                <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    aria-describedby="imageCenter_help"
+                                                    id="imageCenter"
+                                                    type="file"
+                                                    name="imageCenter"
+                                                    onChange={(e) => { handleChangeCenterImage(e, setFieldValue) }} />
+                                                {imageCenter ? <PreviewImageCenterPopover imageCenter={imageCenter} ></PreviewImageCenterPopover> : ''}
+
+                                            </div>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.imageCenter && touched.imageCenter && errors.imageCenter}</p>
+                                        </div>
+                                        <div className="mb-6">
+                                            <label for="descriptionEnd" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nội dung kết</label>
+                                            <textarea id="descriptionEnd"
+                                                rows="4"
+                                                name="descriptionEnd"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.descriptionEnd}
+                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mô tả..."></textarea>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.descriptionEnd && touched.descriptionEnd && errors.descriptionEnd}</p>
+
+                                        </div>
+
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <button type="submit" disabled={isSubmitting} class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10 ">
+
+                                            {loading ? (
+                                                <>
+                                                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                                                </>
+                                            ) : (
+                                                "Gửi"
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                )}
+            </Formik>
+        )}
+    </>);
+}

@@ -33,7 +33,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
   const [isExpanded, setIsExpanded] = useState(false); 
                
 
-  const planInformation = organize?.planInformation.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const planInformation = organize?.planInformation?.replace(/(?:\r\n|\r|\n)/g, "<br>");
   console.log('====================================');
   console.log(JSON.stringify(planInformation));
   console.log('====================================');
@@ -279,7 +279,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
           </div>
           {organize && (
             <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div>
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="isApproved"

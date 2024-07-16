@@ -116,7 +116,7 @@ export const columns = ({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0  "
-           onClick={() => onSort("ExpectedEndDate")}
+          onClick={() => onSort("ExpectedEndDate")}
         >
           Thời gian kết thúc giai đoạn ủng hộ dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -186,7 +186,18 @@ export const columns = ({ onSort }) => [
                 </DropdownMenuItem>
               </div>) : ""}
 
+            {infoRow?.isActive === false ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
 
+                >
+                  <Link to={`/updateCampaignVolunteer/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
+                    Chỉnh sửa chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
 
 
           </DropdownMenuContent>

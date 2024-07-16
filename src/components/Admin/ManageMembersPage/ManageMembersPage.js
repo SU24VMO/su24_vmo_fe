@@ -6,13 +6,13 @@ const ManageMembersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lí người dùng • VMO</title>
+        <title>Quản lý tài khoản thành viên • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lí người dùng</p>
+      <p className="font-bold text-2xl">Quản lý tài khoản thành viên </p>
       <TableMembers />
     </>
   );

@@ -16,7 +16,7 @@ export async function exportToExcel() {
         "ID thành viên": members?.memberID,
         "Tên thành viên": members?.memberName,
         "Email": members?.email,
-
+        "CCCD": members?.citizenIdentification,
         "Địa chỉ": members?.memberAddress,
         "Ngày sinh": members?.birthday,
         "Mạng xã hội": members?.socialMediaLink,
@@ -37,6 +37,7 @@ export async function exportToExcel() {
             { label: "ID thành viên", value: "ID thành viên" },
             { label: "Tên thành viên", value: "Tên thành viên" },
             { label: "Email", value: "Email" },
+            { label: "CCCD", value: "CCCD" },
             { label: "Địa chỉ", value: "Địa chỉ" },
             { label: "Ngày sinh", value: "Ngày sinh" },
             { label: "Mạng xã hội", value: "Mạng xã hội" },

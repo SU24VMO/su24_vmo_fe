@@ -232,9 +232,20 @@ export default function SignUpVerifyUserForm() {
                             onBlur={handleBlur}
                             value={values.address}
                             autoComplete="off"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Nhập địa chỉ..." />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.address && touched.address && errors.address}</p>
 
+                    </div>
+                    <div class="mb-5">
+                        <label for="nameOfClub" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên CLB/Đội/Nhóm của bạn  </label>
+                        <input type="text"
+                            id="nameOfClub"
+                            name="nameOfClub"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.nameOfClub}
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên CLB..." />
                     </div>
                     <div class="flex items-start mb-5 flex-col">
                         <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vai trò của bạn trong CLB/Đội/Nhóm</label>
@@ -268,16 +279,7 @@ export default function SignUpVerifyUserForm() {
                             <label for="leader" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chủ nhiệm</label>
                         </div>
                     </div>
-                    <div class="mb-5">
-                        <label for="nameOfClub" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên CLB/Đội/Nhóm của bạn  </label>
-                        <input type="text"
-                            id="nameOfClub"
-                            name="nameOfClub"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.nameOfClub}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên..." />
-                    </div>
+                   
                     <div class="mb-5">
                         <label for="linkOfInfo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Đường dẫn/link facebook, website, youtube, instagram, tiktok . . .mô tả, giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện nguyện, cộng đồng đã triển khai*</label>
                         <input type="text"
@@ -286,7 +288,10 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.linkOfInfo}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Link..."
+                            />
+                            
                     </div>
                     <div class="mb-5">
                         <label for="linkOfAchievement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Thành tích, khen thưởng, được ghi nhận trong hoạt động tình nguyện, cộng đồng, xã hội (Đoạn văn ngắn bao gồm đường dẫn/link hoặc đính kèm hình ảnh minh hoạ)*</label>
@@ -296,7 +301,9 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.linkOfAchievement}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Link..."
+                            />
                     </div>
                     <div class="mb-5 bg-vmo p-5 rounded-xl">
                         <span className="text-white text-sm mobile:text-xl font-semibold text-justify">

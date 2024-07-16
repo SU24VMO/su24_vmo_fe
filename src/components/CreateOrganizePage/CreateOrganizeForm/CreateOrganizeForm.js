@@ -7,13 +7,14 @@ import { CREATEORGANIZATION } from "../../../api/apiConstants";
 import { useToast } from "../../../components/ui/use-toast";
 import { AuthContext } from "../../../context/AuthContext";
 import {  Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateOrganizeForm() {
   const { toast } = useToast();
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-
+  const navigate = useNavigate()
   const [file, setFile] = useState();
 
   function handleLogoChange(e, setFieldValue) {
@@ -58,8 +59,7 @@ export default function CreateOrganizeForm() {
         setFile(null)
     setFieldValue('Logo', null);
     setFieldValue('FoundingDate', null);
-    
-    console.log(data.Logo);
+    navigate("/manage/organize/allOrganizations")
 
 
         toast({
@@ -108,6 +108,7 @@ export default function CreateOrganizeForm() {
         validate={(values) => {
           const errors = {};
           var today = new Date();
+          const cleanedTaxCode = values.OrganizationTaxCode.replace(/\s+/g, '');
           // OrganizationName  validation
           if (!values.OrganizationName) {
             errors.OrganizationName = "Không được để trống!";
@@ -139,11 +140,9 @@ export default function CreateOrganizeForm() {
           // OrganizationTaxCode validation
           if (!values.OrganizationTaxCode) {
             errors.OrganizationTaxCode = "Không được để trống!";
-          } else if (values.OrganizationTaxCode.length < 10) {
+          } else if (cleanedTaxCode.length !== 10 || !/^\d{10}$/.test(cleanedTaxCode)) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
-          } else if (values.OrganizationTaxCode.length > 10) {
-            errors.OrganizationTaxCode = "Số thuế không hợp lệ";
-          } 
+          }
           
           // Address validation
           if (!values.Address) {
@@ -230,7 +229,7 @@ export default function CreateOrganizeForm() {
                 Mã số thuế doanh nghiệp *
               </label>
               <input
-                type="text"
+                type="tel"
                 id="OrganizationTaxCode"
                 name="OrganizationTaxCode"
                 onChange={handleChange}

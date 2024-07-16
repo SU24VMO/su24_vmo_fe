@@ -147,7 +147,7 @@ export default function SignUpVerifyOrganizeForm() {
                 for="name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Họ và tên người quản lý*
+                Họ và tên người quản lý *
               </label>
               <input
                 type="text"
@@ -216,7 +216,7 @@ export default function SignUpVerifyOrganizeForm() {
                 onBlur={handleBlur}
                 value={values.address}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Nhập số điện thoại..."
+                placeholder="Nhập địa chỉ..."
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
@@ -229,7 +229,7 @@ export default function SignUpVerifyOrganizeForm() {
                 for="citizenIdentification"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Căn Cước Công Dân *
+                Mã CCCD *
               </label>
               <input
                 type="text"
@@ -262,7 +262,7 @@ export default function SignUpVerifyOrganizeForm() {
                 onBlur={handleBlur}
                 value={values.personalTaxCode}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Nhập số căn cước..."
+                placeholder="Nhập số mã số thuế..."
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}

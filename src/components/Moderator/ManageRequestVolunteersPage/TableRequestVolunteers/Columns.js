@@ -52,8 +52,30 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      
+      const memberAddress = row.original?.memberAddress ? (row.original?.memberAddress) : "Không có";
+      return <div className="w-40 truncate">{memberAddress}</div>;
+    },
+  },
+  
+  {
+    accessorKey: "citizenIdentification",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+           onClick={() => onSort("CitizenIdentification")}
+        >
+          CCCD
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
    
   },
+
   {
     accessorKey: "moderator",
     header: ({ column }) => {

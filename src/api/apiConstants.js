@@ -35,6 +35,24 @@ export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organ
 export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/'
 export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 
+// -----------------
+
+export const GETREQUESTNEWSTOUPDATE = '/api/create-post-request/'
+export const GETREQUESTCAMPAIGNTOUPDATE = '/api/create-campaign-request/'
+export const GETREQUESTACTIVITYTOUPDATE = '/api/create-activity-request/'
+export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/'
+
+
+export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
+export const UPDATENEWS = '/api/create-post-request/update/post-information'
+export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-information'
+export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
+
+export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
+
+
+
+// ------------------
 
 //volunteer
 export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";
@@ -52,6 +70,12 @@ export const PUTPROCESSINGPHASE = "/api/processing-phase/status/update";
 export const PUTSTATEMENTPHASE = "/api/statement-phase/status/update";
 export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 
+//admin
+
+export const GETALLACCOUNT = "/api/account/all"
+export const GETALLCAMPAIGN = "/api/campaign/all"
+export const GETALLORGANIZATION = "/api/organization/all"
+export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
 
 
 

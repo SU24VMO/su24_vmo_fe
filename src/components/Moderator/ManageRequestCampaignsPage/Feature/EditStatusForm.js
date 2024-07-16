@@ -29,9 +29,11 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false);
   const description = campaigns?.campaign?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
-
+  console.log('====================================');
+  console.log(campaigns);
+  console.log('====================================');
   const updateStatus = async (data) => {
     try {
       setLoading(true);
@@ -208,14 +210,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="user">Tạo bởi thành viên</Label>
+                <Label htmlFor="member">Tạo bởi thành viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
-                    id="user"
-                    defaultValue={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""}
+                    id="member"
+                    defaultValue={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""}
                     disabled
                   />
-                  <CopyButton code={campaigns?.user ? (campaigns.user?.firstName + campaigns.user?.lastName) : ""} />
+                  <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""} />
                 </div>
               </div>
             </div>
