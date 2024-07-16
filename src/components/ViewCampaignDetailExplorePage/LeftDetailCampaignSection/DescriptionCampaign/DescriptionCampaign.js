@@ -18,6 +18,22 @@ const DescriptionCampaign = ({ campaignDescription }) => {
     setIsExpanded(!isExpanded);
   };
 
+  const contentStyle = {
+    maxHeight: maxHeight,
+    overflow: "hidden",
+    position: "relative",
+    transition: "max-height 0.5s ease",
+    ...(isExpanded
+      ? {}
+      : {
+          // Khi chưa mở rộng, thêm bóng mờ ở cuối
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 50%, transparent 100%)",
+        }),
+  };
+
+
   React.useEffect(() => {
     if (isExpanded) {
       setMaxHeight(`${contentRef.current.scrollHeight}px`);
@@ -28,12 +44,7 @@ const DescriptionCampaign = ({ campaignDescription }) => {
     <div>
       <div
         ref={contentRef}
-        style={{
-          maxHeight: maxHeight,
-          overflow: "hidden",
-          position: "relative",
-          transition: "max-height 0.5s ease",
-        }}
+        style={contentStyle}
         dangerouslySetInnerHTML={{ __html: campaignDescriptionFormat }}
       />
       <Button

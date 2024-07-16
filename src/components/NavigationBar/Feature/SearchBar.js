@@ -9,7 +9,7 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const handleSearch = () => {
     console.log("searchValue đang nhấn vào:", searchValue);
-    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC') || " ");
     const searchParams = normalizeAndEncode(searchValue);
     navigate(`/viewCampaigns/search/${searchParams}`);
   };

@@ -112,7 +112,7 @@ const CarouselCampaigns = () => {
                 </CarouselItem>
               ))
             : renderSkeletons()}
-          {hasMore ? null : <p>Chưa có chiến dịch được tạo bởi tổ chức</p>}
+          {hasMore ? null : <p>Chưa có chiến dịch khác</p>}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

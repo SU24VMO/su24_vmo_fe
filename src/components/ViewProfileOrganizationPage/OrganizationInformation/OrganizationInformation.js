@@ -1,8 +1,48 @@
 import { format } from "date-fns";
 import { LinkIcon } from "lucide-react";
 import React from "react";
+import { Button } from "../../ui/button";
 
 const OrganizationInformation = ({ organizationData }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [maxHeight, setMaxHeight] = React.useState("10em");
+  const contentRef = React.useRef(null);
+  const organizationDescription = organizationData?.description;
+  const organizationDescriptionFormat = organizationDescription.replace(
+    /(?:\r\n|\r|\n)/g,
+    "<br>"
+  );
+  const toggleContent = () => {
+    if (isExpanded) {
+      setMaxHeight("10em"); // Đặt lại về giá trị ban đầu khi thu gọn
+    } else {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`); // Cập nhật maxHeight dựa trên độ cao thực tế của nội dung
+    }
+    setIsExpanded(!isExpanded);
+  };
+
+  React.useEffect(() => {
+    if (isExpanded) {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`);
+    }
+  }, [organizationDescription, isExpanded]); // Cập nhật maxHeight khi campaignDescription thay đổi
+
+  // Thêm style cho hiệu ứng bóng mờ
+  const contentStyle = {
+    maxHeight: maxHeight,
+    overflow: "hidden",
+    position: "relative",
+    transition: "max-height 0.5s ease",
+    ...(isExpanded
+      ? {}
+      : {
+          // Khi chưa mở rộng, thêm bóng mờ ở cuối
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 50%, transparent 100%)",
+        }),
+  };
+
   return (
     <div>
       <div className="flex items-center gap-4">
@@ -20,9 +60,23 @@ const OrganizationInformation = ({ organizationData }) => {
           </div>
         </div>
       </div>
-      <p className="text-muted-foreground mt-4">
-        {organizationData.description}
-      </p>
+      {/* Mô tả của tổ chức  */}
+      <div>
+        <div
+          ref={contentRef}
+          style={contentStyle}
+          dangerouslySetInnerHTML={{ __html: organizationDescriptionFormat }}
+        />
+        <Button
+          size={"lg"}
+          variant={"link"}
+          onClick={toggleContent}
+          className="p-0"
+        >
+          {isExpanded ? "Thu gọn" : "Xem thêm"}
+        </Button>
+      </div>
+
       <div className="mt-4 flex items-center gap-2">
         <a
           href={organizationData.website}
@@ -46,7 +100,9 @@ const OrganizationInformation = ({ organizationData }) => {
             <p className="text-sm font-medium text-muted-foreground">
               Ngày thành lập
             </p>
-            <p>{format(new Date(organizationData.foundingDate), 'dd/MM/yyyy')}</p>
+            <p>
+              {format(new Date(organizationData.foundingDate), "dd/MM/yyyy")}
+            </p>
           </div>
           <div>
             <p className="text-sm font-medium text-muted-foreground">
@@ -70,7 +126,7 @@ const OrganizationInformation = ({ organizationData }) => {
             <p className="text-sm font-medium text-muted-foreground">
               Ngày tham gia hệ thống
             </p>
-            <p>{format(new Date(organizationData.createdAt), 'dd/MM/yyyy')}</p>
+            <p>{format(new Date(organizationData.createdAt), "dd/MM/yyyy")}</p>
           </div>
           <div>
             <p className="text-sm font-medium text-muted-foreground">

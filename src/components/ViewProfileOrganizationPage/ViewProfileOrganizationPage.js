@@ -40,7 +40,11 @@ const ViewProfileOrganizationPage = () => {
         if (response.status === 200) {
           setData(response.data.data);
           setOrganizationManagerData(response.data.data.organizationManager);
-          setCampaigns(response.data.data.campaigns);
+          // Lọc các campaigns hoạt động (isActive: true)
+          const activeCampaigns = response.data.data.campaigns.filter(
+            (campaign) => campaign.isActive
+          );
+          setCampaigns(activeCampaigns);
           setDataLoaded(true);
           toast({
             title: "Tải dữ liệu tổ chức thành công!",
@@ -74,15 +78,19 @@ const ViewProfileOrganizationPage = () => {
       <div className="mt-8">
         <h3 className="text-xl font-bold">Chiến dịch</h3>
         <div className="mt-4 grid grid-cols-1 mobile:grid-cols-2 gap-4">
-          {campaigns.map((campaign) => (
-            <CardCampaign
-              key={campaign.campaignID}
-              campaignId={campaign.campaignID}
-              imgSrc={campaign.image}
-              daysLeft={campaign.expectedEndDate}
-              campaignName={campaign.name}
-            />
-          ))}
+          {campaigns.length > 0 ? (
+            campaigns.map((campaign) => (
+              <CardCampaign
+                key={campaign.campaignID}
+                campaignId={campaign.campaignID}
+                imgSrc={campaign.image}
+                daysLeft={campaign.expectedEndDate}
+                campaignName={campaign.name}
+              />
+            ))
+          ) : (
+            <p>Tổ chức chưa có chiến dịch nào!</p>
+          )}
         </div>
       </div>
     </div>

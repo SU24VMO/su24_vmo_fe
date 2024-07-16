@@ -71,7 +71,7 @@ const LeftDonatePage = ({ data }) => {
             campaignTitle={data.name}
             dayLeft={calculateDaysLeft(data.expectedEndDate)}
             progressPercent={data.donatePhase.percent}
-            totalDonators={100}
+            totalDonators={data.transactions.length}
           />
         </CardContent>
       </Card>
