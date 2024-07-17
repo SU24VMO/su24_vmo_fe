@@ -62,7 +62,7 @@ export default function ManageOrganizeSlideBar() {
               id="drawer-navigation-label"
               className="text-base font-semibold text-gray-200 uppercase "
             >
-              Danh sách quản lí
+              Danh sách quản lý
             </h5>
           </div>
           <button

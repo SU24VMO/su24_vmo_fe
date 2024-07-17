@@ -355,6 +355,7 @@ export default function EditProfileForm() {
               </div>
               <Button
                 type="submit"
+                variant="green_theme_primary"
                 onClick={handleSubmit} // This should trigger the form submission
                 disabled={loading}
               >

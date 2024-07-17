@@ -124,7 +124,7 @@ function App() {
 
             {/* All role isLogin */}
             <Route element={<PrivateRoute allowedRoles={["Member", "Volunteer", "OrganizationManager", "Moderator"]} requireVerification={false} />}>
-              <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
+              {/* <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} /> */}
               <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
               <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
               <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
@@ -230,10 +230,7 @@ function App() {
 
             <Route path="*" element={<NotFound></NotFound>} />
           </Routes>
-          <ShowNavBarFooter>
-            {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
             <Footer />
-          </ShowNavBarFooter>
           <Toaster />
         </AuthProvider>
 

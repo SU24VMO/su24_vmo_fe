@@ -31,11 +31,11 @@ const LoginPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden  tablet:block h-fit">
+        <div className="hidden  tablet:block overflow-hidden max-h-screen">
           <img
-            src={require('../../assets/images/thumbnail7.jpg')}
+            src={require('../../assets/images/vmo_tree_banner.png')}
             alt="Image"
-            className="w-full object-cover object-top  h-2/3"
+            className="w-full object-cover object-center h-full"
           />
         </div>
         {/* RIGHT */}

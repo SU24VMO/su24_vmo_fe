@@ -47,8 +47,12 @@ const HeroSection = () => {
                 </Button>
               </Link>
               <Link to={"/news"} className="w-full tablet:w-fit">
-                <Button variant={"outline"} size={"lg"} className="w-full tablet:w-fit">
-                  Xem các bài đăng
+                <Button
+                  variant={"outline"}
+                  size={"lg"}
+                  className="w-full tablet:w-fit"
+                >
+                  Xem các bài đăng tin tức
                 </Button>
               </Link>
             </div>

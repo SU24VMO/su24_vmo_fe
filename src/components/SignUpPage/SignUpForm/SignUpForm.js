@@ -206,7 +206,7 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
                   <Label htmlFor="firstName">Họ</Label>
                   <Input
                     id="firstName"
-                    placeholder="Nguyen"
+                    placeholder="Nguyễn"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.firstName}
@@ -220,7 +220,7 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
                   <Label htmlFor="lastName">Tên</Label>
                   <Input
                     id="lastName"
-                    placeholder="Van A"
+                    placeholder="Văn A"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.lastName}
@@ -353,7 +353,7 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
                 </p>
               </div>
 
-              <Button type="submit" className="w-full" disabled={loading}>
+              <Button variant="green_theme_primary" type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -227,7 +227,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_by_om">Tạo bởi quản lí tổ chức</Label>
+                <Label htmlFor="create_by_om">Tạo bởi quản lý tổ chức</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"

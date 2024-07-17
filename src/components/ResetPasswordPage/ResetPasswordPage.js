@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import img_src from "../../assets/images/placeholder.svg";
+import img_src from "../../assets/images/vmo_tree_banner.png";
 import NewPasswordInput from "./ResetPasswordFeature/NewPasswordInput";
 import { Step, Stepper, useStepper } from "../ui/stepper";
 import EmailInput from "./ResetPasswordFeature/EmailInput";
@@ -39,17 +39,17 @@ const ResetPasswordPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden bg-muted tablet:block">
+        <div className="hidden bg-muted tablet:block overflow-hidden max-h-screen">
           <img
             src={img_src}
             alt="Image"
             width="1920"
             height="1080"
-            className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            className="w-full object-cover object-center h-full"
           />
         </div>
         {/* RIGHT */}
-        <div className="flex items-center justify-center py-12">
+        <div className="flex items-center justify-center py-12 min-h-screen">
           <div className="mx-auto grid gap-6">
             <Button
               variant={"link"}

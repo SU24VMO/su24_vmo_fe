@@ -189,7 +189,7 @@ const MobileNavLeft = () => {
                             ])
                           }
                         >
-                          Quản lí tổ chức
+                          Quản lý tổ chức
                         </Button>
                       </Link>
                     </div>
@@ -206,7 +206,7 @@ const MobileNavLeft = () => {
                         "/createVerifyOrganizationManager",
                       ])}
                     >
-                      Đăng kí quản lí tổ chức
+                      Đăng kí quản lý tổ chức
                     </Button>
                   </Link>
                 ) : (

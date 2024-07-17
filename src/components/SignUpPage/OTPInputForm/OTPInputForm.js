@@ -98,7 +98,7 @@ const OTPInputForm = ({ otp, signUpInformation }) => {
           {formik.errors.otp && formik.touched.otp && formik.errors.otp}
         </p>
       </div>
-      <Button type="submit" disabled={loading}>
+      <Button variant="green_theme_primary" type="submit" disabled={loading}>
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
-import img_src from "../../assets/images/placeholder.svg";
+import img_src from "../../assets/images/vmo_tree_banner.png";
 import { Helmet } from "react-helmet";
 
 const ChangePassswordPage = () => {
@@ -23,11 +23,13 @@ const ChangePassswordPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden bg-muted tablet:block">
+        <div className="hidden bg-muted tablet:block overflow-hidden max-h-screen">
           <img
             src={img_src}
             alt="Image"
-            className="min-h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            width="1920"
+            height="1080"
+            className="w-full object-cover object-center h-full"
           />
         </div>
         {/* RIGHT */}
