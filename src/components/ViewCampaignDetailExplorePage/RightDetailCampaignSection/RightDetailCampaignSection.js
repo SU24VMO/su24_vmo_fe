@@ -205,9 +205,14 @@ const RightDetailCampaignSection = ({ data }) => {
                 <p className="text-sm laptop:text-base text-muted-foreground">
                   Thời gian còn lại
                 </p>
-                <p className="text-sm laptop:text-base font-bold">
-                  {calculateDaysLeft(data.expectedEndDate)} ngày
-                </p>
+                {data.donatePhase.isProcessing === true &&
+                data.donatePhase.isEnd === false ? (
+                  <p className="text-sm laptop:text-base font-bold">
+                    {calculateDaysLeft(data.expectedEndDate)} ngày
+                  </p>
+                ) : (
+                  <p className="text-sm font-bold">Đã hết thời gian ủng hộ</p>
+                )}
               </div>
             </div>
           </div>
