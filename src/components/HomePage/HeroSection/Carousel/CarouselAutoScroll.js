@@ -32,8 +32,10 @@ export function CarouselAutoScroll() {
     >
       <CarouselContent>
         {images.map((image, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <AspectRatio ratio={4 / 3} className="bg-muted">
+          <CarouselItem key={index} 
+          className="aspect-square"
+          >
+            <AspectRatio ratio={1 / 1} className="bg-muted">
               <img
                 src={image}
                 alt={`Carousel ${index + 1}`}

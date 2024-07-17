@@ -249,7 +249,7 @@ const ChangePasswordForm = () => {
             </p>
           </div>
           <CardFooter>
-            <Button className="ml-auto" type="submit" disabled={loading}>
+            <Button variant="green_theme_primary" className="ml-auto" type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

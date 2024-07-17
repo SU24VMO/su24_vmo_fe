@@ -81,7 +81,7 @@ const OTPInput = ({ otp }) => {
           {formik.errors.otp && formik.touched.otp && formik.errors.otp}
         </p>
       </div>
-      <Button type="submit" disabled={formik.isSubmitting}>
+      <Button variant="green_theme_primary" type="submit" disabled={formik.isSubmitting}>
         Xác nhận
       </Button>
     </form>

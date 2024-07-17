@@ -152,6 +152,7 @@ export default function EditAvatarForm() {
                   </DialogClose>
                   <Button
                     type="submit"
+                    variant="green_theme_primary"
                     onClick={handleSubmitAvatar}
                     disabled={loading}
                   >

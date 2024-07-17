@@ -23,7 +23,7 @@ const HomePage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <div className="w-full max-w-screen-desktop mobile:px-24 bg-green-theme-thirdly px-3">
+      <div className="w-full bg-[url('/src/assets/images/homepage_hero_background_black.png')] object-cover object-center max-w-screen-desktop mobile:px-24 bg-green-theme-thirdly px-3">
         <HeroSection />
       </div>
       <div className="px-3 mobile:px-24">

@@ -67,7 +67,7 @@ export function DataTable({
   const columnHeaders = {
     "title": "Tên bài viết",
     "user": "Thành viên",
-    "organizationManager": "Quản lí tổ chức",
+    "organizationManager": "Quản lý tổ chức",
     "createDate": "Ngày tạo",
     "approvedDate": "Ngày duyệt",
     "moderator": "Người duyệt",

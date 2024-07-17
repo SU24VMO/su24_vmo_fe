@@ -21,7 +21,7 @@ export async function exportToExcel() {
         // "Nội dung": activity.activity?.content,
 
         "Tạo bởi thành viên": (activity?.member?.firstName + " " + activity?.member?.lastName),
-        "Tạo bởi quản lí tổ chức": (activity?.organizationManager?.firstName + " " + activity?.organizationManager?.lastName),
+        "Tạo bởi quản lý tổ chức": (activity?.organizationManager?.firstName + " " + activity?.organizationManager?.lastName),
         "Người duyệt": (activity?.moderator?.firstName + " " + activity?.moderator?.lastName),
         "Ngày tạo": format(new Date(activity?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(activity?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
@@ -39,7 +39,7 @@ export async function exportToExcel() {
             { label: "Nội dung", value: "Nội dung" },
 
             { label: "Tạo bởi thành viên", value: "Tạo bởi thành viên" },
-            { label: "Tạo bởi quản lí tổ chức", value: "Tạo bởi quản lí tổ chức" },
+            { label: "Tạo bởi quản lý tổ chức", value: "Tạo bởi quản lý tổ chức" },
             { label: "Người duyệt", value: "Người duyệt" },
             { label: "Ngày tạo", value: "Ngày tạo" },
             { label: "Ngày duyệt", value: "Ngày duyệt" },

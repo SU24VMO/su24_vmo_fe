@@ -8,7 +8,7 @@ const HeroSection = () => {
           <div className="text-center">
             <div className="relative mt-7 sm:mt-12 mx-auto max-w-2xl">
               <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight tablet:text-4xl">
-              CÁC CHIẾN DỊCH CỦA TÌNH NGUYỆN VIÊN
+              CÁC CHIẾN DỊCH <br /> CỦA TÌNH NGUYỆN VIÊN
               </h1>
               <p className="mt-3 text-lg text-muted-foreground">
                 Hành trình thiện nguyện, chắp cánh ước mơ

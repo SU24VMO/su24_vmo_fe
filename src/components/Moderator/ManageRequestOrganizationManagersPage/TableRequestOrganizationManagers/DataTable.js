@@ -65,7 +65,7 @@ export function DataTable({
   });
   //Name of column dropdown
   const columnHeaders =  {
-    "name": "Tên quản lí tổ chức",
+    "name": "Tên quản lý tổ chức",
     "phoneNumber": "Số điện thoại",
     "email": "Email",
     "address": "Địa chỉ",
@@ -114,7 +114,7 @@ export function DataTable({
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập tên quản lí cần tìm ..."
+          placeholder="Nhập tên quản lý cần tìm ..."
       
           onChange={(event) =>
             setOrganizationManagerName(event.target.value)

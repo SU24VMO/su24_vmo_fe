@@ -98,18 +98,18 @@ console.log(organizationManager);
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
-          <DialogTitle>Thông tin đơn duyệt quản lí tổ chức</DialogTitle>
+          <DialogTitle>Thông tin đơn duyệt quản lý tổ chức</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo quản lí tổ chức!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo quản lý tổ chức!
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[65vh] shadow-inner ">
          <div className="flex flex-col p-5 gap-5">
           
-           {/* Show tên quản lí tổ chức */}
+           {/* Show tên quản lý tổ chức */}
            <div className="flex">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="name">Tên quản lí tổ chức</Label>
+              <Label htmlFor="name">Tên quản lý tổ chức</Label>
               <div className="flex items-center space-x-2">
                 <Input
                   id="name"
@@ -120,7 +120,7 @@ console.log(organizationManager);
               </div>
             </div>
           </div>
-          {/* Show sdt quản lí tổ chức */}
+          {/* Show sdt quản lý tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="phoneNumber">Số điện thoại</Label>
@@ -135,7 +135,7 @@ console.log(organizationManager);
             </div>
           </div>
 
-          {/* Show sdt quản lí tổ chức */}
+          {/* Show sdt quản lý tổ chức */}
           <div className="flex">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="email">Email</Label>

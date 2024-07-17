@@ -25,7 +25,7 @@ export default function EditProfilePage() {
         <h1 className="text-xl font-bold my-2">Chỉnh sửa thông tin cá nhân</h1>
       </div>
       <div className="w-3/4 mx-auto">
-        <div className="grid gap-6 tablet:grid-cols-2">
+        <div className="grid gap-6 tablet:grid-cols-2 my-5">
           <EditProfileForm></EditProfileForm>
           <EditAvatarForm></EditAvatarForm>
         </div>
