@@ -8,10 +8,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo_img from "../../../assets/images/logo1.svg";
 import { AuthContext } from "../../../context/AuthContext";
+import { Skeleton } from "../../ui/skeleton";
 
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
-  const { user, isLogin } = useContext(AuthContext);
+  const { user, isLogin, loading } = useContext(AuthContext);
   const location = useLocation();
 
   // Hàm kiểm tra và trả về class tương ứng
@@ -111,86 +112,110 @@ const MobileNavLeft = () => {
             </>
           )}
 
-          {user?.role === "Volunteer" && user.is_verified ? (
-            <>
-              <Separator className="mb-5" />
-              <div className="w-full mb-5">
-                <Link to="/manage/volunteer/allCampaigns">
-                  <Button
-                    variant="ghost"
-                    className={
-                      "w-full items-start justify-start" +
-                      getLinkClass([
-                        "/manage/volunteer/allCampaigns",
-                        "/manage/volunteer/allNews",
-                        "/manage/volunteer/allPhase1",
-                        "/manage/volunteer/allPhase2",
-                        "/manage/volunteer/allPhase3",
-                        "/manage/volunteer/allActivities",
-                      ])
-                    }
-                  >
-                    Quản lý
-                  </Button>
-                </Link>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
-          {user?.role === "Member" && user.is_verified === "False" ? (
-            <Link to="/createVerifyVolunteer">
-              <Button
-                variant="ghost"
-                className={getLinkClass(["/createVerifyVolunteer"])}
-              >
-                Đăng kí tình nguyện viên
-              </Button>
-            </Link>
-          ) : (
-            ""
-          )}
-          {user?.role === "OrganizationManager" && user.is_verified ? (
-            <>
-              <Separator className="mb-5" />
-              <div className="w-full mb-5">
-                <Link to="/manage/organize/allOrganizations">
-                  <Button
-                    variant="ghost"
-                    className={
-                      "w-full items-start justify-start" +
-                      getLinkClass([
-                        "/manage/organize/allOrganizations",
-                        "/manage/organize/allCampaigns",
-                        "/manage/organize/allNews",
-                        "/manage/organize/allPhase1",
-                        "/manage/organize/allPhase2",
-                        "/manage/organize/allPhase3",
-                        "/manage/organize/allActivities",
-                      ])
-                    }
-                  >
-                    Quản lí tổ chức
-                  </Button>
-                </Link>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
-          {user?.role === "OrganizationManager" &&
-          user.is_verified === "False" ? (
-            <Link to="/createVerifyOrganizationManager">
-              <Button
-                variant="ghost"
-                className={getLinkClass(["/createVerifyOrganizationManager"])}
-              >
-                Đăng kí quản lí tổ chức
-              </Button>
-            </Link>
-          ) : (
-            ""
-          )}
+          <>
+            {loading ? (
+              <>
+                <Separator className="mb-5" />
+                <div className="w-full mb-5">
+                  <Skeleton className="w-full h-8 rounded-lg" />
+                </div>
+              </>
+            ) : (
+              <>
+                {user?.role === "Volunteer" && user.is_verified ? (
+                  <>
+                    <Separator className="mb-5" />
+                    <div className="w-full mb-5">
+                      <Link to="/manage/volunteer/allCampaigns">
+                        <Button
+                          variant="ghost"
+                          className={
+                            "w-full items-start justify-start" +
+                            getLinkClass([
+                              "/manage/volunteer/allCampaigns",
+                              "/manage/volunteer/allNews",
+                              "/manage/volunteer/allPhase1",
+                              "/manage/volunteer/allPhase2",
+                              "/manage/volunteer/allPhase3",
+                              "/manage/volunteer/allActivities",
+                            ])
+                          }
+                        >
+                          Quản lý
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {user?.role === "Member" && user.is_verified === "False" ? (
+                  <>
+                    <Separator className="mb-5" />
+                    <div className="w-full mb-5">
+                      <Link to="/createVerifyVolunteer">
+                        <Button
+                          variant="ghost"
+                          className={
+                            "w-full items-start justify-start" +
+                            getLinkClass(["/createVerifyVolunteer"])
+                          }
+                        >
+                          Đăng kí tình nguyện viên
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {user?.role === "OrganizationManager" && user.is_verified ? (
+                  <>
+                    <Separator className="mb-5" />
+                    <div className="w-full mb-5">
+                      <Link to="/manage/organize/allOrganizations">
+                        <Button
+                          variant="ghost"
+                          className={
+                            "w-full items-start justify-start" +
+                            getLinkClass([
+                              "/manage/organize/allOrganizations",
+                              "/manage/organize/allCampaigns",
+                              "/manage/organize/allNews",
+                              "/manage/organize/allPhase1",
+                              "/manage/organize/allPhase2",
+                              "/manage/organize/allPhase3",
+                              "/manage/organize/allActivities",
+                            ])
+                          }
+                        >
+                          Quản lí tổ chức
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {user?.role === "OrganizationManager" &&
+                user.is_verified === "False" ? (
+                  <Link to="/createVerifyOrganizationManager">
+                    <Button
+                      variant="ghost"
+                      className={getLinkClass([
+                        "/createVerifyOrganizationManager",
+                      ])}
+                    >
+                      Đăng kí quản lí tổ chức
+                    </Button>
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </>
+
           <Separator className="mb-5" />
           <div className="w-full">
             <SearchBar />

@@ -55,8 +55,24 @@ const CampaignsSection = ({ searchParams }) => {
       }
       const response = await axiosPublic.get(url);
       if (response.status === 200) {
-        const fetchedData = response.data.data.list;
-        setDataFull(response.data.data);
+        let fetchedData = response.data.data.list;
+        // Bước 2: Thêm logic lọc dữ liệu dựa trên trạng thái
+        if (selectedCampaignStatus) {
+          if (selectedCampaignStatus === "Đã kết thúc") {
+            fetchedData = fetchedData.filter(
+              (campaign) => campaign.isComplete === true
+            );
+          } else {
+            // "Đang thực hiện" hoặc "Đạt mục tiêu"
+            fetchedData = fetchedData.filter(
+              (campaign) =>
+                campaign.processingPhase.isProcessing ||
+                campaign.statementPhase.isProcessing ||
+                campaign.donatePhase.isProcessing
+            );
+          }
+        }
+        // Bước 3: Cập nhật state với dữ liệu đã lọc
         if (fetchedData.length === 0) {
           setHasMore(false);
         } else if (page > 1) {
@@ -64,13 +80,7 @@ const CampaignsSection = ({ searchParams }) => {
         } else {
           setData(fetchedData);
         }
-        toast({
-          title: "Tải dữ liệu các chiến dịch thành công!",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
         setDataLoaded(true);
-        console.log("Campaign lấy được", data);
-        console.log("Toàn bộ data từ API lấy ra campaign search", dataFull);
       }
     } catch (error) {
       toast({
