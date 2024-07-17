@@ -1,5 +1,6 @@
 import React from "react";
-import { BrainCogIcon, PackageIcon, ZapIcon } from "lucide-react";
+import {Building2, Goal, HandCoins, HeartHandshake, UserPlus, UsersRound } from "lucide-react";
+import image_src from "../../../assets/images/call_for_action_image_full.svg";
 
 const CallForActionSection = () => {
   return (
@@ -10,18 +11,19 @@ const CallForActionSection = () => {
           {/* Grid */}
           <div className="flex flex-col items-center justify-center">
             <p className="text-2xl text-center font-semibold mb-4">
-              Đồng hành dễ dàng hơn cùng <br /> <span className="font-bold">VMO</span> 
+              Đồng hành dễ dàng hơn cùng <br />{" "}
+              <span className="font-bold">VMO</span>
             </p>
             <div className="grid tablet:grid-cols-3 gap-6 lg:gap-12">
-              <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
-                <img src="https://via.placeholder.com/360x150" alt="Ảnh" />
+              <div className="col-span-1 place-self-center">
+                <img src={image_src} alt="Ảnh" className="w-full h-full"/>
               </div>
               <div className="grid tablet:col-span-2 tablet:grid-cols-2 gap-6 lg:gap-12">
                 <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
                   <div>
                     {/* Icon Block */}
                     <div className="flex">
-                      {/* <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <Building2 className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng tổ chức thiện nguyện
@@ -34,7 +36,7 @@ const CallForActionSection = () => {
                     {/* End Icon Block */}
                     {/* Icon Block */}
                     <div className="flex">
-                      {/* <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <Goal className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng chiến dịch thiện nguyện
@@ -47,7 +49,7 @@ const CallForActionSection = () => {
                     {/* End Icon Block */}
                     {/* Icon Block */}
                     <div className="flex">
-                      {/* <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <UsersRound className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng cá nhân thiện nguyện
@@ -62,7 +64,7 @@ const CallForActionSection = () => {
                 <div className="space-y-6 col-span-1 lg:space-y-10 place-self-center">
                   <div>
                     <div className="flex">
-                      {/* <BrainCogIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <HandCoins className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Tổng giá trị đổi ra tiền đã ủng hộ
@@ -73,7 +75,7 @@ const CallForActionSection = () => {
                       </div>
                     </div>
                     <div className="flex">
-                      {/* <PackageIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <UserPlus className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng thành viên tham gia
@@ -84,7 +86,7 @@ const CallForActionSection = () => {
                       </div>
                     </div>
                     <div className="flex">
-                      {/* <ZapIcon className="flex-shrink-0 mt-2 h-8 w-8" /> */}
+                      <HeartHandshake className="flex-shrink-0 mt-2 h-8 w-8 text-[#14452F]" />
                       <div className="ms-5 sm:ms-8">
                         <h3 className="text-base sm:text-lg font-semibold">
                           Tổng số lượt đã ủng hộ của người dùng
