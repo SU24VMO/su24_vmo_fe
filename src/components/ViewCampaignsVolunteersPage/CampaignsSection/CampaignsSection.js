@@ -18,8 +18,10 @@ const CampaignsSection = () => {
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [pageNo, setPageNo] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
-  const [selectedCampaignTypeID, setSelectedCampaignTypeID] = React.useState(null); // state cho selectedCampaignTypeID
-  const [selectedCampaignStatus, setSelectedCampaignStatus] = React.useState(null); // state cho selectedCampaignStatus
+  const [selectedCampaignTypeID, setSelectedCampaignTypeID] =
+    React.useState(null); // state cho selectedCampaignTypeID
+  const [selectedCampaignStatus, setSelectedCampaignStatus] =
+    React.useState(null); // state cho selectedCampaignStatus
   const [selectedCampaignName, setSelectedCampaignName] = React.useState(null); // state cho selectedCampaignName
 
   // Lấy dữ liệu các campaign từ API
@@ -49,7 +51,24 @@ const CampaignsSection = () => {
       }
       const response = await axiosPublic.get(url);
       if (response.status === 200) {
-        const fetchedData = response.data.data.list;
+        let fetchedData = response.data.data.list;
+        // Bước 2: Thêm logic lọc dữ liệu dựa trên trạng thái
+        if (selectedCampaignStatus) {
+          if (selectedCampaignStatus === "Đã kết thúc") {
+            fetchedData = fetchedData.filter(
+              (campaign) => campaign.isComplete === true
+            );
+          } else {
+            // "Đang thực hiện" hoặc "Đạt mục tiêu"
+            fetchedData = fetchedData.filter(
+              (campaign) =>
+                campaign.processingPhase.isProcessing ||
+                campaign.statementPhase.isProcessing ||
+                campaign.donatePhase.isProcessing
+            );
+          }
+        }
+        // Bước 3: Cập nhật state với dữ liệu đã lọc
         if (fetchedData.length === 0) {
           setHasMore(false);
         } else if (page > 1) {
@@ -57,10 +76,6 @@ const CampaignsSection = () => {
         } else {
           setData(fetchedData);
         }
-        toast({
-          title: "Tải dữ liệu các chiến dịch thành công!",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
         setDataLoaded(true);
       }
     } catch (error) {
@@ -85,11 +100,7 @@ const CampaignsSection = () => {
       selectedCampaignStatus,
       selectedCampaignName
     );
-  }, [
-    selectedCampaignTypeID,
-    selectedCampaignStatus,
-    selectedCampaignName,
-  ]);
+  }, [selectedCampaignTypeID, selectedCampaignStatus, selectedCampaignName]);
 
   // Hàm xử lý khi nhấn nút Xem Thêm
   const handleLoadMore = () => {
@@ -167,7 +178,7 @@ const CampaignsSection = () => {
       ) : hasMore ? ( // Kiểm tra nếu còn dữ liệu thì hiển thị nút Xem Thêm
         <div className="flex items-center justify-center my-10">
           <Button
-            variant="default"
+            variant="green_theme_primary"
             className="tablet:text-lg"
             onClick={handleLoadMore}
           >

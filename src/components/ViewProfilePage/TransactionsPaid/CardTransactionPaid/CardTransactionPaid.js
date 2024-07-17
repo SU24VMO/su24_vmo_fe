@@ -51,7 +51,7 @@ const CardTransactionPaid = ({
         </div>
         <div>
           <Link to={`/viewCampaigns/campaignDetail/${campaignID}`}>
-            <Button variant="">Xem chiến dịch</Button>
+            <Button variant="green_theme_primary">Xem chiến dịch</Button>
           </Link>
         </div>
       </div>

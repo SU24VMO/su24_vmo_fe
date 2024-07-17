@@ -9,7 +9,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+          "border-transparent bg-green-theme-primary text-primary-foreground hover:bg-green-theme-primary/80",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
@@ -18,6 +18,9 @@ const badgeVariants = cva(
           "border-transparent bg-green-500 text-destructive-foreground hover:bg-green-500/80",
         outline: "text-foreground",
         white: "border-white bg-white hover:bg-primary/10",
+        black:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        yellow: "border-transparent bg-yellow-500 text-primary-foreground hover:bg-yellow-500/80",
       },
     },
     defaultVariants: {

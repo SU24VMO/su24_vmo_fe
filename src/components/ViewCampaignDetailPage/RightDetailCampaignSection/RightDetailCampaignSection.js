@@ -119,7 +119,7 @@ const RightDetailCampaignSection = ({ data }) => {
                     {data.organization
                       ? data.organization.name
                       : data.member
-                      ? data.member.lastname
+                      ? data.member.lastName[0]
                       : "Logo"}
                   </AvatarFallback>
                 </Avatar>
@@ -205,9 +205,14 @@ const RightDetailCampaignSection = ({ data }) => {
                 <p className="text-sm laptop:text-base text-muted-foreground">
                   Thời gian còn lại
                 </p>
-                <p className="text-sm laptop:text-base font-bold">
-                  {calculateDaysLeft(data.expectedEndDate)} ngày
-                </p>
+                {data.donatePhase.isProcessing === true &&
+                data.donatePhase.isEnd === false ? (
+                  <p className="text-sm laptop:text-base font-bold">
+                    {calculateDaysLeft(data.expectedEndDate)} ngày
+                  </p>
+                ) : (
+                  <p className="text-sm font-bold">Đã hết thời gian ủng hộ</p>
+                )}
               </div>
             </div>
           </div>
@@ -231,7 +236,7 @@ const RightDetailCampaignSection = ({ data }) => {
               <Badge variant="default">{data.statementPhase.name}</Badge>
             </div>
           ) : (
-            <div className="mb-3">
+            <div className="w-full mb-3">
               <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
             </div>
           )}
@@ -256,7 +261,7 @@ const RightDetailCampaignSection = ({ data }) => {
             {data.donatePhase.isProcessing &&
             data.donatePhase.isEnd === false ? (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 onClick={handleDonateClick}
@@ -265,7 +270,7 @@ const RightDetailCampaignSection = ({ data }) => {
               </Button>
             ) : (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 disabled={true}

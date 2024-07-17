@@ -94,7 +94,7 @@ const TransactionsPaid = ({ accountId }) => {
             <CardTransactionSkeleton />
           ) : hasMore ? (
             <div className="mt-2 flex justify-center items-center">
-              <Button variant="" onClick={handleLoadMore}>
+              <Button variant="green_theme_primary" onClick={handleLoadMore}>
                 Xem thêm
               </Button>
             </div>

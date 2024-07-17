@@ -106,6 +106,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleRefreshHeader = async () => {
+    setLoading(true);
     try {
       const accountInformation = await axiosPrivate.get(
         GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`
@@ -147,6 +148,8 @@ const AuthProvider = ({ children }) => {
         description: error.response.data.message,
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
+    } finally {
+      setLoading(false);
     }
   };
 

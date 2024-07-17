@@ -45,7 +45,7 @@ const RightDonatePageSkeleton = () => {
           <Skeleton className="h-4 w-1/4 mb-2 mt-8" />
         </div>
         <Button
-          variant="default"
+          variant="green_theme_primary"
           size="lg"
           className="font-bold text-lg w-full"
           disabled={true}

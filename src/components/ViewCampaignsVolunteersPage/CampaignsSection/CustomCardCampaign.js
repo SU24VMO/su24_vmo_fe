@@ -53,18 +53,25 @@ const CustomCardCampaign = ({
                   />
                 </AspectRatio>
                 <div className="absolute mt-1 ml-1 top-0 left-0 z-10">
-                  <Badge variant="secondary">{`Còn ${calculateDaysLeft(
-                    daysLeft
-                  )} ngày`}</Badge>
+                  {processingPhaseName === "Giai đoạn ủng hộ" ? (
+                    <Badge variant="secondary">{`Còn ${calculateDaysLeft(
+                      daysLeft
+                    )} ngày`}</Badge>
+                  ) : (
+                    <Badge variant="yellow">Đã hết thời gian ủng hộ</Badge>
+                  )}
                 </div>
                 <div className="absolute mt-1 mr-1 top-0 right-0 z-10">
                   <Badge variant="secondary">{`${campaignCategory}`}</Badge>
                 </div>
               </div>
               <div className="bg-white w-full px-6">
-                {processingPhaseName && (
+                {processingPhaseName ? (
                   <Badge variant="default">{processingPhaseName}</Badge>
-                )}
+                ) : (
+                  <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
+                )
+                }
                 <p className="text-lg font-bold mt-2 mb-4">{campaignName}</p>
                 <p className="text-lg mb-2">
                   Tạo bởi <b>{organizerName}</b>

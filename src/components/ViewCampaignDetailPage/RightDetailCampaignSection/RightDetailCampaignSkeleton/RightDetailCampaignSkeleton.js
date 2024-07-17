@@ -71,7 +71,7 @@ const RightDetailCampaignSkeleton = () => {
         <CardFooter>
           <div className="w-full flex items-center justify-center">
             <Button
-              variant="default"
+              variant="green_theme_primary"
               size="lg"
               className="font-bold text-lg"
               disabled={true}

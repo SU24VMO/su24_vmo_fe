@@ -13,19 +13,20 @@ import {
 } from "../../ui/navigation-menu";
 import { cn } from "../../../lib/utils";
 import { AuthContext } from "../../../context/AuthContext";
+import { Skeleton } from "../../ui/skeleton";
 
 const DesktopNavLeft = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
   // Hàm kiểm tra và trả về class tương ứng
   const getLinkClass = (paths) => {
-    const baseClass =
-      "";
+    const baseClass = "";
     const activeClass = "bg-muted text-foreground hover:text-foreground";
     const inactiveClass = "";
-    return `${baseClass} ${paths.includes(location.pathname) ? activeClass : inactiveClass
-      }`;
+    return `${baseClass} ${
+      paths.includes(location.pathname) ? activeClass : inactiveClass
+    }`;
   };
 
   return (
@@ -45,16 +46,39 @@ const DesktopNavLeft = () => {
       </Link>
       <NavigationMenu className="list-none">
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={getLinkClass(["/introduction", "/viewCampaigns", "/news"])}>Mở rộng</NavigationMenuTrigger>
+          <NavigationMenuTrigger
+            className={getLinkClass([
+              "/introduction",
+              "/viewCampaigns",
+              "/news",
+            ])}
+          >
+            Mở rộng
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="p-6 mobile:w-[400px] space-y-3">
-              <ListItem to="/introduction" title="Giới thiệu" icon={HandHeart} className={getLinkClass(["/introduction"])}>
+              <ListItem
+                to="/introduction"
+                title="Giới thiệu"
+                icon={HandHeart}
+                className={getLinkClass(["/introduction"])}
+              >
                 Trang giới thiệu chung về ứng dụng VMO
               </ListItem>
-              <ListItem to="/viewCampaigns" title="Chiến dịch" icon={Goal} className={getLinkClass(["/viewCampaigns"])}>
+              <ListItem
+                to="/viewCampaigns"
+                title="Chiến dịch"
+                icon={Goal}
+                className={getLinkClass(["/viewCampaigns"])}
+              >
                 Trang xem tổng quan các chiến dịch đang diễn ra
               </ListItem>
-              <ListItem to="/news" title="Tin tức" icon={Newspaper} className={getLinkClass(["/news"])}>
+              <ListItem
+                to="/news"
+                title="Tin tức"
+                icon={Newspaper}
+                className={getLinkClass(["/news"])}
+              >
                 Trang xem các tin tức thiện nguyện mới nhất
               </ListItem>
             </ul>
@@ -62,54 +86,73 @@ const DesktopNavLeft = () => {
         </NavigationMenuItem>
       </NavigationMenu>
 
-      {/* check role có phải Volunteer không mới hiển thị */}
-      {user?.role === "Volunteer" && user.is_verified === "True" ? (
-        <Link to="/manage/volunteer/allCampaigns">
-          <Button variant="ghost" className={getLinkClass(["/manage/volunteer/allCampaigns",
-            "/manage/volunteer/allNews",
-            "/manage/volunteer/allPhase1",
-            "/manage/volunteer/allPhase2",
-            "/manage/volunteer/allPhase3",
-            "/manage/volunteer/allActivities"])}>Quản lí</Button>
-        </Link>
-      ) : (
-        ""
-      )}
-      {/* check role có phải OrganizationManager không mới hiển thị */}
-      {user?.role === "OrganizationManager" && user.is_verified === "True" ? (
-        <Link to="/manage/organize/allOrganizations">
-          <Button variant="ghost" className={getLinkClass(["/manage/organize/allOrganizations",
-            "/manage/organize/allCampaigns",
-            "/manage/organize/allNews",
-            "/manage/organize/allPhase1",
-            "/manage/organize/allPhase2",
-            "/manage/organize/allPhase3",
-            "/manage/organize/allActivities"
+      <>
+        {loading ? (
+          <Skeleton className="w-40 h-8 rounded-lg" />
+        ) : (
+          <>
+            {/* Check if role is Volunteer and is verified */}
+            {user?.role === "Volunteer" && user.is_verified === "True" ? (
+              <Link to="/manage/volunteer/allCampaigns">
+                <Button
+                  variant="ghost"
+                  className={getLinkClass([
+                    "/manage/volunteer/allCampaigns",
+                    "/manage/volunteer/allNews",
+                    "/manage/volunteer/allPhase1",
+                    "/manage/volunteer/allPhase2",
+                    "/manage/volunteer/allPhase3",
+                    "/manage/volunteer/allActivities",
+                  ])}
+                >
+                  Quản lí
+                </Button>
+              </Link>
+            ) : null}
 
-          ])}>Quản lí tổ chức</Button>
-        </Link>
-      ) : (
-        ""
-      )}
+            {/* Check if role is OrganizationManager and is verified */}
+            {user?.role === "OrganizationManager" &&
+            user.is_verified === "True" ? (
+              <Link to="/manage/organize/allOrganizations">
+                <Button
+                  variant="ghost"
+                  className={getLinkClass([
+                    "/manage/organize/allOrganizations",
+                    "/manage/organize/allCampaigns",
+                    "/manage/organize/allNews",
+                    "/manage/organize/allPhase1",
+                    "/manage/organize/allPhase2",
+                    "/manage/organize/allPhase3",
+                    "/manage/organize/allActivities",
+                  ])}
+                >
+                  Quản lí tổ chức
+                </Button>
+              </Link>
+            ) : null}
 
-      {/* {user?.role === "Member" && user.is_verified === "False" ? (
-        <Link to="/createVerifyVolunteer">
-          <Button variant="ghost" className={getLinkClass(["/createVerifyVolunteer",
-          ])}>Đăng kí tình nguyện viên</Button>
-        </Link>
-      ) : (
-        ""
-      )} */}
-      {user?.role === "OrganizationManager" && user.is_verified === "False" ? (
-        <Link to="/createVerifyOrganizationManager">
-          <Button variant="ghost" className={getLinkClass(["/createVerifyOrganizationManager",
-          ])}>Đăng kí quản lí tổ chức</Button>
-        </Link>
-      ) : (
-        ""
-      )}
+            {/* Uncommented and corrected the Member check */}
+            {/* {user?.role === "Member" && user.is_verified === "False" ? (
+            <Link to="/createVerifyVolunteer">
+              <Button variant="ghost" className={getLinkClass(["/createVerifyVolunteer"])}>Đăng kí tình nguyện viên</Button>
+            </Link>
+          ) : null} */}
 
-
+            {/* Check if role is OrganizationManager and is not verified */}
+            {user?.role === "OrganizationManager" &&
+            user.is_verified === "False" ? (
+              <Link to="/createVerifyOrganizationManager">
+                <Button
+                  variant="ghost"
+                  className={getLinkClass(["/createVerifyOrganizationManager"])}
+                >
+                  Đăng kí quản lí tổ chức
+                </Button>
+              </Link>
+            ) : null}
+          </>
+        )}
+      </>
     </div>
   );
 };
