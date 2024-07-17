@@ -23,7 +23,11 @@ const CustomCardCampaign = ({
                 className="w-full h-full object-cover"
               />
               <div className="absolute mt-1 ml-1 top-0 left-0">
-                <Badge variant="white">{`Còn ${daysLeft} ngày`}</Badge>
+                {daysLeft > 0 ? (
+                  <Badge variant="white">{`Còn ${daysLeft} ngày`}</Badge>
+                ) : (
+                  <Badge variant="yellow">Đã hết thời gian ủng hộ</Badge>
+                )}
               </div>
             </div>
             <div className="bg-white w-full px-6">

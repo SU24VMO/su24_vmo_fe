@@ -231,7 +231,7 @@ const RightDetailCampaignSection = ({ data }) => {
               <Badge variant="default">{data.statementPhase.name}</Badge>
             </div>
           ) : (
-            <div className="mb-3">
+            <div className="w-full mb-3">
               <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
             </div>
           )}
