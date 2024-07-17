@@ -62,9 +62,12 @@ const CustomCardCampaign = ({
                 </div>
               </div>
               <div className="bg-white w-full px-6">
-                {processingPhaseName && (
+                {processingPhaseName ? (
                   <Badge variant="default">{processingPhaseName}</Badge>
-                )}
+                ) : (
+                  <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
+                )
+                }
                 <p className="text-lg font-bold mt-2 mb-4">{campaignName}</p>
                 <p className="text-lg mb-2">
                   Tạo bởi <b>{organizerName}</b>
