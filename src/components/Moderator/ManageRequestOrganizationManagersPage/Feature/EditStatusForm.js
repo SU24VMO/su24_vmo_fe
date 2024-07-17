@@ -20,7 +20,7 @@ import { Switch } from "../../../ui/switch";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../../components/ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { UPDATEAPPROVEOMREQUEST  } from "../../../../api/apiConstants";
+import { UPDATEAPPROVEOMREQUEST } from "../../../../api/apiConstants";
 import { AuthContext } from "../../../../context/AuthContext";
 import React, { useContext, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -28,15 +28,15 @@ import { Loader2 } from "lucide-react";
 
 const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuccess }) => {
   const { toast } = useToast();
-const {user} = useContext(AuthContext)
-const [loading, setLoading] = useState(false)
+  const { user } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
-console.log(organizationManager);
+  console.log(organizationManager);
   const updateStatus = async (data) => {
     try {
       setLoading(true)
 
-      const response = await axiosPrivate.put( UPDATEAPPROVEOMREQUEST, {
+      const response = await axiosPrivate.put(UPDATEAPPROVEOMREQUEST, {
         createOrganizationManagerRequestID: organizationManager.createOrganizationManagerRequestID,
         moderatorId: user.moderator_id,
         isApproved: data.isApproved,
@@ -48,21 +48,24 @@ console.log(organizationManager);
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -89,10 +92,10 @@ console.log(organizationManager);
     });
   }, [organizationManager]);
 
- // Handle switch change
- const handleSwitchChange = (isApproved) => {
-  formik.setFieldValue("isApproved", isApproved);
-};
+  // Handle switch change
+  const handleSwitchChange = (isApproved) => {
+    formik.setFieldValue("isApproved", isApproved);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -104,163 +107,163 @@ console.log(organizationManager);
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[65vh] shadow-inner ">
-         <div className="flex flex-col p-5 gap-5">
-          
-           {/* Show tên quản lý tổ chức */}
-           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="name">Tên quản lý tổ chức</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="name"
-                  defaultValue={organizationManager ? organizationManager.name : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.name : ""} />
-              </div>
-            </div>
-          </div>
-          {/* Show sdt quản lý tổ chức */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="phoneNumber">Số điện thoại</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="phoneNumber"
-                  defaultValue={organizationManager ? organizationManager.phoneNumber : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.phoneNumber : ""} />
-              </div>
-            </div>
-          </div>
+          <div className="flex flex-col p-5 gap-5">
 
-          {/* Show sdt quản lý tổ chức */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="email"
-                  defaultValue={organizationManager ? organizationManager.email : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.email : ""} />
+            {/* Show tên quản lý tổ chức */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="name">Tên quản lý tổ chức</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="name"
+                    defaultValue={organizationManager ? organizationManager.name : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.name : ""} />
+                </div>
               </div>
             </div>
-          </div>
+            {/* Show sdt quản lý tổ chức */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="phoneNumber"
+                    defaultValue={organizationManager ? organizationManager.phoneNumber : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.phoneNumber : ""} />
+                </div>
+              </div>
+            </div>
 
-          {/* Show mã số thuế  */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="address">Địa chỉ</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="address"
-                  defaultValue={organizationManager ? organizationManager.address : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.address : ""} />
+            {/* Show sdt quản lý tổ chức */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="email"
+                    defaultValue={organizationManager ? organizationManager.email : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.email : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show mã CCCD  */}
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="citizenIdentification">CCCD</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="citizenIdentification"
-                  defaultValue={organizationManager ? organizationManager.citizenIdentification : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.citizenIdentification : ""} />
+            {/* Show mã số thuế  */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="address">Địa chỉ</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="address"
+                    defaultValue={organizationManager ? organizationManager.address : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.address : ""} />
+                </div>
               </div>
             </div>
-          </div>
-                    {/* Show Mã số thuế cá nhân */}
+            {/* Show mã CCCD  */}
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="personalTaxCode">Mã số thuế cá nhân</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="personalTaxCode"
-                  defaultValue={organizationManager ? organizationManager.personalTaxCode : ""}
-                  disabled
-                />
-                <CopyButton code={organizationManager ? organizationManager.personalTaxCode : ""} />
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="citizenIdentification">CCCD</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="citizenIdentification"
+                    defaultValue={organizationManager ? organizationManager.citizenIdentification : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.citizenIdentification : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show Người duyệt */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="approvedBy">Người duyệt</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName)  : ""}
-                </Badge>
-                <CopyButton
-                  code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
-                />
+            {/* Show Mã số thuế cá nhân */}
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="personalTaxCode">Mã số thuế cá nhân</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="personalTaxCode"
+                    defaultValue={organizationManager ? organizationManager.personalTaxCode : ""}
+                    disabled
+                  />
+                  <CopyButton code={organizationManager ? organizationManager.personalTaxCode : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show Ngày tạo */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-             
-                  {organizationManager?.createDate ?  format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+            {/* Show Người duyệt */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedBy">Người duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
+                  </Badge>
+                  <CopyButton
+                    code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+            {/* Show Ngày tạo */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+
+                    {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
+              </div>
+            </div>
             {/* Show ngày duyệt*/}
             <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="approvedDate">Ngày duyệt</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                </Badge>
-                <CopyButton
-                  code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                />
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedDate">Ngày duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                  />
+                </div>
               </div>
             </div>
+
+            {organizationManager && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
-          
-          {organizationManager && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
-                  />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
-                </div>
-              </div>
-            </form>
-          )}
-         </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
@@ -273,7 +276,7 @@ console.log(organizationManager);
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-           {loading ? (
+            {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 

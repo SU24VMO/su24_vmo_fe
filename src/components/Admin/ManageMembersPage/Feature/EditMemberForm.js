@@ -44,21 +44,24 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -110,109 +113,109 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-        <div className="flex flex-col gap-5">
-  {/* Show avatar người dùng */}
-  <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="avatar">Avatar</Label>
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-20 h-20">
-                  <AvatarImage
-                    src={member ? member.avatar : ""}
-                    alt="@avatar"
+          <div className="flex flex-col gap-5">
+            {/* Show avatar người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="avatar">Avatar</Label>
+                <div className="flex items-center space-x-2">
+                  <Avatar className="w-20 h-20">
+                    <AvatarImage
+                      src={member ? member.avatar : ""}
+                      alt="@avatar"
+                    />
+                    <AvatarFallback>A</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+            </div>
+            {/* Show id người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="accountID">ID tài khoản</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="accountID"
+                    defaultValue={member ? member?.accountID : ""}
+                    disabled
                   />
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
+                  <CopyButton code={member ? member?.accountID : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show id người dùng */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="accountID">ID tài khoản</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="accountID"
-                  defaultValue={member ? member?.accountID : ""}
-                  disabled
-                />
-                <CopyButton code={member ? member?.accountID : ""} />
+            {/* Show tên người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="membername">Tên người dùng</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="membername"
+                    defaultValue={member ? member?.username : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member?.username : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show tên người dùng */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="membername">Tên người dùng</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="membername"
-                  defaultValue={member ? member?.username : ""}
-                  disabled
-                />
-                <CopyButton code={member ? member?.username : ""} />
+            {/* Show email */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="email"
+                    defaultValue={member ? member?.email : ""}
+                    disabled
+                  />
+                  <CopyButton code={member ? member?.email : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show email */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="email"
-                  defaultValue={member ? member?.email : ""}
-                  disabled
-                />
-                <CopyButton code={member ? member?.email : ""} />
+
+            {/* Show ngày tạo */}
+
+
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="create_date">Ngày tạo</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Show ngày tạo */}
 
 
+            {/* Show role thành viên */}
+            <div className="flex mb-3">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="role">Vai trò</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant="primary">Member</Badge>
 
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="create_date">Ngày tạo</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                  {member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+                </div>
               </div>
             </div>
+            {member && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isActived"
+                    checked={formik.values.isActived}
+                    onCheckedChange={handleSwitchChange("isActived")}
+                  />
+                  <Label htmlFor="isActived">Trạng thái</Label>
+                </div>
+
+              </form>
+            )}
           </div>
-
-
-          {/* Show role thành viên */}
-          <div className="flex mb-3">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="role">Vai trò</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant="primary">Member</Badge>
-
-              </div>
-            </div>
-          </div>
-          {member && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              {/*  */}
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isActived"
-                  checked={formik.values.isActived}
-                  onCheckedChange={handleSwitchChange("isActived")}
-                />
-                <Label htmlFor="isActived">Trạng thái</Label>
-              </div>
-
-            </form>
-          )}
-        </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>

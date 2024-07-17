@@ -13,7 +13,7 @@ export async function exportToExcel() {
 
       let campaigns = response.data.data.list.map((campaign) => ({
         "Tên chiến dịch": campaign.campaign.name,
-        "Tạo bởi thành viên": campaign.user.lastName,
+        "Tạo bởi tình nguyện viên": campaign.user.lastName,
         "Tạo bởi quản lý tổ chức": campaign.organizationManager.lastName,
         "Người duyệt": campaign.moderator.lastName,
         "Ngày tạo": campaign.createDate,
@@ -26,7 +26,7 @@ export async function exportToExcel() {
           sheet: "Request Campaigns",
           columns: [
             { label: "Tên chiến dịch", value: "Tên chiến dịch" },
-            { label: "Tạo bởi thành viên", value: "Tạo bởi thành viên" },
+            { label: "Tạo bởi tình nguyện viên", value: "Tạo bởi tình nguyện viên" },
             { label: "Tạo bởi quản lý tổ chức", value: "Tạo bởi quản lý tổ chức" },
             { label: "Người duyệt", value: "Người duyệt" },
             { label: "Ngày tạo", value: "Ngày tạo" },

@@ -123,25 +123,25 @@ export const columns =({ onSort }) => [
       return <div className="w-max">{expectedEndDate}</div>;
     },
   },
-  {
-    accessorKey: "actualEndDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-           onClick={() => onSort("ActualEndDate")}
-        >
-          Thời gian kết thúc
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
-      return <div className="w-max">{actualEndDate}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "actualEndDate",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //          onClick={() => onSort("ActualEndDate")}
+  //       >
+  //         Thời gian kết thúc
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const actualEndDate = row?.getValue("actualEndDate") ? (format(new Date(row.getValue("actualEndDate")), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
+  //     return <div className="w-max">{actualEndDate}</div>;
+  //   },
+  // },
   //   Thêm Actions vào columns
   {
     id: "actions",

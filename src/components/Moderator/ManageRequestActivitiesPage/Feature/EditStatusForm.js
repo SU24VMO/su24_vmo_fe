@@ -43,12 +43,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
 
 
   const [isExpanded, setIsExpanded] = useState(false); 
-  const content = activities?.activity?.content.replace(/(?:\r\n|\r|\n)/g, "<br>")
+  const content = activities?.activity?.content ? (activities?.activity?.content?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có"
 
 
-  console.log('====================================');
-  console.log(JSON.stringify(content));
-  console.log('====================================');
+
 
   const updateStatus = async (data) => {
     try {
@@ -69,21 +67,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-      }
+      } 
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: serverMessage,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    }
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -171,7 +172,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
             </div>
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="member">Tạo bởi thành viên</Label>
+                <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"

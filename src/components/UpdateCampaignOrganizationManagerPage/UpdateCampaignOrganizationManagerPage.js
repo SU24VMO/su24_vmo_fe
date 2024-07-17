@@ -16,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SelectBanks from "./SelectBanks/SelectBanks";
 import { TailSpin } from "react-loader-spinner";
 
-
+import './HiddenInputUpDown.css'
 
 export default function UpdateCampaignOrganizationManagerPage() {
 
@@ -225,7 +225,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
 
     return (<>
         <Helmet>
-            <title>Tạo chiến dịch • VMO</title>
+            <title>Chỉnh sửa chiến dịch • VMO</title>
             <meta
                 name="description"
                 content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
@@ -476,7 +476,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
                                                 onBlur={handleBlur}
                                                 value={values.numberOfBankAccount}
                                                 autoComplete="off"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số tài khoản..." />
+                                                class="number-to-text bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số tài khoản..." />
 
                                             <p class=" absolute mt-2  text-sm text-red-600 dark:text-red-500"> {errors.numberOfBankAccount && touched.numberOfBankAccount && errors.numberOfBankAccount}</p>
                                             <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
@@ -519,7 +519,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
 
                             <div className=" col-span-2 laptop:col-span-2 border-2 shadow rounded-xl">
                                 <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
-                                    <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Tạo chiến dịch</h1>
+                                    <h1 className="text-white text-center py-3 font-semibold text-sm mobile:text-xl">Chỉnh sửa chiến dịch</h1>
                                 </div>
                                 <div className="w-4/5 mx-auto">
                                     <div class="mb-6">

@@ -29,7 +29,7 @@ export default function ManageVolunteerSlideBar() {
 
 
   return (
-    <div>
+    <div className="">
       {isDrawerOpen ? (
         ""
       ) : (
@@ -53,7 +53,7 @@ export default function ManageVolunteerSlideBar() {
 
       <div
         id="drawer-navigation"
-        className={`fixed top-0 left-0 z-50 w-72 h-screen p-4 overflow-y-auto transition-transform rounded-tr-xl rounded-br-xl shadow ${isDrawerOpen ? "translate-x-0" : "-translate-x-full "
+        className={`fixed z-[100] top-0 left-0  w-72 h-screen p-4 overflow-y-auto transition-transform rounded-tr-xl rounded-br-xl shadow ${isDrawerOpen ? "translate-x-0" : "-translate-x-full "
           } bg-green-500 dark:bg-gray-800`}
         tabIndex="-1"
         aria-labelledby="drawer-navigation-label"
