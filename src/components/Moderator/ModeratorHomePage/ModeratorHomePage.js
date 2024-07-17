@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -32,16 +32,22 @@ import avatar_4 from "../../../assets/avatars/04.png";
 import avatar_5 from "../../../assets/avatars/05.png";
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY } from "../../../api/apiConstants";
+import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER } from "../../../api/apiConstants";
 import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
+import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
 
 const ModeratorHomePage = () => {
 
+  const [loading, setLoading] = useState(false)
 
-    const [numberAccount, setNumberAccount] = useState()
-    const [numberCampaign, setNumberCampaign] = useState()
-    const [numberOrganization, setNumberOrganization] = useState()
+
+  const [numberAccount, setNumberAccount] = useState()
+  const [dataAccount, setDataAccount] = useState()
+  const [numberCampaign, setNumberCampaign] = useState()
+  const [numberOrganization, setNumberOrganization] = useState()
+  const [numberVolunteer, setNumberVolunteer] = useState()
+  const [transactionRecently, setTransactionRecently] = useState([])
 
 
 
@@ -54,8 +60,11 @@ const ModeratorHomePage = () => {
       });
 
       if (response.status === 200) {
-        console.log("đây là:", response.data);
-        setNumberAccount(response?.data?.data?.totalItem)
+        setNumberAccount(response?.data?.data?.totalItem);
+        setDataAccount(response?.data?.data?.list.slice(0, 5));
+        console.log('====================================');
+        console.log(response?.data?.data?.list.slice(0, 5));
+        console.log('====================================');
         toast({
           title: "thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -77,9 +86,9 @@ const ModeratorHomePage = () => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false);
     }
-
-  }
+  };
 
   const getAllCampaign = async () => {
     try {
@@ -90,8 +99,7 @@ const ModeratorHomePage = () => {
       });
 
       if (response.status === 200) {
-        console.log("đây là:", response.data);
-        setNumberCampaign(response?.data?.data?.totalItem)
+        setNumberCampaign(response?.data?.data?.totalItem);
         toast({
           title: "thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -113,9 +121,9 @@ const ModeratorHomePage = () => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false);
     }
-
-  }
+  };
 
   const getAllOrganization = async () => {
     try {
@@ -126,8 +134,7 @@ const ModeratorHomePage = () => {
       });
 
       if (response.status === 200) {
-        console.log("đây là:", response.data);
-        setNumberOrganization(response?.data?.data?.totalItem)
+        setNumberOrganization(response?.data?.data?.totalItem);
         toast({
           title: "thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -149,21 +156,20 @@ const ModeratorHomePage = () => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false);
     }
-
-  }
+  };
 
   const getAllTransaction = async () => {
     try {
-      const response = await axiosPrivate.get(GETALLTRANSACTIONRECENTLY + ``, {
+      const response = await axiosPrivate.get(GETALLTRANSACTIONRECENTLY + `?pageSize=5`, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
       if (response.status === 200) {
-        console.log("đây là:", response.data);
-        setNumberOrganization(response?.data?.data?.totalItem)
+        setTransactionRecently(response?.data?.data?.list);
         toast({
           title: "thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -185,26 +191,74 @@ const ModeratorHomePage = () => {
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
+      setLoading(false);
     }
+  };
 
-  }
+  const getAllVolunteer = async () => {
+    try {
+      const response = await axiosPrivate.get(GETALLVOLUNTEER, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
+      if (response.status === 200) {
+        setNumberVolunteer(response?.data?.data?.totalItem);
+        
+        toast({
+          title: "thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "thất bại !",
+          description: "Vui lòng kiểm tra lại thông tin !",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
 
-  React.useEffect(() => {
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "thất bại !",
+        description: "Vui lòng kiểm tra lại thông tin !",
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+      behavior: 'smooth'
     });
-    getAllAccount();
-    getAllCampaign();
-    getAllOrganization();
-    // getAllTransaction();
+
+    const fetchData = async () => {
+      setLoading(true);
+      await Promise.all([
+        getAllAccount(),
+        getAllCampaign(),
+        getAllOrganization(),
+        getAllTransaction(),
+        getAllVolunteer()
+      ]);
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
-
-
-
-
+  const formatAmount = (value) => {
+    if (!value) return '';
+    const stringValue = value.toString();
+    const cleanValue = stringValue.replace(/\D/g, '');
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return formattedValue;
+  };
 
 
 
@@ -214,282 +268,141 @@ const ModeratorHomePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Trang chủ người kiểm duyệt • VMO</title>
-        <meta
-          name="description"
-          content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
-        />
-      </Helmet>
-      <p className="font-bold text-2xl">Thống kê số liệu</p>
-      {/* CARD FULL*/}
-      <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
-        <Card x-chunk="dashboard-01-chunk-0">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Số lượng người dùng</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{numberAccount}</div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Số lượng chiến dịch</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{numberCampaign}</div>
-            <p className="text-xs text-muted-foreground">
-              +180.1% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-2">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Số lượng tổ chức</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{numberOrganization}</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-3">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Số lượng tình nguyện viên</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">600</div>
-            <p className="text-xs text-muted-foreground">
-              +201 since last hour
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-      {/* CARD 2 */}
-      <div className="grid gap-4 mobile:gap-8 laptop:grid-cols-3">
-        <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
-          <CardHeader className="flex flex-row items-center">
-            <div className="grid gap-2">
-              <CardTitle>Giao dịch</CardTitle>
-              <CardDescription>
-                Giao dịch gần đây
-              </CardDescription>
-            </div>
-            <Button asChild size="sm" className="ml-auto gap-1">
-              <Link to="#">
-                Xem tất cả
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead className="hidden laptop:table-column">
-                    Type
-                  </TableHead>
-                  <TableHead className="hidden laptop:table-column">
-                    Status
-                  </TableHead>
-                  <TableHead className="hidden laptop:table-column">
-                    Date
-                  </TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">Liam Johnson</div>
-                    <div className="hidden text-sm text-muted-foreground mobile:inline">
-                      liam@example.com
+      {loading ? (<SkeletonHomePage />) : (
+        <>
+          <Helmet>
+            <title>Trang chủ người kiểm duyệt • VMO</title>
+            <meta
+              name="description"
+              content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
+            />
+          </Helmet>
+          <p className="font-bold text-2xl">Thống kê số liệu</p>
+          {/* CARD FULL*/}
+          <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
+            <Card x-chunk="dashboard-01-chunk-0">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Số lượng người dùng</CardTitle>
+                <DollarSign className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{numberAccount}</div>
+                <p className="text-xs text-muted-foreground">
+                  +20.1% from last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-01-chunk-1">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Số lượng chiến dịch</CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{numberCampaign}</div>
+                <p className="text-xs text-muted-foreground">
+                  +180.1% from last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-01-chunk-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Số lượng tổ chức</CardTitle>
+                <CreditCard className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{numberOrganization}</div>
+                <p className="text-xs text-muted-foreground">
+                  +19% from last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-01-chunk-3">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Số lượng tình nguyện viên</CardTitle>
+                <Activity className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{numberVolunteer}</div>
+                <p className="text-xs text-muted-foreground">
+                  +201 since last hour
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          {/* CARD 2 */}
+          <div className="grid gap-4 mobile:gap-8 laptop:grid-cols-3">
+            <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
+              <CardHeader className="flex flex-row items-center">
+                <div className="grid gap-2">
+                  <CardTitle>Giao dịch</CardTitle>
+                  <CardDescription>
+                    Giao dịch gần đây
+                  </CardDescription>
+                </div>
+                <Button asChild size="sm" className="ml-auto gap-1">
+                  <Link to="#">
+                    Xem tất cả
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow >
+                      <TableHead>Người dùng</TableHead>
+                      <TableHead className="text-right">Số tiền</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {transactionRecently && transactionRecently.map(transaction => (
+                      <TableRow>
+                        <TableCell>
+                          <div className="font-medium">{transaction.payerName}</div>
+                          <div className="hidden text-sm text-muted-foreground mobile:inline">
+                            {transaction.donatationPeriod}
+                          </div>
+                        </TableCell>
+
+                        <TableCell className="text-right">{formatAmount(transaction.amount) + ' VND'}</TableCell>
+                      </TableRow>
+
+                    ))}
+
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-01-chunk-5">
+              <CardHeader>
+                <CardTitle>Tài khoản</CardTitle>
+                <CardDescription>
+                  Tài khoản gần đây
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-8">
+
+                {dataAccount && dataAccount.map(data => (
+                  <div key={data.accountID} className="flex items-center gap-4">
+                    <Avatar className="hidden h-9 w-9 mobile:flex">
+                      <AvatarImage src={data.avatar !== ("string" || "") ? data.avatar : ""} alt="Avatar" />
+                      <AvatarFallback className="capitalize">{data.username[0]}</AvatarFallback>
+                    </Avatar>
+                    <div className="grid gap-1">
+                      <p className="text-sm font-medium leading-none">
+                        {data.username}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {data.email}
+                      </p>
                     </div>
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    Sale
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    <Badge className="text-xs" variant="outline">
-                      Approved
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
-                    2023-06-23
-                  </TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">Olivia Smith</div>
-                    <div className="hidden text-sm text-muted-foreground mobile:inline">
-                      olivia@example.com
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    Refund
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    <Badge className="text-xs" variant="outline">
-                      Declined
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
-                    2023-06-24
-                  </TableCell>
-                  <TableCell className="text-right">$150.00</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">Noah Williams</div>
-                    <div className="hidden text-sm text-muted-foreground mobile:inline">
-                      noah@example.com
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    Subscription
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    <Badge className="text-xs" variant="outline">
-                      Approved
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
-                    2023-06-25
-                  </TableCell>
-                  <TableCell className="text-right">$350.00</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">Emma Brown</div>
-                    <div className="hidden text-sm text-muted-foreground mobile:inline">
-                      emma@example.com
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    Sale
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    <Badge className="text-xs" variant="outline">
-                      Approved
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
-                    2023-06-26
-                  </TableCell>
-                  <TableCell className="text-right">$450.00</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">Liam Johnson</div>
-                    <div className="hidden text-sm text-muted-foreground mobile:inline">
-                      liam@example.com
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    Sale
-                  </TableCell>
-                  <TableCell className="hidden laptop:table-column">
-                    <Badge className="text-xs" variant="outline">
-                      Approved
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden mobile:table-cell tablet:hidden laptop:table-column">
-                    2023-06-27
-                  </TableCell>
-                  <TableCell className="text-right">$550.00</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-5">
-          <CardHeader>
-            <CardTitle>Tài khoản</CardTitle>
-            <CardDescription>
-              Tài khoản gần đây
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-8">
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 mobile:flex">
-                <AvatarImage src={avatar_1} alt="Avatar" />
-                <AvatarFallback>OM</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">
-                  Olivia Martin
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  olivia.martin@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$1,999.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 mobile:flex">
-                <AvatarImage src={avatar_2} alt="Avatar" />
-                <AvatarFallback>JL</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                <p className="text-sm text-muted-foreground">
-                  jackson.lee@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 mobile:flex">
-                <AvatarImage src={avatar_3} alt="Avatar" />
-                <AvatarFallback>IN</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">
-                  Isabella Nguyen
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  isabella.nguyen@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$299.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 mobile:flex">
-                <AvatarImage src={avatar_4} alt="Avatar" />
-                <AvatarFallback>WK</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">William Kim</p>
-                <p className="text-sm text-muted-foreground">will@email.com</p>
-              </div>
-              <div className="ml-auto font-medium">+$99.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 mobile:flex">
-                <AvatarImage src={avatar_5} alt="Avatar" />
-                <AvatarFallback>SD</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">Sofia Davis</p>
-                <p className="text-sm text-muted-foreground">
-                  sofia.davis@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </>
+      )}
     </>
   );
 };

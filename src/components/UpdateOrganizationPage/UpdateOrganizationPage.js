@@ -6,7 +6,7 @@ export default function UpdateOrganizationPage() {
   return (
     <div>
       <Helmet>
-        <title>Tạo tổ chức • VMO</title>
+        <title>Chỉnh sửa tổ chức • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
@@ -25,7 +25,7 @@ export default function UpdateOrganizationPage() {
         <div className="shadow rounded-xl">
           <div className="bg-vmo text-center rounded-tl-xl rounded-tr-xl py-3">
             <span className="text-white text-sm mobile:text-2xl font-semibold">
-              Đăng kí tạo tổ chức
+              Chỉnh sửa đơn tạo tổ chức
             </span>
           </div>
           <UpdateOrganizationForm/>

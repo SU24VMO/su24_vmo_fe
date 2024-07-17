@@ -34,8 +34,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   const [isExpandedContent, setIsExpandedContent] = useState(false);
   const [isExpandedDescription, setIsExpandedDescription] = useState(false);
 
-  const content = posts?.post?.content.replace(/(?:\r\n|\r|\n)/g, "<br>");
-  const description = posts?.post?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+  const content = posts?.post?.content ? (posts?.post?.content?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có";
+  const description = posts?.post?.description ? (posts?.post?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có";
 
 
   const updateStatus = async (data) => {
@@ -56,21 +56,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: serverMessage,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    }
     } finally {
       onOpenChange(false);
       setLoading(false)

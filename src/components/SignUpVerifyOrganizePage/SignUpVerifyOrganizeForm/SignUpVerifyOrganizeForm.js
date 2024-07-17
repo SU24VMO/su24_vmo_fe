@@ -40,21 +40,24 @@ export default function SignUpVerifyOrganizeForm() {
           title: "Tạo tổ chức thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Tạo tổ chức thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Tạo tổ chức thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
       setLoading(false)
     }
@@ -81,9 +84,9 @@ export default function SignUpVerifyOrganizeForm() {
           // citizenIdentification validation
           if (!values.citizenIdentification) {
             errors.citizenIdentification = "Không được để trống!";
-          }else if(values.citizenIdentification.length !== 12){
+          } else if (values.citizenIdentification.length !== 12) {
             errors.citizenIdentification = "Số CCCD không hợp lệ!"
-        }
+          }
           // PhoneNumber validation
           if (!values.phoneNumber) {
             errors.phoneNumber = "Không được để trống!";

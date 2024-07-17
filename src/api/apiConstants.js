@@ -75,6 +75,7 @@ export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 export const GETALLACCOUNT = "/api/account/all"
 export const GETALLCAMPAIGN = "/api/campaign/all"
 export const GETALLORGANIZATION = "/api/organization/all"
+export const GETALLVOLUNTEER = "/api/account/all/role/volunteer"
 export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
 
 

@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useNavigate } from "react-router-dom";
 import SelectBanks from "./SelectBanks/SelectBanks";
-
+import './HiddenInputUpDown.css'
 
 
 export default function CreateCampaignOrganizationManagerPage() {
@@ -108,25 +108,28 @@ export default function CreateCampaignOrganizationManagerPage() {
                 resetForm();
 
                 toast({
-                    title: "Tạo chiến dịch thành công",
+                    title: "Tạo chiến dịch thành công !",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } 
+
+        } catch (error) {
+            if (error.response && error.response.data) {
+                const serverMessage = error?.response?.data?.message;
+                toast({
+                    variant: "destructive",
+                    title: "Đã xảy ra lỗi!",
+                    description: serverMessage,
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Tạo chiến dịch thất bại !",
-                    description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
+                    title: "Đã xảy ra lỗi!",
+                    description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             }
-
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Tạo chiến dịch thất bại !",
-                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
-                action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
         } finally {
             setLoading(false)
         }
@@ -388,7 +391,7 @@ export default function CreateCampaignOrganizationManagerPage() {
                                                 onBlur={handleBlur}
                                                 value={values.numberOfBankAccount}
                                                 autoComplete="off"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số tài khoản..." />
+                                                class="number-to-text bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số tài khoản..." />
 
                                             <p class=" absolute mt-2  text-sm text-red-600 dark:text-red-500"> {errors.numberOfBankAccount && touched.numberOfBankAccount && errors.numberOfBankAccount}</p>
                                             <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">

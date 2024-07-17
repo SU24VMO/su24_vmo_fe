@@ -46,21 +46,24 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
 
       onOpenChange(false);
@@ -93,13 +96,13 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
     setValuesRef.current({
       isActived: moderator ? moderator.isActived : false,
       accountID: moderator ? moderator.accountID : ""
-      
+
     });
   }, [moderator]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
- 
+
   };
 
   return (
@@ -113,67 +116,67 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
           <div className="flex flex-col gap-5">
-{/* Show avatar người dùng */}
-<div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="avatar">Avatar</Label>
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-20 h-20">
-                  <AvatarImage
-                    src={moderator ? moderator.avatar : ""}
-                    alt="@avatar"
+            {/* Show avatar người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="avatar">Avatar</Label>
+                <div className="flex items-center space-x-2">
+                  <Avatar className="w-20 h-20">
+                    <AvatarImage
+                      src={moderator ? moderator.avatar : ""}
+                      alt="@avatar"
+                    />
+                    <AvatarFallback>A</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+            </div>
+            {/* Show id người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="accountID">ID tài khoản</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="accountID"
+                    defaultValue={moderator ? moderator.accountID : ""}
+                    disabled
                   />
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
+                  <CopyButton code={moderator ? moderator.accountID : ""} />
+                </div>
               </div>
             </div>
-          </div>
-           {/* Show id người dùng */}
-           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="accountID">ID tài khoản</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="accountID"
-                  defaultValue={moderator ? moderator.accountID : ""}
-                  disabled
-                />
-                <CopyButton code={moderator ? moderator.accountID : ""} />
+            {/* Show tên người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="username">Tên người dùng</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="username"
+                    defaultValue={moderator ? moderator.username : ""}
+                    disabled
+                  />
+                  <CopyButton code={moderator ? moderator.username : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show tên người dùng */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="username">Tên người dùng</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="username"
-                  defaultValue={moderator ? moderator.username : ""}
-                  disabled
-                />
-                <CopyButton code={moderator ? moderator.username : ""} />
+            {/* Show email */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="email"
+                    defaultValue={moderator ? moderator.email : ""}
+                    disabled
+                  />
+                  <CopyButton code={moderator ? moderator.email : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show email */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="email"
-                  defaultValue={moderator ? moderator.email : ""}
-                  disabled
-                />
-                <CopyButton code={moderator ? moderator.email : ""} />
-              </div>
-            </div>
-          </div>
-        
-          {/* Show ngày tạo */}
-        
-          <div className="flex">
+
+            {/* Show ngày tạo */}
+
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="create_date">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
@@ -186,30 +189,30 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                 </div>
               </div>
             </div>
-          {/* Show role thành viên */}
-          <div className="flex mb-3">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="role">Vai trò</Label>
-              <div className="flex items-center space-x-2">
-              <Badge variant="primary">Moderator</Badge>
-                
+            {/* Show role thành viên */}
+            <div className="flex mb-3">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="role">Vai trò</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant="primary">Moderator</Badge>
+
+                </div>
               </div>
             </div>
-          </div>
-          {moderator && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              {/*  */}
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isActived"
-                  checked={formik.values.isActived}
-                  onCheckedChange={handleSwitchChange("isActived")}
-                />
-                <Label htmlFor="isActived">Trạng thái</Label>
-              </div>
-             
-            </form>
-          )}
+            {moderator && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isActived"
+                    checked={formik.values.isActived}
+                    onCheckedChange={handleSwitchChange("isActived")}
+                  />
+                  <Label htmlFor="isActived">Trạng thái</Label>
+                </div>
+
+              </form>
+            )}
           </div>
         </ScrollArea>
         <DialogFooter>

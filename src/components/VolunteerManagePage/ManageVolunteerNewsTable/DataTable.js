@@ -83,7 +83,7 @@ export function DataTable({
   return (
     <>
      <div className="my-4 w-fit bg-vmo pr-10 pl-5 py-2 rounded-tr-md rounded-br-2xl drop-shadow-md animate-slide-in-left">
-      <p className="font-bold text-2xl">Danh sách tin tức</p>
+      <p className="font-bold text-base mobile:text-2xl">Danh sách tin tức</p>
       </div>
 
       <div className="flex items-center py-4">

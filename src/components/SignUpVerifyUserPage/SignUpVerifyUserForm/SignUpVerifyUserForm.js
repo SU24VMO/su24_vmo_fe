@@ -21,7 +21,7 @@ export default function SignUpVerifyUserForm() {
 
     const verifyVolunteer = async (data, resetForm) => {
         try {
-            setLoading(true)
+            setLoading(true);
             const response = await axiosPrivate.post(VERIFYVOLUNTEER, {
                 memberID: user.member_id,
                 memberName: data.name,
@@ -36,35 +36,39 @@ export default function SignUpVerifyUserForm() {
                 detailDescriptionLink: data.linkOfInfo,
                 achievementLink: data.linkOfAchievement,
                 isAcceptTermOfUse: data.isAcceptTermOfUse
-
             });
+    
             if (response.status === 200) {
                 console.log(response.data);
-                resetForm()
-                navigate("/")
+                resetForm();
+                navigate("/");
                 toast({
-                    title: "Tạo đơn thành viên thành công thành công",
+                    title: "Tạo đơn tình nguyện viên thành công!",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } 
+        } catch (error) {
+            if (error.response && error.response.data) {
+                const serverMessage = error?.response?.data?.message;
+                toast({
+                    variant: "destructive",
+                    title: "Đã xảy ra lỗi!",
+                    description: serverMessage,
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Tạo đơn thành viên thành công thất bại !",
-                    description: "Vui lòng kiểm tra lại thông tin Tạo đơn thành viên  !",
+                    title: "Đã xảy ra lỗi!",
+                    description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             }
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Tạo đơn thành viên thành công thất bại !",
-                description: "Vui lòng kiểm tra lại thông tin Tạo đơn thành viên  !",
-                action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
+    
 
     return (<>
 
@@ -128,7 +132,7 @@ export default function SignUpVerifyUserForm() {
                 // citizenIdentification validation
                 if (!values.citizenIdentification) {
                     errors.citizenIdentification = "Không được để trống!";
-                }else if(values.citizenIdentification.length !== 12){
+                } else if (values.citizenIdentification.length !== 12) {
                     errors.citizenIdentification = "Số CCCD không hợp lệ!"
                 }
                 return errors;
@@ -279,7 +283,7 @@ export default function SignUpVerifyUserForm() {
                             <label for="leader" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chủ nhiệm</label>
                         </div>
                     </div>
-                   
+
                     <div class="mb-5">
                         <label for="linkOfInfo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Đường dẫn/link facebook, website, youtube, instagram, tiktok . . .mô tả, giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện nguyện, cộng đồng đã triển khai*</label>
                         <input type="text"
@@ -288,10 +292,10 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.linkOfInfo}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Link..."
-                            />
-                            
+                        />
+
                     </div>
                     <div class="mb-5">
                         <label for="linkOfAchievement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-justify">Thành tích, khen thưởng, được ghi nhận trong hoạt động tình nguyện, cộng đồng, xã hội (Đoạn văn ngắn bao gồm đường dẫn/link hoặc đính kèm hình ảnh minh hoạ)*</label>
@@ -301,9 +305,9 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.linkOfAchievement}
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Link..."
-                            />
+                        />
                     </div>
                     <div class="mb-5 bg-vmo p-5 rounded-xl">
                         <span className="text-white text-sm mobile:text-xl font-semibold text-justify">

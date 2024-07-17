@@ -50,10 +50,18 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
     }
 
 
-    function viewImage(index, imagePreview) {
-        
-    }
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [currentImage, setCurrentImage] = useState(null);
 
+    const viewImage = (imagePreview) => {
+        setCurrentImage(imagePreview);
+        setIsImageModalOpen(true);
+    };
+
+    const closeImageModal = () => {
+        setIsImageModalOpen(false);
+        setCurrentImage(null);
+    }
 
     const submitStatementFile = async (data) => {
         setLoading(true);
@@ -79,21 +87,24 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                     title: "Đăng tải thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
+            } 
+        } catch (error) {
+            if (error.response && error.response.data) {
+                const serverMessage = error?.response?.data?.message;
+                toast({
+                    variant: "destructive",
+                    title: "Đã xảy ra lỗi!",
+                    description: serverMessage,
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Đăng tải thất bại !",
-                    description: "Vui lòng kiểm tra lại thông tin Đăng tải !",
+                    title: "Đã xảy ra lỗi!",
+                    description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
             }
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Đăng tải thất bại !",
-                description: "Vui lòng kiểm tra lại thông tin Đăng tải !",
-                action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
         } finally {
             setLoading(false);
             onOpenChange(false);
@@ -101,6 +112,11 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
     };
 
 
+    useEffect(() => {
+        // Reset fileSheet and imagePreviews when row changes
+        setFileSheet([]);
+        setImagePreviews([]);
+    }, [row]);
 
 
     useEffect(() => {
@@ -111,6 +127,12 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
 
     return (
         <>
+         <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+                <DialogContent className="flex items-center justify-center">
+                    <img src={currentImage} alt="Preview" className="max-w-full min-h-full" />
+                    <Button onClick={closeImageModal} className="absolute top-0 right-0 m-4">Đóng</Button>
+                </DialogContent>
+            </Dialog>
         <Formik
             initialValues={{
                 statementFiles: []
@@ -166,37 +188,27 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                                 </Button>
                                             </div>
                                         ))} */}
-                                        <ScrollArea className="h-[40vh] shadow-inner ">
-                                            <ul className="flex flex-wrap justify-center">
-                                                {imagePreviews.map((imagePreview, index) => (
-                                                    <li key={index} className="flex m-1 ">
-
-                                  
-
-                                                        <div class="w-52 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl ">
-                                                            {/* <!-- Image --> */}
-                                                            <img class="h-40 object-cover rounded-xl mx-auto" src={imagePreview} alt=""/>
-                                                            <div class="p-2">
-                                                                {/* <!-- Heading --> */}
-                                                                <h2 class="font-bold text-lg mb-2 ">File {index + 1}</h2>
-                                                                {/* <!-- Description --> */}
-                                                                {/* <p class="text-sm text-gray-600">Simple Yet Beautiful Card Design with TaiwlindCss. Subscribe to our Youtube channel for more ...</p> */}
+                                        <ScrollArea className="h-[40vh] ">
+                                            <ul className=" grid grid-cols-4 gap-2">
+                                                    {imagePreviews.map((imagePreview, index) => (
+                                                        <li key={index} className="mx-auto">
+                                                            <div className="w-52 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
+                                                                <img className="h-40 object-cover rounded-xl mx-auto" src={imagePreview} alt="" />
+                                                                <div className="p-2">
+                                                                    <h2 className="font-bold text-lg mb-2">File {index + 1}</h2>
+                                                                </div>
+                                                                <div className="flex justify-evenly">
+                                                                    <button className="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
+                                                                        onClick={() => removeFile(index, setFieldValue)}
+                                                                    >Xóa</button>
+                                                                    <button className="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
+                                                                        onClick={() => viewImage(imagePreview)}
+                                                                    >Xem</button>
+                                                                </div>
                                                             </div>
-                                                            {/* <!-- CTA --> */}
-                                                            <div class="flex justify-evenly">
-                                                                <button   class="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
-                                                                onClick={() => removeFile(index, setFieldValue)}
-                                                                >Xóa</button>
-                                                                  <button   class="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
-                                                                onClick={() => viewImage(index, imagePreview)}
-                                                                >Xem</button>
-                                                            </div>
-                                                        </div>
-
-                                                    </li>
-                                                ))}
+                                                        </li>
+                                                    ))}
                                             </ul>
-
                                         </ScrollArea>
 
                                     </div>

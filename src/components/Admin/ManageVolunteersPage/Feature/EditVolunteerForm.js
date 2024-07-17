@@ -16,7 +16,7 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React , {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../ui/toast";
@@ -48,21 +48,24 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -93,13 +96,13 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
     setValuesRef.current({
       isActived: volunteer ? volunteer.isActived : false,
       accountID: volunteer ? volunteer.accountID : ""
-      
+
     });
   }, [volunteer]);
   // Handle switch change
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
- 
+
   };
 
   return (
@@ -112,68 +115,68 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-         <div className="flex flex-col gap-5">
-           {/* Show avatar người dùng */}
-           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="avatar">Avatar</Label>
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-20 h-20">
-                  <AvatarImage
-                    src={volunteer ? volunteer.avatar : ""}
-                    alt="@avatar"
+          <div className="flex flex-col gap-5">
+            {/* Show avatar người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="avatar">Avatar</Label>
+                <div className="flex items-center space-x-2">
+                  <Avatar className="w-20 h-20">
+                    <AvatarImage
+                      src={volunteer ? volunteer.avatar : ""}
+                      alt="@avatar"
+                    />
+                    <AvatarFallback>A</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+            </div>
+            {/* Show id người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="accountID">ID tài khoản</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="accountID"
+                    defaultValue={volunteer ? volunteer.accountID : ""}
+                    disabled
                   />
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
+                  <CopyButton code={volunteer ? volunteer.accountID : ""} />
+                </div>
               </div>
             </div>
-          </div>
-           {/* Show id người dùng */}
-           <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="accountID">ID tài khoản</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="accountID"
-                  defaultValue={volunteer ? volunteer.accountID : ""}
-                  disabled
-                />
-                <CopyButton code={volunteer ? volunteer.accountID : ""} />
+            {/* Show tên người dùng */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="username">Tên người dùng</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="username"
+                    defaultValue={volunteer ? volunteer.username : ""}
+                    disabled
+                  />
+                  <CopyButton code={volunteer ? volunteer.username : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show tên người dùng */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="username">Tên người dùng</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="username"
-                  defaultValue={volunteer ? volunteer.username : ""}
-                  disabled
-                />
-                <CopyButton code={volunteer ? volunteer.username : ""} />
+            {/* Show email */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="email"
+                    defaultValue={volunteer ? volunteer.email : ""}
+                    disabled
+                  />
+                  <CopyButton code={volunteer ? volunteer.email : ""} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* Show email */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  id="email"
-                  defaultValue={volunteer ? volunteer.email : ""}
-                  disabled
-                />
-                <CopyButton code={volunteer ? volunteer.email : ""} />
-              </div>
-            </div>
-          </div>
-          
-          {/* Show ngày tạo */}
-        
-          <div className="flex">
+
+            {/* Show ngày tạo */}
+
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="create_date">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
@@ -186,31 +189,31 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
                 </div>
               </div>
             </div>
-          {/* Show role thành viên */}
-          <div className="flex mb-3">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="role">Vai trò</Label>
-              <div className="flex items-center space-x-2">
-              <Badge variant="primary">Volunteer</Badge>
-                
+            {/* Show role thành viên */}
+            <div className="flex mb-3">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="role">Vai trò</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant="primary">Volunteer</Badge>
+
+                </div>
               </div>
             </div>
+            {volunteer && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/*  */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isActived"
+                    checked={formik.values.isActived}
+                    onCheckedChange={handleSwitchChange("isActived")}
+                  />
+                  <Label htmlFor="isActived">Trạng thái</Label>
+                </div>
+
+              </form>
+            )}
           </div>
-          {volunteer && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              {/*  */}
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isActived"
-                  checked={formik.values.isActived}
-                  onCheckedChange={handleSwitchChange("isActived")}
-                />
-                <Label htmlFor="isActived">Trạng thái</Label>
-              </div>
-             
-            </form>
-          )}
-         </div>
         </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
@@ -223,7 +226,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-          {loading ? (
+            {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 

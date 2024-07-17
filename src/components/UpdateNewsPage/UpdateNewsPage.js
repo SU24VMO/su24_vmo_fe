@@ -168,7 +168,7 @@ export default function UpdateNewsPage() {
 
     return (<>
         <Helmet>
-            <title>Tạo tin tức • VMO</title>
+            <title>Chỉnh sửa tin tức • VMO</title>
             <meta
                 name="description"
                 content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"

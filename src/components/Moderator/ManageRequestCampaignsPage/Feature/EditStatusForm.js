@@ -30,10 +30,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const description = campaigns?.campaign?.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
-  console.log('====================================');
-  console.log(campaigns);
-  console.log('====================================');
+
+  const description = campaigns?.campaign?.description ? (campaigns?.campaign?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có" ;
+
+
   const updateStatus = async (data) => {
     try {
       setLoading(true);
@@ -49,21 +49,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-      }
+      } 
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: serverMessage,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+    }
     } finally {
       onOpenChange(false);
       setLoading(false);
@@ -210,7 +213,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="member">Tạo bởi thành viên</Label>
+                <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"

@@ -41,26 +41,29 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
       });
 
       if (response.status === 200) {
-       onSubmitSuccess()
+        onSubmitSuccess()
         toast({
           title: "Cập nhật thành công",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       } else {
         toast({
           variant: "destructive",
-          title: "Cập nhật thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin cập nhật !",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Cập nhật thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin cập nhật !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -146,8 +149,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               </div>
             </div>
 
-             {/* Show volunteerAddress thành viên */}
-             <div className="flex">
+            {/* Show phoneNumber thành viên */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="phoneNumber"
+                    defaultValue={volunteer ? volunteer.phoneNumber : ""}
+                    disabled
+                  />
+                  <CopyButton code={volunteer ? volunteer.phoneNumber : ""} />
+                </div>
+              </div>
+            </div>
+
+
+            {/* Show volunteerAddress thành viên */}
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="citizenIdentification">CCCD</Label>
                 <div className="flex items-center space-x-2">
@@ -161,21 +180,21 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               </div>
             </div>
 
-       {/* Show Ngày sinh*/}
-       <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="birthday">Ngày sinh</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-             
-                  {volunteer ?  format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
-                </Badge>
-                <CopyButton
-                  code={volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
-                />
+            {/* Show Ngày sinh*/}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="birthday">Ngày sinh</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+
+                    {volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
             {/* Show mã số thuế thành viên
           <div className="flex">
@@ -191,7 +210,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               </div>
             </div>
           </div> */}
-         
+
             {/* Show mạng xã hội thành viên */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -226,10 +245,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="roleInClub">Vai trò trong CLB</Label>
                 <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-                {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
+                  <Badge variant={"outline"}>
+                    {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
 
-                </Badge>
+                  </Badge>
                   <CopyButton code={volunteer ? volunteer.roleInClub : ""} />
                 </div>
               </div>
@@ -253,7 +272,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
             </div>
 
 
-          
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="detailDescriptionLink">Đường dẫn/link. . .mô tả, giới thiệu hoạt động, kinh nghiệm, kế hoạch thiện nguyện, cộng đồng đã triển khai</Label>
@@ -293,43 +312,43 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 </div>
               </div>
             </div> */}
-             {/* Show Ngày tạo */}
-          <div className="flex">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
-              <div className="flex items-center space-x-2">
-                <Badge variant={"outline"}>
-             
-                  {volunteer ?  format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                </Badge>
-                <CopyButton
-                  code={volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                />
+            {/* Show Ngày tạo */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+
+                    {volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          {volunteer && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
-                  />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
+            {volunteer && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
-                </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
           </div>
         </ScrollArea>
         <DialogFooter>
@@ -343,7 +362,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
           >
-           {loading ? (
+            {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 

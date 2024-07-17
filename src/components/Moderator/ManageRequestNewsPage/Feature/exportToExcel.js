@@ -15,7 +15,7 @@ export async function exportToExcel() {
       let listNews = response.data.data.list.map((news) => ({
         "ID News": news.post?.postID,  
         "Tên bài viết": news.post?.title,
-        "Tạo bởi thành viên": (news?.member?.firstName + " " + news?.member?.lastName),
+        "Tạo bởi tình nguyện viên": (news?.member?.firstName + " " + news?.member?.lastName),
         "Tạo bởi quản lí tổ chức": (news?.organizationManager?.firstName + " " + news?.organizationManager?.lastName),
         "Người duyệt": (news?.moderator?.firstName + " " + news?.moderator?.lastName),
         "Ngày tạo": format(new Date(news?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
@@ -29,7 +29,7 @@ export async function exportToExcel() {
           columns: [
             { label: "ID News", value: "ID News" },
             { label: "Tên bài viết", value: "Tên bài viết" },
-            { label: "Tạo bởi thành viên", value: "Tạo bởi thành viên" },
+            { label: "Tạo bởi tình nguyện viên", value: "Tạo bởi tình nguyện viên" },
             { label: "Tạo bởi quản lí tổ chức", value: "Tạo bởi quản lí tổ chức" },
             { label: "Người duyệt", value: "Người duyệt" },
             { label: "Ngày tạo", value: "Ngày tạo" },
