@@ -255,7 +255,7 @@ const RightDetailCampaignSection = ({ data }) => {
           <div className="w-full flex flex-col items-center justify-center">
             {data.donatePhase.isProcessing ? (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 onClick={handleDonateClick}
@@ -264,7 +264,7 @@ const RightDetailCampaignSection = ({ data }) => {
               </Button>
             ) : (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 disabled={true}

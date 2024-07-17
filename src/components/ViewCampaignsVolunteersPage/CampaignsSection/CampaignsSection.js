@@ -167,7 +167,7 @@ const CampaignsSection = () => {
       ) : hasMore ? ( // Kiểm tra nếu còn dữ liệu thì hiển thị nút Xem Thêm
         <div className="flex items-center justify-center my-10">
           <Button
-            variant="default"
+            variant="green_theme_primary"
             className="tablet:text-lg"
             onClick={handleLoadMore}
           >

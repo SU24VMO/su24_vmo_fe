@@ -28,7 +28,7 @@ const SearchBar = () => {
           }
         }}
       />
-      <Button className="px-2" size="icon" onClick={handleSearch}>
+      <Button className="px-2" size="icon" onClick={handleSearch} variant="green_theme_primary">
         <Search className="h-5 w-5" />
       </Button>
     </div>

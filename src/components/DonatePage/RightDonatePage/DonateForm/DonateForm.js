@@ -292,6 +292,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
             type="submit"
             className="w-full text-xl py-6"
             disabled={loading}
+            variant="green_theme_primary"
           >
             {loading ? (
               <>

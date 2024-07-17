@@ -119,7 +119,7 @@ const RightDetailCampaignSection = ({ data }) => {
                     {data.organization
                       ? data.organization.name
                       : data.member
-                      ? data.member.lastname
+                      ? data.member.lastName[0]
                       : "Logo"}
                   </AvatarFallback>
                 </Avatar>
@@ -256,7 +256,7 @@ const RightDetailCampaignSection = ({ data }) => {
             {data.donatePhase.isProcessing &&
             data.donatePhase.isEnd === false ? (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 onClick={handleDonateClick}
@@ -265,7 +265,7 @@ const RightDetailCampaignSection = ({ data }) => {
               </Button>
             ) : (
               <Button
-                variant="default"
+                variant="green_theme_primary"
                 size="lg"
                 className="font-bold text-lg"
                 disabled={true}
