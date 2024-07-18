@@ -7,6 +7,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import { Helmet } from "react-helmet";
+import ConformEnableDisable from "./Feature/ConformEnableDisable";
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizationName, setLoading) {
 
   try {
@@ -39,6 +40,8 @@ const ManageOrganizeOrganizationsTable = () => {
   const [data, setData] = useState([]);
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
@@ -83,6 +86,17 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, organizationName, sortConfig);
+  };
 
   return (
     <>
@@ -95,8 +109,20 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
       </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+      <ConformEnableDisable
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
       <DataTable
-       columns={columns({onSort})}
+       columns={columns({onSort, onConfirm})}
        setOrganizationName={setOrganizationName}
         data={data}
         loading={loading}

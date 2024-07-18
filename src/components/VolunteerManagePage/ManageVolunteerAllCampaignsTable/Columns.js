@@ -13,8 +13,9 @@ import {
 } from "../../ui/dropdown-menu";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { Badge } from "../../ui/badge";
 
-export const columns = ({ onSort }) => [
+export const columns = ({ onSort, onConfirm }) => [
 
 
   {
@@ -51,19 +52,22 @@ export const columns = ({ onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const statusCampaign = row.getValue("isActive");
+      const isApproved = row.original?.createCampaignRequest?.isApproved;
+      const isLocked = row.original?.createCampaignRequest?.isLocked;
+      const isPending = row.original?.createCampaignRequest?.isPending;
+      const isRejected = row.original?.createCampaignRequest?.isRejected;
+      let statusBadge;
+      if (isApproved === true) {
+        statusBadge = <Badge variant="success">Đã duyệt</Badge>;
+      } else if (isLocked === true) {
+        statusBadge = <Badge variant="warning">Bị khóa</Badge>;
+      } else if (isRejected === true) {
+        statusBadge = <Badge variant="destructive">Đã từ chối</Badge>;
+      }  else if (isPending === true) {
+        statusBadge = <Badge variant="info">Đang chờ</Badge>;
+      }
       return (
-        <div className="w-max">
-          {statusCampaign ? (
-            <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              "Đã duyệt"
-            </span>
-          ) : (
-            <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              "Chưa duyệt"
-            </span>
-          )}
-        </div>
+        <div>{statusBadge}</div>
       );
     },
   },
@@ -199,6 +203,18 @@ export const columns = ({ onSort }) => [
               </div>
             ) : ""}
 
+            {infoRow?.createCampaignRequest?.isRejected === true ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() =>
+                    onConfirm(row.original)
+                  }
+                >
+                  Ẩn
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
 
           </DropdownMenuContent>
         </DropdownMenu>

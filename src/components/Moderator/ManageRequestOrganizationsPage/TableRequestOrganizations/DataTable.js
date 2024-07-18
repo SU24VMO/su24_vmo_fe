@@ -66,6 +66,7 @@ export function DataTable({
   });
   //Name of column dropdown
   const columnHeaders =  {
+    logo: "Logo",
     organizationName: "Tên tổ chức",
     organizationManagerEmail: "Email",
     organizationTaxCode: "Mã số thuế",

@@ -79,6 +79,7 @@ import UpdateActivityOrganizationManagerPage from "./components/UpdateActivityOr
 import UpdateOrganizationPage from "./components/UpdateOrganizationPage/UpdateOrganizationPage";
 import UpdateCampaignVolunteerPage from "./components/UpdateCampaignVolunteerPage/UpdateCampaignVolunteerPage";
 import UpdateActivityVolunteerPage from "./components/UpdateActivityVolunteerPage/UpdateActivityVolunteerPage";
+import ManageBankingCampaignPage from "./components/Admin/ManageBankingCampaignPage/ManageBankingCampaignPage";
 
 
 function App() {
@@ -212,6 +213,8 @@ function App() {
                 <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
                 <Route path="manageModerators" element={<ManageModeratorsPage />} />
                 <Route path="manageMembers" element={<ManageMembersPage />} />
+                <Route path="manageBanking" element={<ManageBankingCampaignPage />} />
+
               </Route>
             </Route>
 

@@ -225,6 +225,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
             type="button"
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
+            variant="green_theme_primary"
           >
             {loading ? (
               <>

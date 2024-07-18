@@ -78,6 +78,15 @@ export const GETALLORGANIZATION = "/api/organization/all"
 export const GETALLVOLUNTEER = "/api/account/all/role/volunteer"
 export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
 
+//enable disable
+
+export const ENABLEDISABLEACTIVITY = "/api/activity/update/status"
+export const ENABLEDISABLECAMPAIGN = "/api/campaign/update/status"
+export const ENABLEDISABLEORGANIZATION = "/api/organization/update/status"
+export const ENABLEDISABLEPOST = "/api/post/update/status"
+
+
+
 
 
 

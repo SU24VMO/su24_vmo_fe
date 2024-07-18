@@ -1,9 +1,16 @@
 import {
+  Building2,
+  HeartHandshake,
   Home,
+  LandPlot,
+  LayoutDashboard,
   LineChart,
+  Newspaper,
   Package,
   Package2,
   ShoppingCart,
+  SquareGanttChart,
+  User,
   Users,
 } from "lucide-react";
 import React from "react";
@@ -31,8 +38,11 @@ const DesktopNav = () => {
         <div className="flex h-full max-h-screen flex-col gap-2 ">
           <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6 bg-vmo">
             <Link to="/moderator" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6 " />
-              <span className="">VMO Nhân viên kiểm duyệt</span>
+            <div className="w-fit">
+            <SquareGanttChart className="w-fit" />
+
+               </div>
+              <span className="font-bold">VMO Nhân viên kiểm duyệt</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -45,14 +55,18 @@ const DesktopNav = () => {
                 to="/moderator"
                 className={getLinkClass("/moderator")}
               >
-                <Home className="h-4 w-4" />
+               <div className="w-fit">
+               <LayoutDashboard className="w-fit" />
+               </div>
                 Thống kê số liệu hệ thống
               </Link>
               <Link
                 to="/moderator/manageRequestCampaigns"
                 className={getLinkClass("/moderator/manageRequestCampaigns")}
               >
-                <ShoppingCart className="h-4 w-4" />
+                 <div className="w-fit">
+                 <HeartHandshake className="w-fit" />
+               </div>
                 Danh sách yêu cầu tạo chiến dịch
                 {/* Chỉ bỏ comment khi muốn dùng để hiện số lượng thông báo */}
                 {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
@@ -60,41 +74,54 @@ const DesktopNav = () => {
                 </Badge> */}
               </Link>
               <Link
-              to="/moderator/manageRequestVolunteers"
-              className={getLinkClass("/moderator/manageRequestVolunteers")}
+                to="/moderator/manageRequestVolunteers"
+                className={getLinkClass("/moderator/manageRequestVolunteers")}
               >
-                <Package className="h-4 w-4" />
-                {/* Products{" "} */}
+                <div className="w-fit">
+                <User className="w-fit" />
+
+               </div>
                 Danh sách yêu cầu tài khoản tình nguyện viên
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizationManagers"
                 className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
               >
-                <LineChart className="h-4 w-4" />
+                 <div className="w-fit">
+                <User className="w-fit" />
+
+               </div>
+
                 Danh sách yêu cầu tài khoản tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizations"
                 className={getLinkClass("/moderator/manageRequestOrganizations")}
               >
-                <Users className="h-4 w-4" />
-                {/* Customers */}
+                 <div className="w-fit">
+                 <Building2 className="w-fit" />
+
+               </div>
                 Danh sách yêu cầu tạo tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestActivities"
                 className={getLinkClass("/moderator/manageRequestActivities")}
               >
-                <LineChart className="h-4 w-4" />
+                 <div className="w-fit">
+                 <LandPlot className="w-fit" />
+
+               </div>
                 Danh sách yêu cầu tạo hoạt động
               </Link>
-             
+
               <Link
                 to="/moderator/manageRequestNews"
                 className={getLinkClass("/moderator/manageRequestNews")}
               >
-                <LineChart className="h-4 w-4" />
+                 <div className="w-fit">
+                 <Newspaper className="w-fit" />
+               </div>
                 Danh sách yêu cầu tạo bài đăng
               </Link>
             </nav>

@@ -1,9 +1,14 @@
 import {
+  Building2,
   Home,
+  LayoutDashboard,
   LineChart,
   Package,
   Package2,
+  Receipt,
   ShoppingCart,
+  SquareGanttChart,
+  User,
   Users,
 } from "lucide-react";
 import React from "react";
@@ -18,9 +23,8 @@ const DesktopNav = () => {
       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
     const activeClass = "bg-muted text-primary hover:text-primary";
     const inactiveClass = "text-muted-foreground hover:text-primary";
-    return `${baseClass} ${
-      location.pathname === path ? activeClass : inactiveClass
-    }`;
+    return `${baseClass} ${location.pathname === path ? activeClass : inactiveClass
+      }`;
   };
 
   return (
@@ -30,7 +34,10 @@ const DesktopNav = () => {
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6">
             <Link to="/admin" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
+            <div className="w-fit">
+            <SquareGanttChart className="w-fit" />
+
+               </div>
               <span className="">VMO Quản trị hệ thống</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
@@ -41,38 +48,61 @@ const DesktopNav = () => {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium tablet:px-4">
               <Link to="/admin" className={getLinkClass("/admin")}>
-                <Home className="h-4 w-4" />
+                <div className="w-fit">
+                  <LayoutDashboard className="w-fit" />
+                </div>
                 Thống kê số liệu hệ thống
               </Link>
               <Link
                 to="/admin/manageMembers"
                 className={getLinkClass("/admin/manageMembers")}
               >
-                <LineChart className="h-4 w-4" />
-                Quản lý tài khoản thành viên 
+                <div className="w-fit">
+                  <Users className="w-fit" />
+
+                </div>
+                Quản lý tài khoản thành viên
               </Link>
               <Link
                 to="/admin/manageVolunteers"
                 className={getLinkClass("/admin/manageVolunteers")}
               >
-                <ShoppingCart className="h-4 w-4" />
+                <div className="w-fit">
+                  <Users className="w-fit" />
+
+                </div>
                 Quản lý tài khoản tình nguyện viên
               </Link>
               <Link
                 to="/admin/manageOrganizationManagers"
                 className={getLinkClass("/admin/manageOrganizationManagers")}
               >
-                <Package className="h-4 w-4" />
+                <div className="w-fit">
+                  <Building2 className="w-fit" />
+
+                </div>
                 Quản lý tài khoản tổ chức
               </Link>
               <Link
                 to="/admin/manageModerators"
                 className={getLinkClass("/admin/manageModerators")}
               >
-                <Users className="h-4 w-4" />
-               Quản lý tài khoản nhân viên kiểm duyệt
+                <div className="w-fit">
+                  <Users className="w-fit" />
+
+                </div>
+                Quản lý tài khoản nhân viên kiểm duyệt
               </Link>
-             
+              <Link
+                to="/admin/manageBanking"
+                className={getLinkClass("/admin/manageBanking")}
+              > 
+               <div className="w-fit">
+               <Receipt className="w-fit" />
+               </div>
+                Quản lý danh sách chiến dịch giao dịch
+              </Link>
+
             </nav>
           </div>
           {/* <div className="mt-auto p-4">

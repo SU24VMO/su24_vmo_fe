@@ -23,7 +23,7 @@ import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEAPPROVEORGANIZATIONREQUEST } from "../../../../api/apiConstants";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
-import { Loader2 } from "lucide-react";
+import { ImageDown, Loader2 } from "lucide-react";
 
 
 const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => {
@@ -114,6 +114,30 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[65vh] shadow-inner"> {/* Set a specific height for ScrollArea */}
+
+          <div className="flex flex-col p-5 gap-5">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="image">Ảnh nền</Label>
+              <div className="w-1/3 mx-auto">
+                <img
+                  src={organize?.organization ? organize?.organization?.logo : ""}
+                  alt="ảnh-nền"
+                  className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                />
+              </div>
+              {organize?.organization && organize.organization?.logo && (
+                <a href={organize.organization?.logo} download>
+                  <Button
+                    variant="outline"
+                    className="flex items-center space-x-1"
+                  >
+                    <ImageDown className="h-6 w-6" />
+                    Tải về
+                  </Button>
+                </a>
+              )}
+            </div>
+          </div>
           <div className="flex flex-col p-5 gap-5">
             {/* Show tên tổ chức */}
             <div className="flex">
@@ -312,6 +336,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
             type="button"
             disabled={formik.isSubmitting}
             onClick={formik.handleSubmit}
+            variant="green_theme_primary"
           >
             {loading ? (
               <>

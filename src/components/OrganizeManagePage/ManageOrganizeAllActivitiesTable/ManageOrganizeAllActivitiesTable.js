@@ -8,6 +8,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLACTIVITIESOM } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
+import ConformEnableDisable from "./Feature/ConformEnableDisable";
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, activityTitle, setLoading) {
 console.log("Activity truyền vào: " , activityTitle);
@@ -44,6 +45,8 @@ const ManageOrganizeAllActivitiesTable = () => {
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
@@ -90,6 +93,17 @@ const [activityTitle, setActivityTitle] = useState("")
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, activityTitle, sortConfig);
+  };
 
   return (
     <>
@@ -102,8 +116,20 @@ const [activityTitle, setActivityTitle] = useState("")
       </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+      <ConformEnableDisable
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
       <DataTable 
-       columns={columns({onSort})}
+       columns={columns({onSort, onConfirm})}
        setActivityTitle={setActivityTitle}
        data={data}
        loading={loading}
