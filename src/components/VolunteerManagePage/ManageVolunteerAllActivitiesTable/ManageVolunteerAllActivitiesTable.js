@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 
@@ -9,12 +9,13 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLACTIVITIESVOLUNTEER } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
+import ConformEnableDisable from "./Feature/ConformEnableDisable";
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, activityTitle, setLoading) {
-console.log("Activity truyền vào: " , activityTitle);
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading) {
+  console.log("Activity truyền vào: ", activityTitle);
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
-    
+
     const encoded = normalizeAndEncode(activityTitle);
     const response = await axiosPrivate.get(GETALLACTIVITIESVOLUNTEER + `${user.member_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityTitle=${encoded}`, {
       cancelToken: cancelToken
@@ -28,7 +29,7 @@ console.log("Activity truyền vào: " , activityTitle);
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
-      
+
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -41,8 +42,10 @@ console.log("Activity truyền vào: " , activityTitle);
 
 const ManageVolunteerAllActivitiesTable = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
@@ -51,19 +54,19 @@ const ManageVolunteerAllActivitiesTable = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
-const [activityTitle, setActivityTitle] = useState("")
+  const [activityTitle, setActivityTitle] = useState("")
 
 
   const fetchData = async (cancelToken, user, pageSize, pageNo, activityTitle, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      
+
     }
   };
   const onSort = (property) => {
@@ -81,16 +84,26 @@ const [activityTitle, setActivityTitle] = useState("")
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,activityTitle, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, activityTitle, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,activityTitle, sortConfig]);
+  }, [pageSize, pageNo, activityTitle, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, activityTitle, sortConfig);
+  };
   return (
     <>
       <Helmet>
@@ -100,21 +113,34 @@ const [activityTitle, setActivityTitle] = useState("")
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto">
-      <ManageVolunteerSlideBar/>
-      <DataTable 
-       columns={columns({onSort})}
-       setActivityTitle={setActivityTitle}
-       data={data}
-       loading={loading}
-       list={list}
-       pageSize={pageSize}
-       pageNo={pageNo}
-       setPageSize={setPageSize}
-       setPageNo={setPageNo}
-       totalPages={totalPages}
-      />
-    </div>
+      <div className="w-3/4 mx-auto">
+        <ManageVolunteerSlideBar />
+        <ConformEnableDisable
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
+
+        <DataTable
+          columns={columns({ onSort, onConfirm })}
+          setActivityTitle={setActivityTitle}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   );
 };

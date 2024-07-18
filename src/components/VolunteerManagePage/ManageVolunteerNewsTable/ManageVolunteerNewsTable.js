@@ -8,6 +8,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLNEWSBYVOLUNTEERID } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
+import ConformEnableDisable from "./Feature/ConformEnableDisable";
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
 
@@ -42,6 +43,8 @@ const ManageVolunteerNewsTable = () => {
   const [data, setData] = useState([]);
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
@@ -87,6 +90,18 @@ const ManageVolunteerNewsTable = () => {
   }, [pageSize, pageNo,title, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
+
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, title, sortConfig);
+  };
   return (
     <>
       <Helmet>
@@ -98,6 +113,18 @@ const ManageVolunteerNewsTable = () => {
       </Helmet>
     <div className="w-3/4 mx-auto">
       <ManageVolunteerSlideBar/>
+      <ConformEnableDisable
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
       <DataTable 
       columns={columns({onSort})} 
       setTitle={setTitle}

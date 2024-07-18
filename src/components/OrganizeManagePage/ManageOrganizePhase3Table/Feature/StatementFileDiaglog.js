@@ -223,7 +223,8 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                         Đóng
                                     </Button>
                                 </DialogClose>
-                                <Button className="" type="submit" disabled={isSubmitting} onClick={handleSubmit}>
+                                <Button className="" type="submit" disabled={isSubmitting} onClick={handleSubmit}
+                                variant="green_theme_primary">
                                     {loading ? (
                                         <Loader2 className="animate-spin flex items-center justify-center w-full" />
                                     ) : (

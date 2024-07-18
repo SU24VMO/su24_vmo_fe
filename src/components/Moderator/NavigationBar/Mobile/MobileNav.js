@@ -1,12 +1,19 @@
 import { Button } from "../../../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../../ui/sheet";
 import {
+  Building2,
+  HeartHandshake,
   Home,
+  LandPlot,
+  LayoutDashboard,
   LineChart,
   Menu,
+  Newspaper,
   Package,
   Package2,
   ShoppingCart,
+  SquareGanttChart,
+  User,
   Users,
 } from "lucide-react";
 import React from "react";
@@ -28,7 +35,7 @@ const MobileNav = () => {
 
   return (
     <>
-    {/* MOBILE NAV */}
+      {/* MOBILE NAV */}
       <Sheet>
         <SheetTrigger asChild>
           <Button
@@ -46,23 +53,30 @@ const MobileNav = () => {
               to="/moderator"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-             <div className="bg-vmo flex items-center py-2 px-5 rounded-full ">
-             <Package2 className="h-6 w-6" />
-             <span className="mx-[-0.65rem] flex items-center gap-4 rounded-xl text-xl px-4 py-2 ">VMO Nhân viên kiểm duyệt </span>
-             </div>
+              <div className="bg-vmo flex items-center py-2 px-5 rounded-full ">
+                <div className="w-fit">
+                  <SquareGanttChart className="w-fit" />
+
+                </div>
+                <span className="mx-[-0.65rem] flex items-center gap-4 rounded-xl text-xl px-4 py-2 ">VMO Nhân viên kiểm duyệt </span>
+              </div>
             </Link>
             <Link
               to="/moderator"
               className={getLinkClass("/moderator")}
             >
-              <Home className="h-5 w-5" />
+              <div className="w-fit">
+                <LayoutDashboard className="w-fit" />
+              </div>
               Thống kê số liệu hệ thống
             </Link>
             <Link
               to="/moderator/manageRequestCampaigns"
               className={getLinkClass("/moderator/manageRequestCampaigns")}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <div className="w-fit">
+                <HeartHandshake className="w-fit" />
+              </div>
               Danh sách yêu cầu tạo chiến dịch
 
             </Link>
@@ -70,29 +84,41 @@ const MobileNav = () => {
               to="/moderator/manageRequestVolunteers"
               className={getLinkClass("/moderator/manageRequestVolunteers")}
             >
-              <Package className="h-5 w-5" />
+              <div className="w-fit">
+                <User className="w-fit" />
+
+              </div>
               Danh sách yêu cầu tài khoản tình nguyện viên
 
             </Link>
             <Link
-               to="/moderator/manageRequestOrganizationManagers"
+              to="/moderator/manageRequestOrganizationManagers"
               className={getLinkClass("/moderator/manageRequestOrganizationManagers")}
             >
-              <LineChart className="h-5 w-5" />
+              <div className="w-fit">
+                <User className="w-fit" />
+
+              </div>
               Danh sách yêu cầu tài khoản tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestOrganizations"
               className={getLinkClass("/moderator/manageRequestOrganizations")}
             >
-              <Users className="h-5 w-5" />
+              <div className="w-fit">
+                <Building2 className="w-fit" />
+
+              </div>
               Danh sách yêu cầu tạo tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestActivities"
               className={getLinkClass("/moderator/manageRequestActivities")}
             >
-              <LineChart className="h-5 w-5" />
+              <div className="w-fit">
+                <LandPlot className="w-fit" />
+
+              </div>
               Danh sách yêu cầu tạo hoạt động
             </Link>
 
@@ -100,11 +126,13 @@ const MobileNav = () => {
               to="/moderator/manageRequestNews"
               className={getLinkClass("/moderator/manageRequestNews")}
             >
-              <LineChart className="h-5 w-5" />
+              <div className="w-fit">
+                <Newspaper className="w-fit" />
+              </div>
               Danh sách yêu cầu tạo bài đăng
             </Link>
           </nav>
-          
+
         </SheetContent>
       </Sheet>
     </>

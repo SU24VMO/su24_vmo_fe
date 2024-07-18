@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { GETALLCAMPAIGNBYVOLUNTEERID } from "../../../api/apiConstants";
 import { Helmet } from "react-helmet";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
+import ConformEnableDisable from "./Feature/ConformEnableDisable";
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
   console.log("campaignName truyền vào: " , campaignName);
 
@@ -40,6 +41,8 @@ const ManageVolunteerAllCampaignsTable = () => {
   const [data, setData] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
   const [list, setList] = useState(null);
@@ -88,6 +91,18 @@ const ManageVolunteerAllCampaignsTable = () => {
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const onConfirm = React.useCallback((row) => {
+    // Implement edit logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
+  };
+
   return (
     <>
       <Helmet>
@@ -99,8 +114,20 @@ const ManageVolunteerAllCampaignsTable = () => {
       </Helmet>
       <div className="w-3/4 mx-auto">
         <ManageVolunteerSlideBar/>
+        <ConformEnableDisable
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
         <DataTable
-          columns={columns({ onSort })}
+          columns={columns({ onSort, onConfirm })}
           setCampaignName={setCampaignName}
           data={data}
           loading={loading}

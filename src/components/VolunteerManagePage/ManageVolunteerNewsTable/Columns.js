@@ -10,7 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
-export const columns = ({ onSort }) => [
+import { Badge } from "../../ui/badge";
+export const columns = ({ onSort, onConfirm }) => [
 
   {
     accessorKey: "title",
@@ -46,19 +47,22 @@ export const columns = ({ onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const newStatus = row.getValue("isActive");
+      const isApproved = row.original?.createPostRequest?.isApproved;
+      const isLocked = row.original?.createPostRequest?.isLocked;
+      const isPending = row.original?.createPostRequest?.isPending;
+      const isRejected = row.original?.createPostRequest?.isRejected;
+      let statusBadge;
+      if (isApproved === true) {
+        statusBadge = <Badge variant="success">Đã duyệt</Badge>;
+      } else if (isLocked === true) {
+        statusBadge = <Badge variant="warning">Bị khóa</Badge>;
+      } else if (isRejected === true) {
+        statusBadge = <Badge variant="destructive">Đã từ chối</Badge>;
+      }  else if (isPending === true) {
+        statusBadge = <Badge variant="info">Đang chờ</Badge>;
+      }
       return (
-        <div className="w-max">
-          {newStatus ? (
-            <span className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-              Đã duyệt
-            </span>
-          ) : (
-            <span className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-              Chưa duyệt
-            </span>
-          )}
-        </div>
+        <div>{statusBadge}</div>
       );
     },
   },
@@ -159,6 +163,18 @@ export const columns = ({ onSort }) => [
                   <Link to={`/updateNews/${row.original?.createPostRequest?.createPostRequestID}`}>
                     Chỉnh sửa tin tức
                   </Link>
+                </DropdownMenuItem>
+              </div>
+            ) : ""}
+              {infoRow?.createPostRequest?.isRejected === true ? (
+              <div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() =>
+                    onConfirm(row.original)
+                  }
+                >
+                  Ẩn
                 </DropdownMenuItem>
               </div>
             ) : ""}

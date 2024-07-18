@@ -6,6 +6,22 @@ import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
 export const columns = ({ onEdit, onDelete, onSort }) => [
+
+  {
+    accessorKey: "logo",
+    header: () => <div>Logo</div>,
+    cell: ({ row }) => {
+      const avatar = row.original?.organization?.logo;
+      return (
+        <Avatar>
+          <AvatarImage src={avatar} />
+          <AvatarFallback>Logo</AvatarFallback>
+        </Avatar>
+      );
+    },
+  },
+
+
   {
     accessorKey: "organizationName",
     header: ({ column }) => {
