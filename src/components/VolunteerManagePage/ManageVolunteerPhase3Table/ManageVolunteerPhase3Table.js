@@ -115,7 +115,7 @@ const ManageVolunteerPhase3Table = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto">
+    <div className="w-3/4 mx-auto min-h-screen">
     <ManageVolunteerSlideBar/>
     <ConfirmDialog
   isOpen={isConfirmDialogOpen}
