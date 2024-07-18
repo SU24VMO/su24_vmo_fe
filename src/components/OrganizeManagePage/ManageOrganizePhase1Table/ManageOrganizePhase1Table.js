@@ -96,7 +96,7 @@ const ManageOrganizePhase1Table = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto">
+    <div className="w-3/4 mx-auto min-h-screen">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       <DataTable 
       columns={columns({onSort})}
