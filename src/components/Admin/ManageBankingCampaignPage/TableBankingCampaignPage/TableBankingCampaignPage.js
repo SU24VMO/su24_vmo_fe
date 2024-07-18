@@ -6,12 +6,12 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import EditBankingCampaignForm from "../Feature/EditBankingCampaignForm";
 
-async function getData(cancelToken,  pageSize, pageNo,sortConfig, name, setLoading) {
+async function getData(cancelToken,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(name);
-    const response = await axiosPrivate.get(`/api/campaign/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&name=${encoded}`, {
+    const encoded= normalizeAndEncode(campaignName);
+    const response = await axiosPrivate.get(`/api/campaign/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
     });
 
@@ -48,7 +48,7 @@ const TableBankingCampaignPage = () => {
     orderByDirection: 'asc',
   });
 
-const [name, setName] = useState("")
+const [campaignName, setCampaignName] = useState("")
 
 
   const onEdit = React.useCallback((row) => {
@@ -62,9 +62,9 @@ const [name, setName] = useState("")
     alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo, name, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, name,  setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, campaignName,  setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -88,19 +88,19 @@ const [name, setName] = useState("")
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo, name, sortConfig);
+    fetchData(source.token, pageSize, pageNo, campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, name,  sortConfig]);
+  }, [pageSize, pageNo, campaignName,  sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo, name, sortConfig);
+    fetchData(source.token, pageSize, pageNo, campaignName, sortConfig);
   };
   return (
     <div className="flex flex-col">
@@ -120,7 +120,7 @@ const [name, setName] = useState("")
       </div>
       <DataTable 
       columns={columns({ onEdit, onDelete, onSort })} 
-      setName={setName}
+      setCampaignName={setCampaignName}
       data={data}
       loading={loading}
       list={list}

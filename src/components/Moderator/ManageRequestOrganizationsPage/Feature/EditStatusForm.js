@@ -117,7 +117,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
 
           <div className="flex flex-col p-5 gap-5">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="image">Ảnh nền</Label>
+              <Label htmlFor="image">Ảnh Logo</Label>
               <div className="w-1/3 mx-auto">
                 <img
                   src={organize?.organization ? organize?.organization?.logo : ""}

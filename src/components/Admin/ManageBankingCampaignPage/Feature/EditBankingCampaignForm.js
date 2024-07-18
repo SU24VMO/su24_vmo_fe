@@ -9,233 +9,303 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../ui/dialog";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik"; // Import useFormik
 import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { UPDATEISACTIVED } from "../../../../api/apiConstants";
+import { UPDATEIMAGEBANKING } from "../../../../api/apiConstants";
 import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { AuthContext } from "../../../../context/AuthContext";
 
-const EditBankingCampaignForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuccess }) => {
+const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSuccess }) => {
   const { toast } = useToast();
-  // Formik setup
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
+  const [fileImageBanking, setFileImageBanking] = useState(null);
 
-  const updateStatus = async (accountID, isActived) => {
+  function handleImageBanking(e, setFieldValue) {
+    setFileImageBanking(URL.createObjectURL(e.target.files[0]));
+    setFieldValue("transactionImage", e.target.files[0]);
+  }
+
+  function removeImageBanking(e, setFieldValue) {
+    setFileImageBanking(null);
+    setFieldValue("transactionImage", null);
+  }
+
+  const formatAmount = (value) => {
+    // Remove non-digit characters from the input value
+    const cleanValue = value.replace(/\D/g, '');
+    // Format the value with thousand separators
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return formattedValue + " VND";
+  };
+  const cleanFormattedAmount = (formattedValue) => {
+    return formattedValue.replace(/\./g, '');
+  };
+  const uploadImageBanking = async (data) => {
     try {
-      setLoading(true)
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('AccountId', user?.account_id);
+      formData.append('CampaignId', banking?.campaignID);
+      formData.append('BankingAccountId', banking?.bankingAccountId);
+      formData.append('Amount', cleanFormattedAmount(banking?.amount));
+      formData.append('TransactionImage', data?.transactionImage);
 
-      const response = await axiosPrivate.put(UPDATEISACTIVED, {
-        accountID: accountID,
-        isActived: isActived,
+      const response = await axiosPrivate.post(UPDATEIMAGEBANKING, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
       if (response.status === 200) {
-        console.log(response);
-        onSubmitSuccess()
-
+        onSubmitSuccess();
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        const serverMessage = error?.response?.data?.message;
-        toast({
-          variant: "destructive",
-          title: "Đã xảy ra lỗi!",
-          description: serverMessage,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Đã xảy ra lỗi!",
-          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-      }
+      const serverMessage = error?.response?.data?.message || "Đã có lỗi xảy ra, vui lòng thử lại sau.";
+      toast({
+        variant: "destructive",
+        title: "Đã xảy ra lỗi!",
+        description: serverMessage,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
     } finally {
       onOpenChange(false);
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
-
-
-  const formik = useFormik({
-    initialValues: {
-      isActived: organizationManager ? organizationManager.isActived : false,
-      accountID: organizationManager ? organizationManager.accountID : ""
-    },
-    onSubmit: (values, { setSubmitting }) => {
-      updateStatus(values.accountID, values.isActived)
-      setSubmitting(false);
-    },
-  });
-  /* Giải thích: 
-  Vấn đề ở đây là formik là một đối tượng được tạo ra bởi hook useFormik, 
-  và nó thay đổi mỗi khi component re-render. Khi mình thêm formik vào mảng dependencies của useEffect, 
-  nó sẽ chạy mỗi khi formik thay đổi, tức là mỗi khi component re-render. Một cách để giải quyết vấn đề
-   này là sử dụng useRef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
-   */
-  const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when user changes
-  React.useEffect(() => {
-    setValuesRef.current({
-      isActived: organizationManager ? organizationManager.isActived : false,
-      accountID: organizationManager ? organizationManager.accountID : ""
-
-    });
-  }, [organizationManager]);
-  // Handle switch change
-  const handleSwitchChange = (field) => (isChecked) => {
-    formik.setFieldValue(field, isChecked);
-
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="mobile:max-w-screen-tablet">
-        <DialogHeader>
-          <DialogTitle>Thông tin người dùng</DialogTitle>
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          <div className="flex flex-col gap-5">
-            {/* Show avatar người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="avatar">Avatar</Label>
-                <div className="flex items-center space-x-2">
-                  <Avatar className="w-20 h-20">
-                    <AvatarImage
-                      src={organizationManager ? organizationManager.avatar : ""}
-                      alt="@avatar"
+    <Formik
+      initialValues={{
+        transactionImage: null
+      }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.transactionImage) {
+          errors.transactionImage = "Không được để trống!";
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        uploadImageBanking(values);
+        setSubmitting(false);
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        setFieldValue
+      }) => (
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+          <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
+            <DialogHeader>
+              <DialogTitle>Thông tin giao dịch</DialogTitle>
+              <DialogDescription>
+                Lưu ý: Xem kĩ thông tin trước khi giao dịch !
+              </DialogDescription>
+            </DialogHeader>
+            <ScrollArea className="h-[65vh] shadow-inner">
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="qrCode">Ảnh QR Code</Label>
+                  <div className=" w-52 h-fit mx-auto">
+                    <img
+                      src={banking?.qrCode ? (banking?.qrCode) : "Chưa có"}
+                      alt="ảnh-nền"
+                      className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                     />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Show id người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="accountID">ID tài khoản</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="accountID"
-                    defaultValue={organizationManager ? organizationManager.accountID : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.accountID : ""} />
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="campaignID">ID chiến dịch</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="campaignID"
+                      defaultValue={banking?.campaignID ? (banking?.campaignID) : "Chưa có"}
+                      disabled
+                    />
+                    <CopyButton code={banking?.campaignID ? (banking?.campaignID) : "Chưa có"} />
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Show tên người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="username">Tên người dùng</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="username"
-                    defaultValue={organizationManager ? organizationManager.username : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.username : ""} />
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="name">Tên chiến dịch</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="name"
+                      defaultValue={banking?.name ? (banking?.name) : "Chưa có"}
+                      disabled
+                    />
+                    <CopyButton code={banking?.name ? (banking?.name) : "Chưa có"} />
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Show email */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="email"
-                    defaultValue={organizationManager ? organizationManager.email : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.email : ""} />
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="bankingName">Tên ngân hàng</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="bankingName"
+                      defaultValue={banking?.bankingName ? (banking?.bankingName) : "Chưa có"}
+                      disabled
+                    />
+                    <CopyButton code={banking?.bankingName ? (banking?.bankingName) : "Chưa có"} />
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="accountName">Tên tài khoản</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="accountName"
+                      defaultValue={banking?.accountName ? (banking?.accountName) : "Chưa có"}
+                      disabled
+                    />
+                    <CopyButton code={banking?.accountName ? (banking?.accountName) : "Chưa có"} />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="bankingAccountNumber">Số tài khoản</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="bankingAccountNumber"
+                      defaultValue={banking?.bankingAccountNumber ? (banking?.bankingAccountNumber) : "Chưa có"}
+                      disabled
+                    />
+                    <CopyButton code={banking?.bankingAccountNumber ? (banking?.bankingAccountNumber) : "Chưa có"} />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col p-5 gap-5">
+                <div className="grid flex-1 gap-2">
+                  <Label htmlFor="create_date">Số tiền</Label>
+                  <div className="flex items-center space-x-2">
+                    <Badge variant={"outline"}>
+                      {banking ? formatAmount(banking?.amount) : ""}
+                    </Badge>
+                    <CopyButton
+                      code={banking ? formatAmount(banking?.amount) : ""}
+                    />
+                  </div>
+                </div>
+              </div>
 
-            {/* Show ngày tạo */}
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_date">Ngày tạo</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                  />
+              {banking?.transactionImage !== null ? (
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="transactionImage">Ảnh sao kê</Label>
+                    <div className=" w-52 h-fit mx-auto">
+                      <img
+                        src={banking?.transactionImage ? (banking?.transactionImage) : "Chưa có"}
+                        alt="ảnh-nền"
+                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show role thành viên */}
-            <div className="flex mb-3">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="role">Vai trò</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="primary">OrganizationManager</Badge>
+              ) : (
+                banking && (
+                  <form onSubmit={handleSubmit} className="space-y-3">
+                    <div className="flex flex-col p-5 gap-5">
 
-                </div>
-              </div>
-            </div>
-            {organizationManager && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
-                {/*  */}
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isActived"
-                    checked={formik.values.isActived}
-                    onCheckedChange={handleSwitchChange("isActived")}
-                  />
-                  <Label htmlFor="isActived">Trạng thái</Label>
-                </div>
-
-              </form>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="green_theme_primary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
-
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+                      {fileImageBanking ? (
+                        <div className="flex flex-col justify-center items-center gap-2">
+                          <Label htmlFor="transactionImage">Ảnh sao kê đã chọn</Label>
+                          
+                          <div className="grid flex-1 gap-2">
+                            <div className=" w-60 h-fit mx-auto">
+                              <img
+                                src={fileImageBanking}
+                                alt="ảnh-nền"
+                                className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                              />
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => removeImageBanking(e, setFieldValue)}
+                            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                          >
+                            Xóa ảnh
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                          <label
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            htmlFor="transactionImage"
+                          >
+                            Sao kê (ảnh)*
+                          </label>
+                          <input
+                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="transactionImage"
+                            id="transactionImage"
+                            name="transactionImage"
+                            onChange={(e) => handleImageBanking(e, setFieldValue)}
+                            type="file"
+                            accept="image/png, image/jpeg, image/jpg"
+                          />
+                          <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                            {errors.transactionImage && touched.transactionImage && errors.transactionImage}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                )
+              )}
+            </ScrollArea>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" >
+                  Đóng
+                </Button>
+              </DialogClose>
+              {banking?.transactionImage !== null ? ("") : (
+                <Button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={handleSubmit}
+                  variant="green_theme_primary"
+                >
+                  {loading ? (
+                    <Loader2 className="animate-spin flex items-center justify-center w-full" />
+                  ) : (
+                    "Xác nhận"
+                  )}
+                </Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+    </Formik>
   );
 };
 

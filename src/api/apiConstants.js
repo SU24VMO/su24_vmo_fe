@@ -14,6 +14,8 @@ export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-reques
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
 
+export const UPDATEIMAGEBANKING = "/api/transaction/upload-transaction";
+
 
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
 export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
