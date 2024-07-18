@@ -100,7 +100,7 @@ const DesktopNav = () => {
                <div className="w-fit">
                <Receipt className="w-fit" />
                </div>
-                Quản lý danh sách chiến dịch giao dịch
+                Quản lý danh sách sao kê giao dịch
               </Link>
 
             </nav>

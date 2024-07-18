@@ -32,7 +32,7 @@ import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonOrganizationManagersTable from "../SkeletonBankingCampaignTable/SkeletonBankingCampaignTable";
 
-export function DataTable({ 
+export function DataTable({
   columns,
   data,
   loading,
@@ -41,8 +41,8 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
-  setName
- }) {
+  setCampaignName
+}) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
@@ -63,13 +63,16 @@ export function DataTable({
     },
   });
   //Name of column dropdown
-  const columnHeaders =  {
+  const columnHeaders = {
     "name": "Tên chiến dịch",
+    "amount": "Số tiền đã đạt",
     "bankingName": "Tên ngân hàng",
-    "accountName": "Tên tài khoản", 
+    "donatePhaseIsEnd": "Trạng thái quyên góp",
+    "accountName": "Tên tài khoản",
     "email": "Email",
     "actions": "Thao tác",
   };
+
   // const [state, setState] = React.useState({
   //   ...table.initialState, //populate the initial state with all of the default state values from the table instance
   //   pagination: {
@@ -109,9 +112,9 @@ export function DataTable({
         <Input
           type="search"
           placeholder="Nhập tên chiến dịch cần tìm ..."
-          
+
           onChange={(event) =>
-            setName(event.target.value)
+            setCampaignName(event.target.value)
           }
           className="max-w-sm"
         />
@@ -160,9 +163,9 @@ export function DataTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   ))}
                 </TableRow>

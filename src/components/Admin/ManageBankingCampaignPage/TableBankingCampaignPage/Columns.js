@@ -22,6 +22,30 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       );
     },
   },
+  
+  {
+    accessorKey: "amount",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => onSort("Amount")}
+      >
+        Số tiền đã đạt
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const donationAmount = parseFloat(row.getValue("amount"));
+      const formatted = new Intl.NumberFormat("it-IT", {
+        style: "currency",
+        currency: "VND",
+      }).format(donationAmount);
+
+      return <div className="text-start font-medium">{formatted}</div>;
+    },
+  },
+
   {
     accessorKey: "bankingName",
     header: ({ column }) => (
@@ -35,31 +59,31 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       </Button>
     ),
   },
-  // {
-  //   accessorKey: "isActived",
-  //   header: ({ column }) => (
-  //     <Button
-  //       className="px-0 py-0"
-  //       variant="ghost"
-  //       onClick={() => onSort("IsActived")}
-  //     >
-  //       Trạng thái
-  //       <ArrowUpDown className="ml-2 h-4 w-4" />
-  //     </Button>
-  //   ),
-  //   cell: ({ row }) => {
-  //     const isActived = row.getValue("isActived");
-  //     return (
-  //       <div className="w-max">
-  //         {isActived === true ? (
-  //           <Badge variant="success">Đang hoạt động</Badge>
-  //         ) : (
-  //           <Badge variant="destructive">Tạm dừng</Badge>
-  //         )}
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "donatePhaseIsEnd",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => onSort("DonatePhaseIsEnd")}
+      >
+        Trạng thái quyên góp 
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const donatePhaseIsEnd = row.getValue("donatePhaseIsEnd");
+      return (
+        <div className="w-max">
+          {donatePhaseIsEnd === true ? (
+            <Badge variant="success">Đã kết thúc</Badge>
+          ) : (
+            <Badge variant="destructive">Chưa kết thúc</Badge>
+          )}
+        </div>
+      );
+    },
+  },
 
   {
     accessorKey: "accountName",

@@ -21,10 +21,11 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onEdit(row.original)}>
+        {row.original?.donatePhaseIsEnd === true ? (
+          <DropdownMenuItem onClick={() => onEdit(row.original)}>
           Chỉnh sửa
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        ) : ""}
         <DropdownMenuItem onClick={() => onDelete(row.original)}>
           <span className="text-destructive">Xóa</span>
         </DropdownMenuItem>

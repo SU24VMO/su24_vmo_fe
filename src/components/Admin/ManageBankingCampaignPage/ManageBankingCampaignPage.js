@@ -6,13 +6,13 @@ const ManageBankingCampaignPage = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý danh sách chiến dịch giao dịch • VMO</title>
+        <title>Quản lý danh sách sao kê giao dịch • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lý danh sách chiến dịch giao dịch</p>
+      <p className="font-bold text-2xl">Quản lý danh sách sao kê giao dịch</p>
         <TableBankingCampaignPage/>
     </>
   );
