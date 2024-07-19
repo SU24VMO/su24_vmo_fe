@@ -122,7 +122,7 @@ const MobileNavLeft = () => {
               </>
             ) : (
               <>
-                {user?.role === "Volunteer" && user.is_verified ? (
+                {user?.role === "Volunteer" && user.is_verified === "True" ? (
                   <>
                     <Separator className="mb-5" />
                     <div className="w-full mb-5">
@@ -169,7 +169,8 @@ const MobileNavLeft = () => {
                 ) : (
                   ""
                 )}
-                {user?.role === "OrganizationManager" && user.is_verified ? (
+                {user?.role === "OrganizationManager" &&
+                user.is_verified === "True" ? (
                   <>
                     <Separator className="mb-5" />
                     <div className="w-full mb-5">
@@ -199,16 +200,22 @@ const MobileNavLeft = () => {
                 )}
                 {user?.role === "OrganizationManager" &&
                 user.is_verified === "False" ? (
-                  <Link to="/createVerifyOrganizationManager">
-                    <Button
-                      variant="ghost"
-                      className={getLinkClass([
-                        "/createVerifyOrganizationManager",
-                      ])}
-                    >
-                      Đăng kí quản lý tổ chức
-                    </Button>
-                  </Link>
+                  <>
+                    <Separator className="mb-5" />
+                    <div className="w-full mb-5">
+                      <Link to="/createVerifyOrganizationManager">
+                        <Button
+                          variant="ghost"
+                          className={
+                            "w-full items-start justify-start" +
+                            getLinkClass(["/createVerifyOrganizationManager"])
+                          }
+                        >
+                          Đăng kí quản lý tổ chức
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
                 ) : (
                   ""
                 )}
