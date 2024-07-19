@@ -143,7 +143,7 @@ const DesktopNavLeft = () => {
             user.is_verified === "False" ? (
               <Link to="/createVerifyOrganizationManager">
                 <Button
-                  variant="yellow_theme"
+                  variant="ghost"
                   className={getLinkClass(["/createVerifyOrganizationManager"])}
 
                 >

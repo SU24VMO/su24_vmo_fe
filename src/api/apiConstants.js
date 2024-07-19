@@ -128,7 +128,8 @@ export const CHECK_CURRENT_PASSWORD = "https://vmo.azurewebsites.net/api/authent
 export const RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/reset-password";
 export const FORGOT_PASSWORD_GET_OTP = "https://vmo.azurewebsites.net/api/authentication/forgot-password";
 export const FORGOT_PASSWORD_RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/forgot-password/reset-password";
-
+export const GET_NUMBER_OF_ACCOUNT = "https://vmo.azurewebsites.net/api/account/all/number-of-accounts";
+export const GET_NUMBER_OF_DONATED_ACCOUNT = "https://vmo.azurewebsites.net/api/account/all/donation/number-of-accounts"; 
 
 //notification
 export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";
@@ -139,9 +140,13 @@ export const GET_ALL_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all"
 export const GET_CAMPAIGN_ACTIVE_STATUS = "https://vmo.azurewebsites.net/api/campaign/all/filter/active-status";
 export const GET_CAMPAIGN_FILTER = "https://vmo.azurewebsites.net/api/campaign/all/filter/campaign-type/active-status";
 export const GET_CAMPAIGN_BY_ID = "https://vmo.azurewebsites.net/api/campaign/";
+export const GET_NUMBER_OF_ACTIVATED_CAMPAIGN = "https://vmo.azurewebsites.net/api/campaign/all/number-of-campaign";
 
 //campaign-type
 export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-type/all";
+
+//donate-phase 
+export const GET_ALL_AMOUNT_OF_DONATE_PHASE = "https://vmo.azurewebsites.net/api/donate-phase/all/amount";
 
 //post 
 export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all";
@@ -152,6 +157,8 @@ export const GET_TRANSACTION_BY_ACCOUNT_ID = "https://vmo.azurewebsites.net/api/
 export const CREATE_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/create-transaction";
 export const CHECK_TRANSACTION_BY_ORDER_ID = "https://vmo.azurewebsites.net/api/transaction/check-transaction/send-email";
 export const GET_ALL_RECENTLY_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/recently-transaction";
+export const GET_NUMBER_OF_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/number-of-transactions";
 
 //organization 
 export const GET_ORGANIZATION_BY_ID = "https://vmo.azurewebsites.net/api/organization/";
+export const GET_NUMBER_OF_ORGANIZATION = "https://vmo.azurewebsites.net/api/organization/all/number-of-organization";
