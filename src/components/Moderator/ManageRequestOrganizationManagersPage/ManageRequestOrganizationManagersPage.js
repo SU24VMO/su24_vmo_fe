@@ -12,7 +12,7 @@ const ManageRequestOrganizationManagersPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Danh sách yêu cầu quản lý tổ chức</p>
+      <p className="font-bold text-2xl">Danh sách yêu cầu tạo tài khoản tổ chức</p>
       <TableRequestOrganizationManagers/>
     </>
   );

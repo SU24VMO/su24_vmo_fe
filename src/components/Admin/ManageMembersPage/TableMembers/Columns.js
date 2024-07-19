@@ -81,7 +81,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">Member</Badge>
+          <Badge variant="primary">Thành viên</Badge>
          
         </div>
       );

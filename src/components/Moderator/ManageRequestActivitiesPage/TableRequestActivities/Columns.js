@@ -22,7 +22,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
     cell: ({ row }) => {
       
       const title = row.original?.activity?.title;
-      return <div className="">{title}</div>;
+      return <div className="line-clamp-2">{title}</div>;
     },
   },
   {

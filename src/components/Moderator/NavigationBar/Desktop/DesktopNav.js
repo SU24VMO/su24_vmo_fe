@@ -42,7 +42,7 @@ const DesktopNav = () => {
             <SquareGanttChart className="w-fit" />
 
                </div>
-              <span className="font-bold">VMO Nhân viên kiểm duyệt</span>
+              <span className="text-base font-bold">VMO Nhân viên kiểm duyệt</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />

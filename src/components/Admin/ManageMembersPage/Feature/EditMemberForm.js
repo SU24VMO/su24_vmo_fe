@@ -196,7 +196,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="role">Vai trò</Label>
                 <div className="flex items-center space-x-2">
-                  <Badge variant="primary">Member</Badge>
+                  <Badge variant="primary">Thành viên</Badge>
 
                 </div>
               </div>
@@ -210,7 +210,11 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     checked={formik.values.isActived}
                     onCheckedChange={handleSwitchChange("isActived")}
                   />
-                  <Label htmlFor="isActived">Trạng thái</Label>
+                  {formik.values?.isActived ? (
+                    <Label htmlFor="isActived">Đang hoạt động</Label>
+                  ) : (
+                    <Label htmlFor="isActived">Dừng hoạt động</Label>
+                  )}
                 </div>
 
               </form>
