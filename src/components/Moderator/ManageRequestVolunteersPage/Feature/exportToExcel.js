@@ -10,9 +10,9 @@ export async function exportToExcel() {
     );
 
     if (response.status === 200) {
-      console.log("Fetched data:", response.data.data);
+      console.log("Fetched data:", response?.data?.data);
 
-      let listVolunteers = response.data.data.list.map((members) => ({
+      let listVolunteers = response?.data?.data?.list.map((members) => ({
         "ID thành viên": members?.memberID,
         "Tên thành viên": members?.memberName,
         "Email": members?.email,

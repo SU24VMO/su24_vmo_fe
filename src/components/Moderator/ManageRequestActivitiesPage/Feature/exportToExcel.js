@@ -10,9 +10,9 @@ export async function exportToExcel() {
     );
 
     if (response.status === 200) {
-      console.log("Fetched data:", response.data.data);
+      console.log("Fetched data:", response?.data?.data);
 
-      let listActivities = response.data.data.list.map((activity) => ({
+      let listActivities = response?.data?.data?.list.map((activity) => ({
         "ID activity": activity.activity?.activityId,  
         "Tiêu đề": activity.activity?.title,
         "Nội dung": activity.activity?.content,
@@ -60,3 +60,4 @@ export async function exportToExcel() {
     // Handle error as needed
   }
 }
+

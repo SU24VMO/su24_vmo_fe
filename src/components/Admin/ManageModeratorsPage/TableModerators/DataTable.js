@@ -27,10 +27,11 @@ import {
 
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
-import React from "react";
+import React, { useState } from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonModeratorTable from "../SkeletonModeratorTable/SkeletonModeratorTable";
+import { TailSpin } from "react-loader-spinner";
 
 export function DataTable({ 
   columns,
@@ -102,6 +103,21 @@ export function DataTable({
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
 
+  const [loadingExport, setLoadingExport] = useState(false)
+
+
+  const handleExport = async () => {
+    setLoadingExport(true)
+
+    try {
+      await exportToExcel()
+    } catch (error) {
+
+    } finally {
+      setLoadingExport(false)
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center py-4">
@@ -117,8 +133,32 @@ export function DataTable({
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel()} className="ml-4 hover:bg-vmo hover:text-white transition-all" variant="outline">
-          Tải xuống <File className="ml-2 h-4 w-4" />
+        <Button
+          onClick={() => handleExport()}
+          className="ml-4 hover:bg-vmo hover:text-white transition-all"
+          variant="outline"
+        >
+          {loadingExport ? (
+            <div className="flex items-center">
+              <TailSpin
+                visible={true}
+                height="20"
+                width="20"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass="w-max h-screen mx-auto items-center"
+              />
+              <span className="ml-2">Tải xuống</span>
+              <File className="ml-2 h-4 w-4" />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              Tải xuống
+              <File className="ml-2 h-4 w-4" />
+            </div>
+          )}
         </Button>
         {/* Ẩn, hiện cột và hàng */}
         <DropdownMenu>

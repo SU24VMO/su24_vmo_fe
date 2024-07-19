@@ -99,7 +99,7 @@ const MobileNav = () => {
                 <User className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tài khoản tổ chức
+              Danh sách yêu cầu tài khoản quản lý tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestOrganizations"

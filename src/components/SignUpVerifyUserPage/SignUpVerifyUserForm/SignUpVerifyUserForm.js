@@ -74,11 +74,11 @@ export default function SignUpVerifyUserForm() {
 
         <Formik
             initialValues={{
-                name: '',
-                birthday: null,
-                phoneNumber: "",
+                name:  (user?.firstname + " " + user?.lastname),
+                birthday: user?.birthday,
+                phoneNumber: user?.phonenumber,
                 citizenIdentification: "",
-                email: "",
+                email: user?.email,
                 socialMediaLink: "",
                 address: "",
                 role: Number,
@@ -162,6 +162,7 @@ export default function SignUpVerifyUserForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.name}
+                            readOnly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tên..." />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.name && touched.name && errors.name}</p>
 
@@ -171,9 +172,8 @@ export default function SignUpVerifyUserForm() {
                         <div class="relative w-full ">
                             <BirthDayPicker
                                 setFieldValue={setFieldValue}
-                                popOverTriggerId="birthday"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                                selectedBirthDay={user?.birthday}
+                                readOnly
                             ></BirthDayPicker>
                         </div>
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.birthday && touched.birthday && errors.birthday}</p>
@@ -199,6 +199,7 @@ export default function SignUpVerifyUserForm() {
                             onBlur={handleBlur}
                             value={values.phoneNumber}
                             autoComplete="off"
+                            readOnly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập số điện thoại..." />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}</p>
 
@@ -212,6 +213,7 @@ export default function SignUpVerifyUserForm() {
                             onBlur={handleBlur}
                             value={values.email}
                             autoComplete="off"
+                            readOnly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="vd: tddkhoa0811@gmail.com -> email đã đăng ký trên hệ thống" />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.email && touched.email && errors.email}</p>
 

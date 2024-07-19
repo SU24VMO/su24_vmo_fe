@@ -10,9 +10,9 @@ export async function exportToExcel() {
     );
 
     if (response.status === 200) {
-      console.log("Fetched data:", response.data.data);
+      console.log("Fetched data:", response?.data?.data);
 
-      let listOM = response.data.data.list.map((organizationManager) => ({
+      let listOM = response?.data?.data?.list.map((organizationManager) => ({
         "ID quản lí tổ chức": organizationManager.organizationManager?.organizationManagerID,
         "Tên quản lí tổ chức": (organizationManager?.organizationManager?.firstName + " " + organizationManager?.organizationManager?.lastName),
         "Số diện thoại": organizationManager?.phoneNumber,

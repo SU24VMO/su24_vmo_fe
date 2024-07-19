@@ -8,10 +8,10 @@ const OrganizationInformation = ({ organizationData }) => {
   const [maxHeight, setMaxHeight] = React.useState("10em");
   const contentRef = React.useRef(null);
   const organizationDescription = organizationData?.description;
-  const organizationDescriptionFormat = organizationDescription.replace(
+  const organizationDescriptionFormat = organizationDescription ? (organizationDescription.replace(
     /(?:\r\n|\r|\n)/g,
     "<br>"
-  );
+  ) ) : "Chưa có";
   const toggleContent = () => {
     if (isExpanded) {
       setMaxHeight("10em"); // Đặt lại về giá trị ban đầu khi thu gọn

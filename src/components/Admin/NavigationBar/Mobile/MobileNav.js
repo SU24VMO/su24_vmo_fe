@@ -96,7 +96,7 @@ const MobileNav = () => {
                   <Building2 className="w-fit" />
 
                 </div>
-              Quản lý tài khoản tổ chức
+              Quản lý tài khoản quản lý tổ chức
             </Link>
             <Link
               to="/admin/manageModerators"

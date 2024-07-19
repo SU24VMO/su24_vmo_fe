@@ -27,12 +27,13 @@ import {
 
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
-import React from "react";
+import React, { useState } from "react";
 import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonTable from "../SkeletonTable/SkeletonTable";
+import { TailSpin } from "react-loader-spinner";
 
-export function DataTable({ 
+export function DataTable({
   columns,
   data,
   loading,
@@ -42,7 +43,7 @@ export function DataTable({
   setPageNo,
   totalPages,
   setActivityName
- }) {
+}) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
   const [columnVisibility, setColumnVisibility] = React.useState({}); //column visibility (dropdown menu)
@@ -67,7 +68,7 @@ export function DataTable({
     "title": "Tiêu đề",
     "member": "Tạo bởi thành viên",
     "organizationManager": "Tạo bởi quản lí tổ chức",
-    "moderator": "Người duyệt", 
+    "moderator": "Người duyệt",
     "createDate": "Ngày tạo",
     "approvedDate": "Ngày duyệt",
     "update_date": "Ngày cập nhật",
@@ -88,8 +89,8 @@ export function DataTable({
   //   state, //our fully controlled state overrides the internal state
   //   onStateChange: setState //any state changes will be pushed up to our own state management
   // }))
-  
-//update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
+
+  //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
   // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
   // được khởi tạo của nó mà cụ thể là pagination là 1 state)
   React.useEffect(() => {
@@ -105,6 +106,22 @@ export function DataTable({
   const handleNextPage = () => {
     if (pageNo < totalPages) setPageNo(pageNo + 1);
   };
+
+  const [loadingExport, setLoadingExport] = useState(false)
+
+
+  const handleExport = async () => {
+    setLoadingExport(true)
+
+    try {
+      await exportToExcel()
+    } catch (error) {
+
+    } finally {
+      setLoadingExport(false)
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center py-4">
@@ -119,12 +136,33 @@ export function DataTable({
         />
         {/* Xuất excel */}
         <Button
-          onClick={() => exportToExcel()}
+          onClick={() => handleExport()}
           className="ml-4 hover:bg-vmo hover:text-white transition-all"
           variant="outline"
         >
-          Tải xuống <File className="ml-2 h-4 w-4 " />
+          {loadingExport ? (
+            <div className="flex items-center">
+              <TailSpin
+                visible={true}
+                height="20"
+                width="20"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass="w-max h-screen mx-auto items-center"
+              />
+              <span className="ml-2">Tải xuống</span>
+              <File className="ml-2 h-4 w-4" />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              Tải xuống
+              <File className="ml-2 h-4 w-4" />
+            </div>
+          )}
         </Button>
+
         {/* Ẩn, hiện cột và hàng */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -169,9 +207,9 @@ export function DataTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   ))}
                 </TableRow>

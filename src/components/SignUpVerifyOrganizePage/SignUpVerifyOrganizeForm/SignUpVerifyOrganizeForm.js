@@ -35,7 +35,6 @@ export default function SignUpVerifyOrganizeForm() {
         resetForm()
         navigate("/")
 
-        console.log(response.data);
         toast({
           title: "Tạo tổ chức thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -67,10 +66,10 @@ export default function SignUpVerifyOrganizeForm() {
     <>
       <Formik
         initialValues={{
-          name: "",
-          phoneNumber: "",
+          name: (user?.firstname + " " + user?.lastname),
+          phoneNumber: user?.phonenumber,
           address: "",
-          email: "",
+          email: user?.email,
           citizenIdentification: null,
           personalTaxCode: null,
           isAcceptTermOfUse: false,
@@ -161,6 +160,7 @@ export default function SignUpVerifyOrganizeForm() {
                 value={values.name}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nhập tên..."
+                readOnly
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
@@ -181,6 +181,7 @@ export default function SignUpVerifyOrganizeForm() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.phoneNumber}
+                readOnly
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nhập số điện thoại..."
               />
@@ -200,6 +201,7 @@ export default function SignUpVerifyOrganizeForm() {
                 onBlur={handleBlur}
                 value={values.email}
                 autoComplete="off"
+                readOnly
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="vd: tddkhoa0811@gmail.com -> email đã đăng ký trên hệ thống" />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.email && touched.email && errors.email}</p>
 

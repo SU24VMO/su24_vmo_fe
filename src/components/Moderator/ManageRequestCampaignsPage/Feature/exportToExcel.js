@@ -9,16 +9,16 @@ export async function exportToExcel() {
     );
 
     if (response.status === 200) {
-      console.log("Fetched data:", response.data.data);
+      console.log("Fetched data:", response?.data?.data);
 
-      let campaigns = response.data.data.list.map((campaign) => ({
-        "Tên chiến dịch": campaign.campaign.name,
-        "Tạo bởi tình nguyện viên": campaign.user.lastName,
-        "Tạo bởi quản lý tổ chức": campaign.organizationManager.lastName,
-        "Người duyệt": campaign.moderator.lastName,
-        "Ngày tạo": campaign.createDate,
-        "Ngày duyệt": campaign.approvedDate,
-        "Xác thực": campaign.isApproved === true ? "Đồng ý" : "Từ chối",
+      let campaigns = response?.data?.data?.list.map((campaign) => ({
+        "Tên chiến dịch": campaign.campaign?.name,
+        "Tạo bởi tình nguyện viên": campaign.member?.lastName,
+        "Tạo bởi quản lý tổ chức": campaign.organizationManager?.lastName,
+        "Người duyệt": campaign.moderator?.lastName,
+        "Ngày tạo": campaign?.createDate,
+        "Ngày duyệt": campaign?.approvedDate,
+        "Xác thực": campaign?.isApproved === true ? "Đồng ý" : "Từ chối",
       }));
 
       let columns = [

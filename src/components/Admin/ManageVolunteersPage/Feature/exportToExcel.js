@@ -29,7 +29,6 @@ export async function exportToExcel() {
             { label: "Email", value: "Email" },
             { label: "Vai trò", value: "Vai trò" },
             { label: "Ngày tạo", value: "Ngày tạo" },
-            { label: "Ngày duyệt", value: "Ngày duyệt" },
             { label: "Trạng thái", value: "Trạng thái" },
           ],
           content: volunteers,

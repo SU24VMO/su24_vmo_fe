@@ -1,43 +1,56 @@
 import xlsx from "json-as-xlsx";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { GETALLACCOUNTSOM } from "../../../../api/apiConstants";
+
 
 export async function exportToExcel() {
+  const formatAmount = (value) => {
+    const cleanValue = value.replace(/\D/g, '');
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return formattedValue + " VND";
+  };
   try {
     const response = await axiosPrivate.get(
-      GETALLACCOUNTSOM
+      `/api/campaign/all/filter/banking-account`
     );
 
+  
     if (response.status === 200) {
-      console.log("Fetched data:", response.data.data);
+      console.log("Fetched data:", response?.data?.data);
 
-      let organzationManagers = response.data.data.list.map((organzationManager) => ({
-        "ID người dùng": organzationManager?.accountID,
-        "Tên người dùng": organzationManager?.username,
-        "Email": organzationManager?.email ,
-        "Vai trò": "organzationManager",
-        "Ngày tạo": organzationManager?.createdAt,
-        "Trạng thái": organzationManager?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
+      let banking = response?.data?.data?.list.map((banking) => ({
+        "ID chiến dịch": banking?.campaignID,
+        "Tên chiến dịch": banking?.name,
+        "Số tiền đã đạt": banking?.amount ? formatAmount(banking?.amount) : "" ,
+        "Trạng thái quyên góp": banking?.donatePhaseIsEnd === true ? "Đã kết thúc" : "Chưa kết thúc",
+        "Tên ngân hàng": banking?.bankingName,
+        "Tên tài khoản": banking?.accountName,
+        "Số tài khoản" :banking?.bankingAccountNumber,
+        "QR code" :banking?.qrCode,
+        "Ảnh sao kê" :banking?.transactionImage !== null ? (banking?.transactionImage) : "Chưa có"
+
+
       }));
 
       let columns = [
         {
-          sheet: "Request organzation managers",
+          sheet: "Giao dịch sao kê Admin",
           columns: [
-            { label: "ID người dùng", value: "ID người dùng" },
-            { label: "Tên người dùng", value: "Tên người dùng" },
-            { label: "Email", value: "Email" },
-            { label: "Vai trò", value: "Vai trò" },
-            { label: "Ngày tạo", value: "Ngày tạo" },
-            { label: "Ngày duyệt", value: "Ngày duyệt" },
-            { label: "Trạng thái", value: "Trạng thái" },
+            { label: "ID chiến dịch", value: "ID chiến dịch" },
+            { label: "Tên chiến dịch", value: "Tên chiến dịch" },
+            { label: "Số tiền đã đạt", value: "Số tiền đã đạt" },
+            { label: "Trạng thái quyên góp", value: "Trạng thái quyên góp" },
+            { label: "Tên ngân hàng", value: "Tên ngân hàng" },
+            { label: "Tên tài khoản", value: "Tên tài khoản" },
+            { label: "QR code", value: "QR code" },
+            { label: "Ảnh sao kê", value: "Ảnh sao kê" },
+
           ],
-          content: organzationManagers,
+          content: banking,
         },
       ];
 
       let settings = {
-        fileName: "Bảng danh sách tài khoản thành viên tổ chức",
+        fileName: "Bảng danh sách giao dịch sao kê",
       };
 
       xlsx(columns, settings);

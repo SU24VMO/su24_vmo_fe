@@ -7,9 +7,15 @@ import { vi } from "date-fns/locale";
 import { cn } from "../../../lib/utils";
 import { Calendar } from "../../ui/calendar";
 
-const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
+const BirthDayPicker = ({ setFieldValue, popOverTriggerId, selectedBirthDay }) => {
   const [date, setDate] = React.useState(null);
   const [formattedDate, setFormattedDate] = React.useState(null); // Sử dụng cái state này để  truyền về Backend thay cho date
+ 
+  React.useEffect(() => {
+    setDate(selectedBirthDay);
+    const formatted = selectedBirthDay ? format(selectedBirthDay, "yyyy-MM-dd") : null;
+    setFormattedDate(formatted);
+  }, [selectedBirthDay]);
   const handleSetDate = (date) => {
     setDate(date);
     const formatted = date ? format(date, "yyyy/MM/dd") : null;
@@ -38,7 +44,7 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
+        {/* <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
             onSelect={handleSetDate}
@@ -49,7 +55,7 @@ const BirthDayPicker = ({ setFieldValue, popOverTriggerId }) => {
             selected={date}
             initialFocus
           />
-        </PopoverContent>
+        </PopoverContent> */}
       </Popover>
     </>
   );

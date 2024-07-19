@@ -16,7 +16,7 @@ import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Switch } from "../../../ui/switch";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
@@ -87,6 +87,11 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+  
+}, [banking?.transactionImage]);
+
 
   return (
     <Formik
