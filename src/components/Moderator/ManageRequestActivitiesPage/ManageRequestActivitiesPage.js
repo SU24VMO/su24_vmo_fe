@@ -12,7 +12,7 @@ const ManageRequestActivitiesPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Danh sách yêu cầu hoạt động</p>
+      <p className="font-bold text-2xl">Danh sách yêu cầu tạo hoạt động</p>
       <TableRequestActivities />
     </>
   );

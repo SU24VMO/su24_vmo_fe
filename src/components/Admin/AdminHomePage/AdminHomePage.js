@@ -9,8 +9,11 @@ import {
 import {
   Activity,
   ArrowUpRight,
+  Building2,
   CreditCard,
   DollarSign,
+  HeartHandshake,
+  User,
   Users,
 } from "lucide-react";
 import { Button } from "../../ui/button";
@@ -25,11 +28,7 @@ import {
 } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import avatar_1 from "../../../assets/avatars/01.png";
-import avatar_2 from "../../../assets/avatars/02.png";
-import avatar_3 from "../../../assets/avatars/03.png";
-import avatar_4 from "../../../assets/avatars/04.png";
-import avatar_5 from "../../../assets/avatars/05.png";
+
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER } from "../../../api/apiConstants";
@@ -37,7 +36,7 @@ import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
 
-const ModeratorHomePage = () => {
+const AdminHomePage = () => {
 
   const [loading, setLoading] = useState(false)
 
@@ -61,9 +60,9 @@ const ModeratorHomePage = () => {
 
       if (response.status === 200) {
         setNumberAccount(response?.data?.data?.totalItem);
-        setDataAccount(response?.data?.data?.list.slice(0, 5));
+        setDataAccount(response?.data?.data?.list.slice(0, 7));
         console.log('====================================');
-        console.log(response?.data?.data?.list.slice(0, 5));
+        console.log(response?.data?.data?.list.slice(0, 7));
         console.log('====================================');
         toast({
           title: "thành công",
@@ -170,6 +169,9 @@ const ModeratorHomePage = () => {
 
       if (response.status === 200) {
         setTransactionRecently(response?.data?.data?.list);
+        console.log('====================================');
+        console.log("Danh sach :",response?.data?.data?.list);
+        console.log('====================================');
         toast({
           title: "thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -257,12 +259,8 @@ const ModeratorHomePage = () => {
     const stringValue = value.toString();
     const cleanValue = stringValue.replace(/\D/g, '');
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return formattedValue;
+    return formattedValue + " VND";
   };
-
-
-
-
 
 
 
@@ -279,53 +277,56 @@ const ModeratorHomePage = () => {
           </Helmet>
           <p className="font-bold text-2xl">Thống kê số liệu</p>
           {/* CARD FULL*/}
-          <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
+          <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4" >
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Số lượng người dùng</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                <div className="w-fit">
+                <User className="w-fit" />
+
+               </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{numberAccount}</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
-                </p>
+                <div className="text-2xl font-bold animate-zoomInOut">{numberAccount}</div>
+                
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-1">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Số lượng chiến dịch</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
+                <div className="w-fit">
+                 <HeartHandshake className="w-fit" />
+               </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{numberCampaign}</div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
-                </p>
+                <div className="text-2xl font-bold animate-zoomInOut">{numberCampaign}</div>
+               
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Số lượng tổ chức</CardTitle>
-                <CreditCard className="h-4 w-4 text-muted-foreground" />
+                <div className="w-fit">
+                 <Building2 className="w-fit" />
+
+               </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{numberOrganization}</div>
-                <p className="text-xs text-muted-foreground">
-                  +19% from last month
-                </p>
+                <div className="text-2xl font-bold animate-zoomInOut">{numberOrganization}</div>
+              
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-3">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Số lượng tình nguyện viên</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
+                <div className="w-fit">
+                <Users className="w-fit" />
+
+               </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{numberVolunteer}</div>
-                <p className="text-xs text-muted-foreground">
-                  +201 since last hour
-                </p>
+                <div className="text-2xl font-bold animate-zoomInOut">{numberVolunteer}</div>
+              
               </CardContent>
             </Card>
           </div>
@@ -339,12 +340,12 @@ const ModeratorHomePage = () => {
                     Giao dịch gần đây
                   </CardDescription>
                 </div>
-                <Button asChild size="sm" className="ml-auto gap-1">
+                {/* <Button asChild size="sm" className="ml-auto gap-1">
                   <Link to="#">
                     Xem tất cả
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
-                </Button>
+                </Button> */}
               </CardHeader>
               <CardContent>
                 <Table>
@@ -358,13 +359,13 @@ const ModeratorHomePage = () => {
                     {transactionRecently && transactionRecently.map(transaction => (
                       <TableRow>
                         <TableCell>
-                          <div className="font-medium">{transaction.payerName}</div>
-                          <div className="hidden text-sm text-muted-foreground mobile:inline">
+                          <div className="font-medium animate-fadeInLeft">{transaction.payerName}</div>
+                          <div className="hidden text-sm text-muted-foreground mobile:inline animate-fadeInLeft">
                             {transaction.donatationPeriod}
                           </div>
                         </TableCell>
 
-                        <TableCell className="text-right">{formatAmount(transaction.amount) + ' VND'}</TableCell>
+                        <TableCell className="text-right animate-fadeInLeft">{transaction?.amount ? (formatAmount(transaction?.amount)) : ("0 VND")}</TableCell>
                       </TableRow>
 
                     ))}
@@ -383,7 +384,7 @@ const ModeratorHomePage = () => {
               <CardContent className="grid gap-8">
 
                 {dataAccount && dataAccount.map(data => (
-                  <div key={data.accountID} className="flex items-center gap-4">
+                  <div key={data.accountID} className="flex items-center gap-4 animate-slide-in-left">
                     <Avatar className="hidden h-9 w-9 mobile:flex">
                       <AvatarImage src={data.avatar !== ("string" || "") ? data.avatar : ""} alt="Avatar" />
                       <AvatarFallback className="capitalize">{data.username[0]}</AvatarFallback>
@@ -407,4 +408,4 @@ const ModeratorHomePage = () => {
   );
 };
 
-export default ModeratorHomePage;
+export default AdminHomePage;

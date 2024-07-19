@@ -208,7 +208,11 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                     checked={formik.values.isActived}
                     onCheckedChange={handleSwitchChange("isActived")}
                   />
-                  <Label htmlFor="isActived">Trạng thái</Label>
+                    {formik.values?.isActived ? (
+                    <Label htmlFor="isActived">Đang hoạt động</Label>
+                  ) : (
+                    <Label htmlFor="isActived">Dừng hoạt động</Label>
+                  )}
                 </div>
 
               </form>

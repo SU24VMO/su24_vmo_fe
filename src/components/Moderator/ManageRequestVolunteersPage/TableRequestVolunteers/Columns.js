@@ -14,7 +14,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
           className="px-0 py-0"
            onClick={() => onSort("MemberName")}
         >
-          Tên thành viên
+          Tên tình nguyện viên
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

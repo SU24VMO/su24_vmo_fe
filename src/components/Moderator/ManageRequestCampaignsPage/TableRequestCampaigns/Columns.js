@@ -23,7 +23,7 @@ export const columns = ({ onEdit, onDelete , onSort}) => [
     cell: ({ row }) => {
       
       const name = row.original.campaign.name;
-      return <div className="">{name}</div>;
+      return <div className="line-clamp-2">{name}</div>;
     },
   },
   {

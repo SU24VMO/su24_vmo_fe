@@ -142,7 +142,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="cover">Ảnh nền</Label>
-                <div className="w-1/3 mx-auto">
+                <div className=" w-2/3  mobile:w-1/3  mx-auto">
                   <img
                     src={posts?.post ? posts.post?.cover : ""}
                     alt="cover"
@@ -185,7 +185,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="image">Ảnh chính</Label>
-                <div className="w-1/3 mx-auto">
+                <div className=" w-2/3  mobile:w-1/3 mx-auto">
                   <img
                     src={posts?.post ? posts.post?.image : ""}
                     alt="image_volunteer"

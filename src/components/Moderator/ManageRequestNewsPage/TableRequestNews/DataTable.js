@@ -118,7 +118,7 @@ export function DataTable({
         {/* Xuất excel */}
         <Button
           onClick={() => exportToExcel()}
-          className="ml-4"
+          className="ml-4 hover:bg-vmo hover:text-white transition-all"
           variant="outline"
         >
           Tải xuống <File className="ml-2 h-4 w-4" />

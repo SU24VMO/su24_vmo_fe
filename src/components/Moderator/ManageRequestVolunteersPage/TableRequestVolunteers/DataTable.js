@@ -120,7 +120,7 @@ export function DataTable({
       {/* Search filter tên người dùng */}
         <Input
           type="search"
-          placeholder="Nhập tên thành viên cần tìm ..."
+          placeholder="Nhập tên tình nguyện viên cần tìm ..."
         
           onChange={(event) =>
             setVolunteerName(event.target.value)
@@ -128,7 +128,7 @@ export function DataTable({
           className="max-w-sm"
         />
         {/* Xuất excel */}
-        <Button onClick={() => exportToExcel()} className="ml-4" variant="outline">
+        <Button onClick={() => exportToExcel()} className="ml-4 hover:bg-vmo hover:text-white transition-all" variant="outline">
           Tải xuống <File className="ml-2 h-4 w-4" />
         </Button>
         {/* Ẩn, hiện cột và hàng */}

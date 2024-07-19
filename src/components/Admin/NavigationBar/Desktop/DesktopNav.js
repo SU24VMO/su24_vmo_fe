@@ -32,13 +32,13 @@ const DesktopNav = () => {
       {/* Nav Desktop */}
       <div className="hidden tablet:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6">
+          <div className="flex h-14 items-center border-b px-4 tablet:h-[60px] tablet:px-6  bg-vmo">
             <Link to="/admin" className="flex items-center gap-2 font-semibold">
             <div className="w-fit">
             <SquareGanttChart className="w-fit" />
 
                </div>
-              <span className="">VMO Quản trị hệ thống</span>
+              <span className="text-xl font-bold">VMO Quản trị hệ thống</span>
             </Link>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />

@@ -24,10 +24,10 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
         <DropdownMenuItem onClick={() => onEdit(row.original)}>
           Chỉnh sửa
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => onDelete(row.original)}>
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuItem onClick={() => onDelete(row.original)}>
           <span className="text-destructive">Xóa</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

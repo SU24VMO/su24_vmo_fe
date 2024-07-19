@@ -79,7 +79,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">OrganizationManager</Badge>
+          <Badge variant="primary">Quản lý tổ chức</Badge>
           
         </div>
       );

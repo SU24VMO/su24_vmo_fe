@@ -80,7 +80,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       // const role = row.getValue("role");
       return (
         <div className="w-max">
-          <Badge variant="primary">Moderator</Badge>
+          <Badge variant="primary">Nhân viên kiểm duyệt</Badge>
           
         </div>
       );

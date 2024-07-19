@@ -13,7 +13,7 @@ const ManageRequestVolunteersPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Danh sách yêu cầu thành viên</p>
+      <p className="font-bold text-2xl">Danh sách yêu cầu tài khoản tình nguyện viên</p>
     <TableRequestVolunteers/>
     </>
   );
