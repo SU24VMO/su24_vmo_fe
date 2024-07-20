@@ -88,7 +88,7 @@ const MobileNav = () => {
                 <User className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tài khoản tình nguyện viên
+              Danh sách yêu cầu tạo tài khoản tình nguyện viên
 
             </Link>
             <Link
@@ -99,7 +99,7 @@ const MobileNav = () => {
                 <User className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tài khoản quản lý tổ chức
+              Danh sách yêu cầu tạo tài khoản quản lý tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestOrganizations"
@@ -129,7 +129,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <Newspaper className="w-fit" />
               </div>
-              Danh sách yêu cầu tạo bài đăng
+              Danh sách yêu cầu tạo tin tức
             </Link>
           </nav>
 

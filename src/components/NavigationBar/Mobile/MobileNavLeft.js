@@ -141,7 +141,7 @@ const MobileNavLeft = () => {
                             ])
                           }
                         >
-                          Quản lý
+                          Quản lý chiến dịch
                         </Button>
                       </Link>
                     </div>
@@ -211,7 +211,7 @@ const MobileNavLeft = () => {
                             getLinkClass(["/createVerifyOrganizationManager"])
                           }
                         >
-                          Đăng kí quản lý tổ chức
+                          Gửi đơn xác thực để tạo tổ chức
                         </Button>
                       </Link>
                     </div>

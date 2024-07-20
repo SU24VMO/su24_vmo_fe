@@ -105,7 +105,7 @@ const DesktopNavLeft = () => {
                     "/manage/volunteer/allActivities",
                   ])}
                 >
-                  Quản lý
+                  Quản lý chiến dịch
                 </Button>
               </Link>
             ) : null}
@@ -147,7 +147,7 @@ const DesktopNavLeft = () => {
                   className={getLinkClass(["/createVerifyOrganizationManager"])}
 
                 >
-                  Đăng kí quản lý tổ chức
+                  Gửi đơn xác thực để tạo tổ chức
                 </Button>
               </Link>
             ) : null}

@@ -81,7 +81,7 @@ const DesktopNav = () => {
                 <User className="w-fit" />
 
                </div>
-                Danh sách yêu cầu tài khoản tình nguyện viên
+                Danh sách yêu cầu tạo tài khoản tình nguyện viên
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizationManagers"
@@ -92,7 +92,7 @@ const DesktopNav = () => {
 
                </div>
 
-                Danh sách yêu cầu tài khoản quản lý tổ chức
+                Danh sách yêu cầu tạo tài khoản quản lý tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizations"
@@ -122,7 +122,7 @@ const DesktopNav = () => {
                  <div className="w-fit">
                  <Newspaper className="w-fit" />
                </div>
-                Danh sách yêu cầu tạo bài đăng
+                Danh sách yêu cầu tạo tin tức
               </Link>
             </nav>
           </div>
