@@ -75,9 +75,9 @@ export default function NewsDetailPage() {
     return <Navigate to="/404" />; // Redirect người dùng nếu có lỗi
   }
 
-  const newContent = news?.content;
+  const newContent = news?.content ?? "";
   const newContentFormat = newContent.replace(/(?:\r\n|\r|\n)/g, "<br>");
-  const newDescription = news?.description;
+  const newDescription = news?.description ?? "";
   const newDescriptionFormat = newDescription.replace(
     /(?:\r\n|\r|\n)/g,
     "<br>"

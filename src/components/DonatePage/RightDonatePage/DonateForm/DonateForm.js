@@ -29,6 +29,7 @@ import { CREATE_TRANSACTION } from "../../../../api/apiConstants";
 import { useToast } from "../../../ui/use-toast";
 import { ToastAction } from "../../../ui/toast";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
   const [selectedAmount, setSelectedAmount] = React.useState(null);
@@ -306,9 +307,9 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
         </div>
         <p className="text-center mt-3">
           Bằng việc ủng hộ, bạn đã đồng ý với{" "}
-          <a href="#." className="font-bold">
+          <Link to="/terms" className="font-bold">
             Điều khoản sử dụng
-          </a>
+          </Link>
         </p>
       </form>
       {isDesktop ? (
