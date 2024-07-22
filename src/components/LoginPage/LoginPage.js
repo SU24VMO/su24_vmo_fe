@@ -31,7 +31,7 @@ const LoginPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden  tablet:block overflow-hidden max-h-screen">
+        <div className="hidden  tablet:block overflow-hidden min-h-screen">
           <img
             src={require('../../assets/images/banner_v2.png')}
             alt="Image"

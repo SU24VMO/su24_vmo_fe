@@ -23,7 +23,7 @@ const ChangePassswordPage = () => {
       </Helmet>
       <div className="w-full tablet:grid tablet:min-h-[600px] tablet:grid-cols-2 laptop:min-h-[800px]">
         {/* LEFT */}
-        <div className="hidden bg-muted tablet:block overflow-hidden max-h-screen">
+        <div className="hidden bg-muted tablet:block overflow-hidden min-h-screen">
           <img
             src={img_src}
             alt="Image"
