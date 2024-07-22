@@ -18,6 +18,7 @@ import {
   GET_NUMBER_OF_TRANSACTION,
 } from "../../../api/apiConstants";
 import { Skeleton } from "../../ui/skeleton";
+import axios from "axios";
 
 const CallForActionSection = () => {
   const [data, setData] = React.useState({
@@ -28,11 +29,31 @@ const CallForActionSection = () => {
     numberOfTransactions: 0,
     numberOfOrganizations: 0,
   });
+
+  const [dataLoadingStatus, setDataLoadingStatus] = React.useState({
+    numberOfAccounts: true,
+    numberOfDonatedAccounts: true,
+    numberOfActivatedCampaigns: true,
+    totalAmountOfDonatePhase: true,
+    numberOfTransactions: true,
+    numberOfOrganizations: true,
+  });
+
   const [dataLoaded, setDataLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    setDataLoaded(false);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     const fetchData = async () => {
+      setDataLoaded(false);
+      setDataLoadingStatus({
+        numberOfAccounts: true,
+        numberOfDonatedAccounts: true,
+        numberOfActivatedCampaigns: true,
+        totalAmountOfDonatePhase: true,
+        numberOfTransactions: true,
+        numberOfOrganizations: true,
+      });
       try {
         const urls = [
           GET_NUMBER_OF_ACCOUNT,
@@ -43,7 +64,7 @@ const CallForActionSection = () => {
           GET_NUMBER_OF_ORGANIZATION,
         ];
 
-        const requests = urls.map((url) => axiosPublic.get(url));
+        const requests = urls.map((url) => axiosPublic.get(url, { signal }));
         const responses = await Promise.all(requests);
 
         setData({
@@ -54,15 +75,30 @@ const CallForActionSection = () => {
           numberOfTransactions: responses[4].data.data,
           numberOfOrganizations: responses[5].data.data,
         });
+        setDataLoadingStatus({
+          numberOfAccounts: false,
+          numberOfDonatedAccounts: false,
+          numberOfActivatedCampaigns: false,
+          totalAmountOfDonatePhase: false,
+          numberOfTransactions: false,
+          numberOfOrganizations: false,
+        });
       } catch (error) {
-        console.error("Error fetching data: ", error);
-        // Xử lý lỗi tại đây
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
+          // Xử lý lỗi
+        }
       } finally {
         setDataLoaded(true);
       }
     };
 
     fetchData();
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   // Hàm format số tiền ủng hộ
@@ -101,12 +137,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng tổ chức thiện nguyện
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.numberOfOrganizations ||
+                        data.numberOfOrganizations === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {data.numberOfOrganizations}
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
@@ -118,12 +155,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng chiến dịch thiện nguyện
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.numberOfActivatedCampaigns ||
+                        data.numberOfActivatedCampaigns === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {data.numberOfActivatedCampaigns}
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
@@ -135,12 +173,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng cá nhân thiện nguyện
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.numberOfDonatedAccounts ||
+                        data.numberOfDonatedAccounts === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {data.numberOfDonatedAccounts}
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
@@ -154,12 +193,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Tổng giá trị đổi ra tiền đã ủng hộ
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.totalAmountOfDonatePhase ||
+                        data.totalAmountOfDonatePhase === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {formatMoney(data.totalAmountOfDonatePhase)} VNĐ
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
@@ -169,12 +209,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Số lượng người dùng
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.numberOfAccounts ||
+                        data.numberOfAccounts === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {data.numberOfAccounts}
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
@@ -184,12 +225,13 @@ const CallForActionSection = () => {
                         <h3 className="text-base sm:text-lg font-semibold">
                           Tổng số lượt đã ủng hộ của người dùng
                         </h3>
-                        {dataLoaded ? (
+                        {dataLoadingStatus.numberOfTransactions ||
+                        data.numberOfTransactions === 0 ? (
+                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
+                        ) : (
                           <p className="mt-1 font-bold text-green-theme-primary">
                             {data.numberOfTransactions}
                           </p>
-                        ) : (
-                          <Skeleton className="w-10 h-4 bg-green-theme-primary" />
                         )}
                       </div>
                     </div>
