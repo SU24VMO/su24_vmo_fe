@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import img_src from "../../assets/images/vmo_tree_banner.png";
+import img_src from "../../assets/images/banner_v2.png";
 import {
   Card,
   CardContent,

@@ -33,7 +33,7 @@ const LoginPage = () => {
         {/* LEFT */}
         <div className="hidden  tablet:block overflow-hidden max-h-screen">
           <img
-            src={require('../../assets/images/vmo_tree_banner.png')}
+            src={require('../../assets/images/banner_v2.png')}
             alt="Image"
             className="w-full object-cover object-center h-full"
           />

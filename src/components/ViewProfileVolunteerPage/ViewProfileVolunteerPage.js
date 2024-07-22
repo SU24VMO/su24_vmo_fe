@@ -108,7 +108,7 @@ export default function ViewProfileVolunteerPage() {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <div className="w-4/5 mx-auto rounded-xl">
+      <div className="w-4/5 mx-auto rounded-xl min-h-screen">
         {dataLoaded ? (
           <div className="grid gap-6 tablet:grid-cols-2 rounded-xl p-10 drop-shadow-lg ">
             <div className=" justify-center mobile:justify-evenly mobile:flex  gap-4 items-center">

@@ -26,7 +26,7 @@ const UserAvatar = () => {
               src={user ? user.avatar : avatar_image}
               alt="Avatar User"
             />
-            <AvatarFallback>{user.lastname[0]}</AvatarFallback>
+            <AvatarFallback>{user?.lastname[0]}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

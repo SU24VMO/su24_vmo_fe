@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
-import img_src from "../../assets/images/vmo_tree_banner.png";
+import img_src from "../../assets/images/banner_v2.png";
 import { Helmet } from "react-helmet";
 
 const ChangePassswordPage = () => {
