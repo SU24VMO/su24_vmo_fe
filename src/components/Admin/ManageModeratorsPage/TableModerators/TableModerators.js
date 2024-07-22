@@ -5,6 +5,7 @@ import { columns } from "./Columns";
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import EditModeratorForm from "../Feature/EditModeratorForm";
+import CreateAccountModerator from "../Feature/CreateAccountModerator";
 async function getData(cancelToken,  pageSize, pageNo, sortConfig,name, setLoading) {
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
@@ -37,6 +38,7 @@ const TableModerators = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
+  const [isCreateDialogOpen, setCreateDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
@@ -100,6 +102,13 @@ const TableModerators = () => {
     const source = axios.CancelToken.source();
     fetchData(source.token, pageSize, pageNo,name, sortConfig);
   };
+
+  const onCreateAccount = React.useCallback(() => {
+    setCreateDialogOpen(true); // Mở dialog
+  }, []);
+
+
+  
   return (
     <div className="flex flex-col">
       <div>
@@ -115,6 +124,16 @@ const TableModerators = () => {
           onSubmitSuccess={handleRefresh}
 
         />
+        <CreateAccountModerator
+        
+        isOpen={isCreateDialogOpen}
+        onOpenChange={(value) => {
+          setCreateDialogOpen(value);
+         
+        }}
+        onSubmitSuccess={handleRefresh}
+        
+        />
       </div>
       <DataTable 
       columns={columns({ onEdit, onDelete, onSort })} 
@@ -127,6 +146,7 @@ const TableModerators = () => {
       setPageSize={setPageSize}
       setPageNo={setPageNo}
       totalPages={totalPages}
+      onCreateAccount={onCreateAccount}
       />
     </div>
   );

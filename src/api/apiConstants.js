@@ -80,6 +80,9 @@ export const GETALLORGANIZATION = "/api/organization/all"
 export const GETALLVOLUNTEER = "/api/account/all/role/volunteer"
 export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
 
+export const CREATEACCOUNTMODERATOR = '/api/account/create-new'
+
+
 //enable disable
 
 export const ENABLEDISABLEACTIVITY = "/api/activity/update/status"

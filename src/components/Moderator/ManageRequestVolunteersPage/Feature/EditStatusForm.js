@@ -98,17 +98,17 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
-          <DialogTitle>Thông tin đơn duyệt thành viên</DialogTitle>
+          <DialogTitle>Thông tin đơn duyệt tình nguyện viên</DialogTitle>
           <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo thành viên!
+            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo tình nguyện viên!
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[65vh] shadow-inner"> {/* Set a specific height for ScrollArea */}
           <div className="flex flex-col  p-5 gap-5">
-            {/* Show tên thành viên */}
+            {/* Show tên tình nguyện viên */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="memberName">Tên thành viên</Label>
+                <Label htmlFor="memberName">Tên tình nguyện viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="memberName"

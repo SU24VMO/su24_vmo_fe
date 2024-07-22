@@ -192,7 +192,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="role">Vai trò</Label>
                 <div className="flex items-center space-x-2">
-                  <Badge variant="primary">OrganizationManager</Badge>
+                  <Badge variant="primary">Quản lý tổ chức</Badge>
 
                 </div>
               </div>

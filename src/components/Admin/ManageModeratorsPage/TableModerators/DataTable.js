@@ -42,7 +42,8 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
-  setName
+  setName,
+  onCreateAccount
  }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]); //filter
@@ -93,7 +94,7 @@ export function DataTable({
   React.useEffect(() => {
     table.setPageSize(pageSize);
     table.setPageIndex(pageNo - 1);
-  }, [pageNo, pageSize, table]);
+  }, [pageNo, pageSize, table, ]);
 
   const handlePreviousPage = () => {
     if (pageNo > 1) setPageNo(pageNo - 1);
@@ -160,6 +161,7 @@ export function DataTable({
             </div>
           )}
         </Button>
+       
         {/* Ẩn, hiện cột và hàng */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -188,7 +190,18 @@ export function DataTable({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <div>
+      <div className="w-full flex justify-start">
+        <button type="button" onClick={() => 
+          onCreateAccount()
+        } className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+          Tạo tài khoản
+        </button>
+        
+      </div>
+      </div>
       <div className="rounded-md border">
+        
         {loading ? (
           <SkeletonModeratorTable />
         ) : (

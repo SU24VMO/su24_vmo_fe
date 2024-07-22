@@ -194,7 +194,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="role">Vai trò</Label>
                 <div className="flex items-center space-x-2">
-                  <Badge variant="primary">Volunteer</Badge>
+                  <Badge variant="primary">Tình nguyện viên</Badge>
 
                 </div>
               </div>
