@@ -7,7 +7,8 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLCAMPAIGNBYOMID } from "../../../api/apiConstants";
 import { Helmet } from "react-helmet";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
+
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
   console.log("campaignName truyền vào: " , campaignName);
 
@@ -113,7 +114,7 @@ const ManageOrganizeAllCampaignsTable = () => {
       </Helmet>
       <div className="w-3/4 mx-auto min-h-screen">
         <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-        <ConformEnableDisable
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {

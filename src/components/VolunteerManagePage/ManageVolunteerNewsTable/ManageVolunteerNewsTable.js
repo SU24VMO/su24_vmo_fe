@@ -8,7 +8,8 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLNEWSBYVOLUNTEERID } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
+
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
 
@@ -113,7 +114,7 @@ const ManageVolunteerNewsTable = () => {
       </Helmet>
     <div className="w-3/4 mx-auto min-h-screen">
       <ManageVolunteerSlideBar/>
-      <ConformEnableDisable
+      <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {
@@ -126,7 +127,7 @@ const ManageVolunteerNewsTable = () => {
 
         />
       <DataTable 
-      columns={columns({onSort})} 
+      columns={columns({onSort, onConfirm})} 
       setTitle={setTitle}
       data={data}
       loading={loading}

@@ -7,7 +7,8 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLORGANIZATIONBYID } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import { Helmet } from "react-helmet";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
+
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizationName, setLoading) {
 
   try {
@@ -109,7 +110,7 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
       </Helmet>
     <div className="w-3/4 mx-auto min-h-screen">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <ConformEnableDisable
+      <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {

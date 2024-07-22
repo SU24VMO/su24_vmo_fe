@@ -8,7 +8,8 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLNEWSBYOMID } from "../../../api/apiConstants";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
+
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
 
@@ -115,7 +116,7 @@ const ManageOrganizeNewsTable = () => {
     <div className="w-3/4 mx-auto min-h-screen">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
       
-      <ConformEnableDisable
+      <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {

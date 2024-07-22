@@ -18,11 +18,11 @@ import { Loader2 } from "lucide-react";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { AuthContext } from "../../../../context/AuthContext";
 import axios from "axios";
-import { ENABLEDISABLEACTIVITY } from "../../../../api/apiConstants";
+import { ENABLEDISABLEPOST } from "../../../../api/apiConstants";
 import { ToastAction } from "../../../ui/toast";
 
 
-const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
+const ConfirmEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
   const { toast } = useToast();
   // Formik setup
   const [loading, setLoading] = useState(false)
@@ -30,12 +30,12 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
 
 
 
-  const onUpdateEnableDisable = async (activityId) => {
+  const onUpdateEnableDisable = async (postId) => {
     setLoading(true)
 
     try {
-      const response = await axiosPrivate.put(ENABLEDISABLEACTIVITY, {
-        activityId: activityId,
+      const response = await axiosPrivate.put(ENABLEDISABLEPOST, {
+        postId: postId,
         isDisable: true,
       });
 
@@ -78,7 +78,7 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-mobile">
         <DialogHeader>
-          <DialogTitle>Bạn có chắc rằng sẽ ẩn hoạt động này</DialogTitle>
+          <DialogTitle>Bạn có chắc rằng sẽ ẩn tin tức này</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể làm điều này duy nhất 1 lần!
           </DialogDescription>
@@ -92,7 +92,7 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
           </DialogClose>
           <Button
             type="button"
-            onClick={() => onUpdateEnableDisable(row.activityID)}
+            onClick={() => onUpdateEnableDisable(row?.postID)}
             variant="green_theme_primary"
           >
             {loading ? (
@@ -110,4 +110,4 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
   );
 };
 
-export default ConformEnableDisable;
+export default ConfirmEnableDisable;

@@ -9,7 +9,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETALLACTIVITIESVOLUNTEER } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading) {
   console.log("Activity truyền vào: ", activityTitle);
@@ -115,7 +115,7 @@ const ManageVolunteerAllActivitiesTable = () => {
       </Helmet>
       <div className="w-3/4 mx-auto min-h-screen">
         <ManageVolunteerSlideBar />
-        <ConformEnableDisable
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {

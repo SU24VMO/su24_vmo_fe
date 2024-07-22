@@ -7,7 +7,8 @@ import { AuthContext } from "../../../context/AuthContext";
 import { GETALLCAMPAIGNBYVOLUNTEERID } from "../../../api/apiConstants";
 import { Helmet } from "react-helmet";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
-import ConformEnableDisable from "./Feature/ConformEnableDisable";
+import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
+
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
   console.log("campaignName truyền vào: " , campaignName);
 
@@ -114,7 +115,7 @@ const ManageVolunteerAllCampaignsTable = () => {
       </Helmet>
       <div className="w-3/4 mx-auto min-h-screen">
         <ManageVolunteerSlideBar/>
-        <ConformEnableDisable
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {

@@ -17,12 +17,11 @@ import React, { useContext, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { AuthContext } from "../../../../context/AuthContext";
-import axios from "axios";
-import { ENABLEDISABLECAMPAIGN } from "../../../../api/apiConstants";
+import { ENABLEDISABLEORGANIZATION } from "../../../../api/apiConstants";
 import { ToastAction } from "../../../ui/toast";
 
 
-const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
+const ConfirmEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
   const { toast } = useToast();
   // Formik setup
   const [loading, setLoading] = useState(false)
@@ -30,12 +29,12 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
 
 
 
-  const onUpdateEnableDisable = async (campaignId) => {
+  const onUpdateEnableDisable = async (organizationId) => {
     setLoading(true)
 
     try {
-      const response = await axiosPrivate.put(ENABLEDISABLECAMPAIGN, {
-        campaignId: campaignId,
+      const response = await axiosPrivate.put(ENABLEDISABLEORGANIZATION, {
+        organizationId: organizationId,
         isDisable: true,
       });
 
@@ -92,7 +91,7 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
           </DialogClose>
           <Button
             type="button"
-            onClick={() => onUpdateEnableDisable(row?.campaignID)}
+            onClick={() => onUpdateEnableDisable(row?.organizationID)}
             variant="green_theme_primary"
           >
             {loading ? (
@@ -110,4 +109,4 @@ const ConformEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
   );
 };
 
-export default ConformEnableDisable;
+export default ConfirmEnableDisable;
