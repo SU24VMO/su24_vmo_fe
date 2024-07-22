@@ -6,6 +6,7 @@ import { GET_ALL_RECENTLY_TRANSACTION } from "../../../../api/apiConstants";
 import CarouselDonatorSkeleton from "./CarouselDonatorSkeleton/CarouselDonatorSkeleton";
 import { useToast } from "../../../ui/use-toast";
 import { ToastAction } from "../../../ui/toast";
+import axios from "axios";
 
 export function CarouselAutoScrollDonator() {
   const [dataLoaded, setDataLoaded] = React.useState(false);
@@ -13,37 +14,47 @@ export function CarouselAutoScrollDonator() {
   const { toast } = useToast();
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     async function fetchUnreadNotification() {
       try {
-        toast({
-          variant: "destructive",
-          title: "Đang tải các giao dịch gần đây...",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        // toast({
+        //   title: "Đang tải các giao dịch gần đây...",
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         const response = await axiosPublic.get(
           GET_ALL_RECENTLY_TRANSACTION +
-            `?pageSize=10&pageNo=1&numberOfTransaction=6`
+            `?pageSize=10&pageNo=1&numberOfTransaction=6`,
+          { signal }
         );
         if (response.status === 200) {
           console.log("Các giao dịch gần đây: ", response.data.data.list);
           setData(response.data.data.list);
           setDataLoaded(true);
+          // toast({
+          //   title: "Tải các giao dịch gần đây thành công!",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
+        }
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
           toast({
-            title: "Tải các giao dịch gần đây thành công!",
+            variant: "destructive",
+            title: "Lỗi!",
+            description: "Có lỗi xảy ra khi hiển thị các giao dịch gần đây" + error,
             action: <ToastAction altText="undo">Ẩn</ToastAction>,
           });
         }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu từ API:", error);
-        toast({
-          variant: "destructive",
-          title: "Lỗi!",
-          description: "Có lỗi xảy ra" + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
       }
     }
     fetchUnreadNotification();
+    return () => {
+      abortController.abort();
+    };
   }, [toast]);
 
   return (

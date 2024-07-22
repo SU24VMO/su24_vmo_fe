@@ -31,11 +31,11 @@ const CampaignsSection = () => {
   ) => {
     // if (!hasMore) return;
     setLoadingMore(true);
-    toast({
-      title: "Đang tải dữ liệu các chiến dịch...",
-      description: "Vui lòng chờ đợi trong giây lát !",
-      action: <ToastAction altText="undo">Ẩn</ToastAction>,
-    });
+    // toast({
+    //   title: "Đang tải dữ liệu các chiến dịch...",
+    //   description: "Vui lòng chờ đợi trong giây lát !",
+    //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    // });
     try {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=${page}&createBy=organization`;
       if (selectedCampaignTypeID) {

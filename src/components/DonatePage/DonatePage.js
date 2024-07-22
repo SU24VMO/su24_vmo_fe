@@ -8,6 +8,7 @@ import { GET_CAMPAIGN_BY_ID } from "../../api/apiConstants";
 import { axiosPublic } from "../../api/axiosInstance";
 import LeftDonatePageSkeleton from "./LeftDonatePageSkeleton/LeftDonatePageSkeleton";
 import RightDonatePageSkeleton from "./RightDonatePageSkeleton/RightDonatePageSkeleton";
+import axios from "axios";
 
 const DonatePage = () => {
   const { campaignID: campaignId } = useParams();
@@ -18,26 +19,27 @@ const DonatePage = () => {
 
   // Hàm lấy dữ liệu campaign detail từ API
   const fetchData = React.useCallback(
-    async (campaignId) => {
-      toast({
-        title: "Đang tải dữ liệu chiến dịch...",
-        description: "Vui lòng chờ đợi trong giây lát !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+    async (campaignId, signal) => {
+      // toast({
+      //   title: "Đang tải dữ liệu chiến dịch...",
+      //   description: "Vui lòng chờ đợi trong giây lát !",
+      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      // });
       if (!campaignId) {
         setError(true); // Nếu không có id, set lỗi
         return;
       }
       try {
         const response = await axiosPublic.get(
-          `${GET_CAMPAIGN_BY_ID}${campaignId}`
+          `${GET_CAMPAIGN_BY_ID}${campaignId}`,
+          { signal }
         );
         if (response.status === 200) {
-          toast({
-            title: "Đã lấy dữ liệu chiến dịch thành công!",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          });
-          setCampaign(response.data.data);
+          // toast({
+          //   title: "Đã lấy dữ liệu chiến dịch thành công!",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
+          setCampaign(response.data?.data);
           setDataLoaded(true);
 
           console.log("Campaign donate get được: ", response.data.data);
@@ -52,14 +54,18 @@ const DonatePage = () => {
           setError(true); // Nếu response không thành công, set lỗi
         }
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Lỗi !",
-          description:
-            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-        console.error("Error fetching data from API:", error);
+        if (axios.isCancel(error)) {
+          console.log("Request was cancelled", error.message);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Lỗi !",
+            description:
+              "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+          console.error("Error fetching data from API:", error);
+        }
       }
     },
     [toast]
@@ -68,9 +74,14 @@ const DonatePage = () => {
   React.useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
+      behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
-    fetchData(campaignId);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    fetchData(campaignId, signal);
+    return () => {
+      abortController.abort();
+    };
   }, [fetchData]);
 
   if (error) {

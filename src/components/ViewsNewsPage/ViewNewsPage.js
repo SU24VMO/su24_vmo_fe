@@ -9,6 +9,7 @@ import { axiosPublic } from "../../api/axiosInstance";
 import { ToastAction } from "../ui/toast";
 import { Button } from "../ui/button";
 import { CheckCheck } from "lucide-react";
+import axios from "axios";
 
 export default function ViewNewsPage() {
   const { toast } = useToast();
@@ -21,17 +22,17 @@ export default function ViewNewsPage() {
   // Lấy dữ liệu các post từ API
   // Sử dụng useCallback để đảm bảo fetchData không thay đổi trên mỗi render
   const fetchData = React.useCallback(
-    async (page) => {
+    async (page, signal) => {
       if (!hasMore) return;
       setLoadingMore(true);
       try {
         let url = `${GET_ALL_POST}?pageSize=4&pageNo=${page}`;
-        const response = await axiosPublic.get(url);
-        toast({
-          title: "Đang tải dữ liệu tin tức...",
-          description: "Vui lòng chờ đợi trong giây lát !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        const response = await axiosPublic.get(url, {signal});
+        // toast({
+        //   title: "Đang tải dữ liệu tin tức...",
+        //   description: "Vui lòng chờ đợi trong giây lát !",
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         if (response.status === 200) {
           const fetchedData = response.data.data.list;
           console.log("Dữ liệu tin tức get được: ", fetchedData);
@@ -42,20 +43,24 @@ export default function ViewNewsPage() {
           } else {
             setData(fetchedData);
           }
-          toast({
-            title: "Tải dữ liệu các tin tức thành công!",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          });
+          // toast({
+          //   title: "Tải dữ liệu các tin tức thành công!",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
           setDataLoaded(true);
         }
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Lỗi !",
-          description:
-            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        if (axios.isCancel(error)) {
+          console.log("Request cancel !", error.message);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Lỗi !",
+            description:
+              "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+        }
       } finally {
         setLoadingMore(false);
       }
@@ -65,11 +70,16 @@ export default function ViewNewsPage() {
 
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     window.scrollTo({
       top: 0,
       behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
     });
-    fetchData(1);
+    fetchData(1,signal);
+    return () => {
+      abortController.abort();
+    };
   }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
 
   // Hàm xử lý khi nhấn nút Xem Thêm

@@ -9,6 +9,7 @@ import { GET_ORGANIZATION_BY_ID } from "../../api/apiConstants";
 import ViewProfileOrganizationSkeleton from "./ViewProfileOrganizationSkeleton/ViewProfileOrganizationSkeleton";
 import OrganizationInformation from "./OrganizationInformation/OrganizationInformation";
 import OrganizationManagerInformation from "./OrganizationManagerInformation/OrganizationManagerInformation";
+import axios from "axios";
 
 const ViewProfileOrganizationPage = () => {
   const { id: organizationId } = useParams();
@@ -27,15 +28,18 @@ const ViewProfileOrganizationPage = () => {
       top: 0,
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
+    const controller = new AbortController();
+    const signal = controller.signal;
     async function fetchData() {
       try {
-        toast({
-          title: "Đang tải dữ liệu tổ chức...",
-          description: "Vui lòng chờ đợi trong giây lát !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        // toast({
+        //   title: "Đang tải dữ liệu tổ chức...",
+        //   description: "Vui lòng chờ đợi trong giây lát !",
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         const response = await axiosPublic.get(
-          GET_ORGANIZATION_BY_ID + `${organizationId}`
+          GET_ORGANIZATION_BY_ID + `${organizationId}`,
+          { signal }
         );
         if (response.status === 200) {
           setData(response.data.data);
@@ -46,22 +50,29 @@ const ViewProfileOrganizationPage = () => {
           );
           setCampaigns(activeCampaigns);
           setDataLoaded(true);
+          // toast({
+          //   title: "Tải dữ liệu tổ chức thành công!",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
+        }
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
           toast({
-            title: "Tải dữ liệu tổ chức thành công!",
+            title: "Lỗi...",
+            variant: "destructive",
+            description: "Lỗi khi lấy dữ liệu !" + error,
             action: <ToastAction altText="undo">Ẩn</ToastAction>,
           });
         }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu từ API:", error);
-        toast({
-          title: "Lỗi...",
-          variant: "destructive",
-          description: "Lỗi khi lấy dữ liệu !" + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
       }
     }
     fetchData();
+    return () => {
+      controller.abort();
+    };
   }, [organizationId, toast]); // Mảng rỗng đảm bảo rằng hiệu ứng chỉ chạy một lần sau khi component mount
   console.log("data profile tổ chức:", data);
   console.log("data profile quản lý tổ chức:", organizationManagerData);

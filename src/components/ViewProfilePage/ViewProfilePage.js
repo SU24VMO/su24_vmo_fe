@@ -17,6 +17,7 @@ import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
 import TransactionsPaid from "./TransactionsPaid/TransactionsPaid";
 import TransactionsPending from "./TransactionsPending/TransactionsPending";
+import axios from "axios";
 
 export default function ViewProfilePage() {
   const { toast } = useToast();
@@ -52,34 +53,44 @@ export default function ViewProfilePage() {
       top: 0,
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     async function fetchData() {
       try {
-        toast({
-          title: `Đang tải thông tin người dùng...`,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        // toast({
+        //   title: `Đang tải thông tin người dùng...`,
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         const response = await axiosPrivate.get(
-          GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`
+          GET_ACCOUNT_BY_ID + `${user.account_id}?accountId=${user.account_id}`,
+          { signal }
         );
         if (response.status === 200) {
           setData(response.data.data);
           setDataLoaded(true);
-          toast({
-            title: `Tải thông tin người dùng thành công!`,
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          });
+          // toast({
+          //   title: `Tải thông tin người dùng thành công!`,
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
         }
       } catch (error) {
-        toast({
-          title: `Lỗi!`,
-          variant: "destructive",
-          description: error.response.data.message,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-        console.error("Lỗi khi lấy dữ liệu từ API:", error);
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          toast({
+            title: `Lỗi!`,
+            variant: "destructive",
+            description: error.response.data.message,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
+        }
       }
     }
     fetchData();
+    return () => {
+      abortController.abort();
+    };
   }, [toast, user.account_id]); // Chỉ gọi lại khi user.account_id thay đổi
   console.log("data profile người dùng:", data);
 
@@ -225,10 +236,10 @@ export default function ViewProfilePage() {
             <TabsTrigger value="pending">Chưa thanh toán</TabsTrigger>
           </TabsList>
           <TabsContent value="paid">
-            <TransactionsPaid accountId={user.account_id}/>
+            <TransactionsPaid accountId={user.account_id} />
           </TabsContent>
           <TabsContent value="pending">
-            <TransactionsPending accountId={user.account_id}/>
+            <TransactionsPending accountId={user.account_id} />
           </TabsContent>
         </Tabs>
       </div>

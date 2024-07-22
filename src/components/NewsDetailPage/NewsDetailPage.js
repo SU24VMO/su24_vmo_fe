@@ -6,6 +6,7 @@ import { Navigate, useParams } from "react-router-dom";
 import NewDetailSkeleton from "./NewDetailSkeleton/NewDetailSkeleton";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
+import axios from "axios";
 
 export default function NewsDetailPage() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function NewsDetailPage() {
   };
 
   // Hàm lấy dữ liệu notification từ API
-  const fetchData = React.useCallback(async (id) => {
+  const fetchData = React.useCallback(async (id, signal) => {
     if (!id) {
       setError(true); // Nếu không có id, set lỗi
       return;
@@ -33,7 +34,9 @@ export default function NewsDetailPage() {
       action: <ToastAction altText="undo">Ẩn</ToastAction>,
     });
     try {
-      const response = await axiosPublic.get(`${GET_POST_BY_ID}${id}`);
+      const response = await axiosPublic.get(`${GET_POST_BY_ID}${id}`, {
+        signal,
+      });
       if (response.status === 200) {
         setNews(response.data.data);
         setDataLoaded(true);
@@ -53,22 +56,32 @@ export default function NewsDetailPage() {
         setError(true); // Nếu response không thành công, set lỗi
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Lỗi !",
-        description: "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
-      console.error("Error fetching data from API:", error);
+      if (axios.isCancel(error)) {
+        console.log("Request cancel !", error.message);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Lỗi !",
+          description:
+            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.error("Error fetching data from API:", error);
+      }
     }
   }, []);
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     window.scrollTo({
       top: 0,
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
-    fetchData(id);
+    fetchData(id, signal);
+    return () => {
+      abortController.abort();
+    };
   }, [id]);
 
   if (error) {

@@ -10,6 +10,7 @@ import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import LeftDetailCampaignSkeleton from "./LeftDetailCampaignSection/LeftDetailCampaignSkeleton/LeftDetailCampaignSkeleton";
 import RightDetailCampaignSkeleton from "./RightDetailCampaignSection/RightDetailCampaignSkeleton/RightDetailCampaignSkeleton";
+import axios from "axios";
 
 const ViewCampaignDetailExplorePage = () => {
   const { id: campaignId } = useParams();
@@ -20,19 +21,20 @@ const ViewCampaignDetailExplorePage = () => {
 
   // Hàm lấy dữ liệu campaign detail từ API
   const fetchData = React.useCallback(
-    async (campaignId) => {
-      toast({
-        title: "Đang tải dữ liệu chi tiết chiến dịch...",
-        description: "Vui lòng chờ đợi trong giây lát !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+    async (campaignId, signal) => {
+      // toast({
+      //   title: "Đang tải dữ liệu chi tiết chiến dịch...",
+      //   description: "Vui lòng chờ đợi trong giây lát !",
+      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      // });
       if (!campaignId) {
         setError(true); // Nếu không có id, set lỗi
         return;
       }
       try {
         const response = await axiosPublic.get(
-          `${GET_CAMPAIGN_BY_ID}${campaignId}`
+          `${GET_CAMPAIGN_BY_ID}${campaignId}`,
+          { signal }
         );
         if (response.status === 200) {
           setCampaign(response.data.data);
@@ -53,14 +55,18 @@ const ViewCampaignDetailExplorePage = () => {
           setError(true); // Nếu response không thành công, set lỗi
         }
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Lỗi !",
-          description:
-            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
-        console.error("Error fetching data from API:", error);
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Lỗi !",
+            description:
+              "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+          console.error("Error fetching data from API:", error);
+        }
       }
     },
     [toast]
@@ -71,7 +77,12 @@ const ViewCampaignDetailExplorePage = () => {
       top: 0,
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
-    fetchData(campaignId);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    fetchData(campaignId, signal);
+    return () => {
+      abortController.abort();
+    };
   }, [fetchData]);
 
   console.log("campaignId của campaign", campaignId);

@@ -12,6 +12,7 @@ import { ToastAction } from "../../../ui/toast";
 import { GET_CAMPAIGN_FILTER } from "../../../../api/apiConstants";
 import { axiosPublic } from "../../../../api/axiosInstance";
 import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
+import axios from "axios";
 
 const CarouselCampaignsOrganization = () => {
   const { toast } = useToast();
@@ -20,16 +21,16 @@ const CarouselCampaignsOrganization = () => {
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
 
   // Lấy dữ liệu các campaign từ API
-  const fetchData = async () => {
+  const fetchData = async (signal) => {
     // if (!hasMore) return;
-    toast({
-      title: "Đang tải dữ liệu các chiến dịch của tổ chức...",
-      description: "Vui lòng chờ đợi trong giây lát !",
-      action: <ToastAction altText="undo">Ẩn</ToastAction>
-    });
+    // toast({
+    //   title: "Đang tải dữ liệu các chiến dịch...",
+    //   description: "Vui lòng chờ đợi trong giây lát !",
+    //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    // });
     try {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=1&createBy=organization`;
-      const response = await axiosPublic.get(url);
+      const response = await axiosPublic.get(url, { signal });
       if (response.status === 200) {
         const fetchedData = response.data.data.list;
         if (fetchedData.length === 0) {
@@ -41,26 +42,32 @@ const CarouselCampaignsOrganization = () => {
             fetchedData
           );
         }
-        toast({
-          title: "Tải dữ liệu các chiến dịch thành công!",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
         setDataLoaded(true);
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Lỗi !",
-        description: "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      if (axios.isCancel(error)) {
+        console.log("Request canceled:", error.message);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Lỗi !",
+          description:
+            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
     }
   };
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     setData([]);
     setHasMore(true);
-    fetchData();
+    fetchData(signal);
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const renderSkeletons = () => {

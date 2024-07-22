@@ -18,6 +18,7 @@ import TransactionsPaid from "./TransactionsPaid/TransactionsPaid";
 import TransactionsPending from "./TransactionsPending/TransactionsPending";
 import { useParams } from "react-router-dom";
 import Campaigns from "./Campaigns/Campaigns";
+import axios from "axios";
 
 export default function ViewProfileVolunteerPage() {
   const { id: volunteersId } = useParams();
@@ -56,37 +57,47 @@ export default function ViewProfileVolunteerPage() {
       top: 0,
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     async function fetchData() {
       try {
-        toast({
-          title: "Đang tải dữ liệu người dùng...",
-          description: "Vui lòng chờ đợi trong giây lát !",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        // toast({
+        //   title: "Đang tải dữ liệu người dùng...",
+        //   description: "Vui lòng chờ đợi trong giây lát !",
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         const response = await axiosPublic.get(
-          GET_ACCOUNT_BY_ID + `${volunteersId}?accountId=${volunteersId}`
+          GET_ACCOUNT_BY_ID + `${volunteersId}?accountId=${volunteersId}`,
+          { signal }
         );
         if (response.status === 200) {
           setData(response.data.data);
           setTransactions(response.data.data.transactions);
           setCampaigns(response.data.data.campaigns);
           setDataLoaded(true);
+          // toast({
+          //   title: "Tải dữ liệu người dùng thành công...",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
+        }
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
           toast({
-            title: "Tải dữ liệu người dùng thành công...",
+            title: "Lỗi...",
+            variant: "destructive",
+            description: "Lỗi khi lấy dữ liệu !" + error,
             action: <ToastAction altText="undo">Ẩn</ToastAction>,
           });
         }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu từ API:", error);
-        toast({
-          title: "Lỗi...",
-          variant: "destructive",
-          description: "Lỗi khi lấy dữ liệu !" + error,
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
       }
     }
     fetchData();
+    return () => {
+      abortController.abort();
+    };
   }, [toast, volunteersId]); // Chỉ gọi lại khi volunteersId thay đổi
   console.log("data profile người dùng:", data);
   // Duyệt qua mảng transactions và phân loại dựa trên transactionStatus
@@ -277,7 +288,7 @@ export default function ViewProfileVolunteerPage() {
             <TransactionsPending accountId={volunteersId} />
           </TabsContent>
           <TabsContent value="campaigns">
-            <Campaigns campaigns={campaigns} dataLoaded={dataLoaded}/>
+            <Campaigns campaigns={campaigns} dataLoaded={dataLoaded} />
           </TabsContent>
         </Tabs>
       </div>

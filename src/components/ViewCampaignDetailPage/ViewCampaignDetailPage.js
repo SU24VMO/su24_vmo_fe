@@ -21,11 +21,11 @@ const ViewCampaignDetailPage = () => {
   // Hàm lấy dữ liệu campaign detail từ API
   const fetchData = React.useCallback(
     async (campaignId) => {
-      toast({
-        title: "Đang tải dữ liệu chi tiết chiến dịch...",
-        description: "Vui lòng chờ đợi trong giây lát !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      // toast({
+      //   title: "Đang tải dữ liệu chi tiết chiến dịch...",
+      //   description: "Vui lòng chờ đợi trong giây lát !",
+      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      // });
       if (!campaignId) {
         setError(true); // Nếu không có id, set lỗi
         return;
@@ -35,13 +35,13 @@ const ViewCampaignDetailPage = () => {
           `${GET_CAMPAIGN_BY_ID}${campaignId}`
         );
         if (response.status === 200) {
-          setCampaign(response.data.data);
+          setCampaign(response.data?.data);
           setDataLoaded(true);
-          toast({
-            title: "Đã lấy dữ liệu chi tiết chiến dịch thành công!",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          });
-          console.log("Campaign get được: ", response.data.data);
+          // toast({
+          //   title: "Đã lấy dữ liệu chi tiết chiến dịch thành công!",
+          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          // });
+          console.log("Campaign get được: ", response.data?.data);
         } else {
           toast({
             variant: "destructive",

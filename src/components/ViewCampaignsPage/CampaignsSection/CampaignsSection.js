@@ -11,6 +11,7 @@ import CustomComboboxStatus from "./Feature/CustomComboboxStatus";
 import { useToast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import CustomComboboxCreateBy from "./Feature/CustomComboboxCreateBy";
+import axios from "axios";
 
 const CampaignsSection = () => {
   const { toast } = useToast();
@@ -33,15 +34,16 @@ const CampaignsSection = () => {
     selectedCampaignTypeID,
     selectedCampaignStatus,
     selectedCampaignCreateBy,
-    selectedCampaignName
+    selectedCampaignName,
+    signal
   ) => {
     // if (!hasMore) return;
     setLoadingMore(true);
-    toast({
-      title: "Đang tải dữ liệu các chiến dịch...",
-      description: "Vui lòng chờ đợi trong giây lát !",
-      action: <ToastAction altText="undo">Ẩn</ToastAction>,
-    });
+    // toast({
+    //   title: "Đang tải dữ liệu các chiến dịch...",
+    //   description: "Vui lòng chờ đợi trong giây lát !",
+    //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    // });
     try {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=${page}`;
       if (selectedCampaignTypeID) {
@@ -56,7 +58,7 @@ const CampaignsSection = () => {
       if (selectedCampaignName) {
         url += `&campaignName=${selectedCampaignName}`;
       }
-      const response = await axiosPublic.get(url);
+      const response = await axiosPublic.get(url, { signal });
       if (response.status === 200) {
         let fetchedData = response.data.data.list;
         // Bước 2: Thêm logic lọc dữ liệu dựa trên trạng thái
@@ -86,18 +88,26 @@ const CampaignsSection = () => {
         setDataLoaded(true);
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Lỗi !",
-        description: "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
+      if (axios.isCancel(error)) {
+        console.log("Request canceled:", error.message);
+      } else {
+        console.error("Lỗi khi lấy dữ liệu từ API:", error);
+        toast({
+          variant: "destructive",
+          title: "Lỗi !",
+          description:
+            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
     } finally {
       setLoadingMore(false);
     }
   };
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     setData([]); // Reset data khi selectedCampaignTypeID thay đổi
     setPageNo(1);
     setHasMore(true);
@@ -106,8 +116,13 @@ const CampaignsSection = () => {
       selectedCampaignTypeID,
       selectedCampaignStatus,
       selectedCampaignCreateBy,
-      selectedCampaignName
+      selectedCampaignName,
+      signal,
     );
+    // Cleanup function
+  return () => {
+    abortController.abort();
+  };
   }, [
     selectedCampaignTypeID,
     selectedCampaignStatus,

@@ -12,6 +12,7 @@ import { ToastAction } from "../../../ui/toast";
 import { GET_CAMPAIGN_FILTER } from "../../../../api/apiConstants";
 import { axiosPublic } from "../../../../api/axiosInstance";
 import CampaignsSectionSkeleton from "./CampaignsSectionSkeleton/CampaignsSectionSkeleton";
+import axios from "axios";
 
 const CarouselCampaignsVolunteers = () => {
   const { toast } = useToast();
@@ -20,15 +21,15 @@ const CarouselCampaignsVolunteers = () => {
   const [hasMore, setHasMore] = React.useState(true); // Thêm trạng thái kiểm tra còn dữ liệu hay không
 
   // Lấy dữ liệu các campaign từ API
-  const fetchData = async () => {
-    toast({
-      title: "Đang tải dữ liệu các chiến dịch của tình nguyện viên...",
-      description: "Vui lòng chờ đợi trong giây lát !",
-      action: <ToastAction altText="undo">Ẩn</ToastAction>,
-    });
+  const fetchData = async (signal) => {
+    // toast({
+    //   title: "Đang tải dữ liệu...",
+    //   description: "Vui lòng chờ đợi trong giây lát !",
+    //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+    // });
     try {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=1&createBy=volunteer`;
-      const response = await axiosPublic.get(url);
+      const response = await axiosPublic.get(url, { signal });
       if (response.status === 200) {
         const fetchedData = response.data.data.list;
         if (fetchedData.length === 0) {
@@ -43,17 +44,26 @@ const CarouselCampaignsVolunteers = () => {
         setDataLoaded(true);
       }
     } catch (error) {
-      console.log(
-        "Lỗi khi lấy các chiến dịch tạo bởi tình nguyện viên: ",
-        error
-      );
+      if (axios.isCancel(error)) {
+        console.log("Request canceled:", error.message);
+      } else {
+        console.log(
+          "Lỗi khi lấy các chiến dịch tạo bởi tình nguyện viên: ",
+          error
+        );
+      }
     }
   };
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     setData([]);
     setHasMore(true);
-    fetchData();
+    fetchData(signal);
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const renderSkeletons = () => {
@@ -105,7 +115,9 @@ const CarouselCampaignsVolunteers = () => {
                 </CarouselItem>
               ))
             : renderSkeletons()}
-          {hasMore ? null : <p>Chưa có chiến dịch được tạo bởi tình nguyện viên</p>}
+          {hasMore ? null : (
+            <p>Chưa có chiến dịch được tạo bởi tình nguyện viên</p>
+          )}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
