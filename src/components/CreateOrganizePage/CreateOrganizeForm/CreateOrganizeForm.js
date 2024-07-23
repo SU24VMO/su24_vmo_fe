@@ -6,7 +6,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { CREATEORGANIZATION } from "../../../api/apiConstants";
 import { useToast } from "../../../components/ui/use-toast";
 import { AuthContext } from "../../../context/AuthContext";
-import {  Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,14 +16,20 @@ export default function CreateOrganizeForm() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [file, setFile] = useState();
+  const [fileImagelogo, setFileImageLogo] = useState()
 
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
     setFile(e.target.files[0]);
-    setFieldValue('Logo',  e.target.files[0]);
+    setFileImageLogo(URL.createObjectURL(e.target.files[0]))
+    setFieldValue('Logo', e.target.files[0]);
   }
 
+  function removeLogo(e, setFieldValue) {
+    setFileImageLogo('');
+    setFieldValue("Logo", null);
 
+  }
 
   const createOrganization = async (data, resetForm, setFieldValue, setSubmitting) => {
     try {
@@ -57,9 +63,9 @@ export default function CreateOrganizeForm() {
       if (response.status === 200) {
         resetForm()
         setFile(null)
-    setFieldValue('Logo', null);
-    setFieldValue('FoundingDate', null);
-    navigate("/manage/organize/allOrganizations")
+        setFieldValue('Logo', null);
+        setFieldValue('FoundingDate', null);
+        navigate("/manage/organize/allOrganizations")
 
 
         toast({
@@ -116,9 +122,9 @@ export default function CreateOrganizeForm() {
           // FoundingDate  validation
           if (!values.FoundingDate) {
             errors.FoundingDate = "Không được để trống!";
-          }else{
-            if(new Date(values.FoundingDate) > today){
-            errors.FoundingDate = "Ngày thành lập không được diễn ra ở tương lai!";
+          } else {
+            if (new Date(values.FoundingDate) > today) {
+              errors.FoundingDate = "Ngày thành lập không được diễn ra ở tương lai!";
 
             }
           }
@@ -126,7 +132,7 @@ export default function CreateOrganizeForm() {
           if (!values.AuthorizationDocuments) {
             errors.AuthorizationDocuments = "Không được để trống!";
           }
-          
+
           // Email validation
           if (!values.OrganizationManagerEmail) {
             errors.OrganizationManagerEmail = "Không được để trống!";
@@ -143,7 +149,7 @@ export default function CreateOrganizeForm() {
           } else if (cleanedTaxCode.length !== 10 || !/^\d{10}$/.test(cleanedTaxCode)) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
           }
-          
+
           // Address validation
           if (!values.Address) {
             errors.Address = "Không được để trống!";
@@ -176,7 +182,7 @@ export default function CreateOrganizeForm() {
             onSubmit={handleSubmit}
             class=" w-3/4 laptop:max-w-4xl mx-auto my-8"
           >
-            
+
             <div class="mb-5 ">
               <label
                 for="OrganizationName "
@@ -399,28 +405,41 @@ export default function CreateOrganizeForm() {
                   >
                     Vui lòng chọn ảnh Logo tổ chức(công ty) *
                   </label>
-                  <input
-                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    aria-describedby="Logo_help"
-                    id="Logo"
-                    type="file"
-                    name="Logo"
-                    accept="image/png, image/jpg"
-                    onChange={(e) => { handleLogoChange(e, setFieldValue) }}
-                  />
-                  <p
-                    className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                    id="Logo_help"
-                  >
-                   PNG, JPG (MAX. 800x400px).
-                  </p>
+                  {fileImagelogo ? (<div className=" flex flex-col justify-center items-center">
+                    <img className="mb-6 w-52 h-52  laptop:w-40 laptop:h-40 rounded-xl shadow-md"
+                      id="image"
+
+                      value={fileImagelogo}
+                      src={fileImagelogo}  alt="qr-code" />
+                    <button type="button"
+                      onClick={(e) => { removeLogo(e, setFieldValue) }}
+                      class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                  </div>) : (<div>
+                    
+                    <label
+                      className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      htmlFor="Logo"
+                    >
+                      <span className="ml-2">Chọn ảnh</span>
+                    </label>
+                    <input
+                      className="hidden"
+                      aria-describedby="Logo"
+                      id="Logo"
+                      name="Logo"
+                      onChange={(e) => { handleLogoChange(e, setFieldValue) }}
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg"
+                    />
+                  </div>)}
                 </div>
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {" "}
-                {errors.Logo &&
-                  touched.Logo &&
-                  errors.Logo}
-              </p>
+                  {" "}
+                  {errors.Logo &&
+                    touched.Logo &&
+                    errors.Logo}
+                </p>
               </div>
             </div>
 
@@ -434,7 +453,7 @@ export default function CreateOrganizeForm() {
 
             <div>
               <span class="block mb-2 text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify ">
-              ⚫ Thành viên/tổ chức cam kết sử dụng VMO cho mục đích *
+                ⚫ Thành viên/tổ chức cam kết sử dụng VMO cho mục đích *
               </span>
               <ul className="flex flex-col gap-4 mb-2  text-sm mobile:text-base text-justify">
                 <li>- Vận động, tiếp nhận các nguồn đóng góp tự nguyện</li>
@@ -450,12 +469,12 @@ export default function CreateOrganizeForm() {
               </ul>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-              ⚫ Thành viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
+                ⚫ Thành viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
                 tất cả sau khi chiến dịch kết thúc
               </span>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-              ⚫ Thành viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
+                ⚫ Thành viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
                 để nắm rõ *
               </span>
               <ul className="flex flex-col gap-4 mb-2 text-sm mobile:text-base text-justify">
@@ -512,7 +531,7 @@ export default function CreateOrganizeForm() {
                   disabled={isSubmitting}
                   className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
-                   {loading ? (
+                  {loading ? (
                     <>
                       <Loader2 className="  animate-spin flex items-center justify-center w-full" />
                     </>
@@ -527,9 +546,9 @@ export default function CreateOrganizeForm() {
                 <button
                   type="button"
                   disabled
-                  className= " text-white bg-gray-400  focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
+                  className=" text-white bg-gray-400  focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10"
                 >
-                 Gửi
+                  Gửi
                 </button>
               )}
             </div>

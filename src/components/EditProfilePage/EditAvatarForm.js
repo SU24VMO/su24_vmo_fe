@@ -24,6 +24,8 @@ export default function EditAvatarForm() {
   const { user, updateUserAvatar } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
+  const [fileAvatarImage, setFileAvatarImage] = useState();
+
   const [avatar, setAvatar] = useState(
     user ? user.avatar : "https://via.placeholder.com/150"
   );
@@ -31,9 +33,14 @@ export default function EditAvatarForm() {
 
   function handleChange(e) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
+    setFileAvatarImage(URL.createObjectURL(e.target.files[0]))
     setFile(e.target.files[0]); // Save the File object
   }
+  function removeImageAvatar(e) {
+    setFileAvatarImage('');
+    setFile(null)
 
+}
   const handleSubmitAvatar = async (e) => {
     toast({
       title: "Đang cập nhật ảnh đại diện...",
@@ -61,12 +68,12 @@ export default function EditAvatarForm() {
           // Gọi API lấy thông tin người dùng mới nhất
           const userInfoResponse = await axiosPrivate.get(
             GET_ACCOUNT_BY_ID +
-              `${user.account_id}?accountId=${user.account_id}`
+            `${user.account_id}?accountId=${user.account_id}`
           );
           if (userInfoResponse.status === 200) {
             // Cập nhật context và localStorage
             updateUserAvatar(userInfoResponse.data.data.avatar);
-           
+
             // Cập nhật avatar trong UI
             setAvatar(userInfoResponse.data.data.avatar);
           }
@@ -88,6 +95,7 @@ export default function EditAvatarForm() {
         console.error("Error updating avatar", error);
       } finally {
         setLoading(false);
+        setFileAvatarImage('');
         setOpen(false);
       }
     } else {
@@ -129,13 +137,43 @@ export default function EditAvatarForm() {
                     >
                       Vui lòng chọn ảnh đại diện mới
                     </label>
-                    <input
+                    {/* <input
                       className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                       aria-describedby="file_input_help"
                       id="file_input"
                       type="file"
                       onChange={handleChange}
-                    />
+                    /> */}
+                    
+                    {fileAvatarImage ? (<div className=" flex flex-col justify-center items-center">
+                      <img className="mb-6 w-50 h-50 laptop:w-40 laptop:h-40 rounded-full"
+                        id="image"
+
+                        value={fileAvatarImage}
+                        src={fileAvatarImage} width={220} height={220} alt="qr-code" />
+                      <button type="button"
+                        onClick={(e) => { removeImageAvatar(e) }}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                    </div>) : (<div>
+                     
+                      <label
+                        className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        htmlFor="file_input"
+                      >
+                        <span className="ml-2">Chọn ảnh</span>
+                      </label>
+                      <input
+                        className="hidden"
+                        aria-describedby="file_input"
+                        id="file_input"
+                        name="file_input"
+                        onChange={(e) => { handleChange(e) }}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
+                    </div>)}
+
                     <p
                       className="mt-1 text-sm text-gray-500 dark:text-gray-300"
                       id="file_input_help"

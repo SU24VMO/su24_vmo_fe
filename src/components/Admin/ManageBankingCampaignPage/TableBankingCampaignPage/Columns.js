@@ -58,6 +58,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
+    cell: ({ row }) => {
+      const bankingName = row.original?.bankingName;
+      return <div className="line-clamp-1">{bankingName}</div>;
+    },
   },
   {
     accessorKey: "donatePhaseIsEnd",

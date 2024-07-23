@@ -25,7 +25,7 @@ export default function CreateOrganizePage() {
         <div className="shadow rounded-xl">
           <div className="bg-vmo text-center rounded-tl-xl rounded-tr-xl py-3">
             <span className="text-white text-sm mobile:text-2xl font-semibold">
-              Đăng kí tạo tổ chức
+              Đăng ký tạo tổ chức
             </span>
           </div>
           <CreateOrganizeForm />

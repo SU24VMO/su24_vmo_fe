@@ -171,14 +171,21 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                     <label htmlFor="statementFile" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         File chi tiết sao kê*
                                     </label>
-                                    <input
-                                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        id="statementFile"
-                                        name="statementFile"
-                                        onChange={(e) => handleSelectSheet(e, setFieldValue)}
-                                        type="file"
-                                        multiple
-                                    />
+                                    <label
+                                            className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                            htmlFor="statementFile"
+                                        >
+                                            <span className="ml-2">Chọn ảnh</span>
+                                        </label>
+                                        <input
+                                            className="hidden"
+                                            aria-describedby="statementFile"
+                                            id="statementFile"
+                                            name="statementFile"
+                                            onChange={(e) => { handleSelectSheet(e, setFieldValue) }}
+                                            type="file"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                        />
                                     <div>
                                         {/* {values.statementFiles.map((file, index) => (
                                             <div key={index} className="flex items-center gap-3 mt-2">

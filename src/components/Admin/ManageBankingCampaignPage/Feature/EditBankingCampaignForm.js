@@ -37,7 +37,7 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
   }
 
   function removeImageBanking(e, setFieldValue) {
-    setFileImageBanking(null);
+    setFileImageBanking("");
     setFieldValue("transactionImage", null);
   }
 
@@ -69,6 +69,7 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
 
       if (response.status === 200) {
         onSubmitSuccess();
+        setFileImageBanking("")
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -89,8 +90,8 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
   };
 
   useEffect(() => {
-  
-}, [banking?.transactionImage]);
+
+  }, [banking?.transactionImage]);
 
 
   return (
@@ -241,7 +242,7 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                       {fileImageBanking ? (
                         <div className="flex flex-col justify-center items-center gap-2">
                           <Label htmlFor="transactionImage">Ảnh sao kê đã chọn</Label>
-                          
+
                           <div className="grid flex-1 gap-2">
                             <div className=" w-60 h-fit mx-auto">
                               <img
@@ -267,15 +268,33 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                           >
                             Sao kê (ảnh)*
                           </label>
-                          <input
-                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            aria-describedby="transactionImage"
-                            id="transactionImage"
-                            name="transactionImage"
-                            onChange={(e) => handleImageBanking(e, setFieldValue)}
-                            type="file"
-                            accept="image/png, image/jpeg, image/jpg"
-                          />
+
+                          <div>
+
+                            <label
+                              className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                              htmlFor="transactionImage"
+                            >
+                              <span className="ml-2">Chọn ảnh</span>
+                            </label>
+                            <input
+                              className="hidden"
+                              aria-describedby="transactionImage"
+                              id="transactionImage"
+                              name="transactionImage"
+                              onChange={(e) => { handleImageBanking(e, setFieldValue) }}
+                              type="file"
+                              accept="image/png, image/jpeg, image/jpg"
+                            />
+                          </div>
+
+
+
+
+
+
+
+
                           <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                             {errors.transactionImage && touched.transactionImage && errors.transactionImage}
                           </p>

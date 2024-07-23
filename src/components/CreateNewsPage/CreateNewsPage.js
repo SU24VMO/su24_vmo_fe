@@ -42,16 +42,16 @@ export default function CreatNewsPage() {
         setLoading(true)
 
         const formData = new FormData();
-            formData.append('Cover', data.imageCover);
-            formData.append('Title', data.title);
-            formData.append('Content', data.descriptionMain);
-            formData.append('Description', data.descriptionEnd);
-    
-            formData.append('Image', data.imageCenter);
-            formData.append('AccountId', user.account_id);
+        formData.append('Cover', data.imageCover);
+        formData.append('Title', data.title);
+        formData.append('Content', data.descriptionMain);
+        formData.append('Description', data.descriptionEnd);
 
-        try { 
-           
+        formData.append('Image', data.imageCenter);
+        formData.append('AccountId', user.account_id);
+
+        try {
+
             const response = await axiosPrivate.post(CREATENEWS, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -60,10 +60,10 @@ export default function CreatNewsPage() {
 
             if (response.status === 200) {
                 console.log(response.data);
-                if(user.role === "Volunteer"){
+                if (user.role === "Volunteer") {
                     navigate("/manage/volunteer/allNews")
                     resetForm()
-                }else if(user.role === "OrganizationManager"){
+                } else if (user.role === "OrganizationManager") {
                     navigate("/manage/organize/allNews")
                     resetForm()
                 }
@@ -71,7 +71,7 @@ export default function CreatNewsPage() {
                     title: "Tạo tin tức thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
-            } 
+            }
 
         } catch (error) {
             if (error.response && error.response.data) {
@@ -134,6 +134,9 @@ export default function CreatNewsPage() {
                 if (!values.descriptionEnd) {
                     errors.descriptionEnd = 'Không được để trống'
                 }
+                if (!values.descriptionMain) {
+                    errors.descriptionMain = 'Không được để trống'
+                }
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -183,19 +186,30 @@ export default function CreatNewsPage() {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.title}
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..."  />
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nhập tiêu đề..." />
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.title && touched.title && errors.title}</p>
 
                                     </div>
                                     <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCover">Ảnh cover</label>
                                         <div className=" mobile:flex mobile:gap-6 ">
-                                            <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                aria-describedby="imageCover_help"
+
+
+                                            <label
+                                                className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                htmlFor="imageCover"
+                                            >
+                                                <span className="ml-2">Chọn ảnh</span>
+                                            </label>
+                                            <input
+                                                className="hidden"
+                                                aria-describedby="imageCover"
                                                 id="imageCover"
-                                                type="file"
                                                 name="imageCover"
-                                                onChange={(e) => { handleChangeCoverImage(e, setFieldValue) }} />
+                                                onChange={(e) => { handleChangeCoverImage(e, setFieldValue) }}
+                                                type="file"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
                                             {imageCover ? <PreviewImageCoverPopover imageCover={imageCover} ></PreviewImageCoverPopover> : ''}
 
                                         </div>
@@ -220,12 +234,23 @@ export default function CreatNewsPage() {
 
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCenter">Ảnh giữa</label>
                                         <div className=" mobile:flex mobile:gap-6 ">
-                                            <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                aria-describedby="imageCenter_help"
+
+                                            <label
+                                                className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                htmlFor="imageCenter"
+                                            >
+                                                <span className="ml-2">Chọn ảnh</span>
+                                            </label>
+                                            <input
+                                                className="hidden"
+                                                aria-describedby="imageCenter"
                                                 id="imageCenter"
-                                                type="file"
                                                 name="imageCenter"
-                                                onChange={(e) => { handleChangeCenterImage(e, setFieldValue) }} />
+                                                onChange={(e) => { handleChangeCenterImage(e, setFieldValue) }}
+                                                type="file"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+
                                             {imageCenter ? <PreviewImageCenterPopover imageCenter={imageCenter} ></PreviewImageCenterPopover> : ''}
 
                                         </div>

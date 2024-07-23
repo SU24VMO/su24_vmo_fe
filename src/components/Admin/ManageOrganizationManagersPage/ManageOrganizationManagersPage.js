@@ -12,7 +12,7 @@ const ManageOrganizationManagersPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lý tài khoản tổ chức</p>
+      <p className="font-bold text-2xl">Quản lý tài khoản quản lý tổ chức</p>
       <TableOrganizationManagers/>
     </>
   );

@@ -46,7 +46,7 @@ export default function SkeletonHomePage() {
                 content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
             />
         </Helmet>
-        <p className="font-bold text-2xl">Thống kê số liệu</p>
+        <span className="font-bold text-2xl">Thống kê số liệu</span>
         {/* CARD FULL*/}
         <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
@@ -167,13 +167,13 @@ export default function SkeletonHomePage() {
                                     </Skeleton>
 
                                     <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
+                                        <span className="text-sm font-medium leading-none">
                                             <Skeleton className="h-4 w-40" />
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
+                                        </span>
+                                        <span className="text-sm text-muted-foreground">
                                             <Skeleton className="h-4 w-40" />
 
-                                        </p>
+                                        </span>
                                     </div>
                                 </div>
                             ))}

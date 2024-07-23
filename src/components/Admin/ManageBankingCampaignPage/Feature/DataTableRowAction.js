@@ -11,7 +11,7 @@ import {
 
 const DataTableRowActions = ({ row, onEdit, onDelete }) => {
   return (
-    <DropdownMenu>
+    row.original?.donatePhaseIsEnd === true ? (  <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -30,7 +30,8 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
           <span className="text-destructive">Xóa</span>
         </DropdownMenuItem> */}
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenu>) : ""
+  
   );
 };
 

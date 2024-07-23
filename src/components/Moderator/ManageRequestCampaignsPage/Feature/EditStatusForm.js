@@ -198,17 +198,30 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
             </div>
 
             <div className="flex">
+
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="applicationConfirmForm"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
-                    disabled
+              <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
+                <div className="w-1/3 mx-auto">
+                  <img
+                    src={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
+                    alt="ảnh-nền"
+                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""} />
                 </div>
+                {campaigns?.campaign && campaigns.campaign?.applicationConfirmForm && (
+                  <a href={campaigns.campaign?.applicationConfirmForm} download>
+                    <Button
+                      variant="outline"
+                      className="flex items-center space-x-1"
+                    >
+                      <ImageDown className="h-6 w-6" />
+                      Tải về
+                    </Button>
+                  </a>
+                )}
               </div>
+
+
             </div>
 
             <div className="flex">
@@ -231,10 +244,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"
-                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName) : ""}
+                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : ""}
                     disabled
                   />
-                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + campaigns.organizationManager?.lastName) : ""} />
+                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : ""} />
                 </div>
               </div>
             </div>
