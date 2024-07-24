@@ -245,7 +245,7 @@ export default function UpdateNewsPage() {
 
                                 <div className=" col-span-1  rounded-xl shadow-2xl">
                                     <div className="bg-vmo mb-6 rounded-tl-xl rounded-tr-xl">
-                                        <h1 className="text-white text-2xl text-center py-3 font-semibold ">Chỉnh sửa tin tức tin tức của bạn</h1>
+                                        <h1 className="text-white text-2xl text-center py-3 font-semibold ">Chỉnh sửa tin tức của bạn</h1>
                                     </div>
                                     <div className="w-4/5 mx-auto">
                                         <div class="mb-6">
