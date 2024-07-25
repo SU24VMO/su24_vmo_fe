@@ -36,7 +36,7 @@ export default function SignUpVerifyOrganizeForm() {
         navigate("/")
 
         toast({
-          title: "Tạo tổ chức thành công",
+          title: "Đã gửi đơn xác thực",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }

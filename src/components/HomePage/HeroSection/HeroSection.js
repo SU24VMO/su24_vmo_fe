@@ -28,12 +28,11 @@ const HeroSection = () => {
         {/* Grid */}
         <div className="grid tablet:grid-cols-2 gap-4 tablet:gap-8 xl:gap-20 tablet:items-center">
           <div>
-            <h1 className="scroll-m-20 text-2xl mobile:text-4xl font-extrabold tracking-tight lg:text-5xl text-green-theme-primary">
-              VMO - Volunteer model for people in difficult circumstances
+            <h1 className="scroll-m-20 text-2xl mobile:text-4xl font-extrabold tracking-tight laptop:text-5xl text-green-theme-primary">
+              VMO
             </h1>
-            <p className="mt-3 text-lg mobile:text-xl text-muted-foreground">
-              Giải pháp công nghệ đồng hành cùng cộng đồng thiện nguyện minh
-              bạch
+            <p className="mt-3 text-lg mobile:text-2xl text-muted-foreground">
+            Nền tảng thiện nguyện cho những người <br /> gặp hoàn cảnh khó khăn
             </p>
             {/* Buttons */}
             <div className="mt-7 gap-3 flex flex-col tablet:flex-row">

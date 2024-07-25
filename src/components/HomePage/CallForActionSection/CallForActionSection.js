@@ -120,7 +120,7 @@ const CallForActionSection = () => {
           {/* Grid */}
           <div className="flex flex-col items-center justify-center">
             <p className="text-2xl text-center font-semibold mb-4">
-              Đồng hành dễ dàng hơn cùng <br />{" "}
+              Số liệu thống kê về nền tảng <br />{" "}
               <span className="font-bold">VMO</span>
             </p>
             <div className="grid tablet:grid-cols-3 gap-6 lg:gap-12">
