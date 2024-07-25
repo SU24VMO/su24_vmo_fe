@@ -16,6 +16,7 @@ import { axiosPrivate } from "../../../../api/axiosInstance";
 import { CREATEACCOUNTMODERATOR } from "../../../../api/apiConstants";
 import { Loader2 } from "lucide-react";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { Input } from "../../../ui/input";
 
 const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
     const { toast } = useToast();
@@ -30,6 +31,8 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                 email: data.email,
                 password: data.password,
                 username: data.username,
+                firstName: data.firstName,
+                lastName: data.lastName,
                 avatar: "string",
                 role: 4
             });
@@ -77,6 +80,8 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                     email: "",
                     password: "",
                     username: "",
+                    firstName: "",
+                    lastName: "",
                 }}
                 validate={(values) => {
                     const errors = {};
@@ -114,9 +119,21 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                             "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu, chữ cái viết hoa. Ví dụ: abc_123";
                     }
 
+                    // FirstName validation
+                    if (!values.firstName) {
+                        errors.firstName = "Không được để trống!";
+                    }
+                    // else if (!/^[a-zA-Z ]+$/.test(values.firstName)) {
+                    //   errors.firstName = "Họ không hợp lệ! Vui lòng nhập không dấu!";
+                    // }
+                    // LastName validation
+                    if (!values.lastName) {
+                        errors.lastName = "Không được để trống!";
+                    }
+                    // else if (!/^[a-zA-Z ]+$/.test(values.lastName)) {
+                    //   errors.lastName = "Tên không hợp lệ! Vui lòng nhập không dấu!";
+                    // }
 
-
-                    console.log(errors);
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
@@ -141,6 +158,49 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                                     <DialogTitle>Tạo tài khoản nhân viên kiểm duyệt</DialogTitle>
                                 </DialogHeader>
                                 <DialogDescription>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid gap-2">
+                                        <label
+                                            for="firstName"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Họ *
+                                        </label>
+                                            <Input
+                                                id="firstName"
+                                                placeholder="Nguyễn"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.firstName}
+                                                autoComplete="off"
+                                            />
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                                {" "}
+                                                {errors.firstName && touched.firstName && errors.firstName}
+                                            </p>
+                                        </div>
+                                        <div className="grid gap-2">
+                                        <label
+                                            for="lastName"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            
+                                            Tên *
+                                        </label>
+                                            <Input
+                                                id="lastName"
+                                                placeholder="Văn A"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.lastName}
+                                                autoComplete="off"
+                                            />
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                                {" "}
+                                                {errors.lastName && touched.lastName && errors.lastName}
+                                            </p>
+                                        </div>
+                                    </div>
                                     <div class="mb-5">
                                         <label
                                             for="email"
