@@ -6,7 +6,7 @@ export default function SignUpVerifyOrganizePage() {
 
   return <div>
     <Helmet>
-      <title>Đăng kí tài khoản "quản lý tổ chức xác thực" • VMO</title>
+      <title>Đăng ký tài khoản tổ chức • VMO</title>
       <meta
         name="description"
         content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
