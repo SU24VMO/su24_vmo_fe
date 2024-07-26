@@ -198,7 +198,7 @@ export const columns =({ onSort, onConfirm }) => [
               <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
-              Kết thúc giai đoạn 2
+              Kết thúc giai đoạn 
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
