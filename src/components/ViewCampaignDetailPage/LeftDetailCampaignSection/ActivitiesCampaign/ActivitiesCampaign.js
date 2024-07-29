@@ -18,8 +18,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../ui/carousel";
+import { Button } from "../../../ui/button";
 
 const ActivitiesCampaign = ({ activities }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [maxHeight, setMaxHeight] = React.useState("10em");
+  const contentRef = React.useRef(null);
   // Khởi tạo state với mỗi activityId là key và link ảnh đầu tiên là giá trị
   // Để khởi tạo, chúng ta sử dụng `activities.reduce()` để tạo ra object này từ mảng `activities`.
   // Với mỗi `activity`, chúng ta sử dụng `activityId` làm key.
@@ -39,6 +43,36 @@ const ActivitiesCampaign = ({ activities }) => {
       [activityId]: imageLink,
     }));
   };
+
+  const toggleContent = () => {
+    if (isExpanded) {
+      setMaxHeight("10em"); // Đặt lại về giá trị ban đầu khi thu gọn
+    } else {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`); // Cập nhật maxHeight dựa trên độ cao thực tế của nội dung
+    }
+    setIsExpanded(!isExpanded);
+  };
+
+  const contentStyle = {
+    maxHeight: maxHeight,
+    overflow: "hidden",
+    position: "relative",
+    transition: "max-height 0.5s ease",
+    ...(isExpanded
+      ? {}
+      : {
+          // Khi chưa mở rộng, thêm bóng mờ ở cuối
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 50%, transparent 100%)",
+        }),
+  };
+
+  React.useEffect(() => {
+    if (isExpanded) {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`);
+    }
+  }, [isExpanded]); // Cập nhật maxHeight khi campaignDescription thay đổi
 
   return (
     <div>
@@ -63,9 +97,25 @@ const ActivitiesCampaign = ({ activities }) => {
                       new Date(activity.createDate),
                       "yyyy-MM-dd HH:mm a"
                     )}
-                    <span className="text-black my-3 block">
-                      {activity.content}
-                    </span>
+                    <div
+                      ref={contentRef}
+                      style={contentStyle}
+                      className="text-black my-3"
+                      dangerouslySetInnerHTML={{
+                        __html: activity.content.replace(
+                          /(?:\r\n|\r|\n)/g,
+                          "<br>"
+                        ),
+                      }}
+                    />
+                    <Button
+                      size={"lg"}
+                      variant={"link"}
+                      onClick={toggleContent}
+                      className="p-0"
+                    >
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                    </Button>
                   </CardDescription>
                 </CardHeader>
                 <div className="">
@@ -93,14 +143,22 @@ const ActivitiesCampaign = ({ activities }) => {
                                   }
                                   className="basis-1/3"
                                 >
-                                <div className={`w-full h-full overflow-hidden ${selectedImages[activity.activityId] === img.link ? "border-2 border-green-400 border-solid rounded-md" : ""}`}>
-                                  <img
-                                    src={img.link}
-                                    alt={`Activity Image ${imgIndex + 1}`}
-                                    className={"w-full h-full rounded-md object-cover"}
-                                  />
-                                </div>
-
+                                  <div
+                                    className={`w-full h-full overflow-hidden ${
+                                      selectedImages[activity.activityId] ===
+                                      img.link
+                                        ? "border-2 border-green-400 border-solid rounded-md"
+                                        : ""
+                                    }`}
+                                  >
+                                    <img
+                                      src={img.link}
+                                      alt={`Activity Image ${imgIndex + 1}`}
+                                      className={
+                                        "w-full h-full rounded-md object-cover"
+                                      }
+                                    />
+                                  </div>
                                 </CarouselItem>
                               ))}
                             </CarouselContent>

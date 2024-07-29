@@ -21,6 +21,7 @@ const ViewCampaignDetailPage = () => {
   // Hàm lấy dữ liệu campaign detail từ API
   const fetchData = React.useCallback(
     async (campaignId) => {
+      setDataLoaded(false);
       // toast({
       //   title: "Đang tải dữ liệu chi tiết chiến dịch...",
       //   description: "Vui lòng chờ đợi trong giây lát !",
@@ -72,7 +73,7 @@ const ViewCampaignDetailPage = () => {
       behavior: "smooth", // Tạo hiệu ứng cuộn nhẹ
     });
     fetchData(campaignId);
-  }, [fetchData]);
+  }, [fetchData, campaignId]);
 
   // console.log("campaignId của campaign", campaignId);
 
@@ -89,7 +90,7 @@ const ViewCampaignDetailPage = () => {
                 {/* Left */}
                 <div className="tablet:col-span-2">
                   {dataLoaded ? (
-                    <LeftDetailCampaignSection data={campaign} />
+                    <LeftDetailCampaignSection key={campaignId} data={campaign} />
                   ) : (
                     <LeftDetailCampaignSkeleton />
                   )}
@@ -97,7 +98,7 @@ const ViewCampaignDetailPage = () => {
                 {/* Right */}
                 <div>
                   {dataLoaded ? (
-                    <RightDetailCampaignSection data={campaign} />
+                    <RightDetailCampaignSection key={campaignId} data={campaign} />
                   ) : (
                     <RightDetailCampaignSkeleton />
                   )}
@@ -107,7 +108,7 @@ const ViewCampaignDetailPage = () => {
           </div>
           <Separator className="my-10 tablet:my-24" />
           <div className="w-full">
-            <BottomDetailCampaignSection />
+            <BottomDetailCampaignSection key={campaignId} />
           </div>
         </div>
       </div>

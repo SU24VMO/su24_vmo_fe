@@ -58,7 +58,6 @@ import ManageMembersPage from "./components/Admin/ManageMembersPage/ManageMember
 import ManageRequestVolunteersPage from "./components/Moderator/ManageRequestVolunteersPage/ManageRequestVolunteersPage";
 import ViewCampaignsOrganizationsPage from "./components/ViewCampaignsOrganizationsPage/ViewCampaignsOrganizationsPage";
 import ViewCampaignsVolunteersPage from "./components/ViewCampaignsVolunteersPage/ViewCampaignsVolunteersPage";
-import ViewCampaignDetailExplorePage from "./components/ViewCampaignDetailExplorePage/ViewCampaignDetailExplorePage";
 import ViewCampaignsSearchPage from "./components/ViewCampaignsSearchPage/ViewCampaignsSearchPage";
 import IntroductionPage from "./components/IntroductionPage/IntroductionPage";
 import ManageVolunteerAllActivitiesTable from "./components/VolunteerManagePage/ManageVolunteerAllActivitiesTable/ManageVolunteerAllActivitiesTable";
@@ -113,8 +112,7 @@ function App() {
             <Route path="/viewCampaigns/search/:id" element={<ViewCampaignsSearchPage key={window.location.pathname}></ViewCampaignsSearchPage>} />
             <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
             <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
-            <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage></ViewCampaignDetailPage>} />
-            <Route path="/viewCampaigns/campaignDetail/explore/:id" element={<ViewCampaignDetailExplorePage></ViewCampaignDetailExplorePage>} />
+            <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage key={window.location.pathname}></ViewCampaignDetailPage>} />
             <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
             <Route path="/organization/:id" element={<ViewProfileOrganizationPage></ViewProfileOrganizationPage>} />
             <Route path="/signup" element={<SignUpPage></SignUpPage>} />

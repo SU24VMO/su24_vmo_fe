@@ -41,7 +41,7 @@ const CustomCardCampaign = ({
 
   return (
     <>
-      <Link to={`/viewCampaigns/campaignDetail/explore/${campaignId}`}>
+      <Link to={`/viewCampaigns/campaignDetail/${campaignId}`}>
         <Card className="cursor-pointer">
           <CardContent className="flex flex-col aspect-square items-center justify-center p-0 overflow-hidden">
             <div className="w-full h-full flex flex-col items-center justify-between">
