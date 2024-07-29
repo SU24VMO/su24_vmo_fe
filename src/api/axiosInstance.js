@@ -1,5 +1,5 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const BASE_URL = "https://vmo.azurewebsites.net";
 
@@ -7,19 +7,20 @@ const axiosPublic = axios.create({
   baseURL: BASE_URL,
 });
 
-let token = localStorage.getItem("accessToken") || null;
+// let token = localStorage.getItem("accessToken") || null;
 let refreshTokenPromise = null;
 
 const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
+  // headers: {
+  //   Authorization: `Bearer ${token}`,
+  // },
 });
 
 axiosPrivate.interceptors.request.use(async (req) => {
-  if (!token) {
-    token = localStorage.getItem("accessToken") || null;
+  let token = localStorage.getItem("accessToken") || null;
+
+  if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
 
@@ -29,9 +30,12 @@ axiosPrivate.interceptors.request.use(async (req) => {
   // Check if the token is expired
   if (decodedToken.exp < currentTime) {
     if (!refreshTokenPromise) {
-      refreshTokenPromise = axios.post(`${BASE_URL}/api/authentication/refresh-token`, {
-        refreshToken: localStorage.getItem("refreshToken"),
-      });
+      refreshTokenPromise = axios.post(
+        `${BASE_URL}/api/authentication/refresh-token`,
+        {
+          refreshToken: localStorage.getItem("refreshToken"),
+        }
+      );
     }
 
     try {
@@ -45,7 +49,6 @@ axiosPrivate.interceptors.request.use(async (req) => {
       localStorage.setItem("refreshToken", newRefreshToken);
       localStorage.setItem("user", JSON.stringify(jwtDecode(newAccessToken)));
 
-      token = newAccessToken;
       req.headers.Authorization = `Bearer ${newAccessToken}`;
     } catch (error) {
       refreshTokenPromise = null;
@@ -66,9 +69,12 @@ axiosPrivate.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       try {
         if (!refreshTokenPromise) {
-          refreshTokenPromise = axios.post(`${BASE_URL}/api/authentication/refresh-token`, {
-            refreshToken: localStorage.getItem("refreshToken"),
-          });
+          refreshTokenPromise = axios.post(
+            `${BASE_URL}/api/authentication/refresh-token`,
+            {
+              refreshToken: localStorage.getItem("refreshToken"),
+            }
+          );
         }
 
         const response = await refreshTokenPromise;

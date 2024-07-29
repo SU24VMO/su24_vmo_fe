@@ -26,7 +26,7 @@ import { useLocation } from "react-router-dom";
 
 const Notification = () => {
   const location = useLocation();
-  const { user, handleRefreshHeader, unreadCount, setUnreadCount } =
+  const { user, handleRefreshHeader, unreadCount, setUnreadCount, isLogin } =
     React.useContext(AuthContext);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [data, setData] = React.useState([]);
@@ -72,8 +72,10 @@ const Notification = () => {
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
     fetchData(1);
-    handleRefreshHeader();
-  }, [fetchData, location]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
+    if (isLogin) {
+      handleRefreshHeader();
+    }
+  }, [fetchData, location, isLogin]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
 
   // Chức năng load more (xem thêm notification)
   const handleLoadMore = () => {
