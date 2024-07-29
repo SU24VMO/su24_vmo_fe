@@ -646,7 +646,7 @@ const StepButtonContainer = ({
         "w-[var(--step-icon-size)] h-[var(--step-icon-size)]",
         "border-2 flex rounded-full justify-center items-center",
         "data-[clickable=true]:pointer-events-auto",
-        "data-[active=true]:bg-primary data-[active=true]:border-primary data-[active=true]:text-primary-foreground",
+        "data-[active=true]:bg-green-theme-primary data-[active=true]:border-primary data-[active=true]:text-primary-foreground",
         "data-[current=true]:border-primary data-[current=true]:bg-secondary",
         "data-[invalid=true]:bg-destructive data-[invalid=true]:border-destructive data-[invalid=true]:text-destructive-foreground",
         styles?.["step-button-container"]
@@ -802,6 +802,7 @@ const descriptionVariants = cva("", {
 const StepLabel = ({ isCurrentStep, opacity, label, description }) => {
   const { variant, styles, size, orientation } = useStepper()
   const shouldRender = !!label || !!description
+  const descriptionFormat = description.replace(/(?:\r\n|\r|\n)/g, "<br>");
 
   return shouldRender ? (
     <div
@@ -838,8 +839,9 @@ const StepLabel = ({ isCurrentStep, opacity, label, description }) => {
             descriptionVariants({ size }),
             styles?.["step-description"]
           )}
+          dangerouslySetInnerHTML={{ __html: descriptionFormat }}
         >
-          {description}
+          {/* {description} */}
         </span>
       )}
     </div>

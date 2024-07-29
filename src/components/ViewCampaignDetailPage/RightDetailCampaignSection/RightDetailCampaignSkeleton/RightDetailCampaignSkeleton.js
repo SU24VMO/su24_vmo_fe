@@ -37,6 +37,23 @@ const RightDetailCampaignSkeleton = () => {
           </div>
         </CardHeader>
         <Separator />
+        <CardHeader className="flex items-center justify-center">
+          <div className="bg-white w-full">
+            <div className="w-full flex items-center justify-between mt-3 space-x-3">
+              <Skeleton className="bg-gray-200 h-10 w-10 rounded-full" />
+              <Skeleton className="bg-gray-200 w-full h-3 " />
+            </div>
+            <div className="w-full flex items-center mt-3 space-x-3">
+              <Skeleton className="bg-gray-200 h-10 w-10 rounded-full" />
+              <Skeleton className="bg-gray-200 w-full h-3 " />
+            </div>
+            <div className="w-full flex items-center mt-3 space-x-3">
+              <Skeleton className="bg-gray-200 h-10 w-10 rounded-full" />
+              <Skeleton className="bg-gray-200 w-full h-3 " />
+            </div>
+          </div>
+        </CardHeader>
+        <Separator />
         <CardContent className="flex flex-col justify-center items-center py-6">
           <div className="flex w-full items-center justify-between">
             {/* Mục tiêu chiến dịch */}
