@@ -176,7 +176,7 @@ const RightDetailCampaignSection = ({ data }) => {
               </div>
               <div className="flex items-center">
                 <a
-                  href="mailto:vmoorganization@gmail.com"
+                  href="mailto:vmoreport@gmail.com"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2"
