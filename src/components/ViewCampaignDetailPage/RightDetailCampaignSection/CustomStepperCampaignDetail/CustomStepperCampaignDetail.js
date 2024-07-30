@@ -8,7 +8,7 @@ const CustomStepperCampaignDetail = ({ data }) => {
     {
       label: data.donatePhase.name,
       description: data.donatePhase.startDate
-        ? `Ngày tạo: ${format(
+        ? `Ngày bắt đầu: ${format(
             new Date(data.donatePhase.startDate),
             "dd/MM/yyyy, h:mm:ss a"
           )}\nNgày kết thúc: ${
@@ -24,7 +24,7 @@ const CustomStepperCampaignDetail = ({ data }) => {
     {
       label: data.processingPhase.name,
       description: data.processingPhase.startDate
-        ? `Ngày tạo: ${format(
+        ? `Ngày bắt đầu: ${format(
             new Date(data.processingPhase.startDate),
             "dd/MM/yyyy, h:mm:ss a"
           )}\nNgày kết thúc: ${
@@ -40,7 +40,7 @@ const CustomStepperCampaignDetail = ({ data }) => {
     {
       label: data.statementPhase.name,
       description: data.statementPhase.startDate
-        ? `Ngày tạo: ${format(
+        ? `Ngày bắt đầu: ${format(
             new Date(data.statementPhase.startDate),
             "dd/MM/yyyy, h:mm:ss a"
           )}\nNgày kết thúc: ${

@@ -7,7 +7,14 @@ import {
   CardHeader,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import { BadgeCheck, Target, Clock4, MapPin, ExternalLink } from "lucide-react";
+import {
+  BadgeCheck,
+  Target,
+  Clock4,
+  MapPin,
+  ExternalLink,
+  MessageSquareWarning,
+} from "lucide-react";
 import { Progress } from "../../ui/progress";
 import { useParams } from "react-router-dom";
 import {
@@ -96,7 +103,7 @@ const RightDetailCampaignSection = ({ data }) => {
               <Clock4 className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
                 <p className="text-sm laptop:text-base text-muted-foreground">
-                  Thời gian còn lại
+                  Thời gian ủng hộ còn lại
                 </p>
                 <CustomCalculateDayLeft data={data} />
               </div>
@@ -128,42 +135,55 @@ const RightDetailCampaignSection = ({ data }) => {
               data={data}
               setIsDialogOpen={setIsDialogOpen}
             />
-            <div className="flex items-center justify-center">
-              <blockquote className="mt-2 italic">
-                "Chia sẻ chiến dịch để lan tỏa yêu thương đến mọi người"{" "}
-              </blockquote>
-              <Dialog>
-                <DialogTrigger>
-                  <ExternalLink className="h-6 w-6 ml-2" />
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Lan tỏa yêu thương đến cộng đồng</DialogTitle>
-                    <DialogDescription>
-                      Bằng cách chia sẻ chiến dịch{" "}
-                      <span className="font-bold text-black">{data.name}</span>,
-                      bạn sẽ góp phần giúp đỡ những hoàn cảnh khó khăn.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="flex">
-                    <div className="grid flex-1 gap-2">
-                      <Label htmlFor="link">
-                        Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch
-                      </Label>
-                      <div className="flex items-center space-x-2">
-                        <Input
-                          id="link"
-                          defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                          disabled
-                        />
-                        <CopyButton
-                          code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                        />
+            <div className="w-full flex flex-row items-center justify-end">
+              <div className="flex items-center justify-center">
+                <Dialog>
+                  <DialogTrigger>
+                    <ExternalLink />
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        Lan tỏa yêu thương đến cộng đồng
+                      </DialogTitle>
+                      <DialogDescription>
+                        Bằng cách chia sẻ chiến dịch{" "}
+                        <span className="font-bold text-black">
+                          {data.name}
+                        </span>
+                        , bạn sẽ góp phần giúp đỡ những hoàn cảnh khó khăn.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex">
+                      <div className="grid flex-1 gap-2">
+                        <Label htmlFor="link">
+                          Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch
+                        </Label>
+                        <div className="flex items-center space-x-2">
+                          <Input
+                            id="link"
+                            defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
+                            disabled
+                          />
+                          <CopyButton
+                            code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <div className="flex items-center">
+                <a
+                  href="mailto:vmoorganization@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <MessageSquareWarning className="h-6 w-6 ml-2" />
+                </a>
+              </div>
             </div>
           </div>
         </CardFooter>
@@ -177,6 +197,5 @@ const RightDetailCampaignSection = ({ data }) => {
     </>
   );
 };
-
 
 export default RightDetailCampaignSection;
