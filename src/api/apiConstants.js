@@ -15,7 +15,7 @@ export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
 
 export const UPDATESTATUSREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
-export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
+export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/report-campaign/send-email";
 
 
 
