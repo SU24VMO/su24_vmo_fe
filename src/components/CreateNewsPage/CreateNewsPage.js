@@ -62,9 +62,14 @@ export default function CreatNewsPage() {
                 console.log(response.data);
                 if (user.role === "Volunteer") {
                     navigate("/manage/volunteer/allNews")
+                setImageCenter(null);
+                setImageCover(null);
+
                     resetForm()
                 } else if (user.role === "OrganizationManager") {
                     navigate("/manage/organize/allNews")
+                    setImageCenter(null);
+                    setImageCover(null);
                     resetForm()
                 }
                 toast({
@@ -144,8 +149,6 @@ export default function CreatNewsPage() {
                 setSubmitting(false);
 
 
-                setImageCover(null);
-                setImageCenter(null);
             }}
         >
             {({

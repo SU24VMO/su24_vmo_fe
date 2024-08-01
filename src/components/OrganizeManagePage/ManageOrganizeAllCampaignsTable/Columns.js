@@ -110,8 +110,8 @@ export const columns = ({ onSort, onConfirm }) => [
     cell: ({ row }) => {
       const organizeName = row.original?.organization?.name;
       return (
-        <div className="w-48 line-clamp-2">
-          <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+        <div className=" w-max">
+          <span className="  line-clamp-3 bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
             {organizeName}
           </span>
 
@@ -215,7 +215,7 @@ export const columns = ({ onSort, onConfirm }) => [
               </div>
             ) : ""}
 
-            {infoRow?.isActive === false ? (
+            {infoRow?.createCampaignRequest?.isPending === true  ? (
               <div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem

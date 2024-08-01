@@ -7,6 +7,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
+import ExtendDonatePhase from "./Feature/ExtendDonatePhase";
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
 
@@ -38,6 +39,8 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaign
 
 const ManageOrganizePhase1Table = () => {
   const [data, setData] = useState([]);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
   const {user} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
@@ -64,6 +67,12 @@ const ManageOrganizePhase1Table = () => {
     }
   };
 
+  const onExtend = React.useCallback((row) => {
+    // Implement Extend logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
+
   const onSort = (property) => {
     setSortConfig((prevConfig) => ({
       orderByProperty: property,
@@ -85,7 +94,11 @@ const ManageOrganizePhase1Table = () => {
   }, [pageSize, pageNo,campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
-
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
+  };
 
   return (
     <>
@@ -98,8 +111,22 @@ const ManageOrganizePhase1Table = () => {
       </Helmet>
     <div className="w-3/4 mx-auto min-h-screen">
       <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+      <div>
+        <ExtendDonatePhase
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
+      </div>
       <DataTable 
-      columns={columns({onSort})}
+      columns={columns({onSort, onExtend})}
       setCampaignName={setCampaignName}
       data={data}
       loading={loading}

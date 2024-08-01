@@ -263,12 +263,23 @@ export default function UpdateNewsPage() {
                                         <div className="mb-6">
                                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCover">Ảnh cover</label>
                                             <div className=" mobile:flex mobile:gap-6 ">
-                                                <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                    aria-describedby="imageCover_help"
+
+
+                                                <label
+                                                    className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    htmlFor="imageCover"
+                                                >
+                                                    <span className="ml-2">Chọn ảnh</span>
+                                                </label>
+                                                <input
+                                                    className="hidden"
+                                                    aria-describedby="imageCover"
                                                     id="imageCover"
-                                                    type="file"
                                                     name="imageCover"
-                                                    onChange={(e) => { handleChangeCoverImage(e, setFieldValue) }} />
+                                                    onChange={(e) => { handleChangeCoverImage(e, setFieldValue) }}
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg"
+                                                />
                                                 {imageCover ? <PreviewImageCoverPopover imageCover={imageCover} ></PreviewImageCoverPopover> : ''}
 
                                             </div>
@@ -293,12 +304,23 @@ export default function UpdateNewsPage() {
 
                                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCenter">Ảnh giữa</label>
                                             <div className=" mobile:flex mobile:gap-6 ">
-                                                <input class="mb-6 mobile:mb-0 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                    aria-describedby="imageCenter_help"
+
+                                                <label
+                                                    className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    htmlFor="imageCenter"
+                                                >
+                                                    <span className="ml-2">Chọn ảnh</span>
+                                                </label>
+                                                <input
+                                                    className="hidden"
+                                                    aria-describedby="imageCenter"
                                                     id="imageCenter"
-                                                    type="file"
                                                     name="imageCenter"
-                                                    onChange={(e) => { handleChangeCenterImage(e, setFieldValue) }} />
+                                                    onChange={(e) => { handleChangeCenterImage(e, setFieldValue) }}
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg"
+                                                />
+
                                                 {imageCenter ? <PreviewImageCenterPopover imageCenter={imageCenter} ></PreviewImageCenterPopover> : ''}
 
                                             </div>

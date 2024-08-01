@@ -13,7 +13,7 @@ const ManageBankingCampaignPage = () => {
         />
       </Helmet>
       <p className="font-bold text-2xl">Quản lý danh sách sao kê giao dịch</p>
-        <TableBankingCampaignPage/>
+      <TableBankingCampaignPage />
     </>
   );
 };

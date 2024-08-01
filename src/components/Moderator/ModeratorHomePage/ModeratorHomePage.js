@@ -31,7 +31,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER } from "../../../api/apiConstants";
+import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER, GETNUMBERACCOUNT } from "../../../api/apiConstants";
 import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
@@ -47,6 +47,40 @@ const ModeratorHomePage = () => {
   const [transactionRecently, setTransactionRecently] = useState([]);
 
 
+
+  async function getNumberAccount(controller) {
+
+    try {
+      const response = await axiosPrivate.get(GETNUMBERACCOUNT, {
+        signal: controller.signal
+      });
+      if (response.status === 200) {
+        setNumberAccount(response?.data?.data?.totalItem);
+        setDataAccount(response?.data?.data?.list.slice(0, 7));
+
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    }
+  };
+
+
   async function getAllAccount(controller) {
 
     try {
@@ -54,7 +88,7 @@ const ModeratorHomePage = () => {
         signal: controller.signal
       });
       if (response.status === 200) {
-        setNumberAccount(response?.data?.data?.totalItem);
+      
         setDataAccount(response?.data?.data?.list.slice(0, 7));
 
       } else {
@@ -221,6 +255,7 @@ const ModeratorHomePage = () => {
         if (isMounted) setLoading(true);
 
         await Promise.allSettled([
+          getNumberAccount(controller),
           getAllOrganization(controller),
           getAllAccount(controller),
           getAllCampaign(controller),

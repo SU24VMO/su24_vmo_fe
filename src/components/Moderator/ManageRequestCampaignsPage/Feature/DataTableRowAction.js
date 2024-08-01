@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 
-const DataTableRowActions = ({ row, onEdit, onDelete }) => {
+const DataTableRowActions = ({ row, onEdit, onReport }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,12 +22,16 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onEdit(row.original)}>
-          Chỉnh sửa
+          Cập nhật trạng thái
         </DropdownMenuItem>
-        {/* <DropdownMenuSeparator /> */}
-        {/* <DropdownMenuItem onClick={() => onDelete(row.original)}>
-          <span className="text-destructive">Xóa</span>
-        </DropdownMenuItem> */}
+        {row.original?.isApproved === true ? (
+          <div>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => onReport(row.original)}>
+              <span className="text-destructive">Cập nhật minh bạch</span>
+            </DropdownMenuItem>
+          </div>
+        ) : ""}
       </DropdownMenuContent>
     </DropdownMenu>
   );

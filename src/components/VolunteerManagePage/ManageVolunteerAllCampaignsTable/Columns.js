@@ -190,19 +190,18 @@ export const columns = ({ onSort, onConfirm }) => [
                 </DropdownMenuItem>
               </div>) : ""}
 
-            {infoRow?.isActive === false ? (
+              {infoRow?.createCampaignRequest?.isPending === true  ? (
               <div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/updateCampaignVolunteer/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
+                  <Link to={`/updateCampaignOrganizationManager/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
                     Chỉnh sửa chiến dịch
                   </Link>
                 </DropdownMenuItem>
               </div>
             ) : ""}
-
             {infoRow?.createCampaignRequest?.isRejected === true ? (
               <div>
                 <DropdownMenuSeparator />

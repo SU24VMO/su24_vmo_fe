@@ -7,7 +7,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
-import ConfirmDialog from "./Feature/ConformDialog";
+import ConfirmDialog from "./Feature/ConfirmDialog";
 import StatementFileDiaglog from "./Feature/StatementFileDiaglog";
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
 

@@ -103,6 +103,15 @@ const DesktopNav = () => {
                 Quản lý danh sách sao kê giao dịch
               </Link>
 
+              <Link
+                to="/admin/manageTransaction"
+                className={getLinkClass("/admin/manageTransaction")}
+              > 
+               <div className="w-fit">
+               <Receipt className="w-fit" />
+               </div>
+                Quản lý danh sách giao dịch
+              </Link>
             </nav>
           </div>
           {/* <div className="mt-auto p-4">

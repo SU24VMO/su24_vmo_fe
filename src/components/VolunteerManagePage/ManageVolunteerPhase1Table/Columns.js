@@ -15,8 +15,8 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort }) => [
- 
+export const columns = ({ onSort, onExtend }) => [
+
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -24,7 +24,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Name")}
+          onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -43,7 +43,7 @@ export const columns =({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("TargetAmount")}
+        onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -65,7 +65,7 @@ export const columns =({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("DonatePhase.CurrentMoney")}
+        onClick={() => onSort("DonatePhase.CurrentMoney")}
       >
         Số tiền đạt được
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -81,7 +81,7 @@ export const columns =({ onSort }) => [
       return <div className="font-medium">{formatted}</div>;
     },
   },
-    
+
 
 
   {
@@ -91,7 +91,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("StartDate")}
+          onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -111,7 +111,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("ExpectedEndDate")}
+          onClick={() => onSort("ExpectedEndDate")}
         >
           Thời gian kết thúc giai đoạn ủng hộ dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -164,15 +164,22 @@ export const columns =({ onSort }) => [
             >
               Copy tên chiến dịch
             </DropdownMenuItem>
-            {infoRow?.isActive === true ? (<DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>) : "" }
-            <DropdownMenuSeparator />
-           
+            {infoRow?.isActive === true ? (
+              <div>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+
+                >
+                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+                    Xem chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onExtend(row.original)}>
+                  Mở rộng thời gian
+                </DropdownMenuItem>
+              </div>) : ""}
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

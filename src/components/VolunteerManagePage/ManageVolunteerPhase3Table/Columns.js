@@ -157,11 +157,17 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
               Đăng tải sao kê
             </DropdownMenuItem>
 
-         {row.original?.statementPhase?.statementFiles.length > 0 ? (   <DropdownMenuItem
+         {/* {row.original?.statementPhase?.statementFiles.length > 0 ? (   <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
               Kết thúc chiến dịch
-            </DropdownMenuItem>) : ""}
+            </DropdownMenuItem>) : ""} */}
+{/* CÁi này phân vân việc check hay ko check tại vì nếu chiến dịch ko đủ thì ngta cũng có thể end để qua chiến dịch khác */}  
+              <DropdownMenuItem
+           onClick={() => onConfirm(row.original)}
+            >
+              Kết thúc chiến dịch
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

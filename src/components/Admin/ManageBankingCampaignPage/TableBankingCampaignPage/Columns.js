@@ -21,6 +21,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      return <div className="w-52 line-clamp-2 ">{name}</div>;
+    },
   },
   
   {

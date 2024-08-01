@@ -168,9 +168,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                 </DialogHeader>
                                 {row && (
                                     <div className="flex flex-col gap-3">
-                                        <label htmlFor="statementFile" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            File chi tiết sao kê*
-                                        </label>
+                                       
 
                                         <label
                                             className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"

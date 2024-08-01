@@ -5,6 +5,7 @@ import EditStatusForm from "../Feature/EditStatusForm";
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTCAMPAIGN } from "../../../../api/apiConstants";
+import ConfirmReportCampaign from "../Feature/ConfirmReportCampaign";
 
 
 // call api get 
@@ -40,6 +41,8 @@ const TableRequestCampaigns = () => {
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpenReport, setIsDialogOpenReport] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
@@ -58,8 +61,9 @@ const TableRequestCampaigns = () => {
     setSelectedRow(row);
   }, []);
 
-  const onDelete = React.useCallback((row) => {
-    alert(`Deleting request with ID: ${row.id}`);
+  const onReport = React.useCallback((row) => {
+    setIsDialogOpenReport(true);
+    setSelectedRow(row);
   }, []);
 
   
@@ -120,9 +124,22 @@ const TableRequestCampaigns = () => {
           onSubmitSuccess={handleRefresh}
         />
       </div>
+      <div>
+        <ConfirmReportCampaign
+          isOpen={isDialogOpenReport}
+          campaigns={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpenReport(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+        />
+      </div>
 
       <DataTable
-        columns={columns({ onEdit, onDelete, onSort })}
+        columns={columns({ onEdit, onReport, onSort })}
         setCampaignName={setCampaignName}
         data={data}
         loading={loading}

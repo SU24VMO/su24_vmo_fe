@@ -41,7 +41,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
     },
     cell: ({ row }) => {
       
-      const member = row.original?.member ? (row.original?.member?.firstName + row.original?.member?.lastName) : "Chưa có";
+      const member = row.original?.member ? (row.original?.member?.firstName + row.original?.member?.lastName) : "Không có";
       return <div className="">{member}</div>;
     },
   },
@@ -62,7 +62,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
     },
     cell: ({ row }) => {
       
-      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + row.original?.organizationManager?.lastName) : "Chưa có";
+      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + row.original?.organizationManager?.lastName) : "Không có";
       return <div className="">{organizationManager}</div>;
     },
   },

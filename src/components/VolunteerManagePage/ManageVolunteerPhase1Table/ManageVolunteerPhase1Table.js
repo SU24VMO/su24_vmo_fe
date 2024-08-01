@@ -7,6 +7,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYVOLUNTEER } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
+import ExtendDonatePhase from "./Feature/ExtendDonatePhase";
 
 async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
 
@@ -39,6 +40,8 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaign
 const ManageVolunteerPhase1Table = () => {
   const [data, setData] = useState([]);
   const {user} = useContext(AuthContext);
+  const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
@@ -86,6 +89,11 @@ const ManageVolunteerPhase1Table = () => {
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  const handleRefresh = () => {
+    setLoading(true);
+    const source = axios.CancelToken.source();
+    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
+  };
 
   return (
     <>
@@ -98,6 +106,20 @@ const ManageVolunteerPhase1Table = () => {
       </Helmet>
     <div className="w-3/4 mx-auto min-h-screen">
       <ManageVolunteerSlideBar/>
+      <div>
+        <ExtendDonatePhase
+          isOpen={isDialogOpen}
+          row={selectedRow}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedRow(null);
+            }
+          }}
+          onSubmitSuccess={handleRefresh}
+
+        />
+      </div>
       <DataTable 
       columns={columns({onSort})}
       setCampaignName={setCampaignName}

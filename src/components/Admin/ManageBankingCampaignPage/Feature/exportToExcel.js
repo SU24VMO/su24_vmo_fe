@@ -50,7 +50,7 @@ export async function exportToExcel() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách giao dịch sao kê",
+        fileName: "Bảng danh sách sao kê giao dịch",
       };
 
       xlsx(columns, settings);

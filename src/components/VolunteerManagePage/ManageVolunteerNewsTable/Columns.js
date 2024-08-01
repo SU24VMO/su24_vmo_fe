@@ -154,7 +154,7 @@ export const columns = ({ onSort, onConfirm }) => [
               </div>
 
             ) : ""}
-            {infoRow?.isActive === false ? (
+            {infoRow?.createPostRequest?.isPending === true ? (
               <div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem

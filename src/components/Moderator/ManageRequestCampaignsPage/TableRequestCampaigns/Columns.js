@@ -4,7 +4,7 @@ import { Badge } from "../../../ui/badge";
 import DataTableRowActions from "../Feature/DataTableRowAction";
 import { format } from "date-fns";
 
-export const columns = ({ onEdit, onDelete , onSort}) => [
+export const columns = ({ onEdit, onReport , onSort}) => [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -42,7 +42,7 @@ export const columns = ({ onEdit, onDelete , onSort}) => [
     },
     cell: ({ row }) => {
       
-      const member = row.original?.member ? (row.original?.member?.firstName + ' ' + row.original?.member?.lastName) : "Chưa có";
+      const member = row.original?.member ? (row.original?.member?.firstName + ' ' + row.original?.member?.lastName) : "Không có";
       return <div className="">{member}</div>;
     },
   },
@@ -63,7 +63,7 @@ export const columns = ({ onEdit, onDelete , onSort}) => [
     },
     cell: ({ row }) => {
       
-      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + ' ' + row.original?.organizationManager?.lastName) : "Chưa có";
+      const organizationManager = row.original?.organizationManager ? (row.original?.organizationManager?.firstName + ' ' + row.original?.organizationManager?.lastName) : "Không có";
       return <div className="">{organizationManager}</div>;
     },
   },
@@ -165,7 +165,7 @@ export const columns = ({ onEdit, onDelete , onSort}) => [
   {
     id: "actions",
     cell: ({ row }) => (
-      <DataTableRowActions row={row} onEdit={onEdit} onDelete={onDelete} />
+      <DataTableRowActions row={row} onEdit={onEdit} onReport={onReport} />
     ),
   },
 ];

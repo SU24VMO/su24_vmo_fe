@@ -40,7 +40,6 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
             if (response.status === 200) {
                 console.log(response);
                 onSubmitSuccess()
-
                 toast({
                     title: "Tạo tài khoản kiểm duyệt thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -155,10 +154,12 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                         <Dialog open={isOpen} onOpenChange={onOpenChange}>
                             <DialogContent className="mobile:max-w-screen-tablet">
                                 <DialogHeader>
-                                    <DialogTitle>Tạo tài khoản nhân viên kiểm duyệt</DialogTitle>
+                                <div className="flex justify-between items-center pb-4  rounded-t border-b dark:border-gray-600">
+                                <DialogTitle>Tạo tài khoản nhân viên kiểm duyệt</DialogTitle>
+                                </div>
                                 </DialogHeader>
                                 <DialogDescription>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-2 gap-4 mb-5">
                                         <div className="grid gap-2">
                                         <label
                                             for="firstName"

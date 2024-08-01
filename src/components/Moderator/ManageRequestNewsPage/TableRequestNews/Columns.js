@@ -36,14 +36,14 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
           className="px-0 py-0"
           onClick={() => onSort("Member.FirstName")}  
         >
-          Thành viên
+          Tạo bởi tình nguyện viên
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       
-      const member = row.original?.member ? (row.original.member?.firstName + " " + row.original.member?.lastName) : "chưa có";
+      const member = row.original?.member ? (row.original.member?.firstName + " " + row.original.member?.lastName) : "Không có";
       return <div className="">{member}</div>;
     },
   },
@@ -57,14 +57,14 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
           className="px-0 py-0"
           onClick={() => onSort("OrganizationManager.FirstName")}  
         >
-          Quản lý tổ chức
+          Tạo bởi quản lý tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       
-      const organizationManager = row.original?.organizationManager ? (row.original.organizationManager?.firstName + " " + row.original.organizationManager?.lastName) : "chưa có";
+      const organizationManager = row.original?.organizationManager ? (row.original.organizationManager?.firstName + " " + row.original.organizationManager?.lastName) : "Không có";
       return <div className="">{organizationManager}</div>;
     },
   },

@@ -59,19 +59,19 @@ const MobileNav = () => {
             </Link>
             <Separator />
             <Link to="/admin" className={getLinkClass("/admin")}>
-            <div className="w-fit">
-                  <LayoutDashboard className="w-fit" />
-                </div>
+              <div className="w-fit">
+                <LayoutDashboard className="w-fit" />
+              </div>
               Thống kê số liệu hệ thống
             </Link>
             <Link
               to="/admin/manageMembers"
               className={getLinkClass("/admin/manageMembers")}
             >
-               <div className="w-fit">
-                  <Users className="w-fit" />
+              <div className="w-fit">
+                <Users className="w-fit" />
 
-                </div>
+              </div>
               Quản lý tài khoản thành viên
               {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
               {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
@@ -82,10 +82,10 @@ const MobileNav = () => {
               to="/admin/manageVolunteers"
               className={getLinkClass("/admin/manageVolunteers")}
             >
-               <div className="w-fit">
-                  <Users className="w-fit" />
+              <div className="w-fit">
+                <Users className="w-fit" />
 
-                </div>
+              </div>
               Quản lý tài khoản tình nguyện viên
             </Link>
             <Link
@@ -93,30 +93,40 @@ const MobileNav = () => {
               className={getLinkClass("/admin/manageOrganizationManagers")}
             >
               <div className="w-fit">
-                  <Building2 className="w-fit" />
+                <Building2 className="w-fit" />
 
-                </div>
+              </div>
               Quản lý tài khoản quản lý tổ chức
             </Link>
             <Link
               to="/admin/manageModerators"
               className={getLinkClass("/admin/manageModerators")}
             >
-             <div className="w-fit">
-                  <Users className="w-fit" />
+              <div className="w-fit">
+                <Users className="w-fit" />
 
-                </div>
+              </div>
               Quản lý tài khoản nhân viên kiểm duyệt
             </Link>
             <Link
-                to="/admin/manageBanking"
-                className={getLinkClass("/admin/manageBanking")}
-              >
-                <div className="w-fit">
-               <Receipt className="w-fit" />
-               </div>
-               Quản lý danh sách sao kê giao dịch
-              </Link>
+              to="/admin/manageBanking"
+              className={getLinkClass("/admin/manageBanking")}
+            >
+              <div className="w-fit">
+                <Receipt className="w-fit" />
+              </div>
+              Quản lý danh sách sao kê giao dịch
+            </Link>
+
+            <Link
+              to="/admin/manageTransaction"
+              className={getLinkClass("/admin/manageTransaction")}
+            >
+              <div className="w-fit">
+                <Receipt className="w-fit" />
+              </div>
+              Quản lý danh sách giao dịch
+            </Link>
           </nav>
           {/* <div className="mt-auto">
                 <Card>

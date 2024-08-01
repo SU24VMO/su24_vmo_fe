@@ -32,6 +32,7 @@ import { ChevronDown, File } from "lucide-react";
 import { exportToExcel } from "../Feature/exportToExcel";
 import SkeletonOrganizationManagersTable from "../SkeletonBankingCampaignTable/SkeletonBankingCampaignTable";
 import { TailSpin } from "react-loader-spinner";
+import SkeletonBankingCampaignTable from "../SkeletonBankingCampaignTable/SkeletonBankingCampaignTable";
 
 export function DataTable({
   columns,
@@ -191,7 +192,7 @@ export function DataTable({
       </div>
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonOrganizationManagersTable />
+          <SkeletonBankingCampaignTable />
         ) : (
           <Table>
             <TableHeader>

@@ -23,7 +23,7 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
       <DropdownMenuContent align="end">
         {row.original?.donatePhaseIsEnd === true ? (
           <DropdownMenuItem onClick={() => onEdit(row.original)}>
-          Chỉnh sửa
+          Cập nhật trạng thái
         </DropdownMenuItem>
         ) : ""}
         {/* <DropdownMenuItem onClick={() => onDelete(row.original)}>

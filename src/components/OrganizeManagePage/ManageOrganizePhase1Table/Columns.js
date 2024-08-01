@@ -1,10 +1,7 @@
 import { Button } from "../../ui/button";
 import { format } from "date-fns";
 
-import {
-  ArrowUpDown,
-  MoreHorizontal,
-} from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +12,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort }) => [
- 
+export const columns = ({ onSort, onExtend }) => [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -24,7 +20,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Name")}
+          onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -43,7 +39,7 @@ export const columns =({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("TargetAmount")}
+        onClick={() => onSort("TargetAmount")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -65,7 +61,7 @@ export const columns =({ onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-         onClick={() => onSort("DonatePhase.CurrentMoney")}
+        onClick={() => onSort("DonatePhase.CurrentMoney")}
       >
         Số tiền đạt được
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -88,7 +84,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("Organization.Name")}
+          onClick={() => onSort("Organization.Name")}
         >
           Tổ chức
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -96,18 +92,16 @@ export const columns =({ onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const organizeName = row.original?.organization.name
+      const organizeName = row.original?.organization.name;
       return (
         <div className="w-48 line-clamp-3 ">
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          
+          <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+            {organizeName}
+          </span>
         </div>
       );
     },
   },
-
 
   {
     accessorKey: "startDate",
@@ -116,7 +110,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("StartDate")}
+          onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -124,7 +118,10 @@ export const columns =({ onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const startDate = format(new Date(row.getValue("startDate")), 'dd/MM/yyyy, h:mm:ss a');
+      const startDate = format(
+        new Date(row.getValue("startDate")),
+        "dd/MM/yyyy, h:mm:ss a"
+      );
       return <div className="w-max">{startDate}</div>;
     },
   },
@@ -136,7 +133,7 @@ export const columns =({ onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("ExpectedEndDate")}
+          onClick={() => onSort("ExpectedEndDate")}
         >
           Thời gian kết thúc dự kiến
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -144,7 +141,10 @@ export const columns =({ onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const expectedEndDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
+      const expectedEndDate = format(
+        new Date(row.getValue("expectedEndDate")),
+        "dd/MM/yyyy, h:mm:ss a"
+      );
       return <div className="w-max">{expectedEndDate}</div>;
     },
   },
@@ -191,17 +191,22 @@ export const columns =({ onSort }) => [
             </DropdownMenuItem>
             {infoRow?.isActive === true ? (
               <div>
-            <DropdownMenuSeparator />
+                <DropdownMenuSeparator />
 
-                <DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}
+                  >
+                    Xem chiến dịch
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onExtend(row.original)}>
+                  Mở rộng thời gian
+                </DropdownMenuItem>
               </div>
-            ) : "" }
+            ) : (
+              ""
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

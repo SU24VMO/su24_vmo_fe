@@ -5,7 +5,7 @@ export const LOGIN = "/api/authentication/login";
 export const REGISTER = "https://vmo.azurewebsites.net/api/authentication/register";
 export const REGISTER_SEND_OTP = "https://vmo.azurewebsites.net/api/authentication/register/send-otp";
 
-//
+//moderator
 export const UPDATEISACTIVED = "/api/account/update-status";
 export const UPDATEAPPROVEOMREQUEST = "/api/create-organization-manager-request/checking";
 export const UPDATEAPPROVECAMPAIGNREQUEST = "/api/create-campaign-request/checking";
@@ -13,6 +13,11 @@ export const UPDATEAPPROVEVOLUNTEERREQUEST = "/api/create-volunteer-request/chec
 export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-request/checking";
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
+
+export const UPDATESTATUSREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
+export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
+
+
 
 export const UPDATEIMAGEBANKING = "/api/transaction/upload-transaction";
 
@@ -75,10 +80,13 @@ export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 //admin
 
 export const GETALLACCOUNT = "/api/account/all"
+export const GETNUMBERACCOUNT = "/api/account/all/active-status"
 export const GETALLCAMPAIGN = "/api/campaign/all"
 export const GETALLORGANIZATION = "/api/organization/all"
 export const GETALLVOLUNTEER = "/api/account/all/role/volunteer"
 export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transaction"
+export const GETALLAMOUNT = "/api/transaction/all/admin/total-amount"
+
 
 export const CREATEACCOUNTMODERATOR = '/api/account/create-new'
 
@@ -92,6 +100,7 @@ export const ENABLEDISABLEPOST = "/api/post/update/status"
 
 
 
+export const EXTENDONATEPHASE = "/api/donate-phase/update/end-date";
 
 
 

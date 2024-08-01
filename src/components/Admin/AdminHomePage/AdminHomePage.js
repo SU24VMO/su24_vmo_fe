@@ -7,17 +7,11 @@ import {
   CardTitle,
 } from "../../ui/card";
 import {
-  Activity,
-  ArrowUpRight,
   Building2,
-  CreditCard,
-  DollarSign,
   HeartHandshake,
   User,
   Users,
 } from "lucide-react";
-import { Button } from "../../ui/button";
-import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -26,12 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import { Badge } from "../../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER } from "../../../api/apiConstants";
+import { GETALLACCOUNT, GETALLAMOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER, GETNUMBERACCOUNT } from "../../../api/apiConstants";
 import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
@@ -45,6 +38,41 @@ const AdminHomePage = () => {
   const [numberOrganization, setNumberOrganization] = useState();
   const [numberVolunteer, setNumberVolunteer] = useState();
   const [transactionRecently, setTransactionRecently] = useState([]);
+  const [numberAmount, setNumberAmount] = useState();
+
+
+
+  async function getNumberAccount(controller) {
+
+    try {
+      const response = await axiosPrivate.get(GETNUMBERACCOUNT, {
+        signal: controller.signal
+      });
+      if (response.status === 200) {
+        setNumberAccount(response?.data?.data?.totalItem);
+        setDataAccount(response?.data?.data?.list.slice(0, 7));
+
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    }
+  };
 
 
   async function getAllAccount(controller) {
@@ -54,7 +82,7 @@ const AdminHomePage = () => {
         signal: controller.signal
       });
       if (response.status === 200) {
-        setNumberAccount(response?.data?.data?.totalItem);
+      
         setDataAccount(response?.data?.data?.list.slice(0, 7));
 
       } else {
@@ -204,6 +232,37 @@ const AdminHomePage = () => {
   };
 
 
+  async function getNumberAmount(controller) {
+
+    try {
+      const response = await axiosPrivate.get(GETALLAMOUNT, {
+        signal: controller.signal
+      });
+      if (response.status === 200) {
+        setNumberAmount(response?.data?.data);
+
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Thất bại!",
+          description: "Vui lòng kiểm tra lại thông tin!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      }
+    }
+  };
+
   //bế cái fetch ra ngoài thì load ngon nhưng mà cancel có vẻ ko hoạt động
 
   useEffect(() => {
@@ -221,11 +280,13 @@ const AdminHomePage = () => {
         if (isMounted) setLoading(true);
 
         await Promise.allSettled([
+          getNumberAccount(controller),
           getAllOrganization(controller),
           getAllAccount(controller),
           getAllCampaign(controller),
           getAllTransaction(controller),
-          getAllVolunteer(controller)
+          getAllVolunteer(controller),
+          getNumberAmount(controller)
         ]);
 
 
@@ -334,12 +395,13 @@ const AdminHomePage = () => {
                     Giao dịch gần đây
                   </CardDescription>
                 </div>
-                {/* <Button asChild size="sm" className="ml-auto gap-1">
-                  <Link to="#">
-                    Xem tất cả
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
-                </Button> */}
+                <div className="grid gap-2 ml-auto">
+                  <CardTitle>Tổng tiền hệ thống</CardTitle>
+                  <CardDescription>
+                  <span className="text-xl font-semibold"> {numberAmount !== 0 ? (formatAmount(numberAmount)) : ("0 VND")}</span>
+                  </CardDescription>
+                </div>
+              
               </CardHeader>
               <CardContent>
                 <Table>

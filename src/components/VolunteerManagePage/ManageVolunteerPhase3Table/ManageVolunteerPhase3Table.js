@@ -7,8 +7,8 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYVOLUNTEER } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
-import ConfirmDialog from "./Feature/ConformDialog";
 import StatementFileDiaglog from "./Feature/StatementFileDiaglog";
+import ConfirmDialog from "./Feature/ConfirmDialog";
 async function getData(cancelToken, user,  pageSize, pageNo, sortConfig,campaignName, setLoading) {
 
   try {

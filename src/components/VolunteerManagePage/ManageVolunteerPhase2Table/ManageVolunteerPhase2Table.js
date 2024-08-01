@@ -8,9 +8,7 @@ import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYVOLUNTEER } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
-import { toast } from "../../ui/use-toast";
-import { ToastAction } from "../../ui/toast";
-import ConfirmDialog from "./Feature/ConformDialog";
+import ConfirmDialog from "./Feature/ConfirmDialog";
 
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
 
