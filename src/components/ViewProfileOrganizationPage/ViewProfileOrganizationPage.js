@@ -97,6 +97,8 @@ const ViewProfileOrganizationPage = () => {
                 imgSrc={campaign.image}
                 daysLeft={campaign.expectedEndDate}
                 campaignName={campaign.name}
+                isTransparent={campaign.isTransparent}
+                checkTransparentDate={campaign.checkTransparentDate}
               />
             ))
           ) : (

@@ -3,7 +3,7 @@ import { Card, CardContent } from "../../../ui/card";
 import { Badge } from "../../../ui/badge";
 import { Progress } from "../../../ui/progress";
 import { AspectRatio } from "../../../ui/aspect-ratio";
-import { differenceInCalendarDays, parseISO } from "date-fns";
+import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 import vmo_avatar from "../../../../assets/images/512x512.svg";
 import {
@@ -26,6 +26,7 @@ const CustomCardCampaign = ({
   achievedAmount,
   phases,
   isTransparent,
+  checkTransparentDate,
 }) => {
   // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
   const calculateDaysLeft = (endDate) => {
@@ -111,7 +112,10 @@ const CustomCardCampaign = ({
                           <div className="flex items-center pt-2">
                             <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
                             <span className="text-xs text-muted-foreground">
-                              Đã bị cấm vào 31/07/2024
+                              Đã bị cấm vào {format(
+                                new Date(checkTransparentDate),
+                                "dd/MM/yyyy, h:mm:ss a"
+                              )}
                             </span>
                           </div>
                         </div>

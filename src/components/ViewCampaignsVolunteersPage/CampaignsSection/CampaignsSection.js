@@ -179,6 +179,7 @@ const CampaignsSection = () => {
                   item.statementPhase,
                 ]}
                 isTransparent={item.isTransparent}
+                checkTransparentDate={item.checkTransparentDate}
               />
             ))
           : renderSkeletons()}

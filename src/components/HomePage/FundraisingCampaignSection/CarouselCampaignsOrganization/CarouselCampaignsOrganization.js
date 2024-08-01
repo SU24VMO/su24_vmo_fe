@@ -115,6 +115,7 @@ const CarouselCampaignsOrganization = () => {
                         item.statementPhase,
                       ]}
                       isTransparent={item.isTransparent}
+                      checkTransparentDate={item.checkTransparentDate}
                     />
                   </div>
                 </CarouselItem>

@@ -200,6 +200,7 @@ const CampaignsSection = ({ searchParams }) => {
                   item.statementPhase,
                 ]}
                 isTransparent={item.isTransparent}
+                checkTransparentDate={item.checkTransparentDate}
               />
             ))
           : renderSkeletons()}

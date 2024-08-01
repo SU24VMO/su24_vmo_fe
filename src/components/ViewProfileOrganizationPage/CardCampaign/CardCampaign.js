@@ -1,14 +1,27 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-} from "../../ui/card";
+import { Card, CardContent } from "../../ui/card";
 import { Link } from "react-router-dom";
-import { differenceInCalendarDays, parseISO } from "date-fns";
+import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { AspectRatio } from "../../ui/aspect-ratio";
 import { Badge } from "../../ui/badge";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../../ui/hover-card";
+import { Button } from "../../ui/button";
+import { CalendarDays, TriangleAlert } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import vmo_avatar from "../../../assets/images/512x512.svg";
 
-const CardCampaign = ({ campaignId, imgSrc, daysLeft, campaignName }) => {
+const CardCampaign = ({
+  campaignId,
+  imgSrc,
+  daysLeft,
+  campaignName,
+  isTransparent,
+  checkTransparentDate,
+}) => {
   const calculateDaysLeft = (endDate) => {
     const today = new Date(); // Ngày hiện tại
     const end = parseISO(endDate); // Chuyển đổi endDate sang định dạng Date
@@ -28,9 +41,49 @@ const CardCampaign = ({ campaignId, imgSrc, daysLeft, campaignName }) => {
                 />
               </AspectRatio>
               <div className="absolute mt-1 ml-1 top-0 left-0 z-10">
-                {/* <Badge variant="secondary">{`Còn ${calculateDaysLeft(
-                  daysLeft
-                )} ngày`}</Badge> */}
+                {isTransparent ? (
+                  <Badge variant="success">{`Chiến dịch minh bạch`}</Badge>
+                ) : (
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        className="p-0 w-full rounded-full"
+                      >
+                        <TriangleAlert /> Chiến dịch này đã bị cấm
+                      </Button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-80">
+                      <div className="flex justify-between space-x-4">
+                        <Avatar>
+                          <AvatarImage src={vmo_avatar} />
+                          <AvatarFallback>VMO</AvatarFallback>
+                        </Avatar>
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-semibold">
+                            Hệ thống VMO
+                          </h4>
+                          <p className="text-sm">
+                            Chúng tôi nhận thấy rằng các hành động và thông tin
+                            trong chiến dịch này không hoàn toàn minh bạch và rõ
+                            ràng.
+                          </p>
+                          <div className="flex items-center pt-2">
+                            <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+                            <span className="text-xs text-muted-foreground">
+                              Đã bị cấm vào{" "}
+                              {format(
+                                new Date(checkTransparentDate),
+                                "dd/MM/yyyy, h:mm:ss a"
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                )}
               </div>
             </div>
             <div className="bg-white w-full px-6">
