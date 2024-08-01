@@ -199,6 +199,7 @@ const CampaignsSection = ({ searchParams }) => {
                   item.processingPhase,
                   item.statementPhase,
                 ]}
+                isTransparent={item.isTransparent}
               />
             ))
           : renderSkeletons()}

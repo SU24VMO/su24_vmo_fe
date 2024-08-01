@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -5,7 +6,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../ui/carousel";
-import React from "react";
 import CustomCardCampaign from "./CustomCardCampaign";
 import { useToast } from "../../../ui/use-toast";
 import { ToastAction } from "../../../ui/toast";
@@ -110,6 +110,7 @@ const CarouselCampaignsVolunteers = () => {
                         item.processingPhase,
                         item.statementPhase,
                       ]}
+                      isTransparent={item.isTransparent}
                     />
                   </div>
                 </CarouselItem>

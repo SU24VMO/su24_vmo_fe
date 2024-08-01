@@ -28,9 +28,9 @@ const CardCampaign = ({ campaignId, imgSrc, daysLeft, campaignName }) => {
                 />
               </AspectRatio>
               <div className="absolute mt-1 ml-1 top-0 left-0 z-10">
-                <Badge variant="secondary">{`Còn ${calculateDaysLeft(
+                {/* <Badge variant="secondary">{`Còn ${calculateDaysLeft(
                   daysLeft
-                )} ngày`}</Badge>
+                )} ngày`}</Badge> */}
               </div>
             </div>
             <div className="bg-white w-full px-6">

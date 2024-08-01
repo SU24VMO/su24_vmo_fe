@@ -3,17 +3,17 @@ import CardCampaign from "./CardCampaign";
 import CampaignCardSkeleton from "./CampaignCardSkeleton";
 
 const Campaigns = ({ campaigns, dataLoaded }) => {
-  console.log("Campaigns lấy được trong volunteer: ", campaigns);
-
   const renderSkeletons = () => {
     return Array.from({ length: 4 }).map((_, index) => (
       <CampaignCardSkeleton key={index} />
     ));
   };
+  const activeCampaigns = campaigns.filter((campaign) => campaign.isActive);
+  console.log("Campaigns lấy được trong volunteer (active): ", activeCampaigns);
   return (
     <div className="grid laptop:grid-cols-2 gap-6 my-3">
       {dataLoaded
-        ? campaigns.map((item, index) => (
+        ? activeCampaigns.map((item, index) => (
             <CardCampaign
               campaignId={item.campaignID}
               key={index}

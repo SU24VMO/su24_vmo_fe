@@ -12,22 +12,9 @@ import {
   Target,
   Clock4,
   MapPin,
-  ExternalLink,
-  MessageSquareWarning,
 } from "lucide-react";
 import { Progress } from "../../ui/progress";
 import { useParams } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../ui/dialog";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import { CopyButton } from "./Feature/CopyButton";
 import CustomAvatarRightCampaignDetail from "./CustomAvatarRightCampaignDetail/CustomAvatarRightCampaignDetail";
 import CustomCreatorCampaignName from "./CustomCreatorCampaignName/CustomCreatorCampaignName";
 import CustomDonateButtonCampaign from "./CustomDonateButtonCampaign/CustomDonateButtonCampaign";
@@ -35,6 +22,7 @@ import CustomCalculateDayLeft from "./CustomCalculateDayLeft/CustomCalculateDayL
 import CustomAlertDialogNotLogin from "./CustomAlertDialogNotLogin/CustomAlertDialogNotLogin";
 import { format } from "date-fns";
 import CustomStepperCampaignDetail from "./CustomStepperCampaignDetail/CustomStepperCampaignDetail";
+import CustomActionButtonCampaign from "./CustomActionButtonCampaign/CustomActionButtonCampaign";
 
 const RightDetailCampaignSection = ({ data }) => {
   const { id: campaignId } = useParams();
@@ -135,56 +123,7 @@ const RightDetailCampaignSection = ({ data }) => {
               data={data}
               setIsDialogOpen={setIsDialogOpen}
             />
-            <div className="w-full flex flex-row items-center justify-end">
-              <div className="flex items-center justify-center">
-                <Dialog>
-                  <DialogTrigger>
-                    <ExternalLink />
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>
-                        Lan tỏa yêu thương đến cộng đồng
-                      </DialogTitle>
-                      <DialogDescription>
-                        Bằng cách chia sẻ chiến dịch{" "}
-                        <span className="font-bold text-black">
-                          {data.name}
-                        </span>
-                        , bạn sẽ góp phần giúp đỡ những hoàn cảnh khó khăn.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="flex">
-                      <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link">
-                          Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch
-                        </Label>
-                        <div className="flex items-center space-x-2">
-                          <Input
-                            id="link"
-                            defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                            disabled
-                          />
-                          <CopyButton
-                            code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-              <div className="flex items-center">
-                <a
-                  href="mailto:vmoreport@gmail.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <MessageSquareWarning className="h-6 w-6 ml-2" />
-                </a>
-              </div>
-            </div>
+            <CustomActionButtonCampaign data={data} campaignId={campaignId} />
           </div>
         </CardFooter>
       </Card>

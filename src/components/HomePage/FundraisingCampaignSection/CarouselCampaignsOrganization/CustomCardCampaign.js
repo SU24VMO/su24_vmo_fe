@@ -1,10 +1,19 @@
+import React from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Badge } from "../../../ui/badge";
 import { Progress } from "../../../ui/progress";
-import React from "react";
 import { AspectRatio } from "../../../ui/aspect-ratio";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
+import vmo_avatar from "../../../../assets/images/512x512.svg";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../../../ui/hover-card";
+import { Button } from "../../../ui/button";
+import { CalendarDays, TriangleAlert } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 
 const CustomCardCampaign = ({
   campaignId,
@@ -16,6 +25,7 @@ const CustomCardCampaign = ({
   progressValue,
   achievedAmount,
   phases,
+  isTransparent,
 }) => {
   // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
   const calculateDaysLeft = (endDate) => {
@@ -28,16 +38,16 @@ const CustomCardCampaign = ({
     (phase) => phase?.isProcessing && !phase?.isEnd
   )?.name;
 
-    // Hàm format số tiền ủng hộ
-    const formatMoney = (money) => {
-      // Ensure money is a string
-      const moneyStr = money.toString();
-      // Remove non-digit characters from the input money
-      const cleanValue = moneyStr.replace(/\D/g, "");
-      // Format the money with thousand separators
-      const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      return formattedValue;
-    };
+  // Hàm format số tiền ủng hộ
+  const formatMoney = (money) => {
+    // Ensure money is a string
+    const moneyStr = money.toString();
+    // Remove non-digit characters from the input money
+    const cleanValue = moneyStr.replace(/\D/g, "");
+    // Format the money with thousand separators
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedValue;
+  };
 
   return (
     <>
@@ -67,13 +77,51 @@ const CustomCardCampaign = ({
                 </div>
               </div>
               <div className="bg-white w-full px-6">
-                {processingPhaseName ? (
-                  <Badge variant="default">{processingPhaseName}</Badge>
+                {isTransparent ? (
+                  processingPhaseName ? (
+                    <Badge variant="default">{processingPhaseName}</Badge>
+                  ) : (
+                    <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
+                  )
                 ) : (
-                  <Badge variant="destructive">Chiến dịch này đã đóng!</Badge>
-                )
-                }
-                <p className="mobile:text-lg font-bold mobile:mt-2 mobile:mb-4">{campaignName}</p>
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Button
+                        variant="link"
+                        className="px-0 py-0 w-full text-red-500 underline"
+                      >
+                        <TriangleAlert /> Chiến dịch này đã bị cấm
+                      </Button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-80">
+                      <div className="flex justify-between space-x-4">
+                        <Avatar>
+                          <AvatarImage src={vmo_avatar} />
+                          <AvatarFallback>VMO</AvatarFallback>
+                        </Avatar>
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-semibold">
+                            Hệ thống VMO
+                          </h4>
+                          <p className="text-sm">
+                            Chúng tôi nhận thấy rằng các hành động và thông tin
+                            trong chiến dịch này không hoàn toàn minh bạch và rõ
+                            ràng.
+                          </p>
+                          <div className="flex items-center pt-2">
+                            <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+                            <span className="text-xs text-muted-foreground">
+                              Đã bị cấm vào 31/07/2024
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                )}
+                <p className="mobile:text-lg font-bold mobile:mt-2 mobile:mb-4">
+                  {campaignName}
+                </p>
                 <p className="text-sm mobile:text-lg mobile:mb-2">
                   Tạo bởi <b>{organizerName}</b>
                 </p>

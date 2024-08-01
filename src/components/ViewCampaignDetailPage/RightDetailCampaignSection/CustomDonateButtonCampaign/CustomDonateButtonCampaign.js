@@ -17,7 +17,7 @@ const CustomDonateButtonCampaign = ({ data, setIsDialogOpen }) => {
 
   return (
     <>
-      {data.donatePhase.isProcessing && data.donatePhase.isEnd === false ? (
+      {data.donatePhase.isProcessing && data.donatePhase.isEnd === false && data.isTransparent === true ? (
         <Button
           variant="green_theme_primary"
           size="lg"

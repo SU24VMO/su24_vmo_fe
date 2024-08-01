@@ -178,6 +178,7 @@ const CampaignsSection = () => {
                   item.processingPhase,
                   item.statementPhase,
                 ]}
+                isTransparent={item.isTransparent}
               />
             ))
           : renderSkeletons()}

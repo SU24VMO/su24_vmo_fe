@@ -14,7 +14,7 @@ const OrganizationManagerInformation = ({ organizationManagerData }) => {
 
   // Hàm xử lý khi click vào các icon mạng xã hội
   const handleSocialMediaRedirect = (link) => {
-    if (link === "" || link === null || link === undefined) {
+    if (link === "" || link === null || link === undefined || link === "string") {
       toast({
         variant: "destructive",
         title: `Quản lý tổ chức chưa thiết lập thông tin này!`,

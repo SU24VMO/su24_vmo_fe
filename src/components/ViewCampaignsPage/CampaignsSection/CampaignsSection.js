@@ -117,12 +117,12 @@ const CampaignsSection = () => {
       selectedCampaignStatus,
       selectedCampaignCreateBy,
       selectedCampaignName,
-      signal,
+      signal
     );
     // Cleanup function
-  return () => {
-    abortController.abort();
-  };
+    return () => {
+      abortController.abort();
+    };
   }, [
     selectedCampaignTypeID,
     selectedCampaignStatus,
@@ -199,6 +199,7 @@ const CampaignsSection = () => {
                   item.processingPhase,
                   item.statementPhase,
                 ]}
+                isTransparent={item.isTransparent}
               />
             ))
           : renderSkeletons()}

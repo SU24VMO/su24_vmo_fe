@@ -114,6 +114,7 @@ const CarouselCampaignsOrganization = () => {
                         item.processingPhase,
                         item.statementPhase,
                       ]}
+                      isTransparent={item.isTransparent}
                     />
                   </div>
                 </CarouselItem>
