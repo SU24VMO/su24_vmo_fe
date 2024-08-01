@@ -46,11 +46,15 @@ const UserAvatar = () => {
               Xem trang cá nhân
             </DropdownMenuItem>
           </Link>
-          <Link to="/editProfile" className="w-full">
-            <DropdownMenuItem className="w-full cursor-pointer">
-              Chỉnh sửa thông tin cá nhân
-            </DropdownMenuItem>
-          </Link>
+          {user.role === "Admin" || user.role === "Moderator" ? (
+            ""
+          ) : (
+            <Link to="/editProfile" className="w-full">
+              <DropdownMenuItem className="w-full cursor-pointer">
+                Chỉnh sửa thông tin cá nhân
+              </DropdownMenuItem>
+            </Link>
+          )}
           <Link to="/changePassword" className="w-full">
             <DropdownMenuItem className="w-full cursor-pointer">
               Đổi mật khẩu
