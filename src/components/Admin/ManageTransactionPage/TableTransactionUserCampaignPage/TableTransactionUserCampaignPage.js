@@ -25,7 +25,6 @@ async function getData(cancelToken,  pageSize, pageNo,sortConfig, campaignName, 
       console.log('Request cancelled:', error.message);
 
     } else {
-      console.error("Error fetching data from API:", error);
       setLoading(false)
 
     }

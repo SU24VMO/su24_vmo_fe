@@ -1,5 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useContext } from "react";
+import { LocationContext } from "../LocationProvider/LocationProvider";
 
 const BASE_URL = "https://vmo.azurewebsites.net";
 
@@ -17,6 +19,13 @@ const axiosPrivate = axios.create({
   // },
 });
 
+const useLocation = () => {
+  const { locationIP, fetchLocation } = useContext(LocationContext);
+  return { locationIP, fetchLocation };
+};
+
+export default useLocation;
+
 axiosPrivate.interceptors.request.use(async (req) => {
   let token = localStorage.getItem("accessToken") || null;
 
@@ -29,11 +38,21 @@ axiosPrivate.interceptors.request.use(async (req) => {
 
   // Check if the token is expired
   if (decodedToken.exp < currentTime) {
+    const { locationIP, fetchLocation } = useLocation();
+    await fetchLocation()
     if (!refreshTokenPromise) {
       refreshTokenPromise = axios.post(
         `${BASE_URL}/api/authentication/refresh-token`,
         {
           refreshToken: localStorage.getItem("refreshToken"),
+          latitude: locationIP.latitude,
+          longitude: locationIP.longitude,
+          road: locationIP.road,
+          suburb: locationIP.suburb,
+          city: locationIP.city,
+          country: locationIP.country,
+          postcode: locationIP.postcode,
+          country_code: locationIP.country_code,
         }
       );
     }
@@ -63,16 +82,30 @@ axiosPrivate.interceptors.request.use(async (req) => {
 
 axiosPrivate.interceptors.response.use(
   (response) => response,
+
   async (error) => {
     const originalRequest = error.config;
 
+
     if (error.response && error.response.status === 401) {
+      const { locationIP, fetchLocation } = useLocation();
+      await fetchLocation()
+
       try {
         if (!refreshTokenPromise) {
           refreshTokenPromise = axios.post(
             `${BASE_URL}/api/authentication/refresh-token`,
             {
               refreshToken: localStorage.getItem("refreshToken"),
+              latitude: locationIP.latitude,
+              longitude: locationIP.longitude,
+              road: locationIP.road,
+              suburb: locationIP.suburb,
+              city: locationIP.city,
+              country: locationIP.country,
+              postcode: locationIP.postcode,
+              country_code: locationIP.country_code,
+
             }
           );
         }

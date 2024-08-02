@@ -5,7 +5,6 @@ import SearchBarNav from "./NavigationBar/Feature/SearchBarNav";
 import UserAvatarNav from "./NavigationBar/Feature/UserAvatarNav";
 
 import { Outlet } from "react-router-dom";
-import GetIPLocation from "../../GetIPLocation/GetIPLocation";
 
 const Admin = () => {
   return (
@@ -26,7 +25,6 @@ const Admin = () => {
         {/* Body */}
         <main className="flex flex-1 flex-col gap-4 p-4 mobile:gap-8 mobile:p-8">
           <Outlet />
-          {/* <GetIPLocation/> */}
         </main>
       </div>
     </div>

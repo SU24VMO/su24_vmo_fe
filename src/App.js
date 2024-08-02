@@ -80,6 +80,7 @@ import UpdateCampaignVolunteerPage from "./components/UpdateCampaignVolunteerPag
 import UpdateActivityVolunteerPage from "./components/UpdateActivityVolunteerPage/UpdateActivityVolunteerPage";
 import ManageBankingCampaignPage from "./components/Admin/ManageBankingCampaignPage/ManageBankingCampaignPage";
 import ManageTransactionPage from "./components/Admin/ManageTransactionPage/ManageTransactionPage";
+import { LocationProvider } from "./LocationProvider/LocationProvider";
 
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
           <meta name="description" content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn" />
           <meta name="keywords" content="VMO, tình nguyện, mô hình, giúp đỡ" />
         </Helmet>
+        <LocationProvider>
         <AuthProvider>
           <ShowNavBarFooter>
             {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
@@ -235,7 +237,7 @@ function App() {
             <Footer />
           <Toaster />
         </AuthProvider>
-
+        </LocationProvider>
       </BrowserRouter>
     </div>
   );

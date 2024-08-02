@@ -1,10 +1,11 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { axiosPrivate, axiosPublic } from "../api/axiosInstance";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GET_ACCOUNT_BY_ID, LOGIN, REGISTER } from "../api/apiConstants";
 import { jwtDecode } from "jwt-decode"; // Note the import style
 import { useToast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
+import { LocationContext } from "../LocationProvider/LocationProvider";
 
 export const AuthContext = createContext();
 
@@ -31,6 +32,7 @@ const AuthProvider = ({ children }) => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  const { locationIP, fetchLocation } = useContext(LocationContext);
   const registerAction = async (
     email,
     password,
@@ -129,12 +131,12 @@ const AuthProvider = ({ children }) => {
               accountInformation.data.data.role === 0
                 ? "Admin"
                 : accountInformation.data.data.role === 1
-                ? "Member"
-                : accountInformation.data.data.role === 2
-                ? "Volunteer"
-                : accountInformation.data.data.role === 3
-                ? "OrganizationManager"
-                : "Moderator",
+                  ? "Member"
+                  : accountInformation.data.data.role === 2
+                    ? "Volunteer"
+                    : accountInformation.data.data.role === 3
+                      ? "OrganizationManager"
+                      : "Moderator",
           };
           // Cập nhật localStorage với thông tin người dùng đã cập nhật
           localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -154,6 +156,9 @@ const AuthProvider = ({ children }) => {
   };
 
   const loginAction = async (account, password) => {
+
+    await fetchLocation();
+
     toast({
       title: "Đang đăng nhập...",
       description: "Vui lòng chờ đợi trong giây lát !",
@@ -164,6 +169,14 @@ const AuthProvider = ({ children }) => {
       const response = await axiosPublic.post(LOGIN, {
         account: account,
         password: password,
+        latitude: locationIP.latitude,
+        longitude: locationIP.longitude,
+        road: locationIP.road,
+        suburb: locationIP.suburb,
+        city: locationIP.city,
+        country: locationIP.country,
+        postcode: locationIP.postcode,
+        country_code: locationIP.country_code,
       });
 
       if (response.status === 200) {
