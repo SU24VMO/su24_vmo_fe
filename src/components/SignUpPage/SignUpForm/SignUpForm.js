@@ -16,76 +16,72 @@ import { useStepper } from "../../ui/stepper";
 
 const SignUpForm = ({ setSignUpInformation, setOTP }) => {
   const { nextStep } = useStepper();
-  const { toast } = useToast(); 
+  const { toast } = useToast();
   //State để show/hide password
   const [showPassword, setShowPassword] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   //Function để toggle show/hide password
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
- // Handle form submission
- async function handleSubmit(values, setSubmitting, setLoading) {
-  try {
-    toast({
-      title: "Đang xử lý...",
-      description: "Vui chờ trong giây lát!",
-      action: <ToastAction altText="undo">Ẩn</ToastAction>,
-    });
-    setLoading(true); // Start loading
-    // Step 4: Make the API call to update the user information
-    const response = await axiosPublic.post(
-      REGISTER_SEND_OTP,
-      {
-        email: values.email, 
-        password: values.password, 
-        username: values.username, 
-        phoneNumber: values.phoneNumber, 
-        firstName: values.firstName, 
-        lastName: values.lastName, 
-        gender: values.gender, 
-        avatar: values.avatar, 
-        facebookUrl: values.facebookUrl, 
-        youtubeUrl: values.youtubeUrl, 
-        tiktokUrl: values.tiktokUrl, 
-        birthday: values.birthday, 
-        accountType: values.accountType
-      }
-    );
-    if (response.status === 200) {
+  // Handle form submission
+  async function handleSubmit(values, setSubmitting, setLoading) {
+    try {
       toast({
-        title: "Lấy mã OTP thành công!",
-        description: "Vui lòng kiểm tra mã OTP đã gửi tới email của bạn!",
+        title: "Đang xử lý...",
+        description: "Vui chờ trong giây lát!",
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
-      console.log("Get OTP successfully: ", response.data);
-      setOTP(response.data.data);
-      setSignUpInformation(values);
-      nextStep(); // Move to the next step
-    } else {
-      // Handle any other status code appropriately
+      setLoading(true); // Start loading
+      // Step 4: Make the API call to update the user information
+      const response = await axiosPublic.post(REGISTER_SEND_OTP, {
+        email: values.email,
+        password: values.password,
+        username: values.username,
+        phoneNumber: values.phoneNumber,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        gender: values.gender,
+        avatar: values.avatar,
+        facebookUrl: values.facebookUrl,
+        youtubeUrl: values.youtubeUrl,
+        tiktokUrl: values.tiktokUrl,
+        birthday: values.birthday,
+        accountType: values.accountType,
+      });
+      if (response.status === 200) {
+        toast({
+          title: "Lấy mã OTP thành công!",
+          description: "Vui lòng kiểm tra mã OTP đã gửi tới email của bạn!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Get OTP successfully: ", response.data);
+        setOTP(response.data.data);
+        setSignUpInformation(values);
+        nextStep(); // Move to the next step
+      } else {
+        // Handle any other status code appropriately
+        toast({
+          variant: "destructive",
+          title: "Có lỗi xảy ra !",
+          description: "Vui lòng thử lại!",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+        console.log("Failed to update profile");
+      }
+    } catch (error) {
+      // Handle error (e.g., show an error message)
       toast({
         variant: "destructive",
         title: "Có lỗi xảy ra !",
-        description: "Vui lòng thử lại!",
+        description: "Lỗi: " + error.response.data.message,
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
-      console.log("Failed to update profile");
+      console.error("Error get OTP:", error);
+    } finally {
+      setLoading(false); // Stop loading regardless of the outcome
+      setSubmitting(false); // Set Formik submitting to false
     }
-  } catch (error) {
-    // Handle error (e.g., show an error message)
-    toast({
-      variant: "destructive",
-      title: "Có lỗi xảy ra !",
-      description: "Lỗi: " + error.response.data.message,
-      action: <ToastAction altText="undo">Ẩn</ToastAction>,
-    });
-    console.error("Error get OTP:", error);
-  } finally {
-    setLoading(false); // Stop loading regardless of the outcome
-    setSubmitting(false); // Set Formik submitting to false
   }
-}
-
 
   return (
     <>
@@ -176,10 +172,13 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
           // UserName validation
           if (!values.username) {
             errors.username = "Không được để trống!";
-          } else if (!/^[a-z0-9_-]{3,16}$/.test(values.username)) {
-            errors.username =
-              "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu, chữ cái viết hoa. Ví dụ: abc_123";
+          } else if (/\s/.test(values.username)) {
+            errors.username = "Tên đăng nhập không được chứa khoảng trắng.";
           }
+          // else if (!/^[a-z0-9_-]{3,16}$/.test(values.username)) {
+          //   errors.username =
+          //     "Tên đăng nhập phải bao gồm chuỗi và số từ 3 đến 16 ký tự chỉ được thêm kí tự '-' hoặc '_', không được để dấu, chữ cái viết hoa. Ví dụ: abc_123";
+          // }
 
           return errors;
         }}
@@ -353,7 +352,12 @@ const SignUpForm = ({ setSignUpInformation, setOTP }) => {
                 </p>
               </div>
 
-              <Button variant="green_theme_primary" type="submit" className="w-full" disabled={loading}>
+              <Button
+                variant="green_theme_primary"
+                type="submit"
+                className="w-full"
+                disabled={loading}
+              >
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
