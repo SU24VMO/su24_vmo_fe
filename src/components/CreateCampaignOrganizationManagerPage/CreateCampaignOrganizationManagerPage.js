@@ -85,9 +85,7 @@ export default function CreateCampaignOrganizationManagerPage() {
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
-        formData.append('QRCode', data.imageQRCode);
-
-        // Thêm các trường dữ liệu văn bản vào formData
+        formData.append('QRCode', data.imageQRCode); 
         formData.append('Name', data.nameOfCampaign);
         formData.append('Address', data.address);
         formData.append('CampaignTypeId', data.typeOfCampaign);
@@ -318,7 +316,7 @@ export default function CreateCampaignOrganizationManagerPage() {
                                                 src={fileImageBackground} width={220} height={220} alt="avatar" />
                                             <button type="button"
                                                 onClick={(e) => { removeImageBackground(e, setFieldValue) }}
-                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove Image</button>
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
 
                                         </div> : <label for="imageBackgroundFile" class="flex flex-col items-center justify-center w-2/3 tablet:w-4/5 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">

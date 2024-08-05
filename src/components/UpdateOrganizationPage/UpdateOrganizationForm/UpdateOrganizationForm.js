@@ -101,7 +101,6 @@ export default function UpdateOrganizationForm() {
       behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
     });
     getRequestOrganization(id);
-    console.log("the hell");
   }, []);
 
 
@@ -112,8 +111,6 @@ export default function UpdateOrganizationForm() {
       formData.append('OrganizationName', data.OrganizationName);
       formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail);
       formData.append('OrganizationTaxCode', data.OrganizationTaxCode);
-
-      // Thêm các trường dữ liệu văn bản vào formData
       formData.append('FoundingDate', data.FoundingDate);
       formData.append('SocialMediaLink', data.SocialMediaLink);
       formData.append('AreaOfActivity', data.AreaOfActivity);

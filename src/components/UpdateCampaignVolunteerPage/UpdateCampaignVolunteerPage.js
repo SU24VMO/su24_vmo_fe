@@ -163,7 +163,6 @@ export default function UpdateCampaignVolunteerPage() {
             behavior: 'smooth' // Tạo hiệu ứng cuộn nhẹ
         });
         getRequestCampaign(id);
-        console.log("the hell");
     }, []);
 
 
@@ -175,8 +174,6 @@ export default function UpdateCampaignVolunteerPage() {
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
         formData.append('QRCode', data.imageQRCode);
-
-        // Thêm các trường dữ liệu văn bản vào formData
         formData.append('Name', data.nameOfCampaign);
         formData.append('Address', data.address);
         formData.append('CampaignTypeId', data.typeOfCampaign);

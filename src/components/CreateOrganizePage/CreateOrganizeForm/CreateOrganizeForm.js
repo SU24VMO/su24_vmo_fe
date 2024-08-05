@@ -38,8 +38,6 @@ export default function CreateOrganizeForm() {
       formData.append('OrganizationName', data.OrganizationName);
       formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail);
       formData.append('OrganizationTaxCode', data.OrganizationTaxCode);
-
-      // Thêm các trường dữ liệu văn bản vào formData
       formData.append('FoundingDate', data.FoundingDate);
       formData.append('SocialMediaLink', data.SocialMediaLink);
       formData.append('AreaOfActivity', data.AreaOfActivity);

@@ -7,17 +7,11 @@ import {
   CardTitle,
 } from "../../ui/card";
 import {
-  Activity,
-  ArrowUpRight,
   Building2,
-  CreditCard,
-  DollarSign,
   HeartHandshake,
   User,
   Users,
 } from "lucide-react";
-import { Button } from "../../ui/button";
-import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -26,12 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import { Badge } from "../../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETALLACCOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER, GETNUMBERACCOUNT } from "../../../api/apiConstants";
+import { GETALLACCOUNT, GETALLAMOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER, GETNUMBERACCOUNT } from "../../../api/apiConstants";
 import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
@@ -45,6 +38,7 @@ const ModeratorHomePage = () => {
   const [numberOrganization, setNumberOrganization] = useState();
   const [numberVolunteer, setNumberVolunteer] = useState();
   const [transactionRecently, setTransactionRecently] = useState([]);
+  const [numberAmount, setNumberAmount] = useState();
 
 
 
@@ -67,17 +61,16 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -89,7 +82,7 @@ const ModeratorHomePage = () => {
         signal: controller.signal
       });
       if (response.status === 200) {
-      
+
         setDataAccount(response?.data?.data?.list.slice(0, 7));
 
       } else {
@@ -101,16 +94,16 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -132,16 +125,16 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -163,16 +156,16 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -194,16 +187,16 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -225,21 +218,21 @@ const ModeratorHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
 
-  //bế cái fetch ra ngoài thì load ngon nhưng mà cancel có vẻ ko hoạt động
+  //useEffect để dữ liệu refresh lại
 
   useEffect(() => {
     const controller = new AbortController();
@@ -248,20 +241,22 @@ const ModeratorHomePage = () => {
       top: 0,
       behavior: 'smooth'
     });
+    //Xác nhận component này mounted thì bắt đầu gọi fetch
+
     let isMounted = true;
 
     const fetchData = async () => {
 
       try {
         if (isMounted) setLoading(true);
-
+        //bắt đầu tạo promise duy nhất 
         await Promise.allSettled([
           getNumberAccount(controller),
           getAllOrganization(controller),
           getAllAccount(controller),
           getAllCampaign(controller),
           getAllTransaction(controller),
-          getAllVolunteer(controller)
+          getAllVolunteer(controller),
         ]);
 
 
@@ -280,10 +275,9 @@ const ModeratorHomePage = () => {
     };
 
   }, []);
+
   useEffect(() => {
-    console.log('====================================');
-    console.log("loading: ", loading);
-    console.log('====================================');
+
   }, [loading])
 
   const formatAmount = (value) => {
@@ -306,7 +300,7 @@ const ModeratorHomePage = () => {
             />
           </Helmet>
           <span className="font-bold text-2xl">Thống kê số liệu</span>
-          {/* CARD FULL*/}
+          {/*Thống kê header*/}
           <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4" >
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -360,8 +354,9 @@ const ModeratorHomePage = () => {
               </CardContent>
             </Card>
           </div>
-          {/* CARD 2 */}
+          {/*Thống kê footer*/}
           <div className="grid gap-4 mobile:gap-8 laptop:grid-cols-3">
+            {/* Giao dịch */}
             <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
               <CardHeader className="flex flex-row items-center">
                 <div className="grid gap-2">
@@ -370,12 +365,8 @@ const ModeratorHomePage = () => {
                     Giao dịch gần đây
                   </CardDescription>
                 </div>
-                {/* <Button asChild size="sm" className="ml-auto gap-1">
-                  <Link to="#">
-                    Xem tất cả
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
-                </Button> */}
+               
+
               </CardHeader>
               <CardContent>
                 <Table>
@@ -404,6 +395,7 @@ const ModeratorHomePage = () => {
                 </Table>
               </CardContent>
             </Card>
+            {/* Tài khoản mới tạo gần đây */}
             <Card x-chunk="dashboard-01-chunk-5">
               <CardHeader>
                 <CardTitle>Tài khoản</CardTitle>

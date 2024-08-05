@@ -4,7 +4,6 @@ import { columns } from "./Columns";
 
 import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import EditBankingCampaignForm from "../../ManageBankingCampaignPage/Feature/EditBankingCampaignForm";
 import ViewImage from "../Feature/ViewImage";
 
 async function getData(cancelToken,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
@@ -97,6 +96,7 @@ const [campaignName, setCampaignName] = useState("")
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();

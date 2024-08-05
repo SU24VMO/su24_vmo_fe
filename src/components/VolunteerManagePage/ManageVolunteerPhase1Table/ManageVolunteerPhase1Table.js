@@ -1,4 +1,4 @@
-import React, { useContext,useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "../ManageVolunteerPhase1Table/DataTable";
 import { columns } from "../ManageVolunteerPhase1Table/Columns";
 import { Helmet } from "react-helmet";
@@ -9,11 +9,11 @@ import { GETALLPHASE123BYVOLUNTEER } from "../../../api/apiConstants";
 import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerSlideBar";
 import ExtendDonatePhase from "./Feature/ExtendDonatePhase";
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
 
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
-    
+
     const encoded = normalizeAndEncode(campaignName);
     const response = await axiosPrivate.get(GETALLPHASE123BYVOLUNTEER + `${user.member_id}/donate-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
@@ -39,7 +39,7 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaign
 
 const ManageVolunteerPhase1Table = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
   const [loading, setLoading] = useState(true);
@@ -54,16 +54,16 @@ const ManageVolunteerPhase1Table = () => {
 
   const [campaignName, setCampaignName] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo,campaignName, sortConfig) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo,sortConfig,campaignName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-       
+
     }
   };
 
@@ -80,59 +80,60 @@ const ManageVolunteerPhase1Table = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,campaignName, sortConfig]);
+  }, [pageSize, pageNo, campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
   };
 
   return (
     <>
-       <Helmet>
+      <Helmet>
         <title>Quản lý giai đoạn ủng hộ • VMO</title>
         <meta
           name="description"
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto min-h-screen">
-      <ManageVolunteerSlideBar/>
-      <div>
-        <ExtendDonatePhase
-          isOpen={isDialogOpen}
-          row={selectedRow}
-          onOpenChange={(value) => {
-            setIsDialogOpen(value);
-            if (!value) {
-              setSelectedRow(null);
-            }
-          }}
-          onSubmitSuccess={handleRefresh}
+      <div className="w-3/4 mx-auto min-h-screen">
+        <ManageVolunteerSlideBar />
+        <div>
+          <ExtendDonatePhase
+            isOpen={isDialogOpen}
+            row={selectedRow}
+            onOpenChange={(value) => {
+              setIsDialogOpen(value);
+              if (!value) {
+                setSelectedRow(null);
+              }
+            }}
+            onSubmitSuccess={handleRefresh}
 
+          />
+        </div>
+        <DataTable
+          columns={columns({ onSort })}
+          setCampaignName={setCampaignName}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
         />
       </div>
-      <DataTable 
-      columns={columns({onSort})}
-      setCampaignName={setCampaignName}
-      data={data}
-      loading={loading}
-      list={list}
-      pageSize={pageSize}
-      pageNo={pageNo}
-      setPageSize={setPageSize}
-      setPageNo={setPageNo}
-      totalPages={totalPages}
-       />
-    </div>
     </>
   );
 };

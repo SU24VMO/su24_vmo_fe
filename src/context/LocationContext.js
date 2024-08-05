@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
-import { axiosPublic } from "../api/axiosInstance";
+import { toast } from "../components/ui/use-toast";
+import { ToastAction } from "../components/ui/toast";
 
 const LocationContext = createContext();
 
@@ -20,12 +22,10 @@ const LocationProvider = ({ children }) => {
       navigator.geolocation.getCurrentPosition(async (pos) => {
         const { latitude, longitude } = pos.coords;
         try {
-          const response = await axiosPublic.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
           if (response.status === 200) {
             const data = response?.data;
-            console.log('====================================');
-            console.log(data);
-            console.log('====================================');
+
             setLocationIP({
               latitude: data.lat,
               longitude: data.lon,
@@ -36,17 +36,24 @@ const LocationProvider = ({ children }) => {
               postcode: data.address?.postcode || '',
               country_code: data.address?.country_code || '',
             });
-            resolve(); 
-          } else {
-            reject(new Error('Không thể tìm nạp dữ liệu vị trí'));
+            resolve();
           }
         } catch (error) {
-          console.error("Lỗi khi tìm nạp dữ liệu vị trí: ", error);
-          reject(error);
+          reject(error)
+
         }
       }, (error) => {
-        console.error("Lỗi nhận vị trí địa lý: ", error);
-        reject(error);
+
+        if (error.code === error.PERMISSION_DENIED) {
+          toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: 'Vui lòng cho phép truy cập vị trí của bạn!',
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+
+        }
+
       });
     });
   };

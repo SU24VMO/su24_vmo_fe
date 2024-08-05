@@ -25,8 +25,6 @@ const UserAvatarNav = () => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Cài đặt</DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red-500"
             onClick={() => {

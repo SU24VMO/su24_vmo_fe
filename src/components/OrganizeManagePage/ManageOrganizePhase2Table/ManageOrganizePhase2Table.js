@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
@@ -10,12 +10,12 @@ import { AuthContext } from "../../../context/AuthContext";
 import { GETALLPHASE123BYOM } from "../../../api/apiConstants";
 import ConfirmDialog from "./Feature/ConfirmDialog";
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
 
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(campaignName);
+    const encoded = normalizeAndEncode(campaignName);
     const response = await axiosPrivate.get(GETALLPHASE123BYOM + `${user.organization_manager_id}/processing-phase/processing-status?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -41,7 +41,7 @@ const ManageOrganizePhase2Table = () => {
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [pageNo, setPageNo] = useState(1);
@@ -53,16 +53,16 @@ const ManageOrganizePhase2Table = () => {
   });
   const [campaignName, setCampaignName] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo,campaignName, sortConfig) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo,sortConfig,campaignName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      
+
     }
   };
 
@@ -79,12 +79,12 @@ const ManageOrganizePhase2Table = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,campaignName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,campaignName, sortConfig]);
+  }, [pageSize, pageNo, campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -94,6 +94,7 @@ const ManageOrganizePhase2Table = () => {
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -108,9 +109,9 @@ const ManageOrganizePhase2Table = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto min-h-screen">
-      <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <ConfirmDialog
+      <div className="w-3/4 mx-auto min-h-screen">
+        <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+        <ConfirmDialog
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {
@@ -122,19 +123,19 @@ const ManageOrganizePhase2Table = () => {
           onSubmitSuccess={handleRefresh}
 
         />
-      <DataTable
-      columns={columns({onSort, onConfirm})}
-      setCampaignName={setCampaignName}
-      data={data}
-      loading={loading}
-      list={list}
-      pageSize={pageSize}
-      pageNo={pageNo}
-      setPageSize={setPageSize}
-      setPageNo={setPageNo}
-      totalPages={totalPages}
-       />
-    </div>
+        <DataTable
+          columns={columns({ onSort, onConfirm })}
+          setCampaignName={setCampaignName}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   );
 };

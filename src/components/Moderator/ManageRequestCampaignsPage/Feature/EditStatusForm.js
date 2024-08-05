@@ -299,10 +299,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="approved_by">Người duyệt</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {campaigns?.moderator ? (campaigns.moderator?.firstName + campaigns.moderator?.lastName) : "Chưa có"}
+                    {campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={campaigns?.moderator ? (campaigns.moderator?.firstName + campaigns.moderator?.lastName) : "Chưa có"}
+                    code={campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
                   />
                 </div>
               </div>

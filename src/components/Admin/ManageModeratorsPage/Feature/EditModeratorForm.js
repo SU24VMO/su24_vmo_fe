@@ -26,7 +26,6 @@ import { format } from "date-fns";
 
 const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess }) => {
   const { toast } = useToast();
-  // Formik setup
   const [loading, setLoading] = useState(false)
 
   const updateStatus = async (accountID, isActived) => {

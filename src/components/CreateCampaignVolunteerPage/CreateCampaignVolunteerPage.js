@@ -93,8 +93,6 @@ export default function CreateCampaignVolunteerPage() {
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
         formData.append('QRCode', data.imageQRCode);
-
-        // Thêm các trường dữ liệu văn bản vào formData
         formData.append('Name', data.nameOfCampaign);
         formData.append('Address', data.address);
         formData.append('CampaignTypeId', data.typeOfCampaign);
@@ -293,10 +291,6 @@ export default function CreateCampaignVolunteerPage() {
 
             }) => (
                 <form onSubmit={handleSubmit}>
-                    {/* <div className="bg-orange-300 w-full h-14 flex justify-center items-center  ">
-                        <h1 className="text-sm mobile:text-2xl laptop:text-2xl font-medium">Tạo chiến dịch của bạn!</h1>
-                    </div> */}
-
                     <div className="w-4/5 mx-auto rounded-xl">
                         <div className="grid gap-6 grid-cols-1 laptop:grid-cols-3 ">
 

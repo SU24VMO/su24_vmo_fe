@@ -94,11 +94,11 @@ const ManageVolunteerAllActivitiesTable = () => {
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const onConfirm = React.useCallback((row) => {
-    // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();

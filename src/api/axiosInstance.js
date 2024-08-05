@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useContext } from "react";
-import { LocationContext } from "../LocationProvider/LocationProvider";
+import { toast } from "../components/ui/use-toast";
+import { ToastAction } from "../components/ui/toast";
 
 const BASE_URL = "https://vmo.azurewebsites.net";
 
@@ -11,7 +11,8 @@ const axiosPublic = axios.create({
 
 // let token = localStorage.getItem("accessToken") || null;
 let refreshTokenPromise = null;
-
+let locationCache = null;
+let locationFetchPromise = null;
 const axiosPrivate = axios.create({
   baseURL: BASE_URL,
   // headers: {
@@ -19,13 +20,68 @@ const axiosPrivate = axios.create({
   // },
 });
 
-const useLocation = () => {
-  const { locationIP, fetchLocation } = useContext(LocationContext);
-  return { locationIP, fetchLocation };
+// Hàm lấy dữ liệu location 
+const fetchLocation = async () => {
+  if (locationCache) {
+    return locationCache;
+  }
+  if (locationFetchPromise) {
+    console.log(locationFetchPromise);
+
+    return locationFetchPromise;
+  }
+
+  locationFetchPromise = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const { latitude, longitude } = pos.coords;
+      try {
+        const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        if (response.status === 200) {
+          const data = response?.data;
+          console.log("Location fetched: ", data);
+          locationCache = {
+            latitude: data.lat,
+            longitude: data.lon,
+            road: data.address?.road || '',
+            suburb: data.address?.suburb || '',
+            city: data.address?.city || '',
+            country: data.address?.country || '',
+            postcode: data.address?.postcode || '',
+            country_code: data.address?.country_code || '',
+          };
+          resolve(locationCache);
+          locationFetchPromise = null;  // Reset the promise
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Đã xảy ra lỗi!",
+            description: 'Không thể tìm nạp dữ liệu vị trí!',
+            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          });
+          reject(new Error('Không thể tìm nạp dữ liệu vị trí!'));
+        }
+      } catch (error) {
+        reject(error)
+
+      }
+    }, (error) => {
+      if (error.code === error.PERMISSION_DENIED) {
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: 'Vui lòng cho phép truy cập vị trí của bạn!',
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+
+      }
+
+    });
+  });
+
+  return locationFetchPromise;
 };
 
-export default useLocation;
-
+// Trả về location 
 axiosPrivate.interceptors.request.use(async (req) => {
   let token = localStorage.getItem("accessToken") || null;
 
@@ -38,21 +94,15 @@ axiosPrivate.interceptors.request.use(async (req) => {
 
   // Check if the token is expired
   if (decodedToken.exp < currentTime) {
-    const { locationIP, fetchLocation } = useLocation();
-    await fetchLocation()
+
+    locationCache = await fetchLocation();
+
     if (!refreshTokenPromise) {
       refreshTokenPromise = axios.post(
         `${BASE_URL}/api/authentication/refresh-token`,
         {
           refreshToken: localStorage.getItem("refreshToken"),
-          latitude: locationIP.latitude,
-          longitude: locationIP.longitude,
-          road: locationIP.road,
-          suburb: locationIP.suburb,
-          city: locationIP.city,
-          country: locationIP.country,
-          postcode: locationIP.postcode,
-          country_code: locationIP.country_code,
+          ...locationCache,
         }
       );
     }
@@ -60,7 +110,7 @@ axiosPrivate.interceptors.request.use(async (req) => {
     try {
       const response = await refreshTokenPromise;
       refreshTokenPromise = null;
-
+      locationCache = null
       const newAccessToken = response.data.data.accessToken;
       const newRefreshToken = response.data.data.refreshToken;
 
@@ -88,8 +138,8 @@ axiosPrivate.interceptors.response.use(
 
 
     if (error.response && error.response.status === 401) {
-      const { locationIP, fetchLocation } = useLocation();
-      await fetchLocation()
+
+      locationCache = await fetchLocation();
 
       try {
         if (!refreshTokenPromise) {
@@ -97,14 +147,7 @@ axiosPrivate.interceptors.response.use(
             `${BASE_URL}/api/authentication/refresh-token`,
             {
               refreshToken: localStorage.getItem("refreshToken"),
-              latitude: locationIP.latitude,
-              longitude: locationIP.longitude,
-              road: locationIP.road,
-              suburb: locationIP.suburb,
-              city: locationIP.city,
-              country: locationIP.country,
-              postcode: locationIP.postcode,
-              country_code: locationIP.country_code,
+              ...locationCache,
 
             }
           );
@@ -112,7 +155,7 @@ axiosPrivate.interceptors.response.use(
 
         const response = await refreshTokenPromise;
         refreshTokenPromise = null;
-
+        locationCache = null
         const newAccessToken = response.data.data.accessToken;
         const newRefreshToken = response.data.data.refreshToken;
 

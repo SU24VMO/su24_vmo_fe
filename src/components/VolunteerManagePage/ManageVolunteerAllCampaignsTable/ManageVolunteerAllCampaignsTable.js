@@ -10,11 +10,11 @@ import ManageVolunteerSlideBar from "../ManageVolunteerSlideBar/ManageVolunteerS
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
-  console.log("campaignName truyền vào: " , campaignName);
+  console.log("campaignName truyền vào: ", campaignName);
 
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
-    
+
     const encoded = normalizeAndEncode(campaignName);
     const response = await axiosPrivate.get(GETALLCAMPAIGNBYVOLUNTEERID + `${user.member_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
@@ -58,7 +58,7 @@ const ManageVolunteerAllCampaignsTable = () => {
 
   const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig,campaignName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -98,6 +98,7 @@ const ManageVolunteerAllCampaignsTable = () => {
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -114,7 +115,7 @@ const ManageVolunteerAllCampaignsTable = () => {
         />
       </Helmet>
       <div className="w-3/4 mx-auto min-h-screen">
-        <ManageVolunteerSlideBar/>
+        <ManageVolunteerSlideBar />
         <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}

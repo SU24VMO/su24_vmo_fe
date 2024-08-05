@@ -98,6 +98,7 @@ const ManageOrganizePhase3Table = () => {
   }, []);
 
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();

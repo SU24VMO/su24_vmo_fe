@@ -6,28 +6,37 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import EditBankingCampaignForm from "../Feature/EditBankingCampaignForm";
 
-async function getData(cancelToken,  pageSize, pageNo,sortConfig, campaignName, setLoading) {
+async function getData(
+  cancelToken,
+  pageSize,
+  pageNo,
+  sortConfig,
+  campaignName,
+  setLoading
+) {
   try {
-    const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
+    const normalizeAndEncode = (str) =>
+      encodeURIComponent(str.normalize("NFC"));
 
-    const encoded= normalizeAndEncode(campaignName);
-    const response = await axiosPrivate.get(`/api/campaign/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
-      cancelToken: cancelToken
-    });
+    const encoded = normalizeAndEncode(campaignName);
+    const response = await axiosPrivate.get(
+      `/api/campaign/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`,
+      {
+        cancelToken: cancelToken,
+      }
+    );
 
     if (response.status === 200) {
-      console.log('Fetched data:', response.data.data);
-      setLoading(false)
+      console.log("Fetched data:", response.data.data);
+      setLoading(false);
       return response.data.data;
     }
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request cancelled:', error.message);
-
+      console.log("Request cancelled:", error.message);
     } else {
       console.error("Error fetching data from API:", error);
-      setLoading(false)
-
+      setLoading(false);
     }
   }
 
@@ -44,34 +53,43 @@ const TableBankingCampaignPage = () => {
   const [list, setList] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
   const [sortConfig, setSortConfig] = useState({
-    orderByProperty: '',
-    orderByDirection: 'asc',
+    orderByProperty: "",
+    orderByDirection: "asc",
   });
 
-const [campaignName, setCampaignName] = useState("")
-
+  const [campaignName, setCampaignName] = useState("");
 
   const onEdit = React.useCallback((row) => {
-    // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog
     setSelectedRow(row);
   }, []);
 
   const onDelete = React.useCallback((row) => {
-    // Implement delete logic here.
     alert(`Deleting user with ID: ${row.account_id}`);
   }, []);
 
-  const fetchData = async (cancelToken, pageSize, pageNo, campaignName, sortConfig) => {
+  const fetchData = async (
+    cancelToken,
+    pageSize,
+    pageNo,
+    campaignName,
+    sortConfig
+  ) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig, campaignName,  setLoading);
+      const result = await getData(
+        cancelToken,
+        pageSize,
+        pageNo,
+        sortConfig,
+        campaignName,
+        setLoading
+      );
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-     
     }
   };
 
@@ -80,8 +98,10 @@ const [campaignName, setCampaignName] = useState("")
       orderByProperty: property,
       orderByDirection:
         prevConfig.orderByProperty === property
-          ? (prevConfig.orderByDirection === 'asc' ? 'desc' : 'asc')
-          : 'asc',
+          ? prevConfig.orderByDirection === "asc"
+            ? "desc"
+            : "asc"
+          : "asc",
     }));
   };
 
@@ -91,12 +111,13 @@ const [campaignName, setCampaignName] = useState("")
     fetchData(source.token, pageSize, pageNo, campaignName, sortConfig);
 
     return () => {
-      source.cancel('Component unmounted');
+      source.cancel("Component unmounted");
     };
-  }, [pageSize, pageNo, campaignName,  sortConfig]);
+  }, [pageSize, pageNo, campaignName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -115,20 +136,19 @@ const [campaignName, setCampaignName] = useState("")
             }
           }}
           onSubmitSuccess={handleRefresh}
-
         />
       </div>
-      <DataTable 
-      columns={columns({ onEdit, onDelete, onSort })} 
-      setCampaignName={setCampaignName}
-      data={data}
-      loading={loading}
-      list={list}
-      pageSize={pageSize}
-      pageNo={pageNo}
-      setPageSize={setPageSize}
-      setPageNo={setPageNo}
-      totalPages={totalPages}
+      <DataTable
+        columns={columns({ onEdit, onDelete, onSort })}
+        setCampaignName={setCampaignName}
+        data={data}
+        loading={loading}
+        list={list}
+        pageSize={pageSize}
+        pageNo={pageNo}
+        setPageSize={setPageSize}
+        setPageNo={setPageNo}
+        totalPages={totalPages}
       />
     </div>
   );

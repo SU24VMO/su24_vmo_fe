@@ -25,12 +25,13 @@ import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
 const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   const { toast } = useToast();
-  // Formik setup
-  const [loading, setLoading] = useState(false)
 
+  const [loading, setLoading] = useState(false);
+
+  // Cập nhật trạng thái account
   const updateStatus = async (accountID, isActived) => {
     try {
-      setLoading(true)
+      setLoading(true);
 
       const response = await axiosPrivate.put(UPDATEISACTIVED, {
         accountID: accountID,
@@ -64,21 +65,18 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
       }
     } finally {
       onOpenChange(false);
-      setLoading(false)
-
+      setLoading(false);
     }
-  }
-
-
+  };
 
   const formik = useFormik({
     initialValues: {
       isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
+      accountID: member ? member.accountID : "",
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values.accountID);
-      updateStatus(values.accountID, values.isActived)
+      updateStatus(values.accountID, values.isActived);
       setSubmitting(false);
     },
   });
@@ -89,18 +87,16 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
    này là sử dụng memberef để lưu trữ giá trị formik.setValues và sau đó sử dụng giá trị đó trong useEffect.
    */
   const setValuesRef = React.useRef(formik.setValues);
-  // Update formik initialValues when member changes
+  // Cập nhật trạng thái khởi tạo của formik khi có sự thay đổi
   React.useEffect(() => {
     setValuesRef.current({
       isActived: member ? member.isActived : false,
-      accountID: member ? member.accountID : ""
-
+      accountID: member ? member.accountID : "",
     });
   }, [member]);
-  // Handle switch change
+  // Bật tắt status
   const handleSwitchChange = (field) => (isChecked) => {
     formik.setFieldValue(field, isChecked);
-
   };
 
   return (
@@ -114,6 +110,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
         </DialogHeader>
         <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
           <div className="flex flex-col gap-5">
+            
             {/* Show avatar người dùng */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -129,6 +126,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 </div>
               </div>
             </div>
+
             {/* Show id người dùng */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -143,6 +141,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 </div>
               </div>
             </div>
+
             {/* Show tên người dùng */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -157,6 +156,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 </div>
               </div>
             </div>
+
             {/* Show email */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -173,23 +173,31 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
             </div>
 
             {/* Show ngày tạo */}
-
-
-
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="create_date">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {member
+                      ? format(
+                          new Date(member?.createdAt),
+                          "dd/MM/yyyy, h:mm:ss a"
+                        )
+                      : ""}
                   </Badge>
                   <CopyButton
-                    code={member ? format(new Date(member?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={
+                      member
+                        ? format(
+                            new Date(member?.createdAt),
+                            "dd/MM/yyyy, h:mm:ss a"
+                          )
+                        : ""
+                    }
                   />
                 </div>
               </div>
             </div>
-
 
             {/* Show role thành viên */}
             <div className="flex mb-3">
@@ -197,7 +205,6 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 <Label htmlFor="role">Vai trò</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant="primary">Thành viên</Badge>
-
                 </div>
               </div>
             </div>
@@ -216,7 +223,6 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     <Label htmlFor="isActived">Dừng hoạt động</Label>
                   )}
                 </div>
-
               </form>
             )}
           </div>
@@ -236,7 +242,6 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
             {loading ? (
               <>
                 <Loader2 className="  animate-spin flex items-center justify-center w-full" />
-
               </>
             ) : (
               "Xác nhận"

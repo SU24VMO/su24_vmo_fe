@@ -80,7 +80,7 @@ import UpdateCampaignVolunteerPage from "./components/UpdateCampaignVolunteerPag
 import UpdateActivityVolunteerPage from "./components/UpdateActivityVolunteerPage/UpdateActivityVolunteerPage";
 import ManageBankingCampaignPage from "./components/Admin/ManageBankingCampaignPage/ManageBankingCampaignPage";
 import ManageTransactionPage from "./components/Admin/ManageTransactionPage/ManageTransactionPage";
-import { LocationProvider } from "./LocationProvider/LocationProvider";
+import { LocationProvider } from "./context/LocationContext";
 
 
 function App() {

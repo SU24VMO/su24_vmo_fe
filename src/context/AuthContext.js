@@ -5,7 +5,7 @@ import { GET_ACCOUNT_BY_ID, LOGIN, REGISTER } from "../api/apiConstants";
 import { jwtDecode } from "jwt-decode"; // Note the import style
 import { useToast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
-import { LocationContext } from "../LocationProvider/LocationProvider";
+import { LocationContext } from "./LocationContext";
 
 export const AuthContext = createContext();
 

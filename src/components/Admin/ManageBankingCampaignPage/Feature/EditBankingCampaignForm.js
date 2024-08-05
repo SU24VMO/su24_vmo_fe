@@ -9,74 +9,82 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../ui/dialog";
-import { Formik, useFormik } from "formik"; // Import useFormik
+import { Formik } from "formik"; // Import useFormik
 import { useToast } from "../../../ui/use-toast";
 import { Label } from "../../../ui/label";
 import { Input } from "../../../ui/input";
 import { CopyButton } from "./CopyButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
-import { Switch } from "../../../ui/switch";
+
 import React, { useContext, useEffect, useState } from "react";
 import { Badge } from "../../../ui/badge";
 import { ToastAction } from "../../../ui/toast";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { UPDATEIMAGEBANKING } from "../../../../api/apiConstants";
 import { Loader2 } from "lucide-react";
-import { format } from "date-fns";
+
 import { AuthContext } from "../../../../context/AuthContext";
 
-const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSuccess }) => {
+const EditBankingCampaignForm = ({
+  isOpen,
+  onOpenChange,
+  banking,
+  onSubmitSuccess,
+}) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
   const [fileImageBanking, setFileImageBanking] = useState(null);
 
+  //Xử lí hiển thị ảnh chuyển khoản của admin
   function handleImageBanking(e, setFieldValue) {
     setFileImageBanking(URL.createObjectURL(e.target.files[0]));
     setFieldValue("transactionImage", e.target.files[0]);
   }
-
+  //Xóa ảnh
   function removeImageBanking(e, setFieldValue) {
     setFileImageBanking("");
     setFieldValue("transactionImage", null);
   }
 
   const formatAmount = (value) => {
-    // Remove non-digit characters from the input value
-    const cleanValue = value.replace(/\D/g, '');
-    // Format the value with thousand separators
-    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const cleanValue = value.replace(/\D/g, "");
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return formattedValue + " VND";
   };
+
   const cleanFormattedAmount = (formattedValue) => {
-    return formattedValue.replace(/\./g, '');
+    return formattedValue.replace(/\./g, "");
   };
+
+  //Upload ảnh sao kê giao dịch admin
   const uploadImageBanking = async (data) => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append('AccountId', user?.account_id);
-      formData.append('CampaignId', banking?.campaignID);
-      formData.append('BankingAccountId', banking?.bankingAccountId);
-      formData.append('Amount', cleanFormattedAmount(banking?.amount));
-      formData.append('TransactionImage', data?.transactionImage);
+      formData.append("AccountId", user?.account_id);
+      formData.append("CampaignId", banking?.campaignID);
+      formData.append("BankingAccountId", banking?.bankingAccountId);
+      formData.append("Amount", cleanFormattedAmount(banking?.amount));
+      formData.append("TransactionImage", data?.transactionImage);
 
       const response = await axiosPrivate.post(UPDATEIMAGEBANKING, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (response.status === 200) {
         onSubmitSuccess();
-        setFileImageBanking("")
+        setFileImageBanking("");
         toast({
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
     } catch (error) {
-      const serverMessage = error?.response?.data?.message || "Đã có lỗi xảy ra, vui lòng thử lại sau.";
+      const serverMessage =
+        error?.response?.data?.message ||
+        "Đã có lỗi xảy ra, vui lòng thử lại sau.";
       toast({
         variant: "destructive",
         title: "Đã xảy ra lỗi!",
@@ -89,15 +97,12 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
     }
   };
 
-  useEffect(() => {
-
-  }, [banking?.transactionImage]);
-
+  useEffect(() => {}, [banking?.transactionImage]);
 
   return (
     <Formik
       initialValues={{
-        transactionImage: null
+        transactionImage: null,
       }}
       validate={(values) => {
         const errors = {};
@@ -119,7 +124,7 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
         handleBlur,
         handleSubmit,
         isSubmitting,
-        setFieldValue
+        setFieldValue,
       }) => (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
           <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
@@ -129,13 +134,14 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                 Lưu ý: Xem kĩ thông tin trước khi giao dịch !
               </DialogDescription>
             </DialogHeader>
+            {/* Thông tin */}
             <ScrollArea className="h-[65vh] shadow-inner">
               <div className="flex flex-col p-5 gap-5">
                 <div className="grid flex-1 gap-2">
                   <Label htmlFor="qrCode">Ảnh QR Code</Label>
                   <div className=" w-52 h-fit mx-auto">
                     <img
-                      src={banking?.qrCode ? (banking?.qrCode) : "Chưa có"}
+                      src={banking?.qrCode ? banking?.qrCode : "Chưa có"}
                       alt="ảnh-nền"
                       className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                     />
@@ -148,10 +154,16 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                   <div className="flex items-center space-x-2">
                     <Input
                       id="campaignID"
-                      defaultValue={banking?.campaignID ? (banking?.campaignID) : "Chưa có"}
+                      defaultValue={
+                        banking?.campaignID ? banking?.campaignID : "Chưa có"
+                      }
                       disabled
                     />
-                    <CopyButton code={banking?.campaignID ? (banking?.campaignID) : "Chưa có"} />
+                    <CopyButton
+                      code={
+                        banking?.campaignID ? banking?.campaignID : "Chưa có"
+                      }
+                    />
                   </div>
                 </div>
               </div>
@@ -161,10 +173,12 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                   <div className="flex items-center space-x-2">
                     <Input
                       id="name"
-                      defaultValue={banking?.name ? (banking?.name) : "Chưa có"}
+                      defaultValue={banking?.name ? banking?.name : "Chưa có"}
                       disabled
                     />
-                    <CopyButton code={banking?.name ? (banking?.name) : "Chưa có"} />
+                    <CopyButton
+                      code={banking?.name ? banking?.name : "Chưa có"}
+                    />
                   </div>
                 </div>
               </div>
@@ -174,10 +188,16 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                   <div className="flex items-center space-x-2">
                     <Input
                       id="bankingName"
-                      defaultValue={banking?.bankingName ? (banking?.bankingName) : "Chưa có"}
+                      defaultValue={
+                        banking?.bankingName ? banking?.bankingName : "Chưa có"
+                      }
                       disabled
                     />
-                    <CopyButton code={banking?.bankingName ? (banking?.bankingName) : "Chưa có"} />
+                    <CopyButton
+                      code={
+                        banking?.bankingName ? banking?.bankingName : "Chưa có"
+                      }
+                    />
                   </div>
                 </div>
               </div>
@@ -187,10 +207,16 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                   <div className="flex items-center space-x-2">
                     <Input
                       id="accountName"
-                      defaultValue={banking?.accountName ? (banking?.accountName) : "Chưa có"}
+                      defaultValue={
+                        banking?.accountName ? banking?.accountName : "Chưa có"
+                      }
                       disabled
                     />
-                    <CopyButton code={banking?.accountName ? (banking?.accountName) : "Chưa có"} />
+                    <CopyButton
+                      code={
+                        banking?.accountName ? banking?.accountName : "Chưa có"
+                      }
+                    />
                   </div>
                 </div>
               </div>
@@ -200,10 +226,20 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                   <div className="flex items-center space-x-2">
                     <Input
                       id="bankingAccountNumber"
-                      defaultValue={banking?.bankingAccountNumber ? (banking?.bankingAccountNumber) : "Chưa có"}
+                      defaultValue={
+                        banking?.bankingAccountNumber
+                          ? banking?.bankingAccountNumber
+                          : "Chưa có"
+                      }
                       disabled
                     />
-                    <CopyButton code={banking?.bankingAccountNumber ? (banking?.bankingAccountNumber) : "Chưa có"} />
+                    <CopyButton
+                      code={
+                        banking?.bankingAccountNumber
+                          ? banking?.bankingAccountNumber
+                          : "Chưa có"
+                      }
+                    />
                   </div>
                 </div>
               </div>
@@ -221,13 +257,19 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                 </div>
               </div>
 
+              {/* Ảnh giao dịch */}
+
               {banking?.transactionImage !== null ? (
                 <div className="flex flex-col p-5 gap-5">
                   <div className="grid flex-1 gap-2">
                     <Label htmlFor="transactionImage">Ảnh sao kê</Label>
                     <div className=" w-52 h-fit mx-auto">
                       <img
-                        src={banking?.transactionImage ? (banking?.transactionImage) : "Chưa có"}
+                        src={
+                          banking?.transactionImage
+                            ? banking?.transactionImage
+                            : "Chưa có"
+                        }
                         alt="ảnh-nền"
                         className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                       />
@@ -238,10 +280,11 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                 banking && (
                   <form onSubmit={handleSubmit} className="space-y-3">
                     <div className="flex flex-col p-5 gap-5">
-
                       {fileImageBanking ? (
                         <div className="flex flex-col justify-center items-center gap-2">
-                          <Label htmlFor="transactionImage">Ảnh sao kê đã chọn</Label>
+                          <Label htmlFor="transactionImage">
+                            Ảnh sao kê đã chọn
+                          </Label>
 
                           <div className="grid flex-1 gap-2">
                             <div className=" w-60 h-fit mx-auto">
@@ -254,8 +297,13 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                           </div>
                           <button
                             type="button"
-                            onClick={(e) => removeImageBanking(e, setFieldValue)}
-                            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            onClick={(e) =>
+                              removeImageBanking(e, setFieldValue)
+                            }
+                            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none 
+                            bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700
+                             focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800
+                              dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                           >
                             Xóa ảnh
                           </button>
@@ -270,9 +318,10 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                           </label>
 
                           <div>
-
                             <label
-                              className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                              className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer
+                               bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600
+                                dark:placeholder-gray-400"
                               htmlFor="transactionImage"
                             >
                               <span className="ml-2">Chọn ảnh</span>
@@ -282,21 +331,18 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
                               aria-describedby="transactionImage"
                               id="transactionImage"
                               name="transactionImage"
-                              onChange={(e) => { handleImageBanking(e, setFieldValue) }}
+                              onChange={(e) => {
+                                handleImageBanking(e, setFieldValue);
+                              }}
                               type="file"
                               accept="image/png, image/jpeg, image/jpg"
                             />
                           </div>
 
-
-
-
-
-
-
-
                           <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                            {errors.transactionImage && touched.transactionImage && errors.transactionImage}
+                            {errors.transactionImage &&
+                              touched.transactionImage &&
+                              errors.transactionImage}
                           </p>
                         </div>
                       )}
@@ -307,11 +353,11 @@ const EditBankingCampaignForm = ({ isOpen, onOpenChange, banking, onSubmitSucces
             </ScrollArea>
             <DialogFooter>
               <DialogClose asChild>
-                <Button type="button" >
-                  Đóng
-                </Button>
+                <Button type="button">Đóng</Button>
               </DialogClose>
-              {banking?.transactionImage !== null ? ("") : (
+              {banking?.transactionImage !== null ? (
+                ""
+              ) : (
                 <Button
                   type="button"
                   disabled={isSubmitting}

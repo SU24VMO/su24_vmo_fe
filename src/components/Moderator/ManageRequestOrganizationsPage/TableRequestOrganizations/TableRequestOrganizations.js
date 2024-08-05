@@ -8,12 +8,12 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTORGANIZATION } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo,sortConfig,organizationName, setLoading) {
+async function getData(cancelToken, pageSize, pageNo, sortConfig, organizationName, setLoading) {
 
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(organizationName);
+    const encoded = normalizeAndEncode(organizationName);
     const response = await axiosPrivate.get(GETALLREQUESTORGANIZATION + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&organizationName=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -49,7 +49,7 @@ const TableRequestOrganizations = () => {
     orderByDirection: 'asc',
   });
 
-const [organizationName, setOrganizationName] = useState("")
+  const [organizationName, setOrganizationName] = useState("")
 
 
   const onEdit = React.useCallback((row) => {
@@ -62,17 +62,17 @@ const [organizationName, setOrganizationName] = useState("")
     // Implement delete logic here.
     alert(`Deleting user with ID: ${row.id}`);
   }, []);
-  
-  const fetchData = async (cancelToken, pageSize, pageNo,organizationName, sortConfig) => {
+
+  const fetchData = async (cancelToken, pageSize, pageNo, organizationName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig,organizationName, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, organizationName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-    
+
     }
   };
   const onSort = (property) => {
@@ -87,19 +87,20 @@ const [organizationName, setOrganizationName] = useState("")
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, pageSize, pageNo,organizationName, sortConfig);
+    fetchData(source.token, pageSize, pageNo, organizationName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,organizationName, sortConfig]);
+  }, [pageSize, pageNo, organizationName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo,organizationName, sortConfig);
+    fetchData(source.token, pageSize, pageNo, organizationName, sortConfig);
   };
 
   return (
@@ -118,19 +119,19 @@ const [organizationName, setOrganizationName] = useState("")
 
         />
       </div>
-      <DataTable 
-      columns={columns({ onEdit, onDelete, onSort })} 
-      setOrganizationName={setOrganizationName}
-      data={data} 
-      loading={loading}
-      list={list}
-      pageSize={pageSize}
-      pageNo={pageNo}
-      setPageSize={setPageSize}
-      setPageNo={setPageNo}
-      totalPages={totalPages}
+      <DataTable
+        columns={columns({ onEdit, onDelete, onSort })}
+        setOrganizationName={setOrganizationName}
+        data={data}
+        loading={loading}
+        list={list}
+        pageSize={pageSize}
+        pageNo={pageNo}
+        setPageSize={setPageSize}
+        setPageNo={setPageNo}
+        totalPages={totalPages}
       />
-    </div> 
+    </div>
   );
 };
 

@@ -88,9 +88,6 @@ const ManageVolunteerPhase2Table = () => {
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
-
-
-  
   const onConfirm = React.useCallback((row) => {
     // Implement edit logic here.
     setIsDialogOpen(true); // Mở dialog

@@ -1,6 +1,5 @@
 import { Button } from "../../../ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
 import { format } from "date-fns";
 import DataTableRowActions from "../Feature/DataTableRowAction";

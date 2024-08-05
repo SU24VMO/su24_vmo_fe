@@ -91,6 +91,7 @@ export function DataTable({
   //update ui lại mỗi khi có thây đổi state (onStateChange ko bắt đc liên tục
   // việc có biến thay đổi trừ khi có hoạt động liên quan trong state
   // được khởi tạo của nó mà cụ thể là pagination là 1 state)
+  
   React.useEffect(() => {
     table.setPageSize(pageSize);
     table.setPageIndex(pageNo - 1);
@@ -106,7 +107,7 @@ export function DataTable({
 
   const [loadingExport, setLoadingExport] = useState(false)
 
-
+// Xử lí xuất dữ liệu excel 
   const handleExport = async () => {
     setLoadingExport(true)
 

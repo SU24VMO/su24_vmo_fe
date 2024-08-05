@@ -61,16 +61,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -82,7 +82,7 @@ const AdminHomePage = () => {
         signal: controller.signal
       });
       if (response.status === 200) {
-      
+
         setDataAccount(response?.data?.data?.list.slice(0, 7));
 
       } else {
@@ -94,16 +94,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -125,16 +125,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -156,16 +156,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -187,16 +187,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -218,16 +218,16 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
@@ -250,20 +250,20 @@ const AdminHomePage = () => {
         });
       }
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
+       
         toast({
           variant: "destructive",
-          title: "Thất bại!",
-          description: "Vui lòng kiểm tra lại thông tin!",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      }
+      } 
     }
   };
 
-  //bế cái fetch ra ngoài thì load ngon nhưng mà cancel có vẻ ko hoạt động
+  //useEffect để dữ liệu refresh lại
 
   useEffect(() => {
     const controller = new AbortController();
@@ -272,13 +272,15 @@ const AdminHomePage = () => {
       top: 0,
       behavior: 'smooth'
     });
+    //Xác nhận component này mounted thì bắt đầu gọi fetch
+
     let isMounted = true;
 
     const fetchData = async () => {
 
       try {
         if (isMounted) setLoading(true);
-
+        //bắt đầu tạo promise duy nhất 
         await Promise.allSettled([
           getNumberAccount(controller),
           getAllOrganization(controller),
@@ -305,10 +307,9 @@ const AdminHomePage = () => {
     };
 
   }, []);
+
   useEffect(() => {
-    console.log('====================================');
-    console.log("loading: ", loading);
-    console.log('====================================');
+
   }, [loading])
 
   const formatAmount = (value) => {
@@ -331,7 +332,7 @@ const AdminHomePage = () => {
             />
           </Helmet>
           <span className="font-bold text-2xl">Thống kê số liệu</span>
-          {/* CARD FULL*/}
+          {/*Thống kê header*/}
           <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4" >
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -385,8 +386,9 @@ const AdminHomePage = () => {
               </CardContent>
             </Card>
           </div>
-          {/* CARD 2 */}
+          {/*Thống kê footer*/}
           <div className="grid gap-4 mobile:gap-8 laptop:grid-cols-3">
+            {/* Giao dịch */}
             <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
               <CardHeader className="flex flex-row items-center">
                 <div className="grid gap-2">
@@ -398,10 +400,10 @@ const AdminHomePage = () => {
                 <div className="grid gap-2 ml-auto">
                   <CardTitle>Tổng tiền hệ thống</CardTitle>
                   <CardDescription>
-                  <span className="text-xl font-semibold"> {numberAmount !== 0 ? (formatAmount(numberAmount)) : ("0 VND")}</span>
+                    <span className="text-xl font-semibold"> {numberAmount !== 0 ? (formatAmount(numberAmount)) : ("0 VND")}</span>
                   </CardDescription>
                 </div>
-              
+
               </CardHeader>
               <CardContent>
                 <Table>
@@ -430,6 +432,7 @@ const AdminHomePage = () => {
                 </Table>
               </CardContent>
             </Card>
+            {/* Tài khoản mới tạo gần đây */}
             <Card x-chunk="dashboard-01-chunk-5">
               <CardHeader>
                 <CardTitle>Tài khoản</CardTitle>

@@ -9,12 +9,12 @@ import { AuthContext } from "../../../context/AuthContext";
 import { Helmet } from "react-helmet";
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizationName, setLoading) {
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, organizationName, setLoading) {
 
   try {
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(organizationName);
+    const encoded = normalizeAndEncode(organizationName);
     const response = await axiosPrivate.get(GETALLORGANIZATIONBYID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&organizationName=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -27,7 +27,7 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizat
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
-      
+
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -39,7 +39,7 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig,organizat
 }
 const ManageOrganizeOrganizationsTable = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -53,16 +53,16 @@ const ManageOrganizeOrganizationsTable = () => {
   });
   const [organizationName, setOrganizationName] = useState("")
 
-const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, sortConfig) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo, organizationName, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig,  organizationName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, organizationName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      
+
     }
   };
   const onSort = (property) => {
@@ -78,12 +78,12 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,organizationName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, organizationName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,organizationName, sortConfig]);
+  }, [pageSize, pageNo, organizationName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -93,6 +93,7 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -108,9 +109,9 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto min-h-screen">
-      <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <ConfirmEnableDisable
+      <div className="w-3/4 mx-auto min-h-screen">
+        <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {
@@ -122,19 +123,19 @@ const fetchData = async (cancelToken, user, pageSize, pageNo,organizationName, s
           onSubmitSuccess={handleRefresh}
 
         />
-      <DataTable
-       columns={columns({onSort, onConfirm})}
-       setOrganizationName={setOrganizationName}
-        data={data}
-        loading={loading}
-        list={list}
-        pageSize={pageSize}
-        pageNo={pageNo}
-        setPageSize={setPageSize}
-        setPageNo={setPageNo}
-        totalPages={totalPages}
+        <DataTable
+          columns={columns({ onSort, onConfirm })}
+          setOrganizationName={setOrganizationName}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
         />
-    </div>
+      </div>
     </>
   );
 };

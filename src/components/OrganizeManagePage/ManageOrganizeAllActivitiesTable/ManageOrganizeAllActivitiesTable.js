@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlideBar";
@@ -10,13 +10,13 @@ import { GETALLACTIVITIESOM } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, activityTitle, setLoading) {
-console.log("Activity truyền vào: " , activityTitle);
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading) {
+  console.log("Activity truyền vào: ", activityTitle);
   try {
 
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(activityTitle);
+    const encoded = normalizeAndEncode(activityTitle);
     const response = await axiosPrivate.get(GETALLACTIVITIESOM + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&activityTitle=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -29,7 +29,7 @@ console.log("Activity truyền vào: " , activityTitle);
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
-      
+
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -42,7 +42,7 @@ console.log("Activity truyền vào: " , activityTitle);
 
 const ManageOrganizeAllActivitiesTable = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(10);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
@@ -54,19 +54,19 @@ const ManageOrganizeAllActivitiesTable = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
-const [activityTitle, setActivityTitle] = useState("")
+  const [activityTitle, setActivityTitle] = useState("")
 
 
   const fetchData = async (cancelToken, user, pageSize, pageNo, activityTitle, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      
+
     }
   };
   const onSort = (property) => {
@@ -84,12 +84,12 @@ const [activityTitle, setActivityTitle] = useState("")
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,activityTitle, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, activityTitle, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,activityTitle, sortConfig]);
+  }, [pageSize, pageNo, activityTitle, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -99,6 +99,7 @@ const [activityTitle, setActivityTitle] = useState("")
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -114,9 +115,9 @@ const [activityTitle, setActivityTitle] = useState("")
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto min-h-screen">
-      <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      <ConfirmEnableDisable
+      <div className="w-3/4 mx-auto min-h-screen">
+        <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {
@@ -128,19 +129,19 @@ const [activityTitle, setActivityTitle] = useState("")
           onSubmitSuccess={handleRefresh}
 
         />
-      <DataTable 
-       columns={columns({onSort, onConfirm})}
-       setActivityTitle={setActivityTitle}
-       data={data}
-       loading={loading}
-       list={list}
-       pageSize={pageSize}
-       pageNo={pageNo}
-       setPageSize={setPageSize}
-       setPageNo={setPageNo}
-       totalPages={totalPages}
-      />
-    </div>
+        <DataTable
+          columns={columns({ onSort, onConfirm })}
+          setActivityTitle={setActivityTitle}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   );
 };

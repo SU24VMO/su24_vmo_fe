@@ -8,13 +8,13 @@ import axios from "axios";
 import { axiosPrivate } from "../../../../api/axiosInstance";
 import { GETALLREQUESTVOLUNTEERS } from "../../../../api/apiConstants";
 
-async function getData(cancelToken, pageSize, pageNo,sortConfig,volunteerName, setLoading) {
+async function getData(cancelToken, pageSize, pageNo, sortConfig, volunteerName, setLoading) {
 
   try {
 
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(volunteerName);
+    const encoded = normalizeAndEncode(volunteerName);
     const response = await axiosPrivate.get(GETALLREQUESTVOLUNTEERS + `?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&volunteerName=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -63,10 +63,10 @@ const TableRequestVolunteers = () => {
   }, []);
 
 
-  const fetchData = async (cancelToken, pageSize, pageNo,volunteerName, sortConfig) => {
+  const fetchData = async (cancelToken, pageSize, pageNo, volunteerName, sortConfig) => {
     try {
 
-      const result = await getData(cancelToken, pageSize, pageNo,sortConfig,volunteerName, setLoading);
+      const result = await getData(cancelToken, pageSize, pageNo, sortConfig, volunteerName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -74,7 +74,7 @@ const TableRequestVolunteers = () => {
       console.error("Error fetching data:", error);
     }
     finally {
-      
+
 
     }
   };
@@ -91,20 +91,21 @@ const TableRequestVolunteers = () => {
     const source = axios.CancelToken.source();
     setLoading(true)
 
-   
 
-    fetchData(source.token, pageSize, pageNo,volunteerName, sortConfig);
+
+    fetchData(source.token, pageSize, pageNo, volunteerName, sortConfig);
     return () => {
       source.cancel('Component unmounted');
 
     };
-  }, [pageSize, pageNo,volunteerName, sortConfig ]);
+  }, [pageSize, pageNo, volunteerName, sortConfig]);
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, pageSize, pageNo,volunteerName, sortConfig);
+    fetchData(source.token, pageSize, pageNo, volunteerName, sortConfig);
   };
 
 
@@ -125,7 +126,7 @@ const TableRequestVolunteers = () => {
         />
       </div>
       <DataTable
-        columns={columns({ onEdit, onDelete , onSort})}
+        columns={columns({ onEdit, onDelete, onSort })}
         setVolunteerName={setVolunteerName}
         data={data}
         loading={loading}

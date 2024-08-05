@@ -10,13 +10,13 @@ import { Helmet } from "react-helmet";
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
 async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading) {
-  console.log("campaignName truyền vào: " , campaignName);
+  console.log("campaignName truyền vào: ", campaignName);
 
   try {
-    
+
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(campaignName);
+    const encoded = normalizeAndEncode(campaignName);
     const response = await axiosPrivate.get(GETALLCAMPAIGNBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -59,7 +59,7 @@ const ManageOrganizeAllCampaignsTable = () => {
 
   const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig,campaignName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -98,6 +98,7 @@ const ManageOrganizeAllCampaignsTable = () => {
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();

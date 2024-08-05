@@ -11,13 +11,13 @@ import { GETALLNEWSBYOMID } from "../../../api/apiConstants";
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
 
-async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, setLoading) {
+async function getData(cancelToken, user, pageSize, pageNo, sortConfig, title, setLoading) {
 
   try {
-    
+
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
-    const encoded= normalizeAndEncode(title);
+    const encoded = normalizeAndEncode(title);
     const response = await axiosPrivate.get(GETALLNEWSBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&title=${encoded}`, {
       cancelToken: cancelToken
     });
@@ -30,7 +30,7 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, s
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message);
-      
+
     } else {
       console.error("Error fetching data from API:", error);
       setLoading(false)
@@ -43,7 +43,7 @@ async function getData(cancelToken, user,  pageSize, pageNo,sortConfig, title, s
 
 const ManageOrganizeNewsTable = () => {
   const [data, setData] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -56,18 +56,18 @@ const ManageOrganizeNewsTable = () => {
     orderByDirection: 'asc',
   });
   const [title, setTitle] = useState("")
- 
+
 
   const fetchData = async (cancelToken, user, pageSize, pageNo, title, sortConfig) => {
     try {
-      const result = await getData(cancelToken,user, pageSize, pageNo, sortConfig, title, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, title, setLoading);
       setData(result?.list || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      
+
     }
   };
 
@@ -81,15 +81,15 @@ const ManageOrganizeNewsTable = () => {
     }));
   };
 
- useEffect(() => {
+  useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo,title, sortConfig, );
+    fetchData(source.token, user, pageSize, pageNo, title, sortConfig,);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo,title, sortConfig]);
+  }, [pageSize, pageNo, title, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -99,6 +99,7 @@ const ManageOrganizeNewsTable = () => {
     setSelectedRow(row);
   }, []);
 
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -113,10 +114,10 @@ const ManageOrganizeNewsTable = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-    <div className="w-3/4 mx-auto min-h-screen">
-      <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
-      
-      <ConfirmEnableDisable
+      <div className="w-3/4 mx-auto min-h-screen">
+        <ManageOrganizeSlideBar></ManageOrganizeSlideBar>
+
+        <ConfirmEnableDisable
           isOpen={isDialogOpen}
           row={selectedRow}
           onOpenChange={(value) => {
@@ -128,19 +129,19 @@ const ManageOrganizeNewsTable = () => {
           onSubmitSuccess={handleRefresh}
 
         />
-      <DataTable 
-      columns={columns({onSort, onConfirm})} 
-      setTitle={setTitle}
-      data={data}
-      loading={loading}
-      list={list}
-      pageSize={pageSize}
-      pageNo={pageNo}
-      setPageSize={setPageSize}
-      setPageNo={setPageNo}
-      totalPages={totalPages}
-       />
-    </div>
+        <DataTable
+          columns={columns({ onSort, onConfirm })}
+          setTitle={setTitle}
+          data={data}
+          loading={loading}
+          list={list}
+          pageSize={pageSize}
+          pageNo={pageNo}
+          setPageSize={setPageSize}
+          setPageNo={setPageNo}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   );
 };

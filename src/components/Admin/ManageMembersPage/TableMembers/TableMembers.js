@@ -94,6 +94,8 @@ const fetchData = async (cancelToken, pageSize, pageNo,name, sortConfig) => {
   }, [pageSize, pageNo,name, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
+  
+  // Mỗi khi submit thành công refresh trang
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
