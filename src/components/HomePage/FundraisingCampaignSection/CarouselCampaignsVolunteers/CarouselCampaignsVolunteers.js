@@ -37,7 +37,7 @@ const CarouselCampaignsVolunteers = () => {
         } else {
           setData(fetchedData);
           console.log(
-            "Homepage - các chiến dịch được tạo bởi tổ chức",
+            "Homepage - các chiến dịch được tạo bởi tình nguyện viên",
             fetchedData
           );
         }
