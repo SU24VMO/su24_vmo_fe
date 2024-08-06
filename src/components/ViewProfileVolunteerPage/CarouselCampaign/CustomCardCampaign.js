@@ -31,7 +31,7 @@ const CustomCardCampaign = ({
               </div>
             </div>
             <div className="bg-white w-full px-6">
-              <p className="text-lg font-bold mt-2 mb-4">{campaignName}</p>
+              <p className="text-lg font-bold mt-2 mb-4 truncate">{campaignName}</p>
               <p className="text-lg mb-2">
                 Tạo bởi <b>{organizerName}</b>
               </p>
