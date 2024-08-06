@@ -7,12 +7,7 @@ import {
   CardHeader,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import {
-  BadgeCheck,
-  Target,
-  Clock4,
-  MapPin,
-} from "lucide-react";
+import { BadgeCheck, Target, Clock4, MapPin } from "lucide-react";
 import { Progress } from "../../ui/progress";
 import { useParams } from "react-router-dom";
 import CustomAvatarRightCampaignDetail from "./CustomAvatarRightCampaignDetail/CustomAvatarRightCampaignDetail";
@@ -23,6 +18,7 @@ import CustomAlertDialogNotLogin from "./CustomAlertDialogNotLogin/CustomAlertDi
 import { format } from "date-fns";
 import CustomStepperCampaignDetail from "./CustomStepperCampaignDetail/CustomStepperCampaignDetail";
 import CustomActionButtonCampaign from "./CustomActionButtonCampaign/CustomActionButtonCampaign";
+import CustomTopDonator from "./CustomTopDonator/CustomTopDonator";
 
 const RightDetailCampaignSection = ({ data }) => {
   const { id: campaignId } = useParams();
@@ -50,7 +46,7 @@ const RightDetailCampaignSection = ({ data }) => {
 
   return (
     <>
-      <Card>
+      <Card className="mb-3">
         <CardHeader>
           <div className="flex items-center gap-x-3">
             <CustomAvatarRightCampaignDetail data={data} />
@@ -133,6 +129,7 @@ const RightDetailCampaignSection = ({ data }) => {
           setIsDialogOpen={setIsDialogOpen}
         />
       ) : null}
+      <CustomTopDonator />
     </>
   );
 };

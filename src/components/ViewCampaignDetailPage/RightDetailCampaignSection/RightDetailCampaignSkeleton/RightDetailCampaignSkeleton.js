@@ -8,17 +8,42 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../ui/card";
-import avatar_img from "../../../../assets/avatars/02.png";
 import { BadgeCheck, Clock4, MapPin, Target } from "lucide-react";
 import { Separator } from "../../../ui/separator";
-import { Progress } from "../../../ui/progress";
 import { Button } from "../../../ui/button";
 import { Skeleton } from "../../../ui/skeleton";
 
 const RightDetailCampaignSkeleton = () => {
+  const topDonorsSkeleton = [1, 2, 3, 4, 5];
+
+  const getAvatarStyle = (index) => {
+    switch (index) {
+      case 0:
+        return "h-12 w-12 rounded-full border-2 border-yellow-300";
+      case 1:
+        return "h-12 w-12 rounded-full border-2 border-gray-500";
+      case 2:
+        return "h-12 w-12 rounded-full border-2 border-yellow-600";
+      default:
+        return "h-12 w-12 rounded-full";
+    }
+  };
+
+  const getBadgeStyle = (index) => {
+    switch (index) {
+      case 0:
+        return "absolute top-0 right-0 -translate-x-1/2 -translate-y-1/2 bg-yellow-200 text-yellow-500 font-bold px-2 py-1 rounded-full text-xs";
+      case 1:
+        return "absolute top-0 right-0 -translate-x-1/2 -translate-y-1/2 bg-gray-500 text-primary-foreground font-bold px-2 py-1 rounded-full text-xs";
+      case 2:
+        return "absolute top-0 right-0 -translate-x-1/2 -translate-y-1/2 bg-yellow-600 text-primary-foreground font-bold px-2 py-1 rounded-full text-xs";
+      default:
+        return "";
+    }
+  };
   return (
     <>
-      <Card>
+      <Card className="mb-3">
         <CardHeader>
           <div className="flex items-center gap-x-3">
             <Avatar className="w-20 h-20">
@@ -97,6 +122,31 @@ const RightDetailCampaignSkeleton = () => {
             </Button>
           </div>
         </CardFooter>
+      </Card>
+      <Card className="w-full mx-auto">
+        <CardHeader className="flex items-center justify-between">
+          <CardTitle className="text-xl">
+            Top 5 người ủng hộ nhiều nhất
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 justify-center">
+            {topDonorsSkeleton.map((_, index) => (
+              <div key={index} className="flex items-center gap-4">
+                <div className="relative">
+                  <Skeleton className={getAvatarStyle(index)} />
+                  {index < 3 && (
+                    <div className={getBadgeStyle(index)}>{index + 1}</div>
+                  )}
+                </div>
+                <div className="flex-1 space-y-3">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-4 w-16" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
       </Card>
     </>
   );
