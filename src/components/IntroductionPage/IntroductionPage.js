@@ -274,7 +274,7 @@ export default function IntroductionPage() {
                             </div>
                             <div class="text-center mt-2">
                                 <h2 class="font-semibold">fatnotfat</h2>
-                                <p class="text-gray-500">Backend Developer</p>
+                                {/* <p class="text-gray-500">Backend Developer</p> */}
                             </div>
                             
                             <div class="p-4 border-t mx-8 mt-2">
@@ -291,7 +291,7 @@ export default function IntroductionPage() {
                             </div>
                             <div class="text-center mt-2">
                                 <h2 class="font-semibold">CUBI</h2>
-                                <p class="text-gray-500">Frontend Developer</p>
+                                {/* <p class="text-gray-500">Frontend Developer</p> */}
                             </div>
                             
                             <div class="p-4 border-t mx-8 mt-2">
@@ -308,7 +308,7 @@ export default function IntroductionPage() {
                             </div>
                             <div class="text-center mt-2">
                                 <h2 class="font-semibold">Truongmagnus</h2>
-                                <p class="text-gray-500">Backend Developer</p>
+                                {/* <p class="text-gray-500">Backend Developer</p> */}
                             </div>
                             
                             <div class="p-4 border-t mx-8 mt-2">
@@ -325,7 +325,7 @@ export default function IntroductionPage() {
                             </div>
                             <div class="text-center mt-2">
                                 <h2 class="font-semibold">bocchidesu</h2>
-                                <p class="text-gray-500">Frontend Developer</p>
+                                {/* <p class="text-gray-500">Frontend Developer</p> */}
                             </div>
                             
                             <div class="p-4 border-t mx-8 mt-2">
