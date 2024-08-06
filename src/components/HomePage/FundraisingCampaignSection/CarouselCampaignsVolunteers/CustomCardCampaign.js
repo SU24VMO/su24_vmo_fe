@@ -120,7 +120,7 @@ const CustomCardCampaign = ({
                     </HoverCardContent>
                   </HoverCard>
                 )}
-                <p className="mobile:text-lg font-bold mobile:mt-2 mobile:mb-4">
+                <p className="mobile:text-lg font-bold mobile:mt-2 mobile:mb-4 truncate">
                   {campaignName}
                 </p>
                 <p className="text-sm mobile:text-lg mobile:mb-2">

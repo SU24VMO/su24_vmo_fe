@@ -123,7 +123,7 @@ const CustomCardCampaign = ({
                     </HoverCardContent>
                   </HoverCard>
                 )}
-                <p className="text-lg font-bold mt-2 mb-4">{campaignName}</p>
+                <p className="text-lg font-bold mt-2 mb-4 truncate">{campaignName}</p>
                 <p className="text-lg mb-2">
                   Tạo bởi <b>{organizerName}</b>
                 </p>
