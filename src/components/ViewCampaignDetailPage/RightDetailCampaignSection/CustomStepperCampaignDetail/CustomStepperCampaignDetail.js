@@ -31,15 +31,15 @@ const CustomStepperCampaignDetail = ({ data }) => {
         : "Chưa bắt đầu giai đoạn",
     },
     {
-      label: data.processingPhase.name,
-      description: data.processingPhase.startDate
+      label: data.processingPhases[0].name,
+      description: data.processingPhases[0].startDate
         ? `Ngày bắt đầu: ${format(
-            new Date(data.processingPhase.startDate),
+            new Date(data.processingPhases[0].startDate),
             "dd/MM/yyyy, h:mm:ss a"
           )}\nNgày kết thúc: ${
-            data.processingPhase.endDate
+            data.processingPhases[0].endDate
               ? format(
-                  new Date(data.processingPhase.endDate),
+                  new Date(data.processingPhases[0].endDate),
                   "dd/MM/yyyy, h:mm:ss a"
                 )
               : "Chưa có"
@@ -71,8 +71,8 @@ const CustomStepperCampaignDetail = ({ data }) => {
   ) {
     initialStep = 0;
   } else if (
-    data.processingPhase.isProcessing === true &&
-    data.processingPhase.isEnd === false
+    data.processingPhases[0].isProcessing === true &&
+    data.processingPhases[0].isEnd === false
   ) {
     initialStep = 1;
   } else if (

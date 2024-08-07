@@ -13,14 +13,14 @@ import StatementsCampaign from "./StatementsCampaign/StatementsCampaign";
 const LeftDetailCampaignSection = ({ data }) => {
   const [transaction, setTransaction] = React.useState(data.transactions);
   const [activities, setActivities] = React.useState(
-    data.processingPhase.activities
+    data.processingPhases[0].activities
   );
   const [statementFiles, setStatementFiles] = React.useState(
     data.statementPhase.statementFiles
   );
   const [statement, setStatement] = React.useState(data.statementPhase);
 
-  // console.log("Activities lấy được", activities);
+  console.log("Activities lấy được", data.processingPhases[0].activities);
   // console.log("StatementFiles lấy được", statementFiles);
   // console.log("Statement lấy được", statement);
 
@@ -51,8 +51,8 @@ const LeftDetailCampaignSection = ({ data }) => {
                   value="activities"
                   disabled={
                     !(
-                      data.processingPhase.isProcessing ||
-                      data.processingPhase.isEnd
+                      data.processingPhases[0].isProcessing ||
+                      data.processingPhases[0].isEnd
                     )
                   }
                 >
