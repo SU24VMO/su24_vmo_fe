@@ -116,15 +116,14 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
           console.log("Lấy dữ liệu từ api donate không thành công!");
         }
       } catch (error) {
-        let errorMessage = "Có lỗi xảy ra. Vui lòng thử lại!";
         // Hiển thị thông điệp lỗi
         toast({
           variant: "destructive",
           title: "Có lỗi xảy ra!",
-          description: errorMessage,
+          description: error.response?.data?.message || "Đã xảy ra lỗi không xác định",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-        console.error("Lỗi lấy dữ liệu khi gọi api lấy mã QR:", errorMessage);
+        console.error("Lỗi lấy dữ liệu khi gọi api lấy mã QR:", error);
       } finally {
         setLoading(false); // Stop loading regardless of the outcome
         setSubmitting(false); // Set Formik submitting to false
