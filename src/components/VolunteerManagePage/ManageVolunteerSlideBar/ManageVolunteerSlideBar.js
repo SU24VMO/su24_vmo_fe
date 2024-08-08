@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { ReactComponent as IconSlidebar } from "../../../assets/images/button-slidebar.svg";
-import AllCampaignsButton from "./AllCampaignsButton";
+import AllCampaignsButton from "./AllCampaignsTier1Button";
 import Phase1Button from "./Phase1Button";
 import Phase2Button from "./Phase2Button";
 import Phase3Button from "./Phase3Button";
 import AllActivitiesButton from "./AllActivitiesButton";
 import { Link, useLocation } from "react-router-dom";
 import AllNewsButton from "./AllNewsButton";
+import AllCampaignsTier2Button from "./AllCampaignsTier2Button";
+import AllCampaignsTier1Button from "./AllCampaignsTier1Button";
 
 export default function ManageVolunteerSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -92,9 +94,14 @@ export default function ManageVolunteerSlideBar() {
         <div className="py-4 overflow-y-auto ">
           <ul className="space-y-2 font-medium">
 
-            <Link to="/manage/volunteer/allCampaigns">
-              <li className={getLinkClass("/manage/volunteer/allCampaigns")}>
-                <AllCampaignsButton />
+            <Link to="/manage/volunteer/allCampaignsTier1">
+              <li className={getLinkClass("/manage/volunteer/allCampaignsTier1")}>
+                <AllCampaignsTier1Button/>
+              </li>
+            </Link>
+            <Link to="/manage/volunteer/allCampaignsTier2">
+              <li className={getLinkClass("/manage/volunteer/allCampaignsTier2")}>
+                <AllCampaignsTier2Button />
               </li>
             </Link>
             <Link to="/manage/volunteer/allActivities">

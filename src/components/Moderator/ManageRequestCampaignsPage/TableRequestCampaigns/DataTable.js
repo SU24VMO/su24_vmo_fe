@@ -45,6 +45,7 @@ export function DataTable({
 
   const columnHeaders = {
     "name": "Tên chiến dịch",
+    "campaignTier": "Loại chiến dịch",
     "member": "Tạo bởi tình nguyện viên",
     "organizationManager": "Tạo bởi quản lý tổ chức",
     "moderator": "Người duyệt",

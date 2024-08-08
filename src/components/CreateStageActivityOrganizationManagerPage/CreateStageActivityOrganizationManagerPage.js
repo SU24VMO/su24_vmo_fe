@@ -1,19 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
 import { AuthContext } from "../../context/AuthContext";
-import { useToast } from "../../components/ui/use-toast";
-import { ToastAction } from "../../components/ui/toast";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 import { Helmet } from "react-helmet";
-import { CREATEACTIVITYOFOM } from "../../api/apiConstants";
+import { CREATESTAGEACTIVITYOFOM } from "../../api/apiConstants";
 import { axiosPrivate } from "../../api/axiosInstance";
-import SelectionProcessingPhase from "./SelectionProcessingPhase/SelectionProcessingPhase";
+import SelectionProcessingPhase from "./SelectionStagePhase/SelectionStagePhase";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-export default function CreateActivityOrganizationManagerPage() {
+export default function CreateStageActivityOrganizationManagerPage() {
     const { toast } = useToast();
     const { user } = useContext(AuthContext)
     const [listImageFile, setListImageFile] = useState([]);
+    const [listImageStatementFile, setListImageStatementFile] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
+    const [imageStatementPreviews, setImageStatementPreviews] = useState([]);
+
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
@@ -41,9 +44,39 @@ export default function CreateActivityOrganizationManagerPage() {
         setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
     }
 
+
+
+
+
+
+    function fileSelectedStatementImageHandler(e, setFieldValue) {
+        const files = Array.from(e.target.files);
+        const filePreviews = files.map(file => URL.createObjectURL(file));
+
+        setListImageStatementFile((prevFiles) => {
+            const newFiles = [...prevFiles, ...files];
+            setFieldValue('listImageStatementFile', newFiles);  
+            return newFiles;
+        });
+
+        setImageStatementPreviews((prevPreviews) => [...prevPreviews, ...filePreviews]);
+    }
+
+    function removeImageStatement(index, setFieldValue) {
+        setListImageStatementFile((prevFiles) => {
+            const newFiles = prevFiles.filter((_, i) => i !== index);
+            setFieldValue('listImageStatementFile', newFiles);  
+            return newFiles;
+        });
+
+        setImageStatementPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    }
+
+
     useEffect(() => {
         return () => {
             imagePreviews.forEach(file => URL.revokeObjectURL(file));
+            imageStatementPreviews.forEach(file => URL.revokeObjectURL(file));
         };
     }, []);
 
@@ -57,9 +90,12 @@ export default function CreateActivityOrganizationManagerPage() {
         data.listImageFile.forEach(file => {
             formData.append('ActivityImages', file);
         });
+        data.listImageStatementFile.forEach(file => {
+            formData.append('ProcessingPhaseStatementFiles', file);
+        });
 
         try {
-            const response = await axiosPrivate.post(CREATEACTIVITYOFOM + `?accountId=${user.account_id}`, formData, {
+            const response = await axiosPrivate.post(CREATESTAGEACTIVITYOFOM + `?accountId=${user.account_id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -70,6 +106,8 @@ export default function CreateActivityOrganizationManagerPage() {
                 resetForm();
                 setListImageFile([]);
                 setImagePreviews([]);
+                setListImageStatementFile([])
+                setImageStatementPreviews([])
                 toast({
                     title: "Tạo hoạt động thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -110,6 +148,7 @@ export default function CreateActivityOrganizationManagerPage() {
                 title: "",
                 processingPhase: "",
                 listImageFile: [],
+                listImageStatementFile: [],
                 description: "",
             }}
             validate={(values) => {
@@ -122,6 +161,9 @@ export default function CreateActivityOrganizationManagerPage() {
                 }
                 if (!values.listImageFile.length) {
                     errors.listImageFile = 'Không được để trống'
+                }
+                if (!values.listImageStatementFile.length) {
+                    errors.listImageStatementFile = 'Không được để trống'
                 }
                 if (!values.description) {
                     errors.description = 'Không được để trống'
@@ -149,7 +191,7 @@ export default function CreateActivityOrganizationManagerPage() {
                             <div className="p-4 bg-white rounded-lg shadow dark:bg-gray-800 mobile:p-5">
                                 <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b mobile:mb-5 dark:border-gray-600">
                                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                        Đăng tải hoạt động chiến dịch toàn phần của bạn!
+                                        Đăng tải hoạt động chiến dịch từng phần của bạn!
                                     </h3>
                                     <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z" />
@@ -175,7 +217,7 @@ export default function CreateActivityOrganizationManagerPage() {
                                         </div>
                                         <div>
                                             <label htmlFor="processingPhase" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                Chọn chiến dịch cần đăng
+                                                Chọn giai đoạn cần đăng
                                             </label>
                                             <SelectionProcessingPhase
                                                 setFieldValue={setFieldValue}
@@ -185,7 +227,7 @@ export default function CreateActivityOrganizationManagerPage() {
                                         </div>
                                         <div>
                                             <label htmlFor="listImagesPreview" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                Danh sách hình ảnh:
+                                                Danh sách hình ảnh hoạt động:
                                             </label>
                                             <div>
                                                 <ul className="flex justify-stretch flex-wrap gap-3">
@@ -251,6 +293,76 @@ export default function CreateActivityOrganizationManagerPage() {
                                                 <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listImageFile && touched.listImageFile && errors.listImageFile}</p>
                                             </div>
                                         </div>
+
+                                        <div>
+                                            <label htmlFor="listImagesPreview" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Danh sách hình ảnh sao kê:
+                                            </label>
+                                            <div>
+                                                <ul className="flex justify-stretch flex-wrap gap-3">
+                                                    {imageStatementPreviews.map((imageStatementPreview, index) => (
+                                                        <li key={index} className="relative">
+                                                            <img
+                                                                className="w-48 h-48"
+                                                                src={imageStatementPreview}
+                                                                alt=""
+                                                                width={200}
+                                                                height={200}
+                                                            />
+                                                            <button className="absolute top-2 right-2"
+                                                                type="button"
+                                                                onClick={() => removeImageStatement(index, setFieldValue)}>
+                                                                <svg
+                                                                    className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                    aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24"
+                                                                    height="24"
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        fillRule="evenodd"
+                                                                        d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
+                                                                        clipRule="evenodd"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                        </li>
+                                                    ))}
+                                                    <li>
+                                                        <div className="flex items-center justify-center w-full">
+                                                            <label
+                                                                htmlFor="listImageStatementFile"
+                                                                className="flex flex-col items-center justify-center w-48 h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                            >
+                                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                                        <path fillRule="evenodd" d="M12 3a1 1 0 0 1 .78.375l4 5a1 1 0 1 1-1.56 1.25L13 6.85V14a1 1 0 1 1-2 0V6.85L8.78 9.626a1 1 0 1 1-1.56-1.25l4-5A1 1 0 0 1 12 3ZM9 14v-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4v1a3 3 0 1 1-6 0Zm8 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clipRule="evenodd" />
+                                                                    </svg>
+
+                                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                                                                        Upload image
+                                                                    </p>
+                                                                    <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
+                                                                </div>
+                                                                <input
+                                                                    multiple
+                                                                    id="listImageStatementFile"
+                                                                    type="file"
+                                                                    accept=".jpg"
+                                                                    alt="image"
+                                                                    className="hidden"
+                                                                    name="listImageStatementFile"
+                                                                    onChange={(e) => { fileSelectedStatementImageHandler(e, setFieldValue) }} />
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <p className="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.listImageStatementFile && touched.listImageStatementFile && errors.listImageStatementFile}</p>
+                                            </div>
+                                        </div>
+
                                         <div className="">
                                             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                                 Nội dung

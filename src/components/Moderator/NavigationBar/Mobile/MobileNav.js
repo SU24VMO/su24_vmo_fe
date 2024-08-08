@@ -112,16 +112,25 @@ const MobileNav = () => {
               Danh sách yêu cầu tạo tổ chức
             </Link>
             <Link
-              to="/moderator/manageRequestActivities"
-              className={getLinkClass("/moderator/manageRequestActivities")}
+              to="/moderator/manageRequestActivitiesTier1"
+              className={getLinkClass("/moderator/manageRequestActivitiesTier1")}
             >
               <div className="w-fit">
                 <LandPlot className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo hoạt động
+              Danh sách yêu cầu tạo hoạt động toàn phần
             </Link>
+            <Link
+              to="/moderator/manageRequestActivitiesTier2"
+              className={getLinkClass("/moderator/manageRequestActivitiesTier2")}
+            >
+              <div className="w-fit">
+                <LandPlot className="w-fit" />
 
+              </div>
+              Danh sách yêu cầu tạo hoạt động từng phần
+            </Link>
             <Link
               to="/moderator/manageRequestNews"
               className={getLinkClass("/moderator/manageRequestNews")}

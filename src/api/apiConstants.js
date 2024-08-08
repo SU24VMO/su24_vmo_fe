@@ -13,6 +13,8 @@ export const UPDATEAPPROVEVOLUNTEERREQUEST = "/api/create-volunteer-request/chec
 export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-request/checking";
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
+export const UPDATEAPPROVESTAGEACTIVITYREQUEST = "/api/create-activity-request/tier-ii/checking";
+
 
 export const UPDATESTATUSREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
 export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/report-campaign/send-email";
@@ -27,8 +29,12 @@ export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
 export const CREATENEWS = "/api/create-post-request/create-new";
 export const CREATEACTIVITYOFOM = '/api/create-activity-request/create-new'
 
+export const CREATESTAGEACTIVITYOFOM = '/api/create-activity-request/tier-ii/create-new'
+export const CREATESTAGEACTIVITYOFVOLUNTEER = '/api/create-activity-request/tier-ii/create-new'
+
+
 //
-export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
+export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/tier-ii/create-new";
 
 
 
@@ -42,6 +48,8 @@ export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organ
 export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/'
 export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 
+export const GETPROCESSINGOMTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/organization-manager'
+export const GETPROCESSINGVOLUNTEERTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/volunteer'
 // -----------------
 
 export const GETREQUESTNEWSTOUPDATE = '/api/create-post-request/'
@@ -112,7 +120,9 @@ export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all/filter/ca
 export const GETALLREQUESTORGANIZATION = "/api/create-organization-request/all/filter/organization-name";
 export const GETALLREQUESTOM = "/api/create-organization-manager-request/all/filter/organization-manager-name";
 export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all/filter/volunteer-name";
-export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/all/filter/activity-name";
+export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/tier-i/all";
+export const GETALLREQUESTSTAGEACTIVITIES = "/api/create-activity-request/tier-ii/all";
+
 export const GETALLREQUESTNEWS = "/api/create-post-request/all/filter/post-title";
 
 export const GETALLACCOUNTSMEMBER = "/api/account/all/role/member"

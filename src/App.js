@@ -81,6 +81,11 @@ import UpdateActivityVolunteerPage from "./components/UpdateActivityVolunteerPag
 import ManageBankingCampaignPage from "./components/Admin/ManageBankingCampaignPage/ManageBankingCampaignPage";
 import ManageTransactionPage from "./components/Admin/ManageTransactionPage/ManageTransactionPage";
 import { LocationProvider } from "./context/LocationContext";
+import ManageVolunteerAllCampaignsTier2Table from "./components/VolunteerManagePage/ManageVolunteerAllCampaignsTier2Table/ManageVolunteerAllCampaignsTier2Table";
+import ManageOrganizeAllCampaignTier2Table from "./components/OrganizeManagePage/ManageOrganizeAllCampaignTier2Table/ManageOrganizeAllCampaignTier2Table";
+import CreateStageActivityVolunteerManagerPage from "./components/CreateStageActivityVolunteerManagerPage/CreateStageActivityVolunteerManagerPage";
+import CreateStageActivityOrganizationManagerPage from "./components/CreateStageActivityOrganizationManagerPage/CreateStageActivityOrganizationManagerPage";
+import ManageRequestStagesActivitiesPage from "./components/Moderator/ManageRequestStagesActivitiesPage/ManageRequestStagesActivitiesPage";
 
 
 function App() {
@@ -93,150 +98,156 @@ function App() {
           <meta name="keywords" content="VMO, tình nguyện, mô hình, giúp đỡ" />
         </Helmet>
         <LocationProvider>
-        <AuthProvider>
-          <ShowNavBarFooter>
-            {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
-            <NavigationBar />
-          </ShowNavBarFooter>
-          <Routes>
-            {/* Guest */}
+          <AuthProvider>
+            <ShowNavBarFooter>
+              {/* cái ShowNavBarFooter có tác dụng ngăn render ở những trang không mong muốn như Login, Signup v....v */}
+              <NavigationBar />
+            </ShowNavBarFooter>
+            <Routes>
+              {/* Guest */}
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
-            <Route path="/loginModeratorVMO" element={<ModeratorLoginPage />} />
-            <Route path="/introduction" element={<IntroductionPage />} />
-            <Route path="/terms" element={<TermsPage></TermsPage>} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/loginAdminVMO" element={<LoginAdminPage />} />
+              <Route path="/loginModeratorVMO" element={<ModeratorLoginPage />} />
+              <Route path="/introduction" element={<IntroductionPage />} />
+              <Route path="/terms" element={<TermsPage></TermsPage>} />
 
 
 
-            <Route path="/" element={<HomePage></HomePage>} />
-            <Route path="/home" element={<HomePage></HomePage>} />
-            <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
-            <Route path="/viewCampaigns/search/:id" element={<ViewCampaignsSearchPage key={window.location.pathname}></ViewCampaignsSearchPage>} />
-            <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
-            <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
-            <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage key={window.location.pathname}></ViewCampaignDetailPage>} />
-            <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
-            <Route path="/organization/:id" element={<ViewProfileOrganizationPage></ViewProfileOrganizationPage>} />
-            <Route path="/signup" element={<SignUpPage></SignUpPage>} />
-            <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
-            <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
-            <Route path="/news/newsDetail/:id" element={<NewsDetailPage></NewsDetailPage>} />
-            <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
+              <Route path="/" element={<HomePage></HomePage>} />
+              <Route path="/home" element={<HomePage></HomePage>} />
+              <Route path="/viewCampaigns" element={<ViewCampaignsPage></ViewCampaignsPage>} />
+              <Route path="/viewCampaigns/search/:id" element={<ViewCampaignsSearchPage key={window.location.pathname}></ViewCampaignsSearchPage>} />
+              <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
+              <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
+              <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage key={window.location.pathname}></ViewCampaignDetailPage>} />
+              <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
+              <Route path="/organization/:id" element={<ViewProfileOrganizationPage></ViewProfileOrganizationPage>} />
+              <Route path="/signup" element={<SignUpPage></SignUpPage>} />
+              <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} />
+              <Route path="/news" element={<ViewNewsPage></ViewNewsPage>} />
+              <Route path="/news/newsDetail/:id" element={<NewsDetailPage></NewsDetailPage>} />
+              <Route path="/unauthorized" element={<UnauthorizedPage></UnauthorizedPage>} />
 
-            {/* All role isLogin */}
-            <Route element={<PrivateRoute allowedRoles={["Member", "Volunteer", "OrganizationManager", "Moderator"]} requireVerification={false} />}>
-              {/* <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} /> */}
-              <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
-              <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
-              <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
-              <Route path="/donate/:campaignID" element={<DonatePage />} />
-              <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
-              <Route path="/updateNews/:id" element={<UpdateNewsPage/>} />
+              {/* All role isLogin */}
+              <Route element={<PrivateRoute allowedRoles={["Member", "Volunteer", "OrganizationManager", "Moderator"]} requireVerification={false} />}>
+                {/* <Route path="/resetPassword" element={<ResetPasswordPage></ResetPasswordPage>} /> */}
+                <Route path="/viewProfile" element={<ViewProfilePage></ViewProfilePage>} />
+                <Route path="/changePassword" element={<ChangePassswordPage></ChangePassswordPage>} />
+                <Route path="/editProfile" element={<EditProfilePage></EditProfilePage>} />
+                <Route path="/donate/:campaignID" element={<DonatePage />} />
+                <Route path="/createNews" element={<CreatNewsPage></CreatNewsPage>} />
+                <Route path="/updateNews/:id" element={<UpdateNewsPage />} />
 
-            </Route>
+              </Route>
 
-            {/* Organize && Volunteer role  */}
-            {/* <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Volunteer"]} />}>
+              {/* Organize && Volunteer role  */}
+              {/* <Route element={<PrivateRoute allowedRoles={["OrganizationManager", "Volunteer"]} />}>
             </Route> */}
 
-            {/* Only Volunteer */}
-            <Route element={<PrivateRoute allowedRoles={["Volunteer"]} />}>
-
-              {/* Volunteer manager */}
-              <Route path="/manage/volunteer/allCampaigns" element={<ManageVolunteerAllCampaignsTable />} />
-              <Route path="/manage/volunteer/allNews" element={<ManageVolunteerNewsTable />} />
-              <Route path="/manage/volunteer/allPhase1" element={<ManageVolunteerPhase1Table />} />
-              <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table />} />
-              <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table />} />
-              <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
-              <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
-              <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
-              <Route path="/updateCampaignVolunteer/:id" element={<UpdateCampaignVolunteerPage />} />
-              <Route path="/updateActivityVolunteer/:id" element={<UpdateActivityVolunteerPage />} />
-
-
-            </Route>
-
-            <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} />}>
-
-              {/* Only Organize manager */}
-              <Route path="/manage/organize/allOrganizations" element={<ManageOrganizeOrganizationsTable />} />
-              <Route path="/manage/organize/allCampaigns" element={<ManageOrganizeAllCampaignsTable></ManageOrganizeAllCampaignsTable>} />
-              <Route path="/manage/organize/allNews" element={<ManageOrganizeNewsTable></ManageOrganizeNewsTable>} />
-              <Route path="/manage/organize/allPhase1" element={<ManageOrganizePhase1Table></ManageOrganizePhase1Table>} />
-              <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
-              <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
-              <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
-              <Route path="/createOrganization" element={<CreateOrganizePage />} />
-              {/* <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} /> */}
-              <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
-              <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage />} />
-              <Route path="/updateCampaignOrganizationManager/:id" element={<UpdateCampaignOrganizationManagerPage />} />
-              <Route path="/updateActivityOrganizationManager/:id" element={<UpdateActivityOrganizationManagerPage />} />
-              <Route path="/updateOrganization/:id" element={<UpdateOrganizationPage/>} />
-
-
-
-
-            </Route>
-
-
-
-
-            <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} requireVerification={false} />}>
-
-              {/* Only Organize manager */}
-              <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
-
-
-            </Route>
-
-
-            <Route element={<PrivateRoute allowedRoles={["Member"]} requireVerification={false} />}>
-
               {/* Only Volunteer */}
-              <Route path="/createVerifyVolunteer" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
+              <Route element={<PrivateRoute allowedRoles={["Volunteer"]} />}>
+
+                {/* Volunteer manager */}
+                <Route path="/manage/volunteer/allCampaignsTier1" element={<ManageVolunteerAllCampaignsTable />} />
+                <Route path="/manage/volunteer/allCampaignsTier2" element={<ManageVolunteerAllCampaignsTier2Table />} />
+
+                <Route path="/manage/volunteer/allNews" element={<ManageVolunteerNewsTable />} />
+                <Route path="/manage/volunteer/allPhase1" element={<ManageVolunteerPhase1Table />} />
+                <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table />} />
+                <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table />} />
+                <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
+
+                <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
+                <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
+                <Route path="/updateCampaignVolunteer/:id" element={<UpdateCampaignVolunteerPage />} />
+                <Route path="/updateActivityVolunteer/:id" element={<UpdateActivityVolunteerPage />} />
+                <Route path="/createStageActivityVolunteer" element={<CreateStageActivityVolunteerManagerPage />} />
 
 
-
-            </Route>
-
-
-
-            {/* Other routes */}
-
-
-            <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false} />}>
-              <Route path="/admin" element={<Admin />}>
-                <Route index element={<AdminHomePage />} />
-                <Route path="manageVolunteers" element={<ManageVolunteerPage />} />
-                <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
-                <Route path="manageModerators" element={<ManageModeratorsPage />} />
-                <Route path="manageMembers" element={<ManageMembersPage />} />
-                <Route path="manageBanking" element={<ManageBankingCampaignPage />} />
-                <Route path="manageTransaction" element={<ManageTransactionPage />} />
               </Route>
-            </Route>
 
-            <Route element={<PrivateRoute allowedRoles={["Moderator"]} />}>
-              <Route path="/moderator" element={<Moderator />}>
-                <Route index element={<ModeratorHomePage />} />
-                <Route path="manageRequestActivities" element={<ManageRequestActivitiesPage />} />
-                <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage />} />
-                <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage />} />
-                <Route path="manageRequestVolunteers" element={<ManageRequestVolunteersPage />} />
-                <Route path="manageRequestNews" element={<ManageRequestNewsPage />} />
-                <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage />} />
+              <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} />}>
+
+                {/* Only Organize manager */}
+                <Route path="/manage/organize/allOrganizations" element={<ManageOrganizeOrganizationsTable />} />
+                <Route path="/manage/organize/allCampaignsTier1" element={<ManageOrganizeAllCampaignsTable></ManageOrganizeAllCampaignsTable>} />
+                <Route path="/manage/organize/allCampaignsTier2" element={<ManageOrganizeAllCampaignTier2Table></ManageOrganizeAllCampaignTier2Table>} />
+                <Route path="/manage/organize/allNews" element={<ManageOrganizeNewsTable></ManageOrganizeNewsTable>} />
+                <Route path="/manage/organize/allPhase1" element={<ManageOrganizePhase1Table></ManageOrganizePhase1Table>} />
+                <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
+                <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
+                <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
+                <Route path="/createOrganization" element={<CreateOrganizePage />} />
+                {/* <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} /> */}
+                <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
+                <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage />} />
+                <Route path="/updateCampaignOrganizationManager/:id" element={<UpdateCampaignOrganizationManagerPage />} />
+                <Route path="/updateActivityOrganizationManager/:id" element={<UpdateActivityOrganizationManagerPage />} />
+                <Route path="/updateOrganization/:id" element={<UpdateOrganizationPage />} />
+                <Route path="/createStageActivityOM" element={<CreateStageActivityOrganizationManagerPage />} />
+
+
               </Route>
-            </Route>
 
 
-            <Route path="*" element={<NotFound></NotFound>} />
-          </Routes>
+
+
+              <Route element={<PrivateRoute allowedRoles={["OrganizationManager"]} requireVerification={false} />}>
+
+                {/* Only Organize manager */}
+                <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} />
+
+
+              </Route>
+
+
+              <Route element={<PrivateRoute allowedRoles={["Member"]} requireVerification={false} />}>
+
+                {/* Only Volunteer */}
+                <Route path="/createVerifyVolunteer" element={<SignUpVerifyUserPage></SignUpVerifyUserPage>} />
+
+
+
+              </Route>
+
+
+
+              {/* Other routes */}
+
+
+              <Route element={<PrivateRoute allowedRoles={["Admin"]} requireVerification={false} />}>
+                <Route path="/admin" element={<Admin />}>
+                  <Route index element={<AdminHomePage />} />
+                  <Route path="manageVolunteers" element={<ManageVolunteerPage />} />
+                  <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
+                  <Route path="manageModerators" element={<ManageModeratorsPage />} />
+                  <Route path="manageMembers" element={<ManageMembersPage />} />
+                  <Route path="manageBanking" element={<ManageBankingCampaignPage />} />
+                  <Route path="manageTransaction" element={<ManageTransactionPage />} />
+                </Route>
+              </Route>
+
+              <Route element={<PrivateRoute allowedRoles={["Moderator"]} />}>
+                <Route path="/moderator" element={<Moderator />}>
+                  <Route index element={<ModeratorHomePage />} />
+                  <Route path="manageRequestActivitiesTier1" element={<ManageRequestActivitiesPage />} />
+                  <Route path="manageRequestActivitiesTier2" element={<ManageRequestStagesActivitiesPage />} />
+
+                  <Route path="manageRequestOrganizations" element={<ManageRequestOrganizationsPage />} />
+                  <Route path="manageRequestOrganizationManagers" element={<ManageRequestOrganizationManagersPage />} />
+                  <Route path="manageRequestVolunteers" element={<ManageRequestVolunteersPage />} />
+                  <Route path="manageRequestNews" element={<ManageRequestNewsPage />} />
+                  <Route path="manageRequestCampaigns" element={<ManageRequestCampaignsPage />} />
+                </Route>
+              </Route>
+
+
+              <Route path="*" element={<NotFound></NotFound>} />
+            </Routes>
             <Footer />
-          <Toaster />
-        </AuthProvider>
+            <Toaster />
+          </AuthProvider>
         </LocationProvider>
       </BrowserRouter>
     </div>

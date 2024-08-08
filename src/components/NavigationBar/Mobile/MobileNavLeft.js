@@ -126,13 +126,14 @@ const MobileNavLeft = () => {
                   <>
                     <Separator className="mb-5" />
                     <div className="w-full mb-5">
-                      <Link to="/manage/volunteer/allCampaigns">
+                      <Link to="/manage/volunteer/allCampaignsTier1">
                         <Button
                           variant="ghost"
                           className={
                             "w-full items-start justify-start" +
                             getLinkClass([
-                              "/manage/volunteer/allCampaigns",
+                              "/manage/volunteer/allCampaignsTier1",
+                              "/manage/volunteer/allCampaignsTier2",
                               "/manage/volunteer/allNews",
                               "/manage/volunteer/allPhase1",
                               "/manage/volunteer/allPhase2",
@@ -181,7 +182,8 @@ const MobileNavLeft = () => {
                             "w-full items-start justify-start" +
                             getLinkClass([
                               "/manage/organize/allOrganizations",
-                              "/manage/organize/allCampaigns",
+                              "/manage/organize/allCampaignsTier1",
+                              "/manage/organize/allCampaignsTier2",
                               "/manage/organize/allNews",
                               "/manage/organize/allPhase1",
                               "/manage/organize/allPhase2",

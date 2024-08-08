@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TypeOfCampaignSelect from "./TypeOfCampaignSelect/TypeOfCampaignSelect";
 import EndDayPicker from "./EndDayPicker/EndDayPicker";
 import StartDayPicker from "./StartDayPicker/StartDayPicker";
@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useNavigate } from "react-router-dom";
 import SelectBanks from "./SelectBanks/SelectBanks";
 import './HiddenInputUpDown.css'
-
+import SelectCampaignDisbursement from "./SelectCampaignDisbursement/SelectCampaignDisbursement";
 
 export default function CreateCampaignOrganizationManagerPage() {
     const { toast } = useToast();
@@ -70,22 +70,71 @@ export default function CreateCampaignOrganizationManagerPage() {
         const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         return formattedValue;
     };
-    // Handle change for targetAmount input
-    const handleTargetAmountChange = (e, setFieldValue) => {
-        const formattedValue = formatAmount(e.target.value);
-        // Update the targetAmount value with the formatted value
-        setFieldValue("targetAmount", formattedValue);
-    };
 
     const cleanFormattedAmount = (formattedValue) => {
         return formattedValue.replace(/\./g, '');
     };
+
+    const handleTargetAmountChange = (e, setFieldValue) => {
+        const formattedValue = formatAmount(e.target.value);
+        // Update the targetAmount value with the formatted value
+        
+        setFieldValue("targetAmount", formattedValue);
+
+    };
+
+    const [elements, setElements] = useState([]);
+
+
+    const handleInputChange = (index, field, value, setFieldValue) => {
+        const cleanedValue = cleanFormattedAmount(value);
+        console.log('====================================');
+        console.log('gốc',elements);
+        console.log('====================================');
+
+        setElements(prevElements => {
+            const updatedElements = prevElements.map((element, i) =>
+                i === index ? { ...element, [field]: cleanedValue } : element
+            );
+            setFieldValue('stages', updatedElements);
+            return updatedElements;
+        });
+    };
+
+    const validateTitle = (title) => {
+        return title.trim() !== '';
+    };
+
+    const validateAmount = (amount) => {
+        const cleanedAmount = cleanFormattedAmount(amount);
+        return cleanedAmount.trim() !== '';
+    };
+
+    const addElement = () => {
+        setElements(prevElements => [...prevElements, { title: '', amount: '' }]);
+    };
+
+    const removeElement = (index, setFieldValue) => {
+        setElements(prevElements => {
+            const updatedElements = prevElements.filter((_, i) => i !== index);
+            setFieldValue('stages', updatedElements);
+            return updatedElements;
+        });
+    };
+
+    // const handleSetListStages = (e, setFieldValue) => {
+    //     console.log('====================================');
+    //     console.log('tại đây:', elements);
+    //     console.log('====================================');
+    //     setFieldValue('stages', elements);
+    // };
+
     const createCampaign = async (data, resetForm) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
-        formData.append('QRCode', data.imageQRCode); 
+        formData.append('QRCode', data.imageQRCode);
         formData.append('Name', data.nameOfCampaign);
         formData.append('Address', data.address);
         formData.append('CampaignTypeId', data.typeOfCampaign);
@@ -97,9 +146,13 @@ export default function CreateCampaignOrganizationManagerPage() {
         formData.append('BankingName', data.nameOfBank);
         formData.append('AccountName', data.nameOfUserBank);
         formData.append('BankingAccountNumber', data.numberOfBankAccount);
+        formData.append('CampaignTier', data.campaignTier);
+        formData.append('stagesJson', JSON.stringify(data.stages))
+       
 
         try {
             const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, formData, {
+
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -108,14 +161,14 @@ export default function CreateCampaignOrganizationManagerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
-                navigate("/manage/organize/allCampaigns")
+                navigate("/manage/organize/allCampaignsTier2")
                 resetForm();
 
                 toast({
                     title: "Tạo chiến dịch thành công !",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
                 });
-            } 
+            }
 
         } catch (error) {
             if (error.response && error.response.data) {
@@ -165,12 +218,13 @@ export default function CreateCampaignOrganizationManagerPage() {
                 nameOfUserBank: "",
                 numberOfBankAccount: "",
                 imageQRCode: null,
+                campaignTier: null,
+                stages: elements,
 
 
             }}
             validate={(values) => {
                 const errors = {};
-                console.log("lỗi", errors);
                 var today = new Date();
                 today.setHours(0, 0, 0, 0); // Đặt giờ phút giây về 0 để so sánh chính xác hơn
                 var startDate = new Date(values.startDate);
@@ -270,14 +324,16 @@ export default function CreateCampaignOrganizationManagerPage() {
                 if (!values.imageLocalDocument) {
                     errors.imageLocalDocument = "Không được để trống!";
                 }
+                // campaignTier validate 
+                if (!values.campaignTier) {
+                    errors.campaignTier = "Không được để trống!";
+                }
 
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
                 createCampaign(values, resetForm)
-                setSubmitting(false);
-
-
+              
             }}
         >
             {({
@@ -557,10 +613,125 @@ export default function CreateCampaignOrganizationManagerPage() {
 
                                         <TypeOfCampaignSelect
                                             setFieldValue={setFieldValue}
-                                            selectTriggerId="typeOfCampaign"></TypeOfCampaignSelect>
+                                            selectTriggerId="typeOfCampaign"
+                                        >
+
+                                        </TypeOfCampaignSelect>
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.typeOfCampaign && touched.typeOfCampaign && errors.typeOfCampaign}</p>
 
                                     </div>
+
+                                    <div className="mb-6">
+                                        <label for="campaignTier" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loại hình giải ngân *</label>
+
+                                        <SelectCampaignDisbursement
+                                            setFieldValue={setFieldValue}
+                                            selectTriggerId="campaignTier"
+                                        >
+
+                                        </SelectCampaignDisbursement>
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.campaignTier && touched.campaignTier && errors.campaignTier}</p>
+
+                                    </div>
+                                    <div className="mb-6">
+                                        <label
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            htmlFor="file_input"
+                                        >
+                                            Kế hoạch chiến dịch
+                                        </label>
+                                        <div className="rounded-lg border bg-card text-card-foreground shadow-sm"
+                                            // onChange={(e) => handleSetListStages(e, setFieldValue)}
+                                        >
+                                            <div className="flex flex-col space-y-1.5 p-6">
+                                                <h3 className="font-medium text-muted-foreground">Tiến trình</h3>
+                                            </div>
+                                            {elements.map((el, index) => (
+                                                <div className="p-6 pt-0 flex gap-6" key={index}>
+                                                    <div className="flex flex-col justify-center">
+                                                        <div className="w-12 h-12 rounded-full bg-blue-100 items-center flex justify-center">
+                                                            <span>{index}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={`title-${index}`}>
+                                                            Mô tả
+                                                        </label>
+                                                        <input
+                                                            className='flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2'
+                                                            id={`title-${index}`}
+                                                            placeholder="Tên...."
+                                                            value={el.title}
+                                                            onChange={(e) => handleInputChange(index, 'title', e.target.value, setFieldValue)}
+                                                        />
+                                                        {validateTitle(el.title) ? "" : <p className="mt-2 text-sm text-red-600 dark:text-red-500">"Vui lòng điền"</p>}
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={`amount-${index}`}>
+                                                            Số tiền
+                                                        </label>
+                                                        <div className="relative">
+                                                            <input
+                                                                type="text"
+                                                                name="amount"
+                                                                id={`amount-${index}`}
+                                                                maxLength="11"
+                                                                autoComplete="off"
+                                                                className='bg-gray-50 border text-gray-900 font-semibold text-sm rounded-lg block w-full p-2.5 focus:ring-2'
+                                                                placeholder="0"
+                                                                value={formatAmount(el.amount)}
+                                                                onChange={(e) => handleInputChange(index, 'amount', e.target.value, setFieldValue)}
+                                                                aria-describedby="price-currency"
+                                                            />
+                                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                                                <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
+                                                                    VND
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        {validateAmount(el.amount) ? "" : <p className="mt-2 text-sm text-red-600 dark:text-red-500">"Vui lòng điền"</p>}
+                                                    </div>
+
+                                                    <div className="flex flex-col justify-center items-center">
+                                                        <button
+                                                            type="button"
+                                                            className="px-8 py-2 rounded bg-red-500 text-white"
+                                                            onClick={() => removeElement(index, setFieldValue)}
+                                                        >
+                                                            Xóa
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+
+                                            <div className="flex items-center p-6 pt-0 justify-between space-x-2">
+                                                <button
+                                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                                                    onClick={addElement}
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        className="lucide lucide-circle-plus"
+                                                    >
+                                                        <circle cx="12" cy="12" r="10" />
+                                                        <path d="M8 12h8" />
+                                                        <path d="M12 8v8" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {user.role === "OrganizationManager" ?
                                         <div className="mb-6">
                                             <label for="organizations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chọn tổ chức *</label>
@@ -572,38 +743,38 @@ export default function CreateCampaignOrganizationManagerPage() {
 
                                         </div> : ""
                                     }
-                                     <div className="mb-6">
+                                    <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
                                         {fileImageDocument ? (<div className=" flex flex-col justify-center items-center">
-                                                <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
-                                                    id="image"
+                                            <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
+                                                id="image"
 
-                                                    value={fileImageDocument}
-                                                    src={fileImageDocument} width={220} height={220} alt="qr-code" />
-                                                <button type="button"
-                                                    onClick={(e) => { removeImageDocument(e, setFieldValue) }}
-                                                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+                                                value={fileImageDocument}
+                                                src={fileImageDocument} width={220} height={220} alt="qr-code" />
+                                            <button type="button"
+                                                onClick={(e) => { removeImageDocument(e, setFieldValue) }}
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
 
-                                            </div>) : (<div>
-                                               
-                                                <label
-                                                    className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                    htmlFor="imageLocalDocument"
-                                                >
-                                                    <span className="ml-2">Chọn ảnh</span>
-                                                </label>
-                                                <input
-                                                    className="hidden"
-                                                    aria-describedby="imageLocalDocument"
-                                                    id="imageLocalDocument"
-                                                    name="imageLocalDocument"
-                                                    onChange={(e) => { handleImageLocalDocument(e, setFieldValue) }}
-                                                    type="file"
-                                                    accept="image/png, image/jpeg, image/jpg"
-                                                />
-                                                  <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageLocalDocument && touched.imageLocalDocument && errors.imageLocalDocument}</p>
+                                        </div>) : (<div>
 
-                                            </div>)}
+                                            <label
+                                                className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                htmlFor="imageLocalDocument"
+                                            >
+                                                <span className="ml-2">Chọn ảnh</span>
+                                            </label>
+                                            <input
+                                                className="hidden"
+                                                aria-describedby="imageLocalDocument"
+                                                id="imageLocalDocument"
+                                                name="imageLocalDocument"
+                                                onChange={(e) => { handleImageLocalDocument(e, setFieldValue) }}
+                                                type="file"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+                                            <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageLocalDocument && touched.imageLocalDocument && errors.imageLocalDocument}</p>
+
+                                        </div>)}
 
 
 

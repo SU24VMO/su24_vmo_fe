@@ -1,8 +1,8 @@
 import React from "react";
-import TableRequestActivities from "./TableRequestActivities/TableRequestActivities";
 import { Helmet } from "react-helmet";
+import TableRequestStageActivities from "./TableRequestActivities/TableRequestStageActivities";
 
-const ManageRequestActivitiesPage = () => {
+const ManageRequestStagesActivitiesPage = () => {
   return (
     <>
       <Helmet>
@@ -12,10 +12,10 @@ const ManageRequestActivitiesPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Danh sách yêu cầu tạo hoạt động toàn phần</p>
-      <TableRequestActivities />
+      <p className="font-bold text-2xl">Danh sách yêu cầu tạo hoạt động từng phần</p>
+      <TableRequestStageActivities />
     </>
   );
 };
 
-export default ManageRequestActivitiesPage;
+export default ManageRequestStagesActivitiesPage;

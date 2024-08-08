@@ -122,7 +122,7 @@ export const columns =({ onSort, onConfirm }) => [
       );
     },
     cell: ({ row }) => {
-      const startDate = format(new Date(row.original?.processingPhase?.startDate), 'dd/MM/yyyy, h:mm:ss a');
+      const startDate = format(new Date(row.original?.processingPhases[0]?.startDate), 'dd/MM/yyyy, h:mm:ss a');
       return <div className="w-max">{startDate}</div>;
     },
   },

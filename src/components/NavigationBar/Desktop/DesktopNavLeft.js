@@ -93,11 +93,12 @@ const DesktopNavLeft = () => {
           <>
             {/* Check if role is Volunteer and is verified */}
             {user?.role === "Volunteer" && user.is_verified === "True" ? (
-              <Link to="/manage/volunteer/allCampaigns">
+              <Link to="/manage/volunteer/allCampaignsTier1">
                 <Button
                   variant="ghost"
                   className={getLinkClass([
-                    "/manage/volunteer/allCampaigns",
+                    "/manage/volunteer/allCampaignsTier1",
+                    "/manage/volunteer/allCampaignsTier2",
                     "/manage/volunteer/allNews",
                     "/manage/volunteer/allPhase1",
                     "/manage/volunteer/allPhase2",
@@ -118,7 +119,8 @@ const DesktopNavLeft = () => {
                   variant="ghost"
                   className={getLinkClass([
                     "/manage/organize/allOrganizations",
-                    "/manage/organize/allCampaigns",
+                    "/manage/organize/allCampaignsTier1",
+                    "/manage/organize/allCampaignsTier2",
                     "/manage/organize/allNews",
                     "/manage/organize/allPhase1",
                     "/manage/organize/allPhase2",

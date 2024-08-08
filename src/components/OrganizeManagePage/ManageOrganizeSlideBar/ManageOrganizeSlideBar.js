@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ReactComponent as IconSlidebar } from "../../../assets/images/button-slidebar.svg";
-import AllCampaignsButton from "./AllCampaignsButton";
+import AllCampaignsButton from "./AllCampaignTier1Button";
 import Phase1Button from "./Phase1Button";
 import Phase2Button from "./Phase2Button";
 import Phase3Button from "./Phase3Button";
@@ -8,6 +8,8 @@ import AllActivitiesButton from "./AllActivitiesButton";
 import { Link, useLocation } from "react-router-dom";
 import AllOrganizationsButton from "./AllOrganizationsButton";
 import AllNewsButton from "./AllNewsButton";
+import AllCampaignTier1Button from "./AllCampaignTier1Button";
+import AllCampaignTier2Button from "./AllCampaignTier2Button";
 
 export default function ManageOrganizeSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -94,9 +96,15 @@ export default function ManageOrganizeSlideBar() {
                 <AllOrganizationsButton />
               </li>
             </Link>
-            <Link to="/manage/organize/allCampaigns">
-              <li className={getLinkClass("/manage/organize/allCampaigns")}>
-                <AllCampaignsButton />
+            
+            <Link to="/manage/organize/allCampaignsTier1">
+              <li className={getLinkClass("/manage/organize/allCampaignsTier1")}>
+                <AllCampaignTier1Button />
+              </li>
+            </Link>
+            <Link to="/manage/organize/allCampaignsTier2">
+              <li className={getLinkClass("/manage/organize/allCampaignsTier2")}>
+                <AllCampaignTier2Button />
               </li>
             </Link>
             <Link to="/manage/organize/allActivities">
