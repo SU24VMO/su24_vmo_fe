@@ -112,7 +112,7 @@ const CardCampaign = ({
                 {/* {processingPhaseName && (
                   <Badge variant="default">{processingPhaseName}</Badge>
                 )} */}
-                <p className="text-lg font-bold mt-2 mb-4 truncate">{campaignName}</p>
+                <p className="text-lg font-bold mt-2 mb-4 text-ellipsis">{campaignName}</p>
                 {/* <p className="text-lg mb-2">
                   Tạo bởi <b>{organizerName}</b>
                 </p> */}

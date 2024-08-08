@@ -31,8 +31,8 @@ const CustomCardCampaign = ({
               </div>
             </div>
             <div className="bg-white w-full px-6">
-              <p className="text-lg font-bold mt-2 mb-4 truncate">{campaignName}</p>
-              <p className="text-lg mb-2">
+              <p className="text-sm mobile:text-lg font-bold mt-2 mb-4 tablet:truncate">{campaignName}</p>
+              <p className="text-sm mobile:text-lg mb-2">
                 Tạo bởi <b>{organizerName}</b>
               </p>
               <Progress
@@ -40,7 +40,7 @@ const CustomCardCampaign = ({
                 className="w-full bg-[#e9ecef] mb-2"
               />
               <div className="w-full flex justify-between">
-                <p className="text-lg mb-2">
+                <p className="text-sm mobile:text-lg mb-2">
                   Đã đạt được <b>{achievedAmount}</b>
                 </p>
                 <p className="text-muted-foreground">{`${progressValue}%`}</p>

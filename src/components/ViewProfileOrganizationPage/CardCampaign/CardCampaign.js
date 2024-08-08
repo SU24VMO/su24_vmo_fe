@@ -87,7 +87,7 @@ const CardCampaign = ({
               </div>
             </div>
             <div className="bg-white w-full px-6">
-              <p className="text-lg font-bold mt-2 mb-4 truncate">{campaignName}</p>
+              <p className="text-sm mobile:text-lg font-bold mt-2 mb-4">{campaignName}</p>
             </div>
           </div>
         </CardContent>
