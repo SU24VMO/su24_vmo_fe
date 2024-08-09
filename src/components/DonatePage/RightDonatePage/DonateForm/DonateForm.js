@@ -31,7 +31,7 @@ import { ToastAction } from "../../../ui/toast";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
+const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaignTier }) => {
   const [selectedAmount, setSelectedAmount] = React.useState(null);
   const [formattedValue, setFormattedValue] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -374,6 +374,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                 lastName={lastname}
                 orderID={orderId}
                 campaignID={campaignId}
+                campaignTier={campaignTier}
               />
             </div>
           </DialogContent>
@@ -435,6 +436,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email }) => {
                   lastName={lastname}
                   orderID={orderId}
                   campaignID={campaignId}
+                  campaignTier={campaignTier}
                 />
               </div>
             </div>

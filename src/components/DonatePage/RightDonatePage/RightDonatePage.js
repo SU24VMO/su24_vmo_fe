@@ -7,6 +7,7 @@ const RightDonatePage = ({ data }) => {
 
   console.log("CampaignId để donate lúc này", data.campaignID);
   console.log("User id hiện tại", user.account_id);
+  console.log("Campaign tier hiện tại", data.campaignTier);
   return (
     <div className="flex flex-col space-y-4">
       <DonateForm
@@ -15,6 +16,7 @@ const RightDonatePage = ({ data }) => {
         firstname={user.firstname}
         lastname={user.lastname}
         email={user.email}
+        campaignTier={data.campaignTier}
       />
     </div>
   );

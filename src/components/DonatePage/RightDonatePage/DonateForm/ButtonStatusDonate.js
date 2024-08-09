@@ -13,6 +13,7 @@ export function ButtonStatusDonate({
   lastName,
   email,
   campaignID,
+  campaignTier,
 }) {
   const [status, setStatus] = React.useState("checking"); // 'checking', 'paid', 'notPaid'
   const intervalId = React.useRef(null);
@@ -31,7 +32,8 @@ export function ButtonStatusDonate({
           if (response.data.data === "PAID") {
             toast({
               title: "Thanh toán thành công!",
-              description: "Cảm ơn bạn đã ủng hộ chiến dịch! Vui lòng quay lại trang chiến dịch để xem thông tin chi tiết.",
+              description:
+                "Cảm ơn bạn đã ủng hộ chiến dịch! Vui lòng quay lại trang chiến dịch để xem thông tin chi tiết.",
               action: <ToastAction altText="undo">Ẩn</ToastAction>,
             });
             setStatus("paid");
@@ -71,7 +73,11 @@ export function ButtonStatusDonate({
     );
   } else if (status === "paid") {
     return (
-      <Link to={`/viewCampaigns/campaignDetail/${campaignID}`}>
+      <Link
+        to={`/viewCampaigns/campaignDetail/${
+          campaignTier === 1 ? "tier1" : "tier2"
+        }/${campaignID}`}
+      >
         <Button variant="feature">Thanh toán thành công !</Button>
       </Link>
     );

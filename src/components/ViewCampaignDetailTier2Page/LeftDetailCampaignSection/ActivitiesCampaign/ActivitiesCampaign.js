@@ -17,14 +17,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../ui/carousel";
-import { Button } from "../../../ui/button";
-import { Step, Stepper } from "../../../ui/stepper";
+import { Step, Stepper, useStepper } from "../../../ui/stepper";
 import { Badge } from "../../../ui/badge";
+import StatementCard from "../StatementsCampaign/StatementCard/StatementCard";
 
 const ActivitiesCampaign = ({ processingPhases }) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
-  const [maxHeight, setMaxHeight] = React.useState("10em");
-  const contentRef = React.useRef(null);
   // Khởi tạo state với mỗi activityId là key và link ảnh đầu tiên là giá trị
   // Để khởi tạo, chúng ta sử dụng `activities.reduce()` để tạo ra object này từ mảng `activities`.
   // Với mỗi `activity`, chúng ta sử dụng `activityId` làm key.
@@ -35,6 +32,17 @@ const ActivitiesCampaign = ({ processingPhases }) => {
 
   const handleDownload = (url) => {
     window.open(url, "_blank");
+  };
+
+  const calculateInitialStep = (processingPhases) => {
+    let step = 0;
+    for (const phase of processingPhases) {
+      if (phase.isProcessing) {
+        break;
+      }
+      step++;
+    }
+    return step;
   };
 
   React.useEffect(() => {
@@ -54,36 +62,6 @@ const ActivitiesCampaign = ({ processingPhases }) => {
       [activityId]: imageLink,
     }));
   };
-
-  const toggleContent = () => {
-    if (isExpanded) {
-      setMaxHeight("10em"); // Đặt lại về giá trị ban đầu khi thu gọn
-    } else {
-      setMaxHeight(`${contentRef.current.scrollHeight}px`); // Cập nhật maxHeight dựa trên độ cao thực tế của nội dung
-    }
-    setIsExpanded(!isExpanded);
-  };
-
-  const contentStyle = {
-    maxHeight: maxHeight,
-    overflow: "hidden",
-    position: "relative",
-    transition: "max-height 0.5s ease",
-    ...(isExpanded
-      ? {}
-      : {
-          // Khi chưa mở rộng, thêm bóng mờ ở cuối
-          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, black 50%, transparent 100%)",
-        }),
-  };
-
-  React.useEffect(() => {
-    if (isExpanded) {
-      setMaxHeight(`${contentRef.current.scrollHeight}px`);
-    }
-  }, [isExpanded]); // Cập nhật maxHeight khi campaignDescription thay đổi
 
   const formatMoney = (money) => {
     // Ensure money is a string
@@ -109,12 +87,10 @@ const ActivitiesCampaign = ({ processingPhases }) => {
       : "Chưa bắt đầu giai đoạn",
   }));
 
-  console.log(steps);
-
   return (
     <div className="flex w-full flex-col gap-4">
       <Stepper
-        initialStep={0}
+        initialStep={calculateInitialStep(processingPhases)}
         steps={steps}
         size="lg"
         variant="circle-alt"
@@ -145,7 +121,7 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                 phase.activities.map((activity) => (
                   <Card
                     key={activity.activityId}
-                    className="flex flex-col space-y-4"
+                    className="flex flex-col space-y-4 max-w-lg"
                   >
                     <CardHeader>
                       <CardTitle>{activity.title}</CardTitle>
@@ -156,8 +132,6 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                           "yyyy-MM-dd HH:mm a"
                         )}
                         <div
-                          ref={contentRef}
-                          style={contentStyle}
                           className="text-black my-3"
                           dangerouslySetInnerHTML={{
                             __html: activity.content.replace(
@@ -166,14 +140,6 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                             ),
                           }}
                         />
-                        <Button
-                          size={"lg"}
-                          variant={"link"}
-                          onClick={toggleContent}
-                          className="p-0"
-                        >
-                          {isExpanded ? "Thu gọn" : "Xem thêm"}
-                        </Button>
                       </CardDescription>
                     </CardHeader>
                     <div className="">
@@ -254,10 +220,25 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                   </Card>
                 ))
               )}
+              {phase.processingPhaseStatementFiles.length === 0 ? (
+                <p className="text-muted-foreground">Chưa có sao kê nào</p>
+              ) : (
+                <div className="flex flex-col space-y-4">
+                  <p className="text-black font-bold">Sao kê</p>
+                  <div className="grid mobile:grid-cols-3 gap-6">
+                    {phase.processingPhaseStatementFiles.map((file, index) => (
+                      <StatementCard
+                        key={index}
+                        statementImage={file.link}
+                        statementCreatedDate={file.createDate}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </Step>
         ))}
-        {/* <Footer /> */}
       </Stepper>
     </div>
   );

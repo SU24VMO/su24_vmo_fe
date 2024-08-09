@@ -180,6 +180,7 @@ const CampaignsSection = () => {
                 ]}
                 isTransparent={item.isTransparent}
                 checkTransparentDate={item.checkTransparentDate}
+                campaignTier={item.campaignTier}
               />
             ))
           : renderSkeletons()}

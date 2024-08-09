@@ -152,6 +152,7 @@ export const FORGOT_PASSWORD_GET_OTP = "https://vmo.azurewebsites.net/api/authen
 export const FORGOT_PASSWORD_RESET_PASSWORD = "https://vmo.azurewebsites.net/api/authentication/forgot-password/reset-password";
 export const GET_NUMBER_OF_ACCOUNT = "https://vmo.azurewebsites.net/api/account/all/number-of-accounts";
 export const GET_NUMBER_OF_DONATED_ACCOUNT = "https://vmo.azurewebsites.net/api/account/all/donation/number-of-accounts"; 
+export const GET_TOP_DONATOR = "https://vmo.azurewebsites.net/api/account/all/top-5-donations";
 
 //notification
 export const GET_NOTIFICATIONS = "https://vmo.azurewebsites.net/api/notification/all/account/";

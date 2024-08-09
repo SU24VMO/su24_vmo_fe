@@ -41,10 +41,14 @@ const CardDonatePhase = ({ data }) => {
             Trạng thái
             <Step
               label={
-                data.donatePhase.endDate ? "Đã hoàn thành" : "Đang diễn ra"
+                data.isTransparent
+                  ? data.donatePhase.endDate
+                    ? "Đã hoàn thành"
+                    : "Đang diễn ra"
+                  : "Đã dừng"
               }
               description={""}
-              state="loading"
+              state={data.isTransparent ? "loading" : "error"}
               isCurrentStep={data.donatePhase.endDate ? false : true}
               isCompletedStep={data.donatePhase.endDate ? true : false}
             />

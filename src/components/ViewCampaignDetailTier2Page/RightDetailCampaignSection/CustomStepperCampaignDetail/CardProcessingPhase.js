@@ -40,9 +40,15 @@ const CardProcessingPhase = ({ data }) => {
           <div className="text-sm font-medium text-muted-foreground">
             Trạng thái
             <Step
-              label={data.actualEndDate ? "Đã hoàn thành" : "Đang diễn ra"}
+              label={
+                data.isTransparent
+                  ? data.actualEndDate
+                    ? "Đã hoàn thành"
+                    : "Đang diễn ra"
+                  : "Đã dừng"
+              }
               description={""}
-              state="loading"
+              state={data.isTransparent ? "loading" : "error"}
               isCurrentStep={data.actualEndDate ? false : true}
               isCompletedStep={data.actualEndDate ? true : false}
             />

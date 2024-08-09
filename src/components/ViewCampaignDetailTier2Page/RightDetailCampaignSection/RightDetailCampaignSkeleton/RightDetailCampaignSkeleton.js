@@ -125,8 +125,8 @@ const RightDetailCampaignSkeleton = () => {
       </Card>
       <Card className="w-full mx-auto">
         <CardHeader className="flex items-center justify-between">
-          <CardTitle className="text-xl">
-            Top 5 người ủng hộ nhiều nhất
+          <CardTitle className="text-xl text-center">
+            Top 5 người ủng hộ nhiều nhất <br /> toàn hệ thống
           </CardTitle>
         </CardHeader>
         <CardContent>
