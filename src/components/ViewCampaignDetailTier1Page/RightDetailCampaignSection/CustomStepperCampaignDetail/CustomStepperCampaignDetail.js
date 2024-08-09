@@ -31,15 +31,15 @@ const CustomStepperCampaignDetail = ({ data }) => {
         : "Chưa bắt đầu giai đoạn",
     },
     {
-      label: data.processingPhases[0].name,
-      description: data.processingPhases[0].startDate
+      label: data?.processingPhases[0]?.name,
+      description: data?.processingPhases[0]?.startDate
         ? `Ngày bắt đầu: ${format(
-            new Date(data.processingPhases[0].startDate),
+            new Date(data?.processingPhases[0]?.startDate),
             "dd/MM/yyyy, h:mm:ss a"
           )}\nNgày kết thúc: ${
-            data.processingPhases[0].endDate
+            data?.processingPhases[0]?.endDate
               ? format(
-                  new Date(data.processingPhases[0].endDate),
+                  new Date(data?.processingPhases[0]?.endDate),
                   "dd/MM/yyyy, h:mm:ss a"
                 )
               : "Chưa có"

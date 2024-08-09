@@ -120,6 +120,7 @@ const CarouselCampaigns = () => {
                       ]}
                       isTransparent={item.isTransparent}
                       checkTransparentDate={item.checkTransparentDate}
+                      campaignTier={item.campaignTier}
                     />
                   </div>
                 </CarouselItem>

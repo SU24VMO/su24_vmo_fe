@@ -41,7 +41,7 @@ import ManageOrganizationManagersPage from "./components/Admin/ManageOrganizatio
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import { Helmet } from "react-helmet";
 import CreateActivityOrganizationManagerPage from "./components/CreateActivityOrganizationManagerPage/CreateActivityOrganizationManagerPage";
-import ViewCampaignDetailPage from "./components/ViewCampaignDetailPage/ViewCampaignDetailPage";
+import ViewCampaignDetailPage from "./components/ViewCampaignDetailTier1Page/ViewCampaignDetailTier1Page";
 import DonatePage from "./components/DonatePage/DonatePage";
 import Moderator from "./components/Moderator/Moderator";
 import ModeratorHomePage from "./components/Moderator/ModeratorHomePage/ModeratorHomePage";
@@ -86,6 +86,8 @@ import ManageOrganizeAllCampaignTier2Table from "./components/OrganizeManagePage
 import CreateStageActivityVolunteerManagerPage from "./components/CreateStageActivityVolunteerManagerPage/CreateStageActivityVolunteerManagerPage";
 import CreateStageActivityOrganizationManagerPage from "./components/CreateStageActivityOrganizationManagerPage/CreateStageActivityOrganizationManagerPage";
 import ManageRequestStagesActivitiesPage from "./components/Moderator/ManageRequestStagesActivitiesPage/ManageRequestStagesActivitiesPage";
+import ViewCampaignDetailTier1Page from "./components/ViewCampaignDetailTier1Page/ViewCampaignDetailTier1Page";
+import ViewCampaignDetailTier2Page from "./components/ViewCampaignDetailTier2Page/ViewCampaignDetailTier2Page";
 
 
 function App() {
@@ -120,7 +122,8 @@ function App() {
               <Route path="/viewCampaigns/search/:id" element={<ViewCampaignsSearchPage key={window.location.pathname}></ViewCampaignsSearchPage>} />
               <Route path="/viewCampaignsOrganizations" element={<ViewCampaignsOrganizationsPage></ViewCampaignsOrganizationsPage>} />
               <Route path="/viewCampaignsVolunteers" element={<ViewCampaignsVolunteersPage></ViewCampaignsVolunteersPage>} />
-              <Route path="/viewCampaigns/campaignDetail/:id" element={<ViewCampaignDetailPage key={window.location.pathname}></ViewCampaignDetailPage>} />
+              <Route path="/viewCampaigns/campaignDetail/tier1/:id" element={<ViewCampaignDetailTier1Page key={window.location.pathname}></ViewCampaignDetailTier1Page>} />
+              <Route path="/viewCampaigns/campaignDetail/tier2/:id" element={<ViewCampaignDetailTier2Page key={window.location.pathname}></ViewCampaignDetailTier2Page>} />
               <Route path="/volunteer/:id" element={<ViewProfileVolunteerPage></ViewProfileVolunteerPage>} />
               <Route path="/organization/:id" element={<ViewProfileOrganizationPage></ViewProfileOrganizationPage>} />
               <Route path="/signup" element={<SignUpPage></SignUpPage>} />

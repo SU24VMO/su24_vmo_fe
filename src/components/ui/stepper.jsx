@@ -848,4 +848,4 @@ const StepLabel = ({ isCurrentStep, opacity, label, description }) => {
   ) : null
 }
 
-export { Stepper, Step, useStepper }
+export { Stepper, Step, useStepper, VerticalStep, HorizontalStep }

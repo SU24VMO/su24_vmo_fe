@@ -1,19 +1,19 @@
-import { Card, CardContent } from "../../ui/card";
-import { Badge } from "../../ui/badge";
-import { Progress } from "../../ui/progress";
+import { Card, CardContent } from "../../../ui/card";
+import { Badge } from "../../../ui/badge";
+import { Progress } from "../../../ui/progress";
 import React from "react";
-import { AspectRatio } from "../../ui/aspect-ratio";
+import { AspectRatio } from "../../../ui/aspect-ratio";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../../ui/hover-card";
-import { Button } from "../../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+} from "../../../ui/hover-card";
+import { Button } from "../../../ui/button";
 import { CalendarDays, TriangleAlert } from "lucide-react";
-import vmo_avatar from "../../../assets/images/512x512.svg";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
+import vmo_avatar from "../../../../assets/images/512x512.svg";
 
 const CustomCardCampaign = ({
   campaignId,
@@ -39,6 +39,7 @@ const CustomCardCampaign = ({
   const processingPhaseName = phases?.find(
     (phase) => phase?.isProcessing && !phase?.isEnd
   )?.name;
+
   // Hàm format số tiền ủng hộ
   const formatMoney = (money) => {
     // Ensure money is a string

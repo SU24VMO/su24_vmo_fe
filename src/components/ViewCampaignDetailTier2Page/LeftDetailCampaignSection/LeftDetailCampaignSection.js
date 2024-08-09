@@ -13,14 +13,15 @@ import StatementsCampaign from "./StatementsCampaign/StatementsCampaign";
 const LeftDetailCampaignSection = ({ data }) => {
   const [transaction, setTransaction] = React.useState(data.transactions);
   const [activities, setActivities] = React.useState(
-    data.processingPhases[0].activities
+    data?.processingPhases[0]?.activities
   );
   const [statementFiles, setStatementFiles] = React.useState(
     data.statementPhase.statementFiles
   );
   const [statement, setStatement] = React.useState(data.statementPhase);
+  const [processingPhases, setProcessingPhases] = React.useState(data.processingPhases);
 
-  console.log("Activities lấy được", data.processingPhases[0].activities);
+  // console.log("Activities lấy được", data.processingPhases);
   // console.log("StatementFiles lấy được", statementFiles);
   // console.log("Statement lấy được", statement);
 
@@ -49,16 +50,16 @@ const LeftDetailCampaignSection = ({ data }) => {
                 <TabsTrigger value="transaction">Danh sách ủng hộ</TabsTrigger>
                 <TabsTrigger
                   value="activities"
-                  disabled={
-                    !(
-                      data.processingPhases[0].isProcessing ||
-                      data.processingPhases[0].isEnd
-                    )
-                  }
+                  // disabled={
+                  //   !(
+                  //     data?.processingPhases[0]?.isProcessing ||
+                  //     data?.processingPhases[0]?.isEnd
+                  //   )
+                  // }
                 >
-                  Hoạt động ({activities.length})
+                  Tiến trình ({data.processingPhases.length})
                 </TabsTrigger>
-                <TabsTrigger
+                {/* <TabsTrigger
                   value="statement"
                   disabled={
                     !(
@@ -68,7 +69,7 @@ const LeftDetailCampaignSection = ({ data }) => {
                   }
                 >
                   Sao kê ({statementFiles.length})
-                </TabsTrigger>
+                </TabsTrigger> */}
               </TabsList>
             </div>
             <ScrollBar orientation="horizontal" />
@@ -80,14 +81,14 @@ const LeftDetailCampaignSection = ({ data }) => {
             <TransactionTable transaction={transaction} />
           </TabsContent>
           <TabsContent value="activities">
-            <ActivitiesCampaign activities={activities} />
+            <ActivitiesCampaign processingPhases={processingPhases}/>
           </TabsContent>
-          <TabsContent value="statement">
+          {/* <TabsContent value="statement">
             <StatementsCampaign
               statement={statement}
               statementFiles={statementFiles}
             />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </div>
     </div>

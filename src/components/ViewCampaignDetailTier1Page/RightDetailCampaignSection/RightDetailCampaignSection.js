@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import { BadgeCheck, Target, Clock4, MapPin } from "lucide-react";
+import { BadgeCheck, Target, Clock4, MapPin, BadgeAlert } from "lucide-react";
 import { Progress } from "../../ui/progress";
 import { useParams } from "react-router-dom";
 import CustomAvatarRightCampaignDetail from "./CustomAvatarRightCampaignDetail/CustomAvatarRightCampaignDetail";
@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import CustomStepperCampaignDetail from "./CustomStepperCampaignDetail/CustomStepperCampaignDetail";
 import CustomActionButtonCampaign from "./CustomActionButtonCampaign/CustomActionButtonCampaign";
 import CustomTopDonator from "./CustomTopDonator/CustomTopDonator";
+import { Badge } from "../../ui/badge";
 
 const RightDetailCampaignSection = ({ data }) => {
   const { id: campaignId } = useParams();
@@ -54,12 +55,17 @@ const RightDetailCampaignSection = ({ data }) => {
               <CardDescription>Chiến dịch được tạo bởi</CardDescription>
               <div className="flex items-center gap-x-3">
                 <CustomCreatorCampaignName data={data} />
-                <BadgeCheck className="h-6 w-6 text-green-600" />
+                {data.isTransparent ? (
+                  <BadgeCheck className="h-6 w-6 text-green-600" />
+                ) : (
+                  <BadgeAlert className="h-6 w-6 text-red-600" />
+                )}
               </div>
               <CardDescription>
                 Vào lúc :{" "}
                 {format(new Date(data.createAt), "dd/MM/yyyy, h:mm:ss a")}{" "}
               </CardDescription>
+                <Badge className={"w-fit"}>Chiến dịch giải ngân toàn phần</Badge>
             </div>
           </div>
         </CardHeader>
