@@ -88,6 +88,7 @@ import CreateStageActivityOrganizationManagerPage from "./components/CreateStage
 import ManageRequestStagesActivitiesPage from "./components/Moderator/ManageRequestStagesActivitiesPage/ManageRequestStagesActivitiesPage";
 import ViewCampaignDetailTier1Page from "./components/ViewCampaignDetailTier1Page/ViewCampaignDetailTier1Page";
 import ViewCampaignDetailTier2Page from "./components/ViewCampaignDetailTier2Page/ViewCampaignDetailTier2Page";
+import ManageBankingTier2CampaignPage from "./components/Admin/ManageBankingTier2CampaignPage/ManageBankingTier2CampaignPage";
 
 
 function App() {
@@ -226,7 +227,8 @@ function App() {
                   <Route path="manageOrganizationManagers" element={<ManageOrganizationManagersPage />} />
                   <Route path="manageModerators" element={<ManageModeratorsPage />} />
                   <Route path="manageMembers" element={<ManageMembersPage />} />
-                  <Route path="manageBanking" element={<ManageBankingCampaignPage />} />
+                  <Route path="manageBankingTier1" element={<ManageBankingCampaignPage />} />
+                  <Route path="manageBankingTier2" element={<ManageBankingTier2CampaignPage />} />
                   <Route path="manageTransaction" element={<ManageTransactionPage />} />
                 </Route>
               </Route>

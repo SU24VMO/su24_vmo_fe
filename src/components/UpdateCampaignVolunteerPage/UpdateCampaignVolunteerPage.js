@@ -25,6 +25,7 @@ export default function UpdateCampaignVolunteerPage() {
     const { user } = useContext(AuthContext)
     const [fileImageBackground, setFileImageBackground] = useState();
     const [fileImageQR, setFileImageQR] = useState()
+    const [fileImageDocument, setFileImageDocument] = useState()
 
     const [loading, setLoading] = useState(false)
     const [loadingData, setLoadingData] = useState(false)
@@ -63,8 +64,9 @@ export default function UpdateCampaignVolunteerPage() {
         setFieldValue("imageQRCode", e.target.files[0]);
 
     }
-    function handleImageLocalDocument(e, setFieldValue) {
+   function handleImageLocalDocument(e, setFieldValue) {
         console.log(e.target.files);
+        setFileImageDocument(URL.createObjectURL(e.target.files[0]));
         setFieldValue("imageLocalDocument", e.target.files[0]);
 
     }
@@ -79,7 +81,11 @@ export default function UpdateCampaignVolunteerPage() {
         setFieldValue("imageQRCode", null);
 
     }
+    function removeImageDocument(e, setFieldValue) {
+        setFileImageDocument('');
+        setFieldValue("imageLocalDocument", null);
 
+    }
 
     const formatAmount = (value) => {
         // Remove non-digit characters from the input value
@@ -481,32 +487,38 @@ export default function UpdateCampaignVolunteerPage() {
                                             </div>
 
                                             <div className="mb-6 mt-10">
-                                                {fileImageQR ? (<div className=" flex flex-col justify-center items-center">
-                                                    <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
-                                                        id="image"
+                                            {fileImageQR ? (<div className=" flex flex-col justify-center items-center">
+                                                <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
+                                                    id="image"
 
-                                                        value={fileImageQR}
-                                                        src={fileImageQR} width={220} height={220} alt="qr-code" />
-                                                    <button type="button"
-                                                        onClick={(e) => { removeImageQRcode(e, setFieldValue) }}
-                                                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+                                                    value={fileImageQR}
+                                                    src={fileImageQR} width={220} height={220} alt="qr-code" />
+                                                <button type="button"
+                                                    onClick={(e) => { removeImageQRcode(e, setFieldValue) }}
+                                                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
 
-                                                </div>) : (<div>
-                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                        for="imageQRCode">QR code tài khoản (ảnh)*</label>
-                                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                                        aria-describedby="imageQRCode"
-                                                        id="imageQRCode"
-                                                        name="imageQRCode"
-                                                        onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
-                                                        type="file"
-                                                        accept="image/png, image/jpeg, image/jpg"
+                                            </div>) : (<div>
+                                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                    for="imageQRCode">QR code tài khoản (ảnh)*</label>
+                                                <label
+                                                    className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                    htmlFor="imageQRCode"
+                                                >
+                                                    <span className="ml-2">Chọn ảnh</span>
+                                                </label>
+                                                <input
+                                                    className="hidden"
+                                                    aria-describedby="imageQRCode"
+                                                    id="imageQRCode"
+                                                    name="imageQRCode"
+                                                    onChange={(e) => { handleImageQRCode(e, setFieldValue) }}
+                                                    type="file"
+                                                    accept="image/png, image/jpeg, image/jpg"
+                                                />
+                                                <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
+                                            </div>)}
 
-                                                    />
-                                                    <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageQRCode && touched.imageQRCode && errors.imageQRCode}</p>
-                                                </div>)}
-
-                                            </div>
+                                        </div>
                                         </div>
 
                                     </div>
@@ -641,17 +653,40 @@ export default function UpdateCampaignVolunteerPage() {
                                         </div>
 
                                         <div className="mb-6">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
+                                        {fileImageDocument ? (<div className=" flex flex-col justify-center items-center">
+                                            <img className="mb-6 w-1/2 h-1/2 laptop:w-2/3 laptop:h-2/3 rounded-xl"
+                                                id="image"
+
+                                                value={fileImageDocument}
+                                                src={fileImageDocument} width={220} height={220} alt="qr-code" />
+                                            <button type="button"
+                                                onClick={(e) => { removeImageDocument(e, setFieldValue) }}
+                                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                                        </div>) : (<div>
+
+                                            <label
+                                                className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                htmlFor="imageLocalDocument"
+                                            >
+                                                <span className="ml-2">Chọn ảnh</span>
+                                            </label>
                                             <input
-                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                className="hidden"
                                                 aria-describedby="imageLocalDocument"
                                                 id="imageLocalDocument"
                                                 name="imageLocalDocument"
                                                 onChange={(e) => { handleImageLocalDocument(e, setFieldValue) }}
-                                                type="file" />
+                                                type="file"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
                                             <p class="  mt-2  text-sm text-red-600 dark:text-red-500"> {errors.imageLocalDocument && touched.imageLocalDocument && errors.imageLocalDocument}</p>
 
-                                        </div>
+                                        </div>)}
+
+
+                                    </div>
                                     </div>
                                     <div className="flex justify-center">
                                         <button type="submit" disabled={isSubmitting} class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-20 py-2.5 text-center my-10 ">

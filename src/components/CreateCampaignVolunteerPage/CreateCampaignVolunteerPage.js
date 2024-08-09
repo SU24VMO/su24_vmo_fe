@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TypeOfCampaignSelect from "./TypeOfCampaignSelect/TypeOfCampaignSelect";
 import EndDayPicker from "./EndDayPicker/EndDayPicker";
 import StartDayPicker from "./StartDayPicker/StartDayPicker";
@@ -28,6 +28,8 @@ export default function CreateCampaignVolunteerPage() {
     const [fileImageQR, setFileImageQR] = useState()
     const [fileImageDocument, setFileImageDocument] = useState()
 
+    const [checkTierCampaign, setCheckTierCampaign] = useState(0)
+    const [checkTargetAmount, setCheckTargetAmount] = useState(0)
 
     const [loading, setLoading] = useState(false)
 
@@ -72,9 +74,7 @@ export default function CreateCampaignVolunteerPage() {
 
 
     const formatAmount = (value) => {
-        // Remove non-digit characters from the input value
         const cleanValue = value.replace(/\D/g, '');
-        // Format the value with thousand separators
         const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         return formattedValue;
     };
@@ -85,17 +85,26 @@ export default function CreateCampaignVolunteerPage() {
 
     const handleTargetAmountChange = (e, setFieldValue) => {
         const formattedValue = formatAmount(e.target.value);
-        // Update the targetAmount value with the formatted value
+        setCheckTargetAmount(cleanFormattedAmount(formattedValue))
+
         
         setFieldValue("targetAmount", formattedValue);
 
     };
 
+
+    // --------------
+    const cleanFormattedAmountTier = (formattedValue) => {
+        return formattedValue.replace(/\./g, '').replace(/[^0-9.]/g, '');
+    };
     const [elements, setElements] = useState([]);
 
 
+    const [errorPlan, setErrorPlan] = useState({});
+
     const handleInputChange = (index, field, value, setFieldValue) => {
-        const cleanedValue = cleanFormattedAmount(value);
+        // Conditionally clean the value if the field is 'amount'
+        const cleanedValue = field === 'amount' ? cleanFormattedAmountTier(value) : value;
 
         setElements(prevElements => {
             const updatedElements = prevElements.map((element, i) =>
@@ -106,6 +115,40 @@ export default function CreateCampaignVolunteerPage() {
         });
     };
 
+
+    const handleBlurErrors = (index, field) => {
+        console.log('Index:', index);
+        console.log('Field:', field);
+        console.log('Elements:', elements);
+
+        // Kiểm tra nếu index hoặc field không tồn tại
+        if (index >= elements.length || !elements[index]) {
+            console.warn('Invalid index or element');
+            return;
+        }
+
+        const value = elements[index][field] || '';
+        console.log('Value:', value);
+
+        const error = validateField(field, value);
+        console.log('Error:', error);
+
+        setErrorPlan(prevErrors => ({
+            ...prevErrors,
+            [`${index}-${field}`]: error
+        }));
+    };
+
+    const validateField = (field, value) => {
+        if (field === 'title') {
+            return validateTitle(value) ? '' : 'Vui lòng điền';
+        }
+        if (field === 'amount') {
+            return validateAmount(value) ? '' : 'Vui lòng điền';
+        }
+        return '';
+    };
+
     const validateTitle = (title) => {
         return title.trim() !== '';
     };
@@ -114,6 +157,7 @@ export default function CreateCampaignVolunteerPage() {
         const cleanedAmount = cleanFormattedAmount(amount);
         return cleanedAmount.trim() !== '';
     };
+
 
     const addElement = () => {
         setElements(prevElements => [...prevElements, { title: '', amount: '' }]);
@@ -127,10 +171,16 @@ export default function CreateCampaignVolunteerPage() {
         });
     };
 
-    // const handleSetListStages = (e, setFieldValue) => {
-    //     setFieldValue('stages', elements);
-    // };
 
+    useEffect(() => {
+        console.log("đây là", checkTierCampaign);
+
+    }, [checkTierCampaign])
+
+    useEffect(() => {
+
+
+    }, [errorPlan])
 
 
     const createCampaign = async (data, resetForm) => {
@@ -149,7 +199,15 @@ export default function CreateCampaignVolunteerPage() {
         formData.append('BankingName', data.nameOfBank);
         formData.append('AccountName', data.nameOfUserBank);
         formData.append('BankingAccountNumber', data.numberOfBankAccount);
-        formData.append('stagesJson', JSON.stringify(data.stages))
+        formData.append('CampaignTier', data.campaignTier);
+        if ((checkTierCampaign * 1) === 2) {
+            formData.append('stagesJson', JSON.stringify(data.stages))
+
+        } else {
+            setElements([])
+            formData.append('stagesJson', elements)
+        }
+
 
         try {
             const response = await axiosPrivate.post(CREATECAMPAIGN + `?accountId=${user.account_id}`, formData, {
@@ -161,7 +219,11 @@ export default function CreateCampaignVolunteerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
-                navigate("/manage/volunteer/allCampaignsTier2")
+                if ((data.campaignTier * 1) === 2) {
+                    navigate("/manage/volunteer/allCampaignsTier2")
+                } else {
+                    navigate("/manage/volunteer/allCampaignsTier1")
+                }
                 resetForm();
                 toast({
                     title: "Tạo chiến dịch thành công !",
@@ -321,6 +383,36 @@ export default function CreateCampaignVolunteerPage() {
                 if (!values.campaignTier) {
                     errors.campaignTier = "Không được để trống!";
                 }
+
+                // stages validate 
+                if ((checkTierCampaign * 1) === 2) {
+                    // Validate the stages
+                    const hasStageErrors = values.stages.some((_, index) => {
+                        const titleError = errorPlan[`${index}-title`] && !values.stages[index].title;
+                        const amountError = errorPlan[`${index}-amount`] && !values.stages[index].amount;
+                        return titleError || amountError;
+                    });
+                    const totalAmount = values.stages.reduce((sum, stage) => {
+                        const amount = parseFloat(stage.amount) || 0; // Ensure amount is a number, fallback to 0 if it's not
+                        return sum + amount;
+                    }, 0);
+                    console.log('====================================');
+                    console.log("Số tiền ", totalAmount);
+                    console.log('====================================');
+                    console.log('====================================');
+                    console.log("Số tiền target", checkTargetAmount);
+                    console.log('====================================');
+
+                    if (!values.stages.length) {
+                        errors.stages = "Vui lòng ít nhất có 1 hoạt động của kế hoạch!";
+                    } else if (hasStageErrors) {
+                        errors.stages = 'Vui lòng điền đầy đủ thông tin!';
+                    }else if((totalAmount * 1) !== (checkTargetAmount * 1) ){
+                        errors.stages = 'Tổng tiền của bạn có vẻ như chưa đúng với mục tiêu!';
+                    }
+                }
+
+
 
                 return errors;
             }}
@@ -614,109 +706,140 @@ export default function CreateCampaignVolunteerPage() {
                                         <SelectCampaignDisbursement
                                             setFieldValue={setFieldValue}
                                             selectTriggerId="campaignTier"
+                                            onChange={(value) => setCheckTierCampaign(value)}
                                         >
 
                                         </SelectCampaignDisbursement>
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.campaignTier && touched.campaignTier && errors.campaignTier}</p>
 
                                     </div>
-                                    <div className="mb-6">
-                                        <label
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                            htmlFor="file_input"
+                                    {(checkTierCampaign * 1) === 2 ? (
+                                        <div className="mb-6"
+                                            name='stages'
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                         >
-                                            Kế hoạch chiến dịch
-                                        </label>
-                                        <div className="rounded-lg border bg-card text-card-foreground shadow-sm"
+                                            <label
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                htmlFor="stages"
+                                            >
+                                                Kế hoạch chiến dịch
+                                            </label>
+                                            <div className="rounded-lg border bg-card text-card-foreground shadow-sm"
                                             // onChange={(e) => handleSetListStages(e, setFieldValue)}
-                                        >
-                                            <div className="flex flex-col space-y-1.5 p-6">
-                                                <h3 className="font-medium text-muted-foreground">Tiến trình</h3>
-                                            </div>
-                                            {elements.map((el, index) => (
-                                                <div className="p-6 pt-0 flex gap-6" key={index}>
-                                                    <div className="flex flex-col justify-center">
-                                                        <div className="w-12 h-12 rounded-full bg-blue-100 items-center flex justify-center">
-                                                            <span>{index}</span>
-                                                        </div>
-                                                    </div>
+                                            >
+                                                <div className="flex flex-col space-y-1.5 p-6">
+                                                    <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b mobile:mb-5 dark:border-gray-600">
+                                                        <h3 className="font-medium text-muted-foreground">Tiến trình</h3>
 
-                                                    <div>
-                                                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={`title-${index}`}>
-                                                            Mô tả
-                                                        </label>
-                                                        <input
-                                                            className='flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2'
-                                                            id={`title-${index}`}
-                                                            placeholder="Tên...."
-                                                            value={el.title}
-                                                            onChange={(e) => handleInputChange(index, 'title', e.target.value, setFieldValue)}
-                                                        />
-                                                        {validateTitle(el.title) ? "" : <p className="mt-2 text-sm text-red-600 dark:text-red-500">"Vui lòng điền"</p>}
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={`amount-${index}`}>
-                                                            Số tiền
-                                                        </label>
-                                                        <div className="relative">
-                                                            <input
-                                                                type="text"
-                                                                name="amount"
-                                                                id={`amount-${index}`}
-                                                                maxLength="11"
-                                                                autoComplete="off"
-                                                                className='bg-gray-50 border text-gray-900 font-semibold text-sm rounded-lg block w-full p-2.5 focus:ring-2'
-                                                                placeholder="0"
-                                                                value={formatAmount(el.amount)}
-                                                                onChange={(e) => handleInputChange(index, 'amount', e.target.value, setFieldValue)}
-                                                                aria-describedby="price-currency"
-                                                            />
-                                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                                                <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
-                                                                    VND
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        {validateAmount(el.amount) ? "" : <p className="mt-2 text-sm text-red-600 dark:text-red-500">"Vui lòng điền"</p>}
-                                                    </div>
-
-                                                    <div className="flex flex-col justify-center items-center">
-                                                        <button
-                                                            type="button"
-                                                            className="px-8 py-2 rounded bg-red-500 text-white"
-                                                            onClick={() => removeElement(index, setFieldValue)}
-                                                        >
-                                                            Xóa
-                                                        </button>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-chart-gantt"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 8h7" /><path d="M8 12h6" /><path d="M11 16h5" /></svg>
                                                     </div>
                                                 </div>
-                                            ))}
-                                            <div className="flex items-center p-6 pt-0 justify-between space-x-2">
-                                                <button
-                                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-                                                    onClick={addElement}
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        className="lucide lucide-circle-plus"
+                                                {elements.map((el, index) => (
+
+                                                    <div className=" p-6 pt-0 flex-col flex mobile:flex-row mobile:gap-6 gap-7 justify-center  " key={index}>
+                                                        <div className="flex flex-col justify-center">
+                                                            <div className="w-12 h-12 rounded-full bg-green-200 items-center flex justify-center">
+                                                                <span>{index + 1}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mobile:h-20">
+                                                            <label
+                                                                className="text-sm font-medium leading-none"
+                                                                htmlFor={`title-${index}`}
+                                                            >
+                                                                Mô tả
+                                                            </label>
+                                                            <input
+                                                                className="bg-gray-50 border text-gray-900 font-semibold text-sm rounded-lg block w-full p-2.5"
+                                                                id={`title-${index}`}
+                                                                placeholder="Tên...."
+                                                                value={el.title}
+                                                                onChange={(e) => handleInputChange(index, 'title', e.target.value, setFieldValue)}
+                                                                onBlur={() => handleBlurErrors(index, 'title')}
+                                                            />
+                                                            {errorPlan[`${index}-title`] && (
+                                                                <p className="mt-2 text-sm text-red-600">
+                                                                    {errorPlan[`${index}-title`]}
+                                                                </p>
+                                                            )}
+                                                        </div>
+
+                                                        <div className="mobile: h-20">
+                                                            <label
+                                                                className="text-sm font-medium leading-none"
+                                                                htmlFor={`amount-${index}`}
+                                                            >
+                                                                Số tiền
+                                                            </label>
+                                                            <div className="relative">
+                                                                <input
+                                                                    type="text"
+                                                                    name="amount"
+                                                                    id={`amount-${index}`}
+                                                                    maxLength="11"
+                                                                    autoComplete="off"
+                                                                    className="bg-gray-50 border text-gray-900 font-semibold text-sm rounded-lg block w-full p-2.5"
+                                                                    placeholder="0"
+                                                                    value={formatAmount(el.amount)}
+                                                                    onChange={(e) => handleInputChange(index, 'amount', e.target.value, setFieldValue)}
+                                                                    onBlur={() => handleBlurErrors(index, 'amount')}
+                                                                />
+                                                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                                                    <span className="text-gray-600 font-semibold sm:text-sm" id="price-currency">
+                                                                        VND
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            {errorPlan[`${index}-amount`] && (
+                                                                <p className="mt-2 text-sm text-red-600">
+                                                                    {errorPlan[`${index}-amount`]}
+                                                                </p>
+                                                            )}
+                                                        </div>
+
+                                                        <div className="flex flex-col justify-center items-center">
+                                                            <button
+                                                                type="button"
+                                                                className="px-8 py-2 rounded bg-red-500 text-white"
+                                                                onClick={() => removeElement(index, setFieldValue)}
+                                                            >
+                                                                Xóa
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+
+                                                <div className="flex items-center p-6 pt-0 justify-between space-x-2">
+                                                    <button
+                                                        type="button"
+                                                        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                                                        onClick={addElement}
                                                     >
-                                                        <circle cx="12" cy="12" r="10" />
-                                                        <path d="M8 12h8" />
-                                                        <path d="M12 8v8" />
-                                                    </svg>
-                                                </button>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-circle-plus"
+                                                        >
+                                                            <circle cx="12" cy="12" r="10" />
+                                                            <path d="M8 12h8" />
+                                                            <path d="M12 8v8" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                             </div>
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"> {errors.stages && touched.stages && errors.stages}</p>
+
                                         </div>
-                                    </div>
+                                    ) : ""}
                                     <div className="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Giấy tờ xác thực cấp phép thiện nguyện của địa phương (ảnh)*</label>
                                         {fileImageDocument ? (<div className=" flex flex-col justify-center items-center">

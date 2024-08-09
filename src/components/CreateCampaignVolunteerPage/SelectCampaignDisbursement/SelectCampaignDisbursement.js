@@ -8,17 +8,23 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-const SelectCampaignDisbursement = ({ setFieldValue, selectTriggerId }) => {
+const SelectCampaignDisbursement = ({ setFieldValue, selectTriggerId, onChange }) => {
   const selectedItemDisbursement = [
     { key: '1', value: '1', label: 'Chiến dịch giải ngân toàn phần' },
     { key: '2', value: '2', label: 'Chiến dịch giải ngân từng phần' },
 ]
-
-
  
-  const handleSelectCampaignDisbursement = (campaignTier) => {
-    setFieldValue("campaignTier", campaignTier);
-  };
+ 
+const handleSelectCampaignDisbursement = (campaignTier) => {
+  console.log('====================================');
+  console.log(campaignTier);
+  console.log('====================================');
+  setFieldValue("campaignTier", campaignTier);
+  if (onChange) {
+    onChange(campaignTier); 
+  }
+};
+
 
   return (
     <Select onValueChange={handleSelectCampaignDisbursement}>

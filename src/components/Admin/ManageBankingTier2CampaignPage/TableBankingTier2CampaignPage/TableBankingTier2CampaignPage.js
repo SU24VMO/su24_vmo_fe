@@ -20,7 +20,7 @@ async function getData(
 
     const encoded = normalizeAndEncode(campaignName);
     const response = await axiosPrivate.get(
-      `/api/campaign/tier-i/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`,
+      `/api/campaign/tier-ii/all/filter/banking-account?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`,
       {
         cancelToken: cancelToken,
       }
@@ -43,7 +43,7 @@ async function getData(
   return [];
 }
 
-const TableBankingCampaignPage = () => {
+const TableBankingTier2CampaignPage = () => {
   const [data, setData] = useState([]); // State lưu dữ liệu trả về từ API, ban đầu là mảng rỗng
   const [selectedRow, setSelectedRow] = useState(null); // State lưu thông tin của row được chọn
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State quản lý việc mở dialog cho edit hoặc delete
@@ -154,4 +154,4 @@ const TableBankingCampaignPage = () => {
   );
 };
 
-export default TableBankingCampaignPage;
+export default TableBankingTier2CampaignPage;

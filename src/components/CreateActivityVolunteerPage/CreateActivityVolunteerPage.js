@@ -232,7 +232,7 @@ export default function CreateActivityVolunteerPage() {
                                                                     </svg>
 
                                                                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">
-                                                                        Upload image
+                                                                        Đăng tải
                                                                     </p>
                                                                     <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
                                                                 </div>

@@ -109,15 +109,24 @@ const MobileNav = () => {
               Quản lý tài khoản nhân viên kiểm duyệt
             </Link>
             <Link
-              to="/admin/manageBanking"
-              className={getLinkClass("/admin/manageBanking")}
+              to="/admin/manageBankingTier1"
+              className={getLinkClass("/admin/manageBankingTier1")}
             >
               <div className="w-fit">
                 <Receipt className="w-fit" />
               </div>
-              Quản lý danh sách sao kê giao dịch
+              Quản lý danh sách sao kê giao dịch toàn phần
             </Link>
 
+            <Link
+              to="/admin/manageBankingTier2"
+              className={getLinkClass("/admin/manageBankingTier2")}
+            >
+              <div className="w-fit">
+                <Receipt className="w-fit" />
+              </div>
+              Quản lý danh sách sao kê giao dịch từng phần
+            </Link>
             <Link
               to="/admin/manageTransaction"
               className={getLinkClass("/admin/manageTransaction")}

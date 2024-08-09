@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "../../ui/select";
 
-const SelectCampaignDisbursement = ({ setFieldValue, selectTriggerId }) => {
+const SelectCampaignDisbursement = ({ setFieldValue, selectTriggerId, onChange  }) => {
   const selectedItemDisbursement = [
     { key: '1', value: '1', label: 'Chiến dịch giải ngân toàn phần' },
     { key: '2', value: '2', label: 'Chiến dịch giải ngân từng phần' },
@@ -17,9 +17,16 @@ const SelectCampaignDisbursement = ({ setFieldValue, selectTriggerId }) => {
 
  
   const handleSelectCampaignDisbursement = (campaignTier) => {
+    console.log('====================================');
+    console.log(campaignTier);
+    console.log('====================================');
     setFieldValue("campaignTier", campaignTier);
+    if (onChange) {
+      onChange(campaignTier); 
+    }
   };
 
+ 
   return (
     <Select onValueChange={handleSelectCampaignDisbursement}>
       <SelectTrigger className="  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id={selectTriggerId}>

@@ -100,7 +100,7 @@ export default function CreateStageActivityVolunteerManagerPage() {
             });
 
             if (response.status === 200) {
-                navigate("/manage/organize/allActivities")
+                navigate("/manage/volunteer/allActivities")
                 resetForm();
                 setListImageFile([]);
                 setImagePreviews([]);
@@ -271,7 +271,7 @@ export default function CreateStageActivityVolunteerManagerPage() {
                                                                     </svg>
 
                                                                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">
-                                                                        Upload image
+                                                                        Đăng tải
                                                                     </p>
                                                                     <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
                                                                 </div>
@@ -339,7 +339,7 @@ export default function CreateStageActivityVolunteerManagerPage() {
                                                                     </svg>
 
                                                                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">
-                                                                        Upload image
+                                                                        Đăng tải
                                                                     </p>
                                                                     <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 800x400px)</p>
                                                                 </div>

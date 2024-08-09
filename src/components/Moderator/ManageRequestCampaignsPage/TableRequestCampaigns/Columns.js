@@ -45,9 +45,9 @@ export const columns = ({ onEdit, onReport , onSort}) => [
       const tier = row.original?.campaign?.campaignTier;
       let statusBadge;
       if (tier === 1) {
-        statusBadge = <Badge variant="default">Chiến dịch toàn phần</Badge>;
+        statusBadge = <Badge variant="blue">Toàn phần</Badge>;
       } else if (tier === 2) {
-        statusBadge = <Badge variant="secondary">Chiến dịch từng phần</Badge>;
+        statusBadge = <Badge variant="orange">Từng phần</Badge>;
       }
       return (
         <div>{statusBadge}</div>
