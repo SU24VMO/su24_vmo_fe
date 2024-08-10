@@ -8,21 +8,22 @@ import { AspectRatio } from "../../ui/aspect-ratio";
 import ActivitiesCampaign from "./ActivitiesCampaign/ActivitiesCampaign";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import DescriptionCampaign from "./DescriptionCampaign/DescriptionCampaign";
-import StatementsCampaign from "./StatementsCampaign/StatementsCampaign";
+import AdminTransaction from "./AdminTransaction/AdminTransaction";
 
 const LeftDetailCampaignSection = ({ data }) => {
   const [transaction, setTransaction] = React.useState(data.transactions);
   const [activities, setActivities] = React.useState(
     data?.processingPhases[0]?.activities
   );
-  const [statementFiles, setStatementFiles] = React.useState(
-    data.statementPhase.statementFiles
+  const [adminTransactions, setAdminTransactions] = React.useState(
+    data.adminTransactions
   );
-  const [statement, setStatement] = React.useState(data.statementPhase);
-  const [processingPhases, setProcessingPhases] = React.useState(data.processingPhases);
+  const [processingPhases, setProcessingPhases] = React.useState(
+    data.processingPhases
+  );
 
   // console.log("Activities lấy được", data.processingPhases);
-  // console.log("StatementFiles lấy được", statementFiles);
+  // console.log("StatementFiles lấy được", adminTransactions);
   // console.log("Statement lấy được", statement);
 
   return (
@@ -48,28 +49,17 @@ const LeftDetailCampaignSection = ({ data }) => {
               <TabsList className="flex absolute h-10">
                 <TabsTrigger value="description">Mô tả</TabsTrigger>
                 <TabsTrigger value="transaction">Danh sách ủng hộ</TabsTrigger>
-                <TabsTrigger
-                  value="activities"
-                  // disabled={
-                  //   !(
-                  //     data?.processingPhases[0]?.isProcessing ||
-                  //     data?.processingPhases[0]?.isEnd
-                  //   )
-                  // }
-                >
+                <TabsTrigger value="activities">
                   Tiến trình ({data.processingPhases.length})
                 </TabsTrigger>
-                {/* <TabsTrigger
+                <TabsTrigger
                   value="statement"
                   disabled={
-                    !(
-                      data.statementPhase.isProcessing ||
-                      data.statementPhase.isEnd
-                    )
+                    !data.adminTransactions || !data.adminTransactions[0]
                   }
                 >
-                  Sao kê ({statementFiles.length})
-                </TabsTrigger> */}
+                  Giao dịch từ hệ thống ({data.adminTransactions.length})
+                </TabsTrigger>
               </TabsList>
             </div>
             <ScrollBar orientation="horizontal" />
@@ -81,14 +71,20 @@ const LeftDetailCampaignSection = ({ data }) => {
             <TransactionTable transaction={transaction} />
           </TabsContent>
           <TabsContent value="activities">
-            <ActivitiesCampaign processingPhases={processingPhases}/>
+            <ActivitiesCampaign processingPhases={processingPhases} />
           </TabsContent>
-          {/* <TabsContent value="statement">
-            <StatementsCampaign
-              statement={statement}
-              statementFiles={statementFiles}
+          <TabsContent value="statement">
+            <AdminTransaction
+              campaignCreator={
+                data.organization
+                  ? data.organization.name
+                  : data.member
+                  ? data.member.firstName + " " + data.member.lastName
+                  : "Không xác định"
+              }
+              statementFiles={adminTransactions}
             />
-          </TabsContent> */}
+          </TabsContent>
         </Tabs>
       </div>
     </div>

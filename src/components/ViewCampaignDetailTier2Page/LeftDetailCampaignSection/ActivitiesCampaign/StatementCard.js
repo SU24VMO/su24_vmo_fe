@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
 import { ArrowUpRight } from "lucide-react";
-import { Button } from "../../../../ui/button";
+import { Button } from "../../../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,9 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../../ui/dialog";
-import { ScrollArea } from "../../../../ui/scroll-area";
-import img_placeholder from "../../../../../assets/images/placeholder.svg";
+} from "../../../ui/dialog";
+import { ScrollArea } from "../../../ui/scroll-area";
+import img_placeholder from "../../../../assets/images/placeholder.svg";
 
 const StatementCard = ({ statementImage, statementCreatedDate }) => {
   return (

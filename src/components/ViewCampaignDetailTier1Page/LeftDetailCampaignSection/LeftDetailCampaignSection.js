@@ -9,6 +9,7 @@ import ActivitiesCampaign from "./ActivitiesCampaign/ActivitiesCampaign";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import DescriptionCampaign from "./DescriptionCampaign/DescriptionCampaign";
 import StatementsCampaign from "./StatementsCampaign/StatementsCampaign";
+import AdminTransaction from "./AdminTransaction/AdminTransaction";
 
 const LeftDetailCampaignSection = ({ data }) => {
   const [transaction, setTransaction] = React.useState(data.transactions);
@@ -19,6 +20,9 @@ const LeftDetailCampaignSection = ({ data }) => {
     data.statementPhase.statementFiles
   );
   const [statement, setStatement] = React.useState(data.statementPhase);
+  const [adminTransaction, setAdminTransaction] = React.useState(
+    data.adminTransactions
+  );
 
   console.log("Activities lấy được", data?.processingPhases[0]?.activities);
   // console.log("StatementFiles lấy được", statementFiles);
@@ -69,6 +73,14 @@ const LeftDetailCampaignSection = ({ data }) => {
                 >
                   Sao kê ({statementFiles.length})
                 </TabsTrigger>
+                <TabsTrigger
+                  value="adminTransaction"
+                  disabled={
+                    !data.adminTransactions || !data.adminTransactions[0]
+                  }
+                >
+                  Giao dịch từ hệ thống ({data.adminTransactions.length})
+                </TabsTrigger>
               </TabsList>
             </div>
             <ScrollBar orientation="horizontal" />
@@ -86,6 +98,18 @@ const LeftDetailCampaignSection = ({ data }) => {
             <StatementsCampaign
               statement={statement}
               statementFiles={statementFiles}
+            />
+          </TabsContent>
+          <TabsContent value="adminTransaction">
+            <AdminTransaction
+              statementFiles={adminTransaction}
+              campaignCreator={
+                data.organization
+                  ? data.organization.name
+                  : data.member
+                  ? data.member.firstName + " " + data.member.lastName
+                  : "Không xác định"
+              }
             />
           </TabsContent>
         </Tabs>

@@ -19,7 +19,7 @@ import {
 } from "../../../ui/carousel";
 import { Step, Stepper, useStepper } from "../../../ui/stepper";
 import { Badge } from "../../../ui/badge";
-import StatementCard from "../StatementsCampaign/StatementCard/StatementCard";
+import StatementCard from "./StatementCard";
 
 const ActivitiesCampaign = ({ processingPhases }) => {
   // Khởi tạo state với mỗi activityId là key và link ảnh đầu tiên là giá trị
