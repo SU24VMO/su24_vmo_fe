@@ -87,31 +87,31 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       return <div className="line-clamp-1">{bankingName}</div>;
     },
   },
-  // {
-  //   accessorKey: "donatePhaseIsEnd",
-  //   header: ({ column }) => (
-  //     <Button
-  //       className="px-0 py-0"
-  //       variant="ghost"
-  //       onClick={() => onSort("DonatePhaseIsEnd")}
-  //     >
-  //       Trạng thái quyên góp 
-  //       <ArrowUpDown className="ml-2 h-4 w-4" />
-  //     </Button>
-  //   ),
-  //   cell: ({ row }) => {
-  //     const donatePhaseIsEnd = row.getValue("donatePhaseIsEnd");
-  //     return (
-  //       <div className="w-max">
-  //         {donatePhaseIsEnd === true ? (
-  //           <Badge variant="success">Đã kết thúc</Badge>
-  //         ) : (
-  //           <Badge variant="destructive">Chưa kết thúc</Badge>
-  //         )}
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "isEligible",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => onSort("IsEligible")}
+      >
+        Trạng thái quyên góp 
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const isEligible = row.getValue("isEligible");
+      return (
+        <div className="w-max">
+          {isEligible === true ? (
+            <Badge variant="success">Đã đủ điều kiện</Badge>
+          ) : (
+            <Badge variant="destructive">Chưa đủ điều kiện</Badge>
+          )}
+        </div>
+      );
+    },
+  },
 
   {
     accessorKey: "accountName",

@@ -5,13 +5,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 
 const DataTableRowActions = ({ row, onEdit, onDelete }) => {
   return (
-    // row.original?.donatePhaseIsEnd === true ? (
+    row.original?.isEligible  && row.original?.isProcessing ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
@@ -35,7 +34,7 @@ const DataTableRowActions = ({ row, onEdit, onDelete }) => {
         </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
-    // ) : ""
+    ) : ""
 
   );
 };

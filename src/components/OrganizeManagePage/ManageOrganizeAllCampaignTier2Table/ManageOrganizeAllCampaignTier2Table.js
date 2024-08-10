@@ -5,7 +5,7 @@ import ManageOrganizeSlideBar from "../ManageOrganizeSlideBar/ManageOrganizeSlid
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { AuthContext } from "../../../context/AuthContext";
-import { GETALLCAMPAIGNBYOMID } from "../../../api/apiConstants";
+import { GETALLCAMPAIGNTIER2BYOMID } from "../../../api/apiConstants";
 import { Helmet } from "react-helmet";
 import ConfirmEnableDisable from "./Feature/ConfirmEnableDisable";
 
@@ -17,7 +17,7 @@ async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaign
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
     const encoded = normalizeAndEncode(campaignName);
-    const response = await axiosPrivate.get(GETALLCAMPAIGNBYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
+    const response = await axiosPrivate.get(GETALLCAMPAIGNTIER2BYOMID + `${user.organization_manager_id}?pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
       cancelToken: cancelToken
     });
 

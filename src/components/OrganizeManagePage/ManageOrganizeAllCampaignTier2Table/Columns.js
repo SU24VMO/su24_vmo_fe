@@ -221,7 +221,7 @@ export const columns = ({ onSort, onConfirm }) => [
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/updateCampaignOrganizationManager/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
+                  <Link to={`/updateCampaignOrganizationTier2Manager/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
                     Chỉnh sửa chiến dịch
                   </Link>
                 </DropdownMenuItem>

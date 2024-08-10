@@ -42,6 +42,8 @@ export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-reque
 
 export const GETALLORGANIZATIONBYID = "/api/organization/all/filter/organization-manager/";
 export const GETALLCAMPAIGNBYOMID = "/api/campaign/create-by/organization-manager/";
+export const GETALLCAMPAIGNTIER2BYOMID = "/api/campaign/tier-ii/create-by/organization-manager/";
+
 export const GETALLNEWSBYOMID = "/api/post/all/organization-manager/";
 
 export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organization-manager'
@@ -59,11 +61,15 @@ export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/
 
 
 export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
+export const UPDATECAMPAIGNTIER2OM = '/api/create-campaign-request/tier-ii/update/campaign-information'
+
 export const UPDATENEWS = '/api/create-post-request/update/post-information'
 export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-information'
 export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
 
 export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
+export const UPDATECAMPAIGNTIER2VOLUNTEER = '/api/create-campaign-request/tier-ii/update/campaign-information'
+
 
 
 
@@ -72,6 +78,8 @@ export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/camp
 //volunteer
 export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";
 export const GETALLCAMPAIGNBYVOLUNTEERID = "/api/campaign/create-by/volunteer/";
+export const GETALLCAMPAIGNTIER2BYVOLUNTEERID = "/api/campaign/tier-ii/create-by/volunteer/";
+
 export const GETALLNEWSBYVOLUNTEERID = "/api/post/all/volunteer/";   
 export const GETOPTIONPROCESSINGPHASEVOLUNTEER = '/api/processing-phase/create-by/volunteer'
 

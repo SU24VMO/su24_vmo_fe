@@ -714,6 +714,7 @@ export default function CreateCampaignOrganizationManagerPage() {
                                             setFieldValue={setFieldValue}
                                             selectTriggerId="campaignTier"
                                             onChange={(value) => setCheckTierCampaign(value)}
+                                            campaignTier={values.campaignTier}
                                         >
 
                                         </SelectCampaignDisbursement>

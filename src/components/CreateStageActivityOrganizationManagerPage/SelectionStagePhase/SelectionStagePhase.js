@@ -18,7 +18,7 @@ const SelectionStagePhase = ({ setFieldValue, selectTriggerId }) => {
 
   const getProcessingPhase = async () => {
     try {
-      const response = await axiosPrivate.get(GETPROCESSINGOMTIERIIACTIVE+ `/${user.organization_manager_id}`);
+      const response = await axiosPrivate.get(GETPROCESSINGOMTIERIIACTIVE + `/${user.organization_manager_id}`);
 
       if (response.status === 200) {
         setProcessingPhase(response.data.data.list); 

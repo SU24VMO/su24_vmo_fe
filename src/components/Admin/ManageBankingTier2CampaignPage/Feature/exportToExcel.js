@@ -10,7 +10,7 @@ export async function exportToExcel() {
   };
   try {
     const response = await axiosPrivate.get(
-      `/api/campaign/all/filter/banking-account`
+      `/api/campaign/tier-ii/all/filter/banking-account`
     );
 
   
@@ -21,6 +21,7 @@ export async function exportToExcel() {
         "ID chiến dịch": banking?.campaignID,
         "Tên chiến dịch": banking?.name,
         "Số tiền đã đạt": banking?.amount ? formatAmount(banking?.amount) : "" ,
+        "Kế hoạch": banking?.processingPhaseName,
         "Trạng thái quyên góp": banking?.donatePhaseIsEnd === true ? "Đã kết thúc" : "Chưa kết thúc",
         "Tên ngân hàng": banking?.bankingName,
         "Tên tài khoản": banking?.accountName,
@@ -38,6 +39,7 @@ export async function exportToExcel() {
             { label: "ID chiến dịch", value: "ID chiến dịch" },
             { label: "Tên chiến dịch", value: "Tên chiến dịch" },
             { label: "Số tiền đã đạt", value: "Số tiền đã đạt" },
+            { label: "Kế hoạch", value: "Kế hoạch" },
             { label: "Trạng thái quyên góp", value: "Trạng thái quyên góp" },
             { label: "Tên ngân hàng", value: "Tên ngân hàng" },
             { label: "Tên tài khoản", value: "Tên tài khoản" },

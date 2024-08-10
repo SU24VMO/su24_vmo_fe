@@ -63,6 +63,7 @@ const EditBankingCampaignForm = ({
       const formData = new FormData();
       formData.append("AccountId", user?.account_id);
       formData.append("CampaignId", banking?.campaignID);
+      formData.append("ProcessingPhaseId", banking?.processingPhaseId);
       formData.append("BankingAccountId", banking?.bankingAccountId);
       formData.append("Amount", cleanFormattedAmount(banking?.amount));
       formData.append("TransactionImage", data?.transactionImage);

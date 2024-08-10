@@ -196,7 +196,7 @@ export const columns = ({ onSort, onConfirm }) => [
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/updateCampaignVolunteer/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
+                  <Link to={`/updateCampaignVolunteerTier2/${row.original?.createCampaignRequest?.createCampaignRequestID}`}>
                     Chỉnh sửa chiến dịch
                   </Link>
                 </DropdownMenuItem>

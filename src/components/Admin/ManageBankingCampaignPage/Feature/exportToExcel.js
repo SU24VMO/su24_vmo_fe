@@ -10,7 +10,7 @@ export async function exportToExcel() {
   };
   try {
     const response = await axiosPrivate.get(
-      `/api/campaign/all/filter/banking-account`
+      `/api/campaign/tier-i/all/filter/banking-account`
     );
 
   

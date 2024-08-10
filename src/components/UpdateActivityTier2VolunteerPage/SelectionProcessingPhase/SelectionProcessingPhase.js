@@ -12,7 +12,7 @@ import {
 import { axiosPrivate } from "../../../api/axiosInstance";
 import { GETOPTIONPROCESSINGPHASEVOLUNTEER } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
-const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId }) => {
+const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPhaseSelected }) => {
   const [processingPhase, setProcessingPhase] = useState([]);
   const {user} = useContext(AuthContext)
 
@@ -22,8 +22,7 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId }) => {
 
       if (response.status === 200) {
         setProcessingPhase(response.data.data.list); 
-
-        
+        console.log(response.data.data.list);
       } else {
         console.error("Failed to fetch processing phase.");
       }
@@ -42,7 +41,7 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId }) => {
     setFieldValue("processingPhase", processingPhase);
   };
   return (
-    <Select onValueChange={handleSelectTypeCampaign}>
+    <Select onValueChange={handleSelectTypeCampaign} value={processingPhaseSelected}>
       <SelectTrigger className="  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id={selectTriggerId}>
         <SelectValue placeholder="Chiến dịch để tạo hoạt động" />
       </SelectTrigger>

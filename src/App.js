@@ -89,6 +89,8 @@ import ManageRequestStagesActivitiesPage from "./components/Moderator/ManageRequ
 import ViewCampaignDetailTier1Page from "./components/ViewCampaignDetailTier1Page/ViewCampaignDetailTier1Page";
 import ViewCampaignDetailTier2Page from "./components/ViewCampaignDetailTier2Page/ViewCampaignDetailTier2Page";
 import ManageBankingTier2CampaignPage from "./components/Admin/ManageBankingTier2CampaignPage/ManageBankingTier2CampaignPage";
+import UpdateCampaignOrganizationTier2ManagerPage from "./components/UpdateCampaignOrganizationTier2ManagerPage/UpdateCampaignOrganizationTier2ManagerPage";
+import UpdateCampaignVolunteerTier2Page from "./components/UpdateCampaignVolunteerTier2Page/UpdateCampaignVolunteerTier2Page";
 
 
 function App() {
@@ -165,6 +167,8 @@ function App() {
                 <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
                 <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
                 <Route path="/updateCampaignVolunteer/:id" element={<UpdateCampaignVolunteerPage />} />
+                <Route path="/updateCampaignVolunteerTier2/:id" element={<UpdateCampaignVolunteerTier2Page/>} />
+
                 <Route path="/updateActivityVolunteer/:id" element={<UpdateActivityVolunteerPage />} />
                 <Route path="/createStageActivityVolunteer" element={<CreateStageActivityVolunteerManagerPage />} />
 
@@ -187,6 +191,8 @@ function App() {
                 <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />
                 <Route path="/createCampaignOrganizationManager" element={<CreateCampaignOrganizationManagerPage />} />
                 <Route path="/updateCampaignOrganizationManager/:id" element={<UpdateCampaignOrganizationManagerPage />} />
+                <Route path="/updateCampaignOrganizationTier2Manager/:id" element={<UpdateCampaignOrganizationTier2ManagerPage />} />
+
                 <Route path="/updateActivityOrganizationManager/:id" element={<UpdateActivityOrganizationManagerPage />} />
                 <Route path="/updateOrganization/:id" element={<UpdateOrganizationPage />} />
                 <Route path="/createStageActivityOM" element={<CreateStageActivityOrganizationManagerPage />} />

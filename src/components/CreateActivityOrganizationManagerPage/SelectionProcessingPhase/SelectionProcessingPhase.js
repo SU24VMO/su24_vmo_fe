@@ -22,6 +22,9 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId }) => {
 
       if (response.status === 200) {
         setProcessingPhase(response.data.data.list); 
+        console.log('====================================');
+        console.log("data processing tier1: ", response.data.data.list);
+        console.log('====================================');
       } else {
         console.error("Failed to fetch processing phase.");
       }

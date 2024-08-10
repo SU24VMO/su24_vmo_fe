@@ -141,7 +141,7 @@ const CustomCardCampaign = ({
                   <p className="text-sm mobile:text-lg font-bold mt-2 mb-4 tablet:truncate">
                     {campaignName}
                   </p>
-                  <p className="text-sm mobile:text-lg mb-2">
+                  <p className="text-sm mobile:text-lg mb-2 line-clamp-1">
                     Tạo bởi <b>{organizerName}</b>
                   </p>
                   <Progress
@@ -247,7 +247,7 @@ const CustomCardCampaign = ({
                   <p className="text-sm mobile:text-lg font-bold mt-2 mb-4 tablet:truncate">
                     {campaignName}
                   </p>
-                  <p className="text-sm mobile:text-lg mb-2">
+                  <p className="text-sm mobile:text-lg mb-2 line-clamp-1">
                     Tạo bởi <b>{organizerName}</b>
                   </p>
                   <Progress
