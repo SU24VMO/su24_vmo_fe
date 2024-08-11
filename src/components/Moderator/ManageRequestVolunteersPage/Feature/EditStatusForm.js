@@ -327,6 +327,35 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 </div>
               </div>
             </div>
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedDate">Ngày duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+
+                    {volunteer ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  </Badge>
+                  <CopyButton
+                    code={volunteer ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approved_by">Người duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {volunteer?.moderator ? (volunteer.moderator?.firstName + " " + volunteer.moderator?.lastName) : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={volunteer?.moderator ? (volunteer.moderator?.firstName + " " + volunteer.moderator?.lastName) : "Chưa có"}
+                  />
+                </div>
+              </div>
+            </div>
             {volunteer && (
               <form onSubmit={formik.handleSubmit} className="space-y-3">
                 <div className="flex flex-col gap-3">

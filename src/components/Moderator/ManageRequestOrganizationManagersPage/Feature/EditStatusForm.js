@@ -197,20 +197,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 </div>
               </div>
             </div>
-            {/* Show Người duyệt */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approvedBy">Người duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + organizationManager?.moderator?.lastName) : ""}
-                  />
-                </div>
-              </div>
-            </div>
+           
             {/* Show Ngày tạo */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -240,7 +227,20 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 </div>
               </div>
             </div>
-
+ {/* Show Người duyệt */}
+ <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedBy">Người duyệt</Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
+                  />
+                </div>
+              </div>
+            </div>
             {organizationManager && (
               <form onSubmit={formik.handleSubmit} className="space-y-3">
                 <div className="flex flex-col gap-3">

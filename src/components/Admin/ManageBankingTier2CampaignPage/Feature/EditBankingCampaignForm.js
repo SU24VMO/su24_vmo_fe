@@ -46,6 +46,7 @@ const EditBankingCampaignForm = ({
     setFieldValue("transactionImage", null);
   }
 
+// Format tiền
   const formatAmount = (value) => {
     const cleanValue = value.replace(/\D/g, "");
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");

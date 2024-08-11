@@ -124,7 +124,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
     },
     cell: ({ row }) => {
       
-      const moderator = row.original?.moderator ? (row.original?.moderator?.firstName + row.original?.moderator?.lastName) : "Chưa có";
+      const moderator = row.original?.moderator ? (row.original?.moderator?.firstName + " " + row.original?.moderator?.lastName) : "Chưa có";
       return <div className="">{moderator}</div>;
     },
   },

@@ -34,7 +34,7 @@ export const columns = ({ onSort, onConfirm }) => [
     },
     cell: ({ row }) => {
       const name = row.getValue("name");
-      return <div className="w-52  line-clamp-3 ">{name}</div>;
+      return <div className="w-52 line-clamp-3 ">{name}</div>;
     },
   },
   {

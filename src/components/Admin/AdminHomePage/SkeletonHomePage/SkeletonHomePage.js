@@ -108,6 +108,16 @@ export default function SkeletonHomePage() {
                             Giao dịch gần đây
                         </CardDescription>
                     </div>
+
+                    <div className="grid gap-2 ml-auto">
+                        <CardTitle>Tổng tiền hệ thống</CardTitle>
+                        <CardDescription>
+                            <span className="text-xl font-semibold">   
+                                  <Skeleton className="h-6 w-32" />
+                                   </span>
+                        </CardDescription>
+                    </div>
+
                     <Button asChild size="sm" className="ml-auto gap-1">
                         {/* <Link to="#">
                                 Xem tất cả

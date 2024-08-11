@@ -42,7 +42,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
   const [loading, setLoading] = useState(false)
 
 
-  const [isExpanded, setIsExpanded] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false);
   const content = activities?.activity?.content ? (activities?.activity?.content?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có"
 
 
@@ -67,24 +67,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: serverMessage,
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    } else {
+      } else {
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    }
+      }
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -114,10 +114,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
       isApproved: activities ? activities.isApproved : false,
     });
   }, [activities]);
- // Handle switch change
- const handleSwitchChange = (isApproved) => {
-  formik.setFieldValue("isApproved", isApproved);
-};
+  // Handle switch change
+  const handleSwitchChange = (isApproved) => {
+    formik.setFieldValue("isApproved", isApproved);
+  };
 
 
   //handle caroulsel
@@ -148,7 +148,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Chi tiết hoạt động</DialogTitle>
-          
+
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của hoạt động!
           </DialogDescription>
@@ -176,10 +176,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"
-                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""}
+                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""} />
+                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -189,10 +189,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"
-                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""}
+                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""} />
+                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -202,7 +202,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="content">Nội dung </Label>
                 <div className="flex items-center space-x-2 text-sm">
 
-                <div variant={"outline"}>
+                  <div variant={"outline"}>
                     <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
                     <Button variant="link" onClick={toggleDescription}>
                       {isExpanded ? "Thu gọn" : "Xem thêm"}
@@ -295,7 +295,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
               </div>
             </div>
 
-            {/* Show ngày Ngày cập nhật */}
+            {/* Show ngày Ngày cập nhật
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="updateDate">Ngày cập nhật</Label>
@@ -308,30 +308,46 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            {activities && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
+            {/* Show Người duyệt */}
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedBy">Người duyệt</Label>
                 <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
+                  <Badge variant={"outline"}>
+                    {activities?.moderator ? (activities?.moderator?.firstName + " " + activities?.moderator?.lastName) : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={activities?.moderator ? (activities?.moderator?.firstName + " " + activities?.moderator?.lastName) : "Chưa có"}
                   />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
                 </div>
               </div>
-            </form>
-          )}
+            </div>
+
+
+            {activities && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         </ScrollArea>
         <DialogFooter>

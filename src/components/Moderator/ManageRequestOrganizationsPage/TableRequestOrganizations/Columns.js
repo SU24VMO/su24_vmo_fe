@@ -35,6 +35,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },  cell: ({ row }) => {
+      
+      const organizationName = row.original?.organizationName;
+      return <div className="line-clamp-2">{organizationName}</div>;
     },
   },
   {

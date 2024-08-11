@@ -93,7 +93,7 @@ export default function CreateCampaignVolunteerPage() {
     };
 
 
-    // --------------
+    // ------------------------------------------------
     const cleanFormattedAmountTier = (formattedValue) => {
         return formattedValue.replace(/\./g, '').replace(/[^0-9.]/g, '');
     };
@@ -387,11 +387,19 @@ export default function CreateCampaignVolunteerPage() {
                 // stages validate 
                 if ((checkTierCampaign * 1) === 2) {
                     // Validate the stages
+                    // Kiểm tra xem có ít nhất một phần tử trong mảng thỏa mãn điều kiện do hàm cung cấp không.
+                    // Trả về true và false
+                    // some được sử dụng để kiểm tra xem có bất kỳ lỗi nào trong mảng stages không. Nó lặp qua 
+                    // từng phần tử và kiểm tra xem có lỗi nào liên quan đến tiêu đề hoặc số tiền không. Nếu có 
                     const hasStageErrors = values.stages.some((_, index) => {
                         const titleError = errorPlan[`${index}-title`] && !values.stages[index].title;
                         const amountError = errorPlan[`${index}-amount`] && !values.stages[index].amount;
                         return titleError || amountError;
                     });
+                    // Áp dụng một hàm cho một giá trị tích lũy và từng phần tử trong mảng (từ trái qua phải) để giảm mảng xuống thành một giá trị duy nhất.
+                    // Phương thức này trả về giá trị cuối cùng sau tất cả các lần lặp.
+                    // reduce được sử dụng để tính tổng số tiền bằng cách lặp qua từng giai đoạn và cộng dồn giá trị
+                    //  amount. Nó bắt đầu với tổng ban đầu là 0 và cộng dồn từng số tiền của giai đoạn vào đó.
                     const totalAmount = values.stages.reduce((sum, stage) => {
                         const amount = parseFloat(stage.amount) || 0; // Ensure amount is a number, fallback to 0 if it's not
                         return sum + amount;

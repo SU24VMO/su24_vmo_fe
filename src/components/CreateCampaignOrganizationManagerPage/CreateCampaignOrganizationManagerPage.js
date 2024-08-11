@@ -86,7 +86,9 @@ export default function CreateCampaignOrganizationManagerPage() {
     };
 
 
-    // --------------
+    // ------------------------------------------------
+
+    // Clean format tiền trước khi gửi đi submit
     const cleanFormattedAmountTier = (formattedValue) => {
         return formattedValue.replace(/\./g, '').replace(/[^0-9.]/g, '');
     };
@@ -95,6 +97,7 @@ export default function CreateCampaignOrganizationManagerPage() {
 
     const [errorPlan, setErrorPlan] = useState({});
 
+    // Xử lí nhập liệu title và amount
     const handleInputChange = (index, field, value, setFieldValue) => {
         // Conditionally clean the value if the field is 'amount'
         const cleanedValue = field === 'amount' ? cleanFormattedAmountTier(value) : value;
@@ -108,7 +111,7 @@ export default function CreateCampaignOrganizationManagerPage() {
         });
     };
 
-
+    // Xử lí lõi blur nhập liệu title và amount
     const handleBlurErrors = (index, field) => {
         console.log('Index:', index);
         console.log('Field:', field);
@@ -131,7 +134,7 @@ export default function CreateCampaignOrganizationManagerPage() {
             [`${index}-${field}`]: error
         }));
     };
-
+    // bắt lỗi
     const validateField = (field, value) => {
         if (field === 'title') {
             return validateTitle(value) ? '' : 'Vui lòng điền';
@@ -151,7 +154,7 @@ export default function CreateCampaignOrganizationManagerPage() {
         return cleanedAmount.trim() !== '';
     };
 
-
+    // Thêm thẻ cho việc add plan
     const addElement = () => {
         setElements(prevElements => [...prevElements, { title: '', amount: '' }]);
     };
@@ -194,7 +197,7 @@ export default function CreateCampaignOrganizationManagerPage() {
         formData.append('AccountName', data.nameOfUserBank);
         formData.append('BankingAccountNumber', data.numberOfBankAccount);
         formData.append('CampaignTier', data.campaignTier);
-
+        // check nếu  vô tình ng ta nhập xong mà chọn lại tier 1 thì nó ẩn đi không gửi về stages json
         if ((checkTierCampaign * 1) === 2) {
             formData.append('stagesJson', JSON.stringify(data.stages))
 
@@ -389,11 +392,20 @@ export default function CreateCampaignOrganizationManagerPage() {
                 // stages validate 
                 if ((checkTierCampaign * 1) === 2) {
                     // Validate the stages
+                    // Kiểm tra xem có ít nhất một phần tử trong mảng thỏa mãn điều kiện do hàm cung cấp không.
+                    // Trả về true và false
+                    // some được sử dụng để kiểm tra xem có bất kỳ lỗi nào trong mảng stages không. Nó lặp qua 
+                    // từng phần tử và kiểm tra xem có lỗi nào liên quan đến tiêu đề hoặc số tiền không. Nếu có 
+                    // ít nhất một giai đoạn có lỗi, nó trả về true.
                     const hasStageErrors = values.stages.some((_, index) => {
                         const titleError = errorPlan[`${index}-title`] && !values.stages[index].title;
                         const amountError = errorPlan[`${index}-amount`] && !values.stages[index].amount;
                         return titleError || amountError;
                     });
+                    // Áp dụng một hàm cho một giá trị tích lũy và từng phần tử trong mảng (từ trái qua phải) để giảm mảng xuống thành một giá trị duy nhất.
+                    // Phương thức này trả về giá trị cuối cùng sau tất cả các lần lặp.
+                    // reduce được sử dụng để tính tổng số tiền bằng cách lặp qua từng giai đoạn và cộng dồn giá trị
+                    //  amount. Nó bắt đầu với tổng ban đầu là 0 và cộng dồn từng số tiền của giai đoạn vào đó.
                     const totalAmount = values.stages.reduce((sum, stage) => {
                         const amount = parseFloat(stage.amount) || 0; // Ensure amount is a number, fallback to 0 if it's not
                         return sum + amount;

@@ -227,10 +227,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="user"
-                    defaultValue={posts?.user ? (posts.user?.firstName + posts.user?.lastName) : ""}
+                    defaultValue={posts?.user ? (posts.user?.firstName + " " + posts.user?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={posts?.user ? (posts.user?.firstName + posts.user?.lastName) : ""} />
+                  <CopyButton code={posts?.user ? (posts.user?.firstName + " " + posts.user?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -242,10 +242,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="organizationManager"
-                    defaultValue={posts?.organizationManager ? (posts.organizationManager?.firstName + posts.organizationManager?.lastName) : ""}
+                    defaultValue={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={posts?.organizationManager ? (posts.organizationManager?.firstName + posts.organizationManager?.lastName) : ""} />
+                  <CopyButton code={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>

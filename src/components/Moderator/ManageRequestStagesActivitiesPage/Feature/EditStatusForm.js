@@ -176,10 +176,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"
-                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""}
+                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : ""} />
+                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -189,10 +189,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"
-                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""}
+                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + activities.organizationManager?.lastName) : ""} />
+                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
