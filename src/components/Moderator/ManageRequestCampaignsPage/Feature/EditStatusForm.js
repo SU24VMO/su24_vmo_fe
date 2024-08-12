@@ -31,7 +31,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const [loading, setLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const description = campaigns?.campaign?.description ? (campaigns?.campaign?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có" ;
+  const description = campaigns?.campaign?.description ? (campaigns?.campaign?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có";
 
 
   const updateStatus = async (data) => {
@@ -49,24 +49,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: serverMessage,
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    } else {
+      } else {
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    }
+      }
     } finally {
       onOpenChange(false);
       setLoading(false);
@@ -123,10 +123,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="name"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.name : ""}
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.name : "Không có"}
                     disabled
                   />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : ""} />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : "Không có"} />
                 </div>
               </div>
             </div>
@@ -136,10 +136,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="targetAmount">Mục tiêu</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
+                    {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : ""}
+                    code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
                   />
                 </div>
               </div>
@@ -150,7 +150,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="image">Ảnh nền</Label>
                 <div className="w-1/3 mx-auto">
                   <img
-                    src={campaigns?.campaign ? campaigns.campaign?.image : ""}
+                    src={campaigns?.campaign ? campaigns.campaign?.image : "Không có"}
                     alt="ảnh-nền"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                   />
@@ -183,16 +183,46 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
               </div>
             </div>
 
+            {/* Plan stage chiến dịch */}
+
+            {(campaigns?.campaign?.campaignTier * 1) === 2 ? (
+              <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="processingPhase">Kế hoạch chi tiêu</Label>
+                <div className="flex items-center space-x-2 text-sm">
+                <ol class="relative border-s border-gray-200 dark:border-gray-700">
+                {
+                  campaigns?.campaign?.processingPhases && campaigns?.campaign?.processingPhases.map((stage) => {
+                    return (
+                      <li class="mb-10 ms-4">
+                        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                        <span class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{stage?.percent + "%"}</span>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{stage?.name + " - " + formatAmount(stage?.currentMoney)}</h3>
+                      </li>
+                    )
+                  })
+                }
+
+              </ol>
+                </div>
+              </div>
+            </div>
+            ) : ""}
+
+
+
+
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="address">Địa chỉ</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="address"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.address : ""}
+                    defaultValue={campaigns?.campaign ? campaigns.campaign?.address : "Không có"}
                     disabled
                   />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : ""} />
+                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : "Không có"} />
                 </div>
               </div>
             </div>
@@ -200,7 +230,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
             <div className="flex">
 
               <div className="grid flex-1 gap-2">
-              <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
+                <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
                 <div className="w-1/3 mx-auto">
                   <img
                     src={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
@@ -230,10 +260,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="member"
-                    defaultValue={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""}
+                    defaultValue={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + campaigns.member?.lastName) : ""} />
+                  <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -244,10 +274,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="create_by_om"
-                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : ""}
+                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : ""} />
+                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -257,10 +287,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="create_date">Ngày tạo chiến dịch</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>
@@ -271,10 +301,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="startDate">Ngày bắt đầu</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>
@@ -285,10 +315,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <Label htmlFor="expectedEndDate">Ngày kết thúc (dự kiến)</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>

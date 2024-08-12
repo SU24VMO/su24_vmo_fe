@@ -120,7 +120,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
               <Label htmlFor="image">Ảnh Logo</Label>
               <div className="w-1/3 mx-auto">
                 <img
-                  src={organize?.organization ? organize?.organization?.logo : ""}
+                  src={organize?.organization ? organize?.organization?.logo : "Không có"}
                   alt="ảnh-nền"
                   className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                 />
@@ -146,10 +146,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="organizationName"
-                    defaultValue={organize ? organize?.organizationName : ""}
+                    defaultValue={organize ? organize?.organizationName : "Không cóKhông có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.organizationName : ""} />
+                  <CopyButton code={organize ? organize?.organizationName : "Không cóKhông có"} />
                 </div>
               </div>
             </div>
@@ -160,10 +160,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="organizationManagerEmail"
-                    defaultValue={organize ? organize?.organizationManagerEmail : ""}
+                    defaultValue={organize ? organize?.organizationManagerEmail : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.organizationManagerEmail : ""} />
+                  <CopyButton code={organize ? organize?.organizationManagerEmail : "Không có"} />
                 </div>
               </div>
             </div>
@@ -174,10 +174,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="organizationTaxCode"
-                    defaultValue={organize ? organize?.organizationTaxCode : ""}
+                    defaultValue={organize ? organize?.organizationTaxCode : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.organizationTaxCode : ""} />
+                  <CopyButton code={organize ? organize?.organizationTaxCode : "Không có"} />
                 </div>
               </div>
             </div>
@@ -187,10 +187,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <Label htmlFor="foundingDate">Ngày thành lập</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : ""}
+                    {organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : ""}
+                    code={organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : "Không có"}
                   />
                 </div>
               </div>
@@ -202,10 +202,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="socialMediaLink"
-                    defaultValue={organize ? organize?.socialMediaLink : ""}
+                    defaultValue={organize ? organize?.socialMediaLink : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.socialMediaLink : ""} />
+                  <CopyButton code={organize ? organize?.socialMediaLink : "Không có"} />
                 </div>
               </div>
             </div>
@@ -216,10 +216,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="areaOfActivity"
-                    defaultValue={organize ? organize?.areaOfActivity : ""}
+                    defaultValue={organize ? organize?.areaOfActivity : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.areaOfActivity : ""} />
+                  <CopyButton code={organize ? organize?.areaOfActivity : "Không có"} />
                 </div>
               </div>
             </div>
@@ -229,10 +229,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="address"
-                    defaultValue={organize ? organize?.address : ""}
+                    defaultValue={organize ? organize?.address : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.address : ""} />
+                  <CopyButton code={organize ? organize?.address : "Không có"} />
                 </div>
               </div>
             </div>
@@ -255,14 +255,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <div className="flex items-center space-x-2">
                   <Input
                     id="achievementLink"
-                    defaultValue={organize ? organize?.achievementLink : ""}
+                    defaultValue={organize ? organize?.achievementLink : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.achievementLink : ""} />
+                  <CopyButton code={organize ? organize?.achievementLink : "Không có"} />
                 </div>
               </div>
             </div>
-            <div className="flex">
+            {/* <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="authorizationDocuments">Đơn ủy quyền</Label>
                 <div className="flex items-center space-x-2">
@@ -274,17 +274,42 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                   <CopyButton code={organize ? organize?.authorizationDocuments : ""} />
                 </div>
               </div>
+            </div> */}
+
+            <div className="flex flex-col p-5 gap-5">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="authorizationDocuments">Đơn ủy quyền</Label>
+                <div className="w-1/3 mx-auto">
+                  <img
+                    src={organize ? organize?.authorizationDocuments : "Không có"}
+                    alt="anh-uy-quyen"
+                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                  />
+                </div>
+                {organize && organize?.authorizationDocuments && (
+                  <a href={organize?.authorizationDocuments} download>
+                    <Button
+                      variant="outline"
+                      className="flex items-center space-x-1"
+                    >
+                      <ImageDown className="h-6 w-6" />
+                      Tải về
+                    </Button>
+                  </a>
+                )}
+              </div>
             </div>
+
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="organizationManager">Quản lý tổ chức</Label>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="organizationManager"
-                    defaultValue={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : ""}
+                    defaultValue={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : ""} />
+                  <CopyButton code={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>
@@ -294,10 +319,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <Label htmlFor="createDate">Ngày tạo đơn</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>

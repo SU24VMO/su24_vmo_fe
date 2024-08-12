@@ -15,12 +15,19 @@ export default function CreateOrganizeForm() {
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const [file, setFile] = useState();
+  const [fileImage, setFileImage] = useState();
+
   const [fileImagelogo, setFileImageLogo] = useState()
 
+  const [fileAuthorImage, setFileAuthorImage] = useState();
+
+  const [authorizationDocumentsImage, setAuthorizationDocumentsImage] = useState()
+
+
+  // Xử lí ảnh logo
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
-    setFile(e.target.files[0]);
+    setFileImage(e.target.files[0]);
     setFileImageLogo(URL.createObjectURL(e.target.files[0]))
     setFieldValue('Logo', e.target.files[0]);
   }
@@ -28,6 +35,20 @@ export default function CreateOrganizeForm() {
   function removeLogo(e, setFieldValue) {
     setFileImageLogo('');
     setFieldValue("Logo", null);
+
+  }
+  // Xử lí ảnh ủy quyền tổ chức cho thành viên
+
+  function handleAuthorizationDocumentsImage(e, setFieldValue) {
+    console.log("File ảnh đại diện vừa chọn: ", e.target.files);
+    setFileAuthorImage(e.target.files[0]);
+    setAuthorizationDocumentsImage(URL.createObjectURL(e.target.files[0]))
+    setFieldValue('AuthorizationDocuments', e.target.files[0]);
+  }
+
+  function removeAuthorizationDocumentsImage(e, setFieldValue) {
+    setAuthorizationDocumentsImage('');
+    setFieldValue("AuthorizationDocuments", null);
 
   }
 
@@ -44,8 +65,10 @@ export default function CreateOrganizeForm() {
       formData.append('Address', data.Address);
       formData.append('PlanInformation', data.PlanInformation);
       formData.append('AchievementLink', data.AchievementLink);
-      formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
-      formData.append('Logo', file)
+      // formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
+      formData.append('AuthorizationDocuments', fileAuthorImage);
+
+      formData.append('Logo', fileImage)
 
       setLoading(true)
 
@@ -60,9 +83,10 @@ export default function CreateOrganizeForm() {
       );
       if (response.status === 200) {
         resetForm()
-        setFile(null)
+        setFileImage(null)
         setFieldValue('Logo', null);
         setFieldValue('FoundingDate', null);
+        setFieldValue('AuthorizationDocuments', null);
         navigate("/manage/organize/allOrganizations")
 
 
@@ -107,7 +131,7 @@ export default function CreateOrganizeForm() {
           PlanInformation: "",
           AchievementLink: "",
           Logo: null,
-          AuthorizationDocuments: "",
+          AuthorizationDocuments: null,
         }}
         validate={(values) => {
           const errors = {};
@@ -369,7 +393,7 @@ export default function CreateOrganizeForm() {
               />
             </div>
 
-            <div class="mb-5">
+            {/* <div class="mb-5">
               <label
                 for="AuthorizationDocuments"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  text-justify"
@@ -393,6 +417,53 @@ export default function CreateOrganizeForm() {
                   touched.AuthorizationDocuments &&
                   errors.AuthorizationDocuments}
               </p>
+            </div> */}
+
+            <div class="mb-5">
+              <div className="">
+                <div>
+                  <label
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="AuthorizationDocuments"
+                  >
+                    Giấy ủy quyền của tổ chức *
+                  </label>
+                  {authorizationDocumentsImage ? (<div className=" flex flex-col justify-center items-center">
+                    <img className="mb-6 w-1/3 h-fit rounded-xl shadow-md"
+                      id="image"
+
+                      value={authorizationDocumentsImage}
+                      src={authorizationDocumentsImage} alt="author_image" />
+                    <button type="button"
+                      onClick={(e) => { removeAuthorizationDocumentsImage(e, setFieldValue) }}
+                      class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                  </div>) : (<div>
+
+                    <label
+                      className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      htmlFor="AuthorizationDocuments"
+                    >
+                      <span className="ml-2">Chọn ảnh</span>
+                    </label>
+                    <input
+                      className="hidden"
+                      aria-describedby="AuthorizationDocuments"
+                      id="AuthorizationDocuments"
+                      name="AuthorizationDocuments"
+                      onChange={(e) => { handleAuthorizationDocumentsImage(e, setFieldValue) }}
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg"
+                    />
+                  </div>)}
+                </div>
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  {" "}
+                  {errors.AuthorizationDocuments &&
+                    touched.AuthorizationDocuments &&
+                    errors.AuthorizationDocuments}
+                </p>
+              </div>
             </div>
             <div class="mb-5">
               <div className="">
@@ -408,13 +479,13 @@ export default function CreateOrganizeForm() {
                       id="image"
 
                       value={fileImagelogo}
-                      src={fileImagelogo}  alt="qr-code" />
+                      src={fileImagelogo} alt="qr-code" />
                     <button type="button"
                       onClick={(e) => { removeLogo(e, setFieldValue) }}
                       class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
 
                   </div>) : (<div>
-                    
+
                     <label
                       className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                       htmlFor="Logo"

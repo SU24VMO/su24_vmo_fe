@@ -132,10 +132,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Input
                     id="title"
-                    defaultValue={posts?.post ? posts.post?.title : ""}
+                    defaultValue={posts?.post ? posts.post?.title : "Không có"}
                     disabled
                   />
-                  <CopyButton code={posts?.post ? posts.post?.title : ""} />
+                  <CopyButton code={posts?.post ? posts.post?.title : "Không có"} />
                 </div>
               </div>
             </div>
@@ -256,10 +256,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
 
-                    {posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>

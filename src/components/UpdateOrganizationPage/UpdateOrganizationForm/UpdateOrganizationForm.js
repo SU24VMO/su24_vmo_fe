@@ -20,7 +20,14 @@ export default function UpdateOrganizationForm() {
   const [loadingData, setLoadingData] = useState(false)
 
   const navigate = useNavigate()
-  const [file, setFile] = useState();
+  const [fileImage, setFileImage] = useState();
+
+  const [fileImagelogo, setFileImageLogo] = useState()
+
+  const [fileAuthorImage, setFileAuthorImage] = useState();
+
+  const [authorizationDocumentsImage, setAuthorizationDocumentsImage] = useState()
+
   const [initialValues, setInitialValues] = useState(
     {
       OrganizationName: "",
@@ -33,17 +40,38 @@ export default function UpdateOrganizationForm() {
       PlanInformation: "",
       AchievementLink: "",
       Logo: null,
-      AuthorizationDocuments: "",
+      AuthorizationDocuments: null,
 
 
     }
   )
+  // Xử lí ảnh logo
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
-    setFile(e.target.files[0]);
+    setFileImage(e.target.files[0]);
+    setFileImageLogo(URL.createObjectURL(e.target.files[0]))
     setFieldValue('Logo', e.target.files[0]);
   }
 
+  function removeLogo(e, setFieldValue) {
+    setFileImageLogo('');
+    setFieldValue("Logo", null);
+
+  }
+  // Xử lí ảnh ủy quyền tổ chức cho thành viên
+
+  function handleAuthorizationDocumentsImage(e, setFieldValue) {
+    console.log("File ảnh đại diện vừa chọn: ", e.target.files);
+    setFileAuthorImage(e.target.files[0]);
+    setAuthorizationDocumentsImage(URL.createObjectURL(e.target.files[0]))
+    setFieldValue('AuthorizationDocuments', e.target.files[0]);
+  }
+
+  function removeAuthorizationDocumentsImage(e, setFieldValue) {
+    setAuthorizationDocumentsImage('');
+    setFieldValue("AuthorizationDocuments", null);
+
+  }
   const getRequestOrganization = async (id) => {
     setLoadingData(true)
     try {
@@ -66,7 +94,7 @@ export default function UpdateOrganizationForm() {
           PlanInformation: response?.data?.data?.planInformation,
           AchievementLink: response?.data?.data?.achievementLink,
           Logo: null,
-          AuthorizationDocuments: response?.data?.data?.authorizationDocuments,
+          AuthorizationDocuments: null,
 
 
         })
@@ -117,8 +145,8 @@ export default function UpdateOrganizationForm() {
       formData.append('Address', data.Address);
       formData.append('PlanInformation', data.PlanInformation);
       formData.append('AchievementLink', data.AchievementLink);
-      formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
-      formData.append('Logo', file)
+      formData.append('AuthorizationDocuments', fileAuthorImage);
+      formData.append('Logo', fileImage)
 
       setLoading(true)
 
@@ -133,9 +161,10 @@ export default function UpdateOrganizationForm() {
       );
       if (response.status === 200) {
         resetForm()
-        setFile(null)
+        setFileImage(null)
         setFieldValue('Logo', null);
         setFieldValue('FoundingDate', null);
+        setFieldValue('AuthorizationDocuments', null);
         navigate("/manage/organize/allOrganizations")
 
 
@@ -448,29 +477,50 @@ export default function UpdateOrganizationForm() {
               </div>
 
               <div class="mb-5">
-                <label
-                  for="AuthorizationDocuments"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white  text-justify"
-                >
-                  Giấy ủy quyền của tổ chức *
-                </label>
+                <div className="">
+                  <div>
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      htmlFor="AuthorizationDocuments"
+                    >
+                      Giấy ủy quyền của tổ chức *
+                    </label>
+                    {authorizationDocumentsImage ? (<div className=" flex flex-col justify-center items-center">
+                      <img className="mb-6 w-1/3 h-fit rounded-xl shadow-md"
+                        id="image"
 
-                <input
-                  type="text"
-                  id="AuthorizationDocuments"
-                  name="AuthorizationDocuments"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.AuthorizationDocuments}
-                  autocomplete="off"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {" "}
-                  {errors.AuthorizationDocuments &&
-                    touched.AuthorizationDocuments &&
-                    errors.AuthorizationDocuments}
-                </p>
+                        value={authorizationDocumentsImage}
+                        src={authorizationDocumentsImage} alt="author_image" />
+                      <button type="button"
+                        onClick={(e) => { removeAuthorizationDocumentsImage(e, setFieldValue) }}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                    </div>) : (<div>
+
+                      <label
+                        className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        htmlFor="AuthorizationDocuments"
+                      >
+                        <span className="ml-2">Chọn ảnh</span>
+                      </label>
+                      <input
+                        className="hidden"
+                        aria-describedby="AuthorizationDocuments"
+                        id="AuthorizationDocuments"
+                        name="AuthorizationDocuments"
+                        onChange={(e) => { handleAuthorizationDocumentsImage(e, setFieldValue) }}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
+                    </div>)}
+                  </div>
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    {" "}
+                    {errors.AuthorizationDocuments &&
+                      touched.AuthorizationDocuments &&
+                      errors.AuthorizationDocuments}
+                  </p>
+                </div>
               </div>
               <div class="mb-5">
                 <div className="">
@@ -481,21 +531,34 @@ export default function UpdateOrganizationForm() {
                     >
                       Vui lòng chọn ảnh Logo tổ chức(công ty) *
                     </label>
-                    <input
-                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      aria-describedby="Logo_help"
-                      id="Logo"
-                      type="file"
-                      name="Logo"
-                      accept="image/png, image/jpg"
-                      onChange={(e) => { handleLogoChange(e, setFieldValue) }}
-                    />
-                    <p
-                      className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                      id="Logo_help"
-                    >
-                      PNG, JPG (MAX. 800x400px).
-                    </p>
+                    {fileImagelogo ? (<div className=" flex flex-col justify-center items-center">
+                      <img className="mb-6 w-52 h-52  laptop:w-40 laptop:h-40 rounded-xl shadow-md"
+                        id="image"
+
+                        value={fileImagelogo}
+                        src={fileImagelogo} alt="qr-code" />
+                      <button type="button"
+                        onClick={(e) => { removeLogo(e, setFieldValue) }}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
+
+                    </div>) : (<div>
+
+                      <label
+                        className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        htmlFor="Logo"
+                      >
+                        <span className="ml-2">Chọn ảnh</span>
+                      </label>
+                      <input
+                        className="hidden"
+                        aria-describedby="Logo"
+                        id="Logo"
+                        name="Logo"
+                        onChange={(e) => { handleLogoChange(e, setFieldValue) }}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
+                    </div>)}
                   </div>
                   <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                     {" "}

@@ -116,10 +116,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="name"
-                    defaultValue={organizationManager ? organizationManager.name : ""}
+                    defaultValue={organizationManager ? organizationManager?.name : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.name : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.name : "Không có"} />
                 </div>
               </div>
             </div>
@@ -130,10 +130,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="phoneNumber"
-                    defaultValue={organizationManager ? organizationManager.phoneNumber : ""}
+                    defaultValue={organizationManager ? organizationManager?.phoneNumber : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.phoneNumber : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.phoneNumber : "Không có"} />
                 </div>
               </div>
             </div>
@@ -145,10 +145,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="email"
-                    defaultValue={organizationManager ? organizationManager.email : ""}
+                    defaultValue={organizationManager ? organizationManager?.email : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.email : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.email : "Không có"} />
                 </div>
               </div>
             </div>
@@ -160,10 +160,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="address"
-                    defaultValue={organizationManager ? organizationManager.address : ""}
+                    defaultValue={organizationManager ? organizationManager?.address : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.address : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.address : "Không có"} />
                 </div>
               </div>
             </div>
@@ -175,10 +175,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="citizenIdentification"
-                    defaultValue={organizationManager ? organizationManager.citizenIdentification : ""}
+                    defaultValue={organizationManager ? organizationManager?.citizenIdentification : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.citizenIdentification : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.citizenIdentification : "Không có"} />
                 </div>
               </div>
             </div>
@@ -190,14 +190,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Input
                     id="personalTaxCode"
-                    defaultValue={organizationManager ? organizationManager.personalTaxCode : ""}
+                    defaultValue={organizationManager ? organizationManager?.personalTaxCode : "Không có"}
                     disabled
                   />
-                  <CopyButton code={organizationManager ? organizationManager.personalTaxCode : ""} />
+                  <CopyButton code={organizationManager ? organizationManager?.personalTaxCode : "Không có"} />
                 </div>
               </div>
             </div>
-           
+
             {/* Show Ngày tạo */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -205,10 +205,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
 
-                    {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>
@@ -227,8 +227,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                 </div>
               </div>
             </div>
- {/* Show Người duyệt */}
- <div className="flex">
+            {/* Show Người duyệt */}
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="approvedBy">Người duyệt</Label>
                 <div className="flex items-center space-x-2">

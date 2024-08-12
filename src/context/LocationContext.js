@@ -2,10 +2,13 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
+import { useNavigate } from "react-router-dom";
 
 const LocationContext = createContext();
 
 const LocationProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [locationIP, setLocationIP] = useState({
     latitude: '',
     longitude: '',
@@ -45,6 +48,11 @@ const LocationProvider = ({ children }) => {
       }, (error) => {
 
         if (error.code === error.PERMISSION_DENIED) {
+          // localStorage.removeItem("accessToken");
+          // localStorage.removeItem("refreshToken");
+          // localStorage.removeItem("isLogin");
+          // localStorage.removeItem("user");
+          // navigate("/login");
           toast({
             variant: "destructive",
             title: "Đã xảy ra lỗi!",

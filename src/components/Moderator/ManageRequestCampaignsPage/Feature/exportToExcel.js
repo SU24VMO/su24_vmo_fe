@@ -13,7 +13,7 @@ export async function exportToExcel() {
 
       let campaigns = response?.data?.data?.list.map((campaign) => ({
         "Tên chiến dịch": campaign.campaign?.name,
-        // "Loại chiến dịch": campaign.campaign?.name,
+        "Loại chiến dịch": (campaign.campaign?.campaignTier * 1) === 2 ? "Từng phần" : "Toàn phần",
         "Tạo bởi tình nguyện viên": campaign.member?.lastName,
         "Tạo bởi quản lý tổ chức": campaign.organizationManager?.lastName,
         "Người duyệt": campaign.moderator?.lastName,

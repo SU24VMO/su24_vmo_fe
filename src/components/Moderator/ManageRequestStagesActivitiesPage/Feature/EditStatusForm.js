@@ -163,10 +163,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="title"
-                    defaultValue={activities ? activities.activity.title : ""}
+                    defaultValue={activities ? activities.activity?.title : "Không có"}
                     disabled
                   />
-                  <CopyButton code={activities ? activities.activity.title : ""} />
+                  <CopyButton code={activities ? activities.activity?.title : "Không có"} />
                 </div>
               </div>
             </div>
