@@ -7,7 +7,7 @@ const Term = () => {
       <div className="w-full flex items-center justify-center py-5 px-3 bg-gray-100">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold">Điều khoản sử dụng</h1>
-          <p className="text-lg">Cập nhật lần cuối: 27/05/2024, 10:00</p>
+          <p className="text-lg">Cập nhật lần cuối: 12/08/2024, 10:00</p>
         </div>
       </div>
       {/* CONTENTS */}
@@ -95,6 +95,14 @@ const Term = () => {
                 3. Ứng dụng Thiện nguyện hoạt động trên tôn chỉ thúc đẩy tính
                 minh bạch của hoạt động từ thiện tại Việt Nam, thông qua cơ chế
                 giám sát công khai từ cộng đồng.
+              </p>
+              <p className="mb-3">
+                4. Tiền của người quyên góp sẽ được chuyển thẳng về tài khoản
+                của hệ thống VMO, sau khi kết thúc giai đoạn quyên góp, ủng hộ
+                thì tiền quyên góp sẽ được hệ thống chuyển về lại cho người sở
+                hữu chiến dịch theo đúng số tiền người dùng đã quyên góp để họ
+                thực hiện các công tác thiện nguyện như đã đề ra mục tiêu ban
+                đầu.
               </p>
             </div>
             {/* SECTION 3 */}
