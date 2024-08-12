@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import { useFormik } from "formik";
 import { Label } from "../../../ui/label";
@@ -6,40 +5,33 @@ import { Input } from "../../../ui/input";
 import { cn } from "../../../../lib/utils";
 import { Button } from "../../../ui/button";
 import { Checkbox } from "../../../ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "../../../ui/dialog";
-import { useMediaQuery } from "../../../../hooks/use-media-query";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "../../../ui/drawer";
-import img_placeholder from "../../../../assets/images/placeholder.svg";
-import { Separator } from "../../../ui/separator";
-import { ButtonStatusDonate } from "./ButtonStatusDonate";
 import { axiosPublic } from "../../../../api/axiosInstance";
 import { CREATE_TRANSACTION } from "../../../../api/apiConstants";
 import { useToast } from "../../../ui/use-toast";
 import { ToastAction } from "../../../ui/toast";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import DialogDonate from "./DialogDonate/DialogDonate";
+import DialogTerm from "./DialogTerm/DialogTerm";
 
-const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaignTier }) => {
+const DonateForm = ({
+  accountId,
+  campaignId,
+  firstname,
+  lastname,
+  email,
+  campaignTier,
+}) => {
   const [selectedAmount, setSelectedAmount] = React.useState(null);
   const [formattedValue, setFormattedValue] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [qrCode, setQrCode] = React.useState(null);
   const [orderId, setOrderId] = React.useState(null);
   const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [isTermsDialogOpen, setTermsDialogOpen] = React.useState(false);
+  const [isTermsAccepted, setTermsAccepted] = React.useState(false);
+  const [isFormValid, setFormValid] = React.useState(false);
   const [formValues, setFormValues] = React.useState({});
-  const isDesktop = useMediaQuery("(min-width: 768px)");
   const { toast } = useToast();
 
   const formatCurrency = (value) => {
@@ -56,6 +48,26 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
     const numericValue = value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
     formik.setFieldValue("price", numericValue);
     setFormattedValue(formatCurrency(numericValue));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        setFormValid(true);
+        setTermsDialogOpen(true);
+      } else {
+        setFormValid(false);
+        formik.handleSubmit();
+      }
+    });
+  };
+
+  const handleTermsConfirm = () => {
+    if (isTermsAccepted) {
+      setTermsDialogOpen(false);
+      formik.handleSubmit();
+    }
   };
 
   const formik = useFormik({
@@ -120,7 +132,8 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
         toast({
           variant: "destructive",
           title: "Có lỗi xảy ra!",
-          description: error.response?.data?.message || "Đã xảy ra lỗi không xác định",
+          description:
+            error.response?.data?.message || "Đã xảy ra lỗi không xác định",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
         console.error("Lỗi lấy dữ liệu khi gọi api lấy mã QR:", error);
@@ -130,13 +143,14 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
       }
     },
   });
+
   React.useEffect(() => {
     setFormattedValue(formatCurrency(formik.values.price));
   }, [formik.values.price]);
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-4 tablet:gap-10 tablet:px-24 px-5">
           <p className="text-3xl text-muted-foreground font-bold">
             Thông tin ủng hộ
@@ -180,7 +194,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
                 onClick={() => handleButtonClick(50000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
                   formik.values.price === 50000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    ? "bg-green-theme-primary text-primary-foreground hover:bg-green-theme-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
               >
@@ -190,7 +204,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
                 onClick={() => handleButtonClick(100000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
                   formik.values.price === 100000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    ? "bg-green-theme-primary text-primary-foreground hover:bg-green-theme-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
               >
@@ -200,7 +214,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
                 onClick={() => handleButtonClick(200000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
                   formik.values.price === 200000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    ? "bg-green-theme-primary text-primary-foreground hover:bg-green-theme-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
               >
@@ -210,7 +224,7 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
                 onClick={() => handleButtonClick(500000, formik.setFieldValue)}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
                   formik.values.price === 500000
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    ? "bg-green-theme-primary text-primary-foreground hover:bg-green-theme-primary/90"
                     : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 } h-10 px-4 py-2 cursor-pointer`}
               >
@@ -310,139 +324,28 @@ const DonateForm = ({ accountId, campaignId, firstname, lastname, email, campaig
             Điều khoản sử dụng
           </Link>
         </p>
+        {/* Dialog điều khoản */}
+        <DialogTerm
+          handleTermsConfirm={handleTermsConfirm}
+          isTermsAccepted={isTermsAccepted}
+          isTermsDialogOpen={isTermsDialogOpen}
+          setTermsAccepted={setTermsAccepted}
+          setTermsDialogOpen={setTermsDialogOpen}
+        />
       </form>
-      {isDesktop ? (
-        <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="w-full text-2xl">Thanh Toán</DialogTitle>
-              <blockquote className="mt-6 border-l-2 pl-6 italic">
-                "Vì một cộng đồng không ai bị bỏ lại phía sau"
-              </blockquote>
-              <DialogDescription className="text-xl">
-                Cảm ơn bạn đã ủng hộ, bạn có thể chuyển khoản theo thông tin
-                dưới đây:
-              </DialogDescription>
-              <Separator />
-            </DialogHeader>
-            <div className="grid grid-cols-3 w-full h-full">
-              <div className="col-span-2">
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm w-[40%]">Ngân hàng:</p>
-                  <p className="text-sm font-bold w-[60%]">
-                    Ngân hàng TMCP Quân Đội (MB Bank)
-                  </p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm w-[40%]">Chủ tài khoản:</p>
-                  <p className="text-sm font-bold w-[60%]">CHAU NHAT TRUONG</p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm w-[40%]">Số tiền:</p>
-                  <p className="text-sm font-bold w-[60%]">
-                    {formatCurrency(formValues.price)} VND
-                  </p>
-                </div>
-                <p className="text-sm text-center text-muted-foreground italic">
-                  <b>
-                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
-                  </b>
-                </p>
-              </div>
-              <div className="col-span-1 place-self-center">
-                <div className="flex flex-col items-center justify-center w-full">
-                  <div className="max-w-40">
-                    <img
-                      src={qrCode ? qrCode : img_placeholder}
-                      alt="Image"
-                      width="200"
-                      height="200"
-                      className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                    />
-                  </div>
-                  <p className="text-sm text-center text-muted-foreground italic">
-                    Sử dụng ứng dụng ngân hàng hoặc ứng dụng thanh toán hỗ trợ
-                    QR code để quét mã
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <ButtonStatusDonate
-                email={email}
-                firstName={firstname}
-                lastName={lastname}
-                orderID={orderId}
-                campaignID={campaignId}
-                campaignTier={campaignTier}
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
-      ) : (
-        <Drawer open={isDialogOpen} onOpenChange={setDialogOpen}>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>Thanh Toán</DrawerTitle>
-              <DrawerDescription>
-                Cảm ơn bạn đã ủng hộ, chúng tôi đã nhận được thông tin của bạn.
-                Bạn có thể chuyển khoản theo thông tin dưới đây:
-              </DrawerDescription>
-            </DrawerHeader>
-            <div className="flex flex-col items-center justify-center px-3">
-              <div className="flex flex-col items-center justify-center w-full">
-                <div className="max-w-40">
-                  <img
-                    src={qrCode ? qrCode : img_placeholder}
-                    alt="Image"
-                    width="160"
-                    height="160"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                <p className="text-sm text-center text-muted-foreground italic">
-                  Sử dụng ứng dụng ngân hàng hoặc ứng dụng thanh toán hỗ trợ QR
-                  code để quét mã
-                </p>
-              </div>
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm">Ngân hàng:</p>
-                  <p className="text-sm font-bold">
-                    Ngân hàng TMCP Quân Đội (MB Bank)
-                  </p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm">Chủ tài khoản:</p>
-                  <p className="text-sm font-bold">CHAU NHAT TRUONG</p>
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <p className="text-sm">Số tiền:</p>
-                  <p className="text-sm font-bold">
-                    {formatCurrency(formValues.price)} VND
-                  </p>
-                </div>
-                <p className="text-sm text-center text-muted-foreground italic">
-                  <br />
-                  <b>
-                    Lưu ý: Mã QR chỉ hoạt động một lần trên mỗi chuyển khoản
-                  </b>
-                </p>
-              </div>
-              <div className="my-3">
-                <ButtonStatusDonate
-                  email={email}
-                  firstName={firstname}
-                  lastName={lastname}
-                  orderID={orderId}
-                  campaignID={campaignId}
-                  campaignTier={campaignTier}
-                />
-              </div>
-            </div>
-          </DrawerContent>
-        </Drawer>
-      )}
+      {/* Dialog chuyển tiền ủng hộ */}
+      <DialogDonate
+        campaignId={campaignId}
+        campaignTier={campaignTier}
+        email={email}
+        firstname={firstname}
+        isDialogOpen={isDialogOpen}
+        formValues={formValues}
+        lastname={lastname}
+        orderId={orderId}
+        qrCode={qrCode}
+        setDialogOpen={setDialogOpen}
+      />
     </>
   );
 };

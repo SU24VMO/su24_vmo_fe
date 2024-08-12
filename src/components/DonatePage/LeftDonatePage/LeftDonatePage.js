@@ -51,10 +51,10 @@ const LeftDonatePage = ({ data }) => {
               <CardDescription>Tiền ủng hộ sẽ được chuyển đến</CardDescription>
               <div className="flex gap-x-3">
                 <CardTitle className="text-lg mobile:text-xl">
-                {data.organization
+                  {data.organization
                     ? data.organization.name
                     : data.member
-                    ? data.member.firstName + " " +  data.member.lastName
+                    ? data.member.firstName + " " + data.member.lastName
                     : "Không xác định"}
                 </CardTitle>
                 <BadgeCheck className="h-6 w-6 text-green-600" />
@@ -66,7 +66,7 @@ const LeftDonatePage = ({ data }) => {
         <CardContent className="flex flex-col justify-center items-center py-6">
           <LeftDonateCardContent
             imgSrc={data ? data.image : placeholder_img}
-            amountAchieved={data.donatePhase.currentMoney}
+            amountAchieved={formatAmount(data.donatePhase.currentMoney)}
             amountTarget={formatAmount(data.targetAmount)}
             campaignTitle={data.name}
             dayLeft={calculateDaysLeft(data.expectedEndDate)}
