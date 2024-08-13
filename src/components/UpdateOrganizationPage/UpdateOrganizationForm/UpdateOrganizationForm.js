@@ -249,7 +249,7 @@ export default function UpdateOrganizationForm() {
             // OrganizationTaxCode validation
             if (!values.OrganizationTaxCode) {
               errors.OrganizationTaxCode = "Không được để trống!";
-            } else if (cleanedTaxCode.length !== 10 || !/^\d{10}$/.test(cleanedTaxCode)) {
+            } else if (!/^\d{10}-\d{3}$/.test(cleanedTaxCode) && !/^\d{10}$/.test(cleanedTaxCode)) {
               errors.OrganizationTaxCode = "Số thuế không hợp lệ";
             }
 

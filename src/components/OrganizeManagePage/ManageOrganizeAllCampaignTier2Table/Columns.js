@@ -208,7 +208,7 @@ export const columns = ({ onSort, onConfirm }) => [
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
+                  <Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
                     Xem chiến dịch
                   </Link>
                 </DropdownMenuItem>
