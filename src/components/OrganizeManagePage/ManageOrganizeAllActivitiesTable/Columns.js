@@ -162,9 +162,14 @@ export const columns = ({ onSort, onConfirm }) => [
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/viewCampaigns/campaignDetail/${row.original?.processingPhase?.campaignId}`}>
-                    Xem chiến dịch
-                  </Link>
+                
+
+                  {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.processingPhase?.campaignId}`}>
+                    Xem chiến dịch toàn phần
+                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.processingPhase?.campaignId}`}>
+                    Xem chiến dịch từng phần
+                  </Link>)}
+
                 </DropdownMenuItem>
               </div>
             ) : ""}

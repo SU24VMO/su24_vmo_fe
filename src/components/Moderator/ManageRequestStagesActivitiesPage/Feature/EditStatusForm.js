@@ -265,16 +265,51 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
               </div>
             </div>
 
+
+
+                {/* Show sao kê bài đăng*/}
+                <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="link">Ảnh sao kê</Label>
+                <div className="">
+                  <Carousel setApi={setApi} className="w-full">
+                    <CarouselContent>
+                      {activities?.activity?.processingPhase?.processingPhaseStatementFiles.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <div className=" w-full mobile:w-1/3   mx-auto">
+                            <img
+                              src={image.link}
+                              alt=""
+                              className="h-full w-full object-cover shadow block"
+                            />
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                  <div className="py-2 text-center text-sm text-muted-foreground">
+                    Ảnh {current} trên {count}
+                  </div>
+                </div>
+
+
+              </div>
+            </div>       
+
+
+
             {/* Show ngày tạo */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="createDate">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>
@@ -286,10 +321,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="approvedDate">Ngày duyệt</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>
@@ -301,10 +336,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="updateDate">Ngày cập nhật</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={activities ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>

@@ -163,10 +163,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="flex items-center space-x-2">
                   <Input
                     id="title"
-                    defaultValue={activities ? activities.activity.title : ""}
+                    defaultValue={activities ? activities.activity.title : "Chưa có"}
                     disabled
                   />
-                  <CopyButton code={activities ? activities.activity.title : ""} />
+                  <CopyButton code={activities ? activities.activity.title : "Chưa có"} />
                 </div>
               </div>
             </div>
@@ -271,10 +271,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="createDate">Ngày tạo</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>
@@ -286,10 +286,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="approvedDate">Ngày duyệt</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    {activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={activities ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                    code={activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>

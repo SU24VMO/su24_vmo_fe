@@ -15,7 +15,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
+export const columns = ({ onSort, onConfirm, onSubmitStatementFile }) => [
 
   {
     accessorKey: "name",
@@ -24,7 +24,7 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("Name")}
+          onClick={() => onSort("Name")}
         >
           Tên chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -43,7 +43,7 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-       onClick={() => onSort("Title")}
+        onClick={() => onSort("Title")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -59,8 +59,8 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
       return <div className="font-medium">{formatted}</div>;
     },
   },
- 
-  
+
+
   {
     accessorKey: "startDate",
     header: ({ column }) => {
@@ -68,7 +68,7 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-         onClick={() => onSort("StartDate")}
+          onClick={() => onSort("StartDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -144,30 +144,34 @@ export const columns =({ onSort, onConfirm , onSubmitStatementFile}) => [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {infoRow?.isActive === true ? (<DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>) : "" }
 
-              <DropdownMenuItem
-           onClick={() => onSubmitStatementFile(row.original)}
             >
-              Đăng tải sao kê
-            </DropdownMenuItem>
+            {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignID}`}>
+                    Xem chiến dịch toàn phần
+                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
+                    Xem chiến dịch từng phần
+                  </Link>)}
+            </DropdownMenuItem>) : ""}
 
-         {/* {row.original?.statementPhase?.statementFiles.length > 0 ? (   <DropdownMenuItem
+            {(infoRow?.campaignTier * 1) === 1 ? (
+              <DropdownMenuItem
+                onClick={() => onSubmitStatementFile(row.original)}
+              >
+                Đăng tải sao kê
+              </DropdownMenuItem>) : ""}
+
+            {/* {row.original?.statementPhase?.statementFiles.length > 0 ? (   <DropdownMenuItem
            onClick={() => onConfirm(row.original)}
             >
               Kết thúc chiến dịch
             </DropdownMenuItem>) : ""} */}
-{/* CÁi này phân vân việc check hay ko check tại vì nếu chiến dịch ko đủ thì ngta cũng có thể end để qua chiến dịch khác */}  
+            {/* CÁi này phân vân việc check hay ko check tại vì nếu chiến dịch ko đủ thì ngta cũng có thể end để qua chiến dịch khác */}
+            {(infoRow?.campaignTier * 1) === 1 ? (
               <DropdownMenuItem
-           onClick={() => onConfirm(row.original)}
-            >
-              Kết thúc chiến dịch
-            </DropdownMenuItem>
+                onClick={() => onConfirm(row.original)}
+              >
+                Kết thúc chiến dịch
+              </DropdownMenuItem>) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );

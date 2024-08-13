@@ -113,25 +113,25 @@ export const columns = ({ onSort, onConfirm }) => [
       return <div className="w-max">{startDate}</div>;
     },
   },
-  {
-    accessorKey: "expectedEndDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0  "
-          onClick={() => onSort("ExpectedEndDate")}
-        >
-          Thời gian kết thúc giai đoạn ủng hộ dự kiến
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="w-max">{endDate}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "expectedEndDate",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0  "
+  //         onClick={() => onSort("ExpectedEndDate")}
+  //       >
+  //         Thời gian kết thúc giai đoạn ủng hộ dự kiến
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const endDate = format(new Date(row.getValue("expectedEndDate")), 'dd/MM/yyyy, h:mm:ss a');
+  //     return <div className="w-max">{endDate}</div>;
+  //   },
+  // },
 
   {
     accessorKey: "actualEndDate",
@@ -184,9 +184,11 @@ export const columns = ({ onSort, onConfirm }) => [
 
                 >
 
-                  <Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
-                    Xem chiến dịch
-                  </Link>
+{(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignID}`}>
+                    Xem chiến dịch toàn phần
+                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
+                    Xem chiến dịch từng phần
+                  </Link>)}
                 </DropdownMenuItem>
               </div>) : ""}
 

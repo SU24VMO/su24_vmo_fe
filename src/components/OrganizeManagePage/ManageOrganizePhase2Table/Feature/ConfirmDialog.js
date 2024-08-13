@@ -93,7 +93,7 @@ const ConfirmDialog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
           </DialogClose>
           <Button
             type="button"
-            onClick={() => onUpdateStatusPhase(row?.processingPhase?.processingPhaseId)}
+            onClick={() => onUpdateStatusPhase(row?.processingPhases[0]?.processingPhaseId)}
             variant="green_theme_primary"
           >
             {loading ? (

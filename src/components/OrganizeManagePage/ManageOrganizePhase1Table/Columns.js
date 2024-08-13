@@ -145,7 +145,7 @@ export const columns = ({ onSort, onExtend }) => [
         new Date(row.getValue("expectedEndDate")),
         "dd/MM/yyyy, h:mm:ss a"
       );
-      return <div className="w-max">{expectedEndDate}</div>;
+      return <div className="w-max">{(row.original?.campaignTier * 1) === 1 ? (expectedEndDate) : "Ủng hộ và xử lý"}</div>;
     },
   },
   // {
@@ -194,15 +194,16 @@ export const columns = ({ onSort, onExtend }) => [
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem>
-                  <Link
-                    to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}
-                  >
-                    Xem chiến dịch
-                  </Link>
+                {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignID}`}>
+                    Xem chiến dịch toàn phần
+                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
+                    Xem chiến dịch từng phần
+                  </Link>)}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onExtend(row.original)}>
-                  Mở rộng thời gian
-                </DropdownMenuItem>
+                {(infoRow?.campaignTier * 1) === 1 ? (
+                  <DropdownMenuItem onClick={() => onExtend(row.original)}>
+                    Mở rộng thời gian
+                  </DropdownMenuItem>) : ""}
               </div>
             ) : (
               ""

@@ -15,8 +15,8 @@ import {
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
 
-export const columns =({ onSort, onConfirm }) => [
-  
+export const columns = ({ onSort, onConfirm }) => [
+
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -81,7 +81,7 @@ export const columns =({ onSort, onConfirm }) => [
   //     return <div className="font-medium">{formatted}</div>;
   //   },
   // },
-  
+
   {
     accessorKey: "startDate",
     header: ({ column }) => {
@@ -98,10 +98,13 @@ export const columns =({ onSort, onConfirm }) => [
     },
     cell: ({ row }) => {
       const startDate = format(new Date(row.original?.processingPhases[0]?.startDate), 'dd/MM/yyyy, h:mm:ss a');
+      console.log('====================================');
+      console.log("format(new Date(row.original?.processingPhases[0]?.startDate):", row.original?.processingPhases[0]?.startDate);
+      console.log('====================================');
       return <div className="w-max">{startDate}</div>;
     },
   },
-  
+
   // {
   //   accessorKey: "actualEndDate",
   //   header: ({ column }) => {
@@ -146,18 +149,21 @@ export const columns =({ onSort, onConfirm }) => [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {infoRow?.isActive === true ? (<DropdownMenuItem
-              
-              >
-              <Link to={`/viewCampaigns/campaignDetail/${row.original?.campaignID}`}>
-              Xem chiến dịch 
-              </Link>
-              </DropdownMenuItem>) : "" }
-           <DropdownMenuItem
-           onClick={() => onConfirm(row.original)}
+
             >
-              Kết thúc giai đoạn
-            </DropdownMenuItem>
-            
+             {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignID}`}>
+                    Xem chiến dịch toàn phần
+                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
+                    Xem chiến dịch từng phần
+                  </Link>)}
+            </DropdownMenuItem>) : ""}
+            {(infoRow?.campaignTier * 1) === 1 ? (
+              <DropdownMenuItem
+                onClick={() => onConfirm(row.original)}
+              >
+                Kết thúc giai đoạn
+              </DropdownMenuItem>) : ""}
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

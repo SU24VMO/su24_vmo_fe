@@ -713,8 +713,9 @@ export default function CreateCampaignVolunteerPage() {
 
                                         <SelectCampaignDisbursement
                                             setFieldValue={setFieldValue}
-                                            selectTriggerId="campaignTier"
                                             onChange={(value) => setCheckTierCampaign(value)}
+                                            selectTriggerId="campaignTier"
+                                            campaignTier={values.campaignTier}
                                         >
 
                                         </SelectCampaignDisbursement>
