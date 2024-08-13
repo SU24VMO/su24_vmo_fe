@@ -99,6 +99,7 @@ const ViewProfileOrganizationPage = () => {
                 campaignName={campaign.name}
                 isTransparent={campaign.isTransparent}
                 checkTransparentDate={campaign.checkTransparentDate}
+                campaignTier={campaign.campaignTier}
               />
             ))
           ) : (

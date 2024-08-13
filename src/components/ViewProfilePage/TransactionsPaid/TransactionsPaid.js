@@ -60,10 +60,12 @@ const TransactionsPaid = ({ accountId }) => {
     [accountId, toast]
   );
 
+
   // Lấy dữ liệu notification từ API
   React.useEffect(() => {
     fetchData(1);
   }, [fetchData]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
+
 
   // Chức năng load more (xem thêm notification)
   const handleLoadMore = () => {
@@ -73,6 +75,7 @@ const TransactionsPaid = ({ accountId }) => {
   };
 
   console.log("dataLoaded lúc này", dataLoaded);
+  console.log("TransactionPaid lúc này", data);
 
   return (
     <div className="grid gap-4 my-3">
@@ -88,6 +91,7 @@ const TransactionsPaid = ({ accountId }) => {
               payerName={transactionPaid.payerName}
               transactionID={transactionPaid.transactionID}
               note={transactionPaid.note}
+              campaignTier={transactionPaid.campaign.campaignTier}
             />
           ))}
           {loadingMore ? (

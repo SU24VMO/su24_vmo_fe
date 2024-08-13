@@ -79,16 +79,17 @@ const TransactionsPending = ({ accountId }) => {
     <div className="grid gap-4 my-3">
       {dataLoaded ? (
         <>
-          {data.map((transactionPaid) => (
+          {data.map((transactionPending) => (
             <CardTransactionPending 
-            key={transactionPaid.transactionID}
-            amount={transactionPaid.amount}
-            createDate={transactionPaid.createDate}
-            campaignID={transactionPaid.campaignID}
-            campaignName={transactionPaid.campaignName}
-            payerName={transactionPaid.payerName}
-            transactionID={transactionPaid.transactionID}
-            note={transactionPaid.note}
+            key={transactionPending.transactionID}
+            amount={transactionPending.amount}
+            createDate={transactionPending.createDate}
+            campaignID={transactionPending.campaignID}
+            campaignName={transactionPending.campaignName}
+            payerName={transactionPending.payerName}
+            transactionID={transactionPending.transactionID}
+            note={transactionPending.note}
+            campaignTier={transactionPending.campaign.campaignTier}
             />
           ))}
           {loadingMore ? (

@@ -37,6 +37,7 @@ const Campaigns = ({ campaigns, dataLoaded }) => {
               ]}
               isTransparent={item?.isTransparent}
               checkTransparentDate={item?.checkTransparentDate}
+              campaignTier={item?.campaignTier}
             />
           ))
         : renderSkeletons()}

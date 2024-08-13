@@ -20,6 +20,7 @@ const CardTransactionPaid = ({
   payerName,
   transactionID,
   note,
+  campaignTier,
 }) => {
   // Hàm format số tiền ủng hộ
   const formatMoney = (money) => {
@@ -50,9 +51,15 @@ const CardTransactionPaid = ({
           </div>
         </div>
         <div>
-          <Link to={`/viewCampaigns/campaignDetail/${campaignID}`}>
-            <Button variant="green_theme_primary">Xem chiến dịch</Button>
-          </Link>
+          {campaignTier === 1 ? (
+            <Link to={`/viewCampaigns/campaignDetail/tier1/${campaignID}`}>
+              <Button variant="green_theme_primary">Xem chiến dịch</Button>
+            </Link>
+          ) : (
+            <Link to={`/viewCampaigns/campaignDetail/tier2/${campaignID}`}>
+              <Button variant="green_theme_primary">Xem chiến dịch</Button>
+            </Link>
+          )}
         </div>
       </div>
       <Accordion type="single" collapsible>

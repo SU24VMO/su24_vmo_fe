@@ -13,7 +13,10 @@ const CustomCalculateDayLeft = ({ data }) => {
       {data.donatePhase.isProcessing === true &&
       data.donatePhase.isEnd === false ? (
         <p className="text-sm laptop:text-base font-bold">
+          {/* <p className="text-sm laptop:text-base font-bold">
           {calculateDaysLeft(data.expectedEndDate)} ngày
+        </p> */}
+          Đang thực hiện
         </p>
       ) : (
         <p className="text-sm font-bold">Đã hết thời gian ủng hộ</p>

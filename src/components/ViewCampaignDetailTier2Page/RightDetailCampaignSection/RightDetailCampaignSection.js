@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import { BadgeCheck, Target, Clock4, MapPin, BadgeAlert } from "lucide-react";
+import { BadgeCheck, Target, Clock4, MapPin, BadgeAlert, TrendingUp } from "lucide-react";
 import { Progress } from "../../ui/progress";
 import { useParams } from "react-router-dom";
 import CustomAvatarRightCampaignDetail from "./CustomAvatarRightCampaignDetail/CustomAvatarRightCampaignDetail";
@@ -90,10 +90,10 @@ const RightDetailCampaignSection = ({ data }) => {
             </div>
             {/* Thời gian còn lại */}
             <div className="flex items-center justify-center gap-x-3">
-              <Clock4 className="h-5 w-5 laptop:h-10 laptop:w-10" />
+              <TrendingUp className="h-5 w-5 laptop:h-10 laptop:w-10" />
               <div>
                 <p className="text-sm laptop:text-base text-muted-foreground">
-                  Thời gian ủng hộ còn lại
+                  Tình trạng chiến dịch
                 </p>
                 <CustomCalculateDayLeft data={data} />
               </div>

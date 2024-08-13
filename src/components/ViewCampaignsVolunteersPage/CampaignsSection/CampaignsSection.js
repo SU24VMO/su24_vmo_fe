@@ -175,7 +175,7 @@ const CampaignsSection = () => {
                 progressValue={item.donatePhase.percent}
                 phases={[
                   item.donatePhase,
-                  item.processingPhase,
+                  item.processingPhases[0],
                   item.statementPhase,
                 ]}
                 isTransparent={item.isTransparent}

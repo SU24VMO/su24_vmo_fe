@@ -174,9 +174,7 @@ const CustomCardCampaign = ({
                   </AspectRatio>
                   <div className="absolute mt-1 ml-1 top-0 left-0 z-10">
                     {processingPhaseName === "Giai đoạn ủng hộ" ? (
-                      <Badge variant="secondary">{`Còn ${calculateDaysLeft(
-                        daysLeft
-                      )} ngày`}</Badge>
+                      <Badge variant="secondary">Ủng hộ và xử lý song song</Badge>
                     ) : (
                       <Badge variant="yellow">Đã hết thời gian ủng hộ</Badge>
                     )}

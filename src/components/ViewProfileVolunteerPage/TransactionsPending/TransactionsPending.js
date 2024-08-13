@@ -88,6 +88,7 @@ const TransactionsPending = ({ accountId }) => {
             payerName={transactionPaid.payerName}
             transactionID={transactionPaid.transactionID}
             note={transactionPaid.note}
+            campaignTier={transactionPaid.campaign.campaignTier}
             />
           ))}
           {loadingMore ? (
