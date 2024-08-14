@@ -64,7 +64,7 @@ const CampaignsSection = () => {
             // "Đang thực hiện" hoặc "Đạt mục tiêu"
             fetchedData = fetchedData.filter(
               (campaign) =>
-                campaign.processingPhase.isProcessing ||
+                campaign.processingPhases.some(phase => phase.isProcessing) ||
                 campaign.statementPhase.isProcessing ||
                 campaign.donatePhase.isProcessing
             );
