@@ -45,6 +45,8 @@ const RightDetailCampaignSection = ({ data }) => {
     return formattedValue;
   };
 
+  console.log("check data", data);
+
   return (
     <>
       <Card className="mb-3">
@@ -65,7 +67,7 @@ const RightDetailCampaignSection = ({ data }) => {
                 Vào lúc :{" "}
                 {format(new Date(data.createAt), "dd/MM/yyyy, h:mm:ss a")}{" "}
               </CardDescription>
-                <Badge className={"w-fit"}>Chiến dịch giải ngân toàn phần</Badge>
+              <Badge className={"w-fit"}>Chiến dịch giải ngân toàn phần</Badge>
             </div>
           </div>
         </CardHeader>
@@ -125,7 +127,11 @@ const RightDetailCampaignSection = ({ data }) => {
               data={data}
               setIsDialogOpen={setIsDialogOpen}
             />
-            <CustomActionButtonCampaign data={data} campaignId={campaignId} />
+            <CustomActionButtonCampaign
+              data={data}
+              campaignId={campaignId}
+              campaignTier={data.campaignTier}
+            />
           </div>
         </CardFooter>
       </Card>

@@ -125,7 +125,7 @@ const RightDetailCampaignSection = ({ data }) => {
               data={data}
               setIsDialogOpen={setIsDialogOpen}
             />
-            <CustomActionButtonCampaign data={data} campaignId={campaignId} />
+            <CustomActionButtonCampaign data={data} campaignId={campaignId} campaignTier={data.campaignTier}/>
           </div>
         </CardFooter>
       </Card>

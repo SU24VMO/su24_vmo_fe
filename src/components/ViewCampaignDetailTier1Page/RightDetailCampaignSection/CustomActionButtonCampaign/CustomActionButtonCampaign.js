@@ -12,7 +12,7 @@ import { Label } from "../../../ui/label";
 import { ExternalLink, MessageSquareWarning } from "lucide-react";
 import { CopyButton } from "../Feature/CopyButton";
 
-const CustomActionButtonCampaign = ({ data, campaignId }) => {
+const CustomActionButtonCampaign = ({ data, campaignId, campaignTier }) => {
   return (
     <div className="w-full flex flex-row items-center justify-end">
       <div className="flex items-center justify-center">
@@ -35,14 +35,29 @@ const CustomActionButtonCampaign = ({ data, campaignId }) => {
                   Vui lòng sao chép đường dẫn sau để chia sẻ chiến dịch
                 </Label>
                 <div className="flex items-center space-x-2">
-                  <Input
-                    id="link"
-                    defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                    disabled
-                  />
-                  <CopyButton
-                    code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/${campaignId}`}
-                  />
+                  {campaignTier === 1 ? (
+                    <>
+                      <Input
+                        id="link"
+                        defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier1/${campaignId}`}
+                        disabled
+                      />
+                      <CopyButton
+                        code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier1/${campaignId}`}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Input
+                        id="link"
+                        defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier2/${campaignId}`}
+                        disabled
+                      />
+                      <CopyButton
+                        code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier2/${campaignId}`}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
