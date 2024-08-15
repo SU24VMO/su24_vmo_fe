@@ -7,7 +7,7 @@ const CardProcessingPhase = ({ data }) => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Giai đoạn sao kê, giải ngân</CardTitle>
+        <CardTitle>Giai đoạn sao kê</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4 p-6">
         <div className="space-y-1">

@@ -68,7 +68,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <LayoutDashboard className="w-fit" />
               </div>
-              Thống kê số liệu hệ thống
+              Thống kê
             </Link>
             <Link
               to="/moderator/manageRequestCampaigns"
@@ -77,7 +77,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <HeartHandshake className="w-fit" />
               </div>
-              Danh sách yêu cầu tạo chiến dịch
+              Yêu cầu tạo chiến dịch
 
             </Link>
             <Link
@@ -88,7 +88,7 @@ const MobileNav = () => {
                 <User className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo tài khoản tình nguyện viên
+              Yêu cầu tạo tài khoản tình nguyện viên
 
             </Link>
             <Link
@@ -99,7 +99,7 @@ const MobileNav = () => {
                 <User className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo tài khoản quản lý tổ chức
+              Yêu cầu tạo tài khoản quản lý tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestOrganizations"
@@ -109,7 +109,7 @@ const MobileNav = () => {
                 <Building2 className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo tổ chức
+              Yêu cầu tạo tổ chức
             </Link>
             <Link
               to="/moderator/manageRequestActivitiesTier1"
@@ -119,7 +119,7 @@ const MobileNav = () => {
                 <LandPlot className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo hoạt động toàn phần
+              Yêu cầu tạo hoạt động toàn phần
             </Link>
             <Link
               to="/moderator/manageRequestActivitiesTier2"
@@ -129,7 +129,7 @@ const MobileNav = () => {
                 <LandPlot className="w-fit" />
 
               </div>
-              Danh sách yêu cầu tạo hoạt động từng phần
+              Yêu cầu tạo hoạt động từng phần
             </Link>
             <Link
               to="/moderator/manageRequestNews"
@@ -138,7 +138,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <Newspaper className="w-fit" />
               </div>
-              Danh sách yêu cầu tạo tin tức
+              Yêu cầu tạo tin tức
             </Link>
           </nav>
 

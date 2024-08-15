@@ -62,7 +62,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <LayoutDashboard className="w-fit" />
               </div>
-              Thống kê số liệu hệ thống
+              Thống kê
             </Link>
             <Link
               to="/admin/manageMembers"
@@ -72,7 +72,7 @@ const MobileNav = () => {
                 <Users className="w-fit" />
 
               </div>
-              Quản lý tài khoản thành viên
+              Thành viên
               {/* Chỉ bỏ comment khi muốn sử dụng làm số lượng thông báo */}
               {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                     6
@@ -86,7 +86,7 @@ const MobileNav = () => {
                 <Users className="w-fit" />
 
               </div>
-              Quản lý tài khoản tình nguyện viên
+              Tình nguyện viên
             </Link>
             <Link
               to="/admin/manageOrganizationManagers"
@@ -96,7 +96,7 @@ const MobileNav = () => {
                 <Building2 className="w-fit" />
 
               </div>
-              Quản lý tài khoản quản lý tổ chức
+              Quản lý tổ chức
             </Link>
             <Link
               to="/admin/manageModerators"
@@ -106,7 +106,7 @@ const MobileNav = () => {
                 <Users className="w-fit" />
 
               </div>
-              Quản lý tài khoản nhân viên kiểm duyệt
+              Nhân viên kiểm duyệt
             </Link>
             <Link
               to="/admin/manageBankingTier1"
@@ -115,7 +115,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <Receipt className="w-fit" />
               </div>
-              Quản lý danh sách sao kê giao dịch toàn phần
+              Sao kê giao dịch toàn phần
             </Link>
 
             <Link
@@ -125,7 +125,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <Receipt className="w-fit" />
               </div>
-              Quản lý danh sách sao kê giao dịch từng phần
+              Sao kê giao dịch từng phần
             </Link>
             <Link
               to="/admin/manageTransaction"
@@ -134,7 +134,7 @@ const MobileNav = () => {
               <div className="w-fit">
                 <Receipt className="w-fit" />
               </div>
-              Quản lý danh sách giao dịch
+              Giao dịch
             </Link>
           </nav>
           {/* <div className="mt-auto">

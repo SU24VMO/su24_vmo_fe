@@ -51,7 +51,7 @@ const DesktopNav = () => {
                 <div className="w-fit">
                   <LayoutDashboard className="w-fit" />
                 </div>
-                Thống kê số liệu hệ thống
+                Thống kê 
               </Link>
               <Link
                 to="/admin/manageMembers"
@@ -61,7 +61,7 @@ const DesktopNav = () => {
                   <Users className="w-fit" />
 
                 </div>
-                Quản lý tài khoản thành viên
+                 Thành viên
               </Link>
               <Link
                 to="/admin/manageVolunteers"
@@ -71,7 +71,7 @@ const DesktopNav = () => {
                   <Users className="w-fit" />
 
                 </div>
-                Quản lý tài khoản tình nguyện viên
+                 Tình nguyện viên
               </Link>
               <Link
                 to="/admin/manageOrganizationManagers"
@@ -81,7 +81,7 @@ const DesktopNav = () => {
                   <Building2 className="w-fit" />
 
                 </div>
-                Quản lý tài khoản quản lý tổ chức
+                 Quản lý tổ chức
               </Link>
               <Link
                 to="/admin/manageModerators"
@@ -91,7 +91,7 @@ const DesktopNav = () => {
                   <Users className="w-fit" />
 
                 </div>
-                Quản lý tài khoản nhân viên kiểm duyệt
+                 Nhân viên kiểm duyệt
               </Link>
               <Link
                 to="/admin/manageBankingTier1"
@@ -100,7 +100,7 @@ const DesktopNav = () => {
                <div className="w-fit">
                <Receipt className="w-fit" />
                </div>
-                Quản lý danh sách sao kê giao dịch toàn phần
+                Sao kê giao dịch toàn phần
               </Link>
 
               <Link
@@ -110,7 +110,7 @@ const DesktopNav = () => {
                <div className="w-fit">
                <Receipt className="w-fit" />
                </div>
-                Quản lý danh sách sao kê giao dịch từng phần
+                Sao kê giao dịch từng phần
               </Link>
 
               <Link
@@ -120,7 +120,7 @@ const DesktopNav = () => {
                <div className="w-fit">
                <Receipt className="w-fit" />
                </div>
-                Quản lý danh sách giao dịch
+                Giao dịch
               </Link>
             </nav>
           </div>

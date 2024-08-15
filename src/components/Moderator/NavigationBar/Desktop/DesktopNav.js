@@ -58,7 +58,7 @@ const DesktopNav = () => {
                <div className="w-fit">
                <LayoutDashboard className="w-fit" />
                </div>
-                Thống kê số liệu hệ thống
+                Thống kê
               </Link>
               <Link
                 to="/moderator/manageRequestCampaigns"
@@ -67,7 +67,7 @@ const DesktopNav = () => {
                  <div className="w-fit">
                  <HeartHandshake className="w-fit" />
                </div>
-                Danh sách yêu cầu tạo chiến dịch
+                Yêu cầu tạo chiến dịch
                 {/* Chỉ bỏ comment khi muốn dùng để hiện số lượng thông báo */}
                 {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   6
@@ -81,7 +81,7 @@ const DesktopNav = () => {
                 <User className="w-fit" />
 
                </div>
-                Danh sách yêu cầu tạo tài khoản tình nguyện viên
+                Yêu cầu tạo tài khoản tình nguyện viên
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizationManagers"
@@ -92,7 +92,7 @@ const DesktopNav = () => {
 
                </div>
 
-                Danh sách yêu cầu tạo tài khoản quản lý tổ chức
+                Yêu cầu tạo tài khoản quản lý tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestOrganizations"
@@ -102,7 +102,7 @@ const DesktopNav = () => {
                  <Building2 className="w-fit" />
 
                </div>
-                Danh sách yêu cầu tạo tổ chức
+                Yêu cầu tạo tổ chức
               </Link>
               <Link
                 to="/moderator/manageRequestActivitiesTier1"
@@ -112,7 +112,7 @@ const DesktopNav = () => {
                  <LandPlot className="w-fit" />
 
                </div>
-                Danh sách yêu cầu tạo hoạt động toàn phần
+                Yêu cầu tạo hoạt động toàn phần
               </Link>
 
               <Link
@@ -123,7 +123,7 @@ const DesktopNav = () => {
                  <LandPlot className="w-fit" />
 
                </div>
-                Danh sách yêu cầu tạo hoạt động từng phần
+                Yêu cầu tạo hoạt động từng phần
               </Link>
 
               <Link
@@ -133,7 +133,7 @@ const DesktopNav = () => {
                  <div className="w-fit">
                  <Newspaper className="w-fit" />
                </div>
-                Danh sách yêu cầu tạo tin tức
+                Yêu cầu tạo tin tức
               </Link>
             </nav>
           </div>

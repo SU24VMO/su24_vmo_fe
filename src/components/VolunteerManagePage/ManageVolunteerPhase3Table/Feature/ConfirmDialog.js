@@ -78,7 +78,7 @@ const ConfirmDialog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-tablet">
         <DialogHeader>
-          <DialogTitle>Bạn có chắc rằng kết thúc "giai đoạn sao kê, giải ngân" của chiến dịch này</DialogTitle>
+          <DialogTitle>Bạn có chắc rằng kết thúc "giai đoạn sao kê" của chiến dịch này</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể làm điều này duy nhất 1 lần!
           </DialogDescription>
