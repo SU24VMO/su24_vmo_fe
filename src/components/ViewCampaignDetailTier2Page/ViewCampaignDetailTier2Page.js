@@ -3,7 +3,7 @@ import LeftDetailCampaignSection from "./LeftDetailCampaignSection/LeftDetailCam
 import RightDetailCampaignSection from "./RightDetailCampaignSection/RightDetailCampaignSection";
 import BottomDetailCampaignSection from "./BottomDetailCampaignSection/BottomDetailCampaignSection";
 import { Separator } from "../ui/separator";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { GET_CAMPAIGN_BY_ID } from "../../api/apiConstants";
 import { axiosPublic } from "../../api/axiosInstance";
 import { useToast } from "../ui/use-toast";
@@ -13,59 +13,55 @@ import RightDetailCampaignSkeleton from "./RightDetailCampaignSection/RightDetai
 
 const ViewCampaignDetailTier2Page = () => {
   const { id: campaignId } = useParams();
+  const navigate = useNavigate();
   const [campaign, setCampaign] = React.useState(null);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [error, setError] = React.useState(false);
   const { toast } = useToast();
 
-  // Hàm lấy dữ liệu campaign detail từ API
-  const fetchData = React.useCallback(
-    async (campaignId) => {
-      setDataLoaded(false);
-      // toast({
-      //   title: "Đang tải dữ liệu chi tiết chiến dịch...",
-      //   description: "Vui lòng chờ đợi trong giây lát !",
-      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      // });
-      if (!campaignId) {
-        setError(true); // Nếu không có id, set lỗi
-        return;
-      }
-      try {
-        const response = await axiosPublic.get(
-          `${GET_CAMPAIGN_BY_ID}${campaignId}`
-        );
-        if (response.status === 200) {
-          setCampaign(response.data?.data);
-          setDataLoaded(true);
-          // toast({
-          //   title: "Đã lấy dữ liệu chi tiết chiến dịch thành công!",
-          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          // });
-          console.log("Campaign get được: ", response.data?.data);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Lỗi !",
-            description:
-              "Có thể chiến dịch ban đầu đã bị xóa hoặc không tồn tại !",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          });
-          setError(true); // Nếu response không thành công, set lỗi
+ // Hàm lấy dữ liệu campaign detail từ API
+ const fetchData = React.useCallback(
+  async (campaignId) => {
+    setDataLoaded(false);
+    if (!campaignId) {
+      setError(true); // Nếu không có id, set lỗi
+      return;
+    }
+    try {
+      const response = await axiosPublic.get(
+        `${GET_CAMPAIGN_BY_ID}${campaignId}`
+      );
+      if (response.status === 200) {
+        const campaignData = response.data?.data;
+        if (campaignData.campaignTier !== 2) {
+          navigate(`/viewCampaigns/campaignDetail/tier1/${campaignId}`);
+          return;
         }
-      } catch (error) {
+        setCampaign(campaignData);
+        setDataLoaded(true);
+      } else {
         toast({
           variant: "destructive",
           title: "Lỗi !",
           description:
-            "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+            "Có thể chiến dịch ban đầu đã bị xóa hoặc không tồn tại !",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-        console.error("Error fetching data from API:", error);
+        setError(true); // Nếu response không thành công, set lỗi
       }
-    },
-    [toast]
-  );
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Lỗi !",
+        description:
+          "Vui lòng kiểm tra lại thiết bị của bạn ! Code: " + error,
+        action: <ToastAction altText="undo">Ẩn</ToastAction>,
+      });
+      console.error("Error fetching data from API:", error);
+    }
+  },
+  [toast, navigate]
+);
 
   React.useEffect(() => {
     window.scrollTo({

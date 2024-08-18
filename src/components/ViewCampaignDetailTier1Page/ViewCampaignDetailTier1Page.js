@@ -3,7 +3,7 @@ import LeftDetailCampaignSection from "./LeftDetailCampaignSection/LeftDetailCam
 import RightDetailCampaignSection from "./RightDetailCampaignSection/RightDetailCampaignSection";
 import BottomDetailCampaignSection from "./BottomDetailCampaignSection/BottomDetailCampaignSection";
 import { Separator } from "../ui/separator";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { GET_CAMPAIGN_BY_ID } from "../../api/apiConstants";
 import { axiosPublic } from "../../api/axiosInstance";
 import { useToast } from "../ui/use-toast";
@@ -13,6 +13,7 @@ import RightDetailCampaignSkeleton from "./RightDetailCampaignSection/RightDetai
 
 const ViewCampaignDetailTier1Page = () => {
   const { id: campaignId } = useParams();
+  const navigate = useNavigate();
   const [campaign, setCampaign] = React.useState(null);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -22,11 +23,6 @@ const ViewCampaignDetailTier1Page = () => {
   const fetchData = React.useCallback(
     async (campaignId) => {
       setDataLoaded(false);
-      // toast({
-      //   title: "Đang tải dữ liệu chi tiết chiến dịch...",
-      //   description: "Vui lòng chờ đợi trong giây lát !",
-      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      // });
       if (!campaignId) {
         setError(true); // Nếu không có id, set lỗi
         return;
@@ -36,13 +32,13 @@ const ViewCampaignDetailTier1Page = () => {
           `${GET_CAMPAIGN_BY_ID}${campaignId}`
         );
         if (response.status === 200) {
-          setCampaign(response.data?.data);
+          const campaignData = response.data?.data;
+          if (campaignData.campaignTier !== 1) {
+            navigate(`/viewCampaigns/campaignDetail/tier2/${campaignId}`);
+            return;
+          }
+          setCampaign(campaignData);
           setDataLoaded(true);
-          // toast({
-          //   title: "Đã lấy dữ liệu chi tiết chiến dịch thành công!",
-          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          // });
-          console.log("Campaign get được: ", response.data?.data);
         } else {
           toast({
             variant: "destructive",
@@ -64,7 +60,7 @@ const ViewCampaignDetailTier1Page = () => {
         console.error("Error fetching data from API:", error);
       }
     },
-    [toast]
+    [toast, navigate]
   );
 
   React.useEffect(() => {
