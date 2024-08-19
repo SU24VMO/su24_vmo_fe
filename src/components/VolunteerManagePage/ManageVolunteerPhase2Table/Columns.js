@@ -97,10 +97,8 @@ export const columns = ({ onSort, onConfirm }) => [
       );
     },
     cell: ({ row }) => {
-      const startDate = format(new Date(row.original?.processingPhases[0]?.startDate), 'dd/MM/yyyy, h:mm:ss a');
-      console.log('====================================');
-      console.log("format(new Date(row.original?.processingPhases[0]?.startDate):", row.original?.processingPhases[0]?.startDate);
-      console.log('====================================');
+      const startDate = row.original?.processingPhases[0]?.startDate ? (format(new Date(row.original?.processingPhases[0]?.startDate), 'dd/MM/yyyy, h:mm:ss a')) : "Chưa có";
+    
       return <div className="w-max">{startDate}</div>;
     },
   },

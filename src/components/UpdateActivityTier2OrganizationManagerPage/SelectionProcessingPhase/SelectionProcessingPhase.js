@@ -10,7 +10,7 @@ import {
 } from "../../ui/select";
 
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETOPTIONPROCESSINGPHASEOM } from "../../../api/apiConstants";
+import { GETPROCESSINGOMTIERIIACTIVE } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPhaseSelected }) => {
   const [processingPhase, setProcessingPhase] = useState([]);
@@ -18,9 +18,10 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPh
 
   const getProcessingPhase = async () => {
     try {
-      const response = await axiosPrivate.get(GETOPTIONPROCESSINGPHASEOM + `?organizationManagerId=${user.organization_manager_id}`);
+      const response = await axiosPrivate.get(GETPROCESSINGOMTIERIIACTIVE + `/${user.organization_manager_id}`);
 
       if (response.status === 200) {
+        
         setProcessingPhase(response.data.data.list); 
       } else {
         console.error("Failed to fetch processing phase.");
@@ -49,7 +50,7 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPh
           <SelectLabel>Chiến dịch</SelectLabel>
           {processingPhase.map((type) => (
             <SelectItem key={type.processingPhaseId} value={type.processingPhaseId}>
-              {type.campaignName}
+                {type.name} - {type.currentMoney + " VND"} - {type.campaign.name}
             </SelectItem>
           ))}
         </SelectGroup>

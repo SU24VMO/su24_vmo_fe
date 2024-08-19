@@ -189,16 +189,16 @@ export default function CreateCampaignVolunteerPage() {
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
         formData.append('QRCode', data.imageQRCode);
-        formData.append('Name', data.nameOfCampaign);
-        formData.append('Address', data.address);
+        formData.append('Name', data.nameOfCampaign.trim());
+        formData.append('Address', data.address.trim());
         formData.append('CampaignTypeId', data.typeOfCampaign);
         formData.append('Description', data.description);
         formData.append('StartDate', data.startDate);
         formData.append('ExpectedEndDate', data.endDate);
         formData.append('TargetAmount', cleanFormattedAmount(data.targetAmount));
         formData.append('BankingName', data.nameOfBank);
-        formData.append('AccountName', data.nameOfUserBank);
-        formData.append('BankingAccountNumber', data.numberOfBankAccount);
+        formData.append('AccountName', data.nameOfUserBank.trim());
+        formData.append('BankingAccountNumber', data.numberOfBankAccount.trim());
         formData.append('CampaignTier', data.campaignTier);
         if ((checkTierCampaign * 1) === 2) {
             formData.append('stagesJson', JSON.stringify(data.stages))

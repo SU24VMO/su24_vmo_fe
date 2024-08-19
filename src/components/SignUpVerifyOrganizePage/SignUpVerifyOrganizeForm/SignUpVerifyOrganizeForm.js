@@ -22,12 +22,12 @@ export default function SignUpVerifyOrganizeForm() {
       setLoading(true)
       const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
         organizationManagerID: user.organization_manager_id,
-        name: data.name,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-        address: data.address,
-        citizenIdentification: data.citizenIdentification,
-        personalTaxCode: data.personalTaxCode,
+        name: data.name.trim(),
+        phoneNumber: data.phoneNumber.trim(),
+        email: data.email.trim(),
+        address: data.address.trim(),
+        citizenIdentification: data.citizenIdentification.trim(),
+        personalTaxCode: data.personalTaxCode.trim(),
         isAcceptTermOfUse: data.isAcceptTermOfUse
 
       });
@@ -119,8 +119,7 @@ export default function SignUpVerifyOrganizeForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // verifyOrganizationManager(user.organization_manager_id, values.name, values.phoneNumber,
-          //   values.address, values.citizenIdentification, values.personalTaxCode, values.isAcceptTermOfUse)
+        
           verifyOrganizationManager(values, resetForm)
           setSubmitting(false);
         }}

@@ -167,7 +167,7 @@ const AuthProvider = ({ children }) => {
     setLoading(true); // Start loading
     try {
       const response = await axiosPublic.post(LOGIN, {
-        account: account,
+        account: account.trim(),
         password: password,
         latitude: locationIP.latitude,
         longitude: locationIP.longitude,

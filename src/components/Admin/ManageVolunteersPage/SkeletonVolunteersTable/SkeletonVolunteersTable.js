@@ -3,8 +3,8 @@ import { Skeleton } from "../../../ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../ui/table";
 
 const SkeletonVolunteersTable = () => {
-  const columns = 7; // Adjust this number based on the actual number of columns
-  const rows = 10; // Adjust this number based on the number of rows you want to show as skeleton
+  const columns = 7; // Số cột loading
+  const rows = 10; // Số hàng loading
 
   return (
     <div className="rounded-md border">

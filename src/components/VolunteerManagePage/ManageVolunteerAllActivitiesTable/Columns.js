@@ -178,9 +178,11 @@ export const columns =({ onSort, onConfirm }) => [
                 <DropdownMenuItem
 
                 >
-                  <Link to={`/updateActivityVolunteer/${row.original?.createActivityRequest?.createActivityRequestID}`}>
+                  {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/updateActivityVolunteer/${row.original?.createActivityRequest?.createActivityRequestID}`}>
                     Chỉnh sửa hoạt động
-                  </Link>
+                  </Link>) : (<Link to={`/updateActivityVolunteerTier2/${row.original?.createActivityRequest?.createActivityRequestID}`}>
+                    Chỉnh sửa hoạt động
+                  </Link>)}
                 </DropdownMenuItem>
               </div>
             ) : ""}

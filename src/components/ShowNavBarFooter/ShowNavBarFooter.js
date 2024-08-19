@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 const ShowNavBarFooter = ({ children }) => {
     const location = useLocation();
     const [showNavBarFooter, setShowNavBarFooter] = useState(false)
+    // kiểm tra trạng thái trang cần hiển thị footer header
     useEffect(() => {
         const pathsToExclude = ['/login', '/signup', '/resetPassword', '/changePassword', '/admin', '/moderator']; // Liệt kê mấy cái page mà không muốn hiển thị Nav với Footer ở mảng này
         if (pathsToExclude.some(path => location.pathname.includes(path))) {

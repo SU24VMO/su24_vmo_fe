@@ -91,6 +91,8 @@ import ViewCampaignDetailTier2Page from "./components/ViewCampaignDetailTier2Pag
 import ManageBankingTier2CampaignPage from "./components/Admin/ManageBankingTier2CampaignPage/ManageBankingTier2CampaignPage";
 import UpdateCampaignOrganizationTier2ManagerPage from "./components/UpdateCampaignOrganizationTier2ManagerPage/UpdateCampaignOrganizationTier2ManagerPage";
 import UpdateCampaignVolunteerTier2Page from "./components/UpdateCampaignVolunteerTier2Page/UpdateCampaignVolunteerTier2Page";
+import UpdateActivityTier2VolunteerPage from "./components/UpdateActivityTier2VolunteerPage/UpdateActivityTier2VolunteerPage";
+import UpdateActivityTier2OrganizationManagerPage from "./components/UpdateActivityTier2OrganizationManagerPage/UpdateActivityTier2OrganizationManagerPage";
 
 
 function App() {
@@ -170,6 +172,8 @@ function App() {
                 <Route path="/updateCampaignVolunteerTier2/:id" element={<UpdateCampaignVolunteerTier2Page/>} />
 
                 <Route path="/updateActivityVolunteer/:id" element={<UpdateActivityVolunteerPage />} />
+                <Route path="/updateActivityVolunteerTier2/:id" element={<UpdateActivityTier2VolunteerPage />} />
+
                 <Route path="/createStageActivityVolunteer" element={<CreateStageActivityVolunteerManagerPage />} />
 
 
@@ -194,6 +198,8 @@ function App() {
                 <Route path="/updateCampaignOrganizationTier2Manager/:id" element={<UpdateCampaignOrganizationTier2ManagerPage />} />
 
                 <Route path="/updateActivityOrganizationManager/:id" element={<UpdateActivityOrganizationManagerPage />} />
+                <Route path="/updateActivityOrganizationManagerTier2/:id" element={<UpdateActivityTier2OrganizationManagerPage />} />
+
                 <Route path="/updateOrganization/:id" element={<UpdateOrganizationPage />} />
                 <Route path="/createStageActivityOM" element={<CreateStageActivityOrganizationManagerPage />} />
 

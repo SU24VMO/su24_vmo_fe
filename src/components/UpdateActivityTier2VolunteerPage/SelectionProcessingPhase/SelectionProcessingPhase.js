@@ -10,7 +10,7 @@ import {
 } from "../../ui/select";
 
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETOPTIONPROCESSINGPHASEVOLUNTEER } from "../../../api/apiConstants";
+import { GETPROCESSINGVOLUNTEERTIERIIACTIVE } from "../../../api/apiConstants";
 import { AuthContext } from "../../../context/AuthContext";
 const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPhaseSelected }) => {
   const [processingPhase, setProcessingPhase] = useState([]);
@@ -18,7 +18,7 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPh
 
   const getProcessingPhase = async () => {
     try {
-      const response = await axiosPrivate.get(GETOPTIONPROCESSINGPHASEVOLUNTEER + `?volunteerId=${user.member_id}`);
+      const response = await axiosPrivate.get(GETPROCESSINGVOLUNTEERTIERIIACTIVE + `/${user.member_id}`);
 
       if (response.status === 200) {
         setProcessingPhase(response.data.data.list); 
@@ -50,7 +50,7 @@ const SelectionProcessingPhase = ({ setFieldValue, selectTriggerId, processingPh
           <SelectLabel>Chiến dịch</SelectLabel>
           {processingPhase.map((type) => (
             <SelectItem key={type.processingPhaseId} value={type.processingPhaseId}>
-              {type.campaignName}
+                {type.name} - {type.currentMoney + " VND"} - {type.campaign.name}
             </SelectItem>
           ))}
         </SelectGroup>

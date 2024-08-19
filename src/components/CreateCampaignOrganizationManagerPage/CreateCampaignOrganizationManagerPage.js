@@ -185,8 +185,8 @@ export default function CreateCampaignOrganizationManagerPage() {
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
         formData.append('ImageCampaign', data.imageBackgroundFile);
         formData.append('QRCode', data.imageQRCode);
-        formData.append('Name', data.nameOfCampaign);
-        formData.append('Address', data.address);
+        formData.append('Name', data.nameOfCampaign.trim());
+        formData.append('Address', data.address.trim());
         formData.append('CampaignTypeId', data.typeOfCampaign);
         formData.append('Description', data.description);
         formData.append('StartDate', data.startDate);
@@ -194,8 +194,8 @@ export default function CreateCampaignOrganizationManagerPage() {
         formData.append('TargetAmount', cleanFormattedAmount(data.targetAmount));
         formData.append('OrganizationId', data.organizations);
         formData.append('BankingName', data.nameOfBank);
-        formData.append('AccountName', data.nameOfUserBank);
-        formData.append('BankingAccountNumber', data.numberOfBankAccount);
+        formData.append('AccountName', data.nameOfUserBank.trim());
+        formData.append('BankingAccountNumber', data.numberOfBankAccount.trim());
         formData.append('CampaignTier', data.campaignTier);
         // check nếu  vô tình ng ta nhập xong mà chọn lại tier 1 thì nó ẩn đi không gửi về stages json
         if ((checkTierCampaign * 1) === 2) {
