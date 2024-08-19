@@ -75,13 +75,13 @@ const ActivitiesCampaign = ({ processingPhases }) => {
 
   const steps = processingPhases.map((phase) => ({
     label: `${phase.name} Số tiền: (${formatMoney(phase.currentMoney)} VND)`,
-    description: phase.createDate
+    description: phase?.startDate
       ? `Ngày bắt đầu: ${format(
-          new Date(phase.createDate),
+          new Date(phase?.startDate),
           "dd/MM/yyyy, h:mm:ss a"
         )}\nNgày kết thúc: ${
-          phase.endDate
-            ? format(new Date(phase.endDate), "dd/MM/yyyy, h:mm:ss a")
+          phase?.endDate
+            ? format(new Date(phase?.endDate), "dd/MM/yyyy, h:mm:ss a")
             : "Chưa có"
         }`
       : "Chưa bắt đầu giai đoạn",
