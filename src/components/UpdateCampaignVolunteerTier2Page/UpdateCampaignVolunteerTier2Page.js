@@ -174,12 +174,12 @@ export default function UpdateCampaignVolunteerTier2Page() {
     };
 
     const validateTitle = (name) => {
-        return name.trim() !== '';
+        return name !== '';
     };
 
     const validateAmount = (amount) => {
         const cleanedAmount = cleanFormattedAmount(amount);
-        return cleanedAmount.trim() !== '';
+        return cleanedAmount !== '';
     };
 
 

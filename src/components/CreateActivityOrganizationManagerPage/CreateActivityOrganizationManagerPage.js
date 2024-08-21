@@ -51,7 +51,7 @@ export default function CreateActivityOrganizationManagerPage() {
         setLoading(true)
         const formData = new FormData();
         formData.append('ProcessingPhaseId', data.processingPhase);
-        formData.append('Title', data.title.trim());
+        formData.append('Title', data.title);
         formData.append('Content', data.description);
         formData.append('AccountId', user.account_id);
         data.listImageFile.forEach(file => {

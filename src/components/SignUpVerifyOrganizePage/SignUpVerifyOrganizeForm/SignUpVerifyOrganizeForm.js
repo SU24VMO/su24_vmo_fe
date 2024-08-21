@@ -22,12 +22,12 @@ export default function SignUpVerifyOrganizeForm() {
       setLoading(true)
       const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
         organizationManagerID: user.organization_manager_id,
-        name: data.name.trim(),
-        phoneNumber: data.phoneNumber.trim(),
-        email: data.email.trim(),
-        address: data.address.trim(),
-        citizenIdentification: data.citizenIdentification.trim(),
-        personalTaxCode: data.personalTaxCode.trim(),
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        email: data.email,
+        address: data.address,
+        citizenIdentification: data.citizenIdentification,
+        personalTaxCode: data.personalTaxCode,
         isAcceptTermOfUse: data.isAcceptTermOfUse
 
       });

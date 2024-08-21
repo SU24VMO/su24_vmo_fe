@@ -43,7 +43,7 @@ export default function CreatNewsPage() {
 
         const formData = new FormData();
         formData.append('Cover', data.imageCover);
-        formData.append('Title', data.title.trim());
+        formData.append('Title', data.title);
         formData.append('Content', data.descriptionMain);
         formData.append('Description', data.descriptionEnd);
 

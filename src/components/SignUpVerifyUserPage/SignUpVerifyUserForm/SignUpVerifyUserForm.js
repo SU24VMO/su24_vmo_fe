@@ -24,15 +24,15 @@ export default function SignUpVerifyUserForm() {
             setLoading(true);
             const response = await axiosPrivate.post(VERIFYVOLUNTEER, {
                 memberID: user.member_id,
-                memberName: data.name.trim(),
+                memberName: data.name,
                 birthday: data.birthday,
-                phoneNumber: data.phoneNumber.trim(),
-                citizenIdentification: data.citizenIdentification.trim(),
-                email: data.email.trim(),
-                socialMediaLink: data.socialMediaLink.trim(),
-                memberAddress: data.address.trim(),
+                phoneNumber: data.phoneNumber,
+                citizenIdentification: data.citizenIdentification,
+                email: data.email,
+                socialMediaLink: data.socialMediaLink,
+                memberAddress: data.address,
                 roleInClub: data.role,
-                clubName: data.nameOfClub.trim(),
+                clubName: data.nameOfClub,
                 detailDescriptionLink: data.linkOfInfo,
                 achievementLink: data.linkOfAchievement,
                 isAcceptTermOfUse: data.isAcceptTermOfUse

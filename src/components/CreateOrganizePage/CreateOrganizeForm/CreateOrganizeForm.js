@@ -56,15 +56,15 @@ export default function CreateOrganizeForm() {
     try {
 
       const formData = new FormData();
-      formData.append('OrganizationName', data.OrganizationName.trim());
-      formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail.trim());
-      formData.append('OrganizationTaxCode', data.OrganizationTaxCode.trim());
+      formData.append('OrganizationName', data.OrganizationName);
+      formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail);
+      formData.append('OrganizationTaxCode', data.OrganizationTaxCode);
       formData.append('FoundingDate', data.FoundingDate);
-      formData.append('SocialMediaLink', data.SocialMediaLink.trim());
-      formData.append('AreaOfActivity', data.AreaOfActivity.trim());
-      formData.append('Address', data.Address.trim());
+      formData.append('SocialMediaLink', data.SocialMediaLink);
+      formData.append('AreaOfActivity', data.AreaOfActivity);
+      formData.append('Address', data.Address);
       formData.append('PlanInformation', data.PlanInformation);
-      formData.append('AchievementLink', data.AchievementLink.trim());
+      formData.append('AchievementLink', data.AchievementLink);
       // formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
       formData.append('AuthorizationDocuments', fileAuthorImage);
 
