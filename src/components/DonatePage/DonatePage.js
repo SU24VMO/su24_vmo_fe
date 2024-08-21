@@ -1,7 +1,7 @@
 import React from "react";
 import LeftDonatePage from "./LeftDonatePage/LeftDonatePage";
 import RightDonatePage from "./RightDonatePage/RightDonatePage";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { GET_CAMPAIGN_BY_ID } from "../../api/apiConstants";
@@ -15,16 +15,13 @@ const DonatePage = () => {
   const [campaign, setCampaign] = React.useState(null);
   const [dataLoaded, setDataLoaded] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const [unauthorized, setUnauthorized] = React.useState(false);
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   // Hàm lấy dữ liệu campaign detail từ API
   const fetchData = React.useCallback(
     async (campaignId, signal) => {
-      // toast({
-      //   title: "Đang tải dữ liệu chiến dịch...",
-      //   description: "Vui lòng chờ đợi trong giây lát !",
-      //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      // });
       if (!campaignId) {
         setError(true); // Nếu không có id, set lỗi
         return;
@@ -35,14 +32,16 @@ const DonatePage = () => {
           { signal }
         );
         if (response.status === 200) {
-          // toast({
-          //   title: "Đã lấy dữ liệu chiến dịch thành công!",
-          //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
-          // });
-          setCampaign(response.data?.data);
+          const campaignData = response.data?.data;
+          setCampaign(campaignData);
           setDataLoaded(true);
 
-          console.log("Campaign donate get được: ", response.data.data);
+          // Kiểm tra campaign.donatePhase.isProcessing
+          if (!campaignData.donatePhase.isProcessing) {
+            setUnauthorized(true);
+          }
+
+          console.log("Campaign donate get được: ", campaignData);
         } else {
           toast({
             variant: "destructive",
@@ -85,7 +84,13 @@ const DonatePage = () => {
   }, [fetchData]);
 
   if (error) {
-    return <Navigate to="/404" />; // Redirect người dùng nếu có lỗi
+    navigate("/unauthorized"); // Redirect người dùng nếu có lỗi
+    return;
+  }
+
+  if (unauthorized) {
+    navigate("/unauthorized"); // Redirect người dùng nếu không được phép
+    return;
   }
 
   return (
