@@ -12,6 +12,7 @@ const LeftDonateCardContent = ({
   amountTarget,
   progressPercent,
   totalDonators,
+  campaignTier,
 }) => {
   return (
     <>
@@ -24,9 +25,15 @@ const LeftDonateCardContent = ({
               className="w-full h-full object-cover"
             />
           </AspectRatio>
-          <div className="absolute mt-1 ml-1 top-0 left-0">
-            <Badge variant="white">{`Còn ${dayLeft} ngày`}</Badge>
-          </div>
+          {campaignTier === 1 ? (
+            <div className="absolute mt-1 ml-1 top-0 left-0">
+              <Badge variant="white">{`Còn ${dayLeft} ngày`}</Badge>
+            </div>
+          ) : (
+            <div className="absolute mt-1 ml-1 top-0 left-0">
+              <Badge variant="white">Ủng hộ và xử lý song song</Badge>
+            </div>
+          )}
         </div>
         <div className="bg-white w-full px-6">
           <p className="text-lg font-bold mt-2 mb-4">{campaignTitle}</p>
