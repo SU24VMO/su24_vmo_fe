@@ -176,12 +176,12 @@ export default function UpdateCampaignOrganizationTier2ManagerPage() {
     };
 
     const validateTitle = (name) => {
-        return name !== '';
+        return name.trim() !== '';
     };
 
     const validateAmount = (amount) => {
         const cleanedAmount = cleanFormattedAmount(amount);
-        return cleanedAmount !== '';
+        return cleanedAmount.trim() !== '';
     };
 
 

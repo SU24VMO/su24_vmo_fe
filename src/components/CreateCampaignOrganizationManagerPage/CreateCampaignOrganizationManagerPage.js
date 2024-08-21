@@ -146,12 +146,12 @@ export default function CreateCampaignOrganizationManagerPage() {
     };
 
     const validateTitle = (title) => {
-        return title !== '';
+        return title.trim() !== '';
     };
 
     const validateAmount = (amount) => {
         const cleanedAmount = cleanFormattedAmount(amount);
-        return cleanedAmount !== '';
+        return cleanedAmount.trim() !== '';
     };
 
     // Thêm thẻ cho việc add plan

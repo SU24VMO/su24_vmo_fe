@@ -150,12 +150,12 @@ export default function CreateCampaignVolunteerPage() {
     };
 
     const validateTitle = (title) => {
-        return title !== '';
+        return title.trim() !== '';
     };
 
     const validateAmount = (amount) => {
         const cleanedAmount = cleanFormattedAmount(amount);
-        return cleanedAmount !== '';
+        return cleanedAmount.trim() !== '';
     };
 
 
