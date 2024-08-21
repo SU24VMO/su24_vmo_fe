@@ -49,7 +49,7 @@ const CampaignsSection = () => {
       }
       const response = await axiosPublic.get(url);
       if (response.status === 200) {
-        let fetchedData = response.data.data.list;
+        let fetchedData = response.data.data;
         // Bước 2: Thêm logic lọc dữ liệu dựa trên trạng thái
         if (selectedCampaignStatus) {
           if (selectedCampaignStatus === "Đã kết thúc") {
@@ -171,6 +171,7 @@ const CampaignsSection = () => {
                 isTransparent={item.isTransparent}
                 checkTransparentDate={item.checkTransparentDate}
                 campaignTier={item.campaignTier}
+                isComplete={item.isComplete}
               />
             ))
           : renderSkeletons()}

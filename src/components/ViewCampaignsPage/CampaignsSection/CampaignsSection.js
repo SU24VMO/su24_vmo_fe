@@ -60,23 +60,23 @@ const CampaignsSection = () => {
       }
       const response = await axiosPublic.get(url, { signal });
       if (response.status === 200) {
-        let fetchedData = response.data.data.list;
+        let fetchedData = response.data.data;
         // Bước 2: Thêm logic lọc dữ liệu dựa trên trạng thái
-        if (selectedCampaignStatus) {
-          if (selectedCampaignStatus === "Đã kết thúc") {
-            fetchedData = fetchedData.filter(
-              (campaign) => campaign.isComplete === true
-            );
-          } else {
-            // "Đang thực hiện" hoặc "Đạt mục tiêu"
-            fetchedData = fetchedData.filter(
-              (campaign) =>
-                campaign.processingPhases.some(phase => phase.isProcessing) ||
-                campaign.statementPhase.isProcessing ||
-                campaign.donatePhase.isProcessing
-            );
-          }
-        }
+        // if (selectedCampaignStatus) {
+        //   if (selectedCampaignStatus === "Đã kết thúc") {
+        //     fetchedData = fetchedData.filter(
+        //       (campaign) => campaign.isComplete === true
+        //     );
+        //   } else {
+        //     // "Đang thực hiện" hoặc "Đạt mục tiêu"
+        //     fetchedData = fetchedData.filter(
+        //       (campaign) =>
+        //         campaign.processingPhases.some(phase => phase.isProcessing) ||
+        //         campaign.statementPhase.isProcessing ||
+        //         campaign.donatePhase.isProcessing
+        //     );
+        //   }
+        // }
         // Bước 3: Cập nhật state với dữ liệu đã lọc
         if (fetchedData.length === 0) {
           setHasMore(false);
@@ -202,6 +202,7 @@ const CampaignsSection = () => {
                 isTransparent={item.isTransparent}
                 checkTransparentDate={item.checkTransparentDate}
                 campaignTier={item.campaignTier}
+                isComplete={item.isComplete}
               />
             ))
           : renderSkeletons()}

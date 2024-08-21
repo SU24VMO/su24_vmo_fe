@@ -32,7 +32,7 @@ const CarouselCampaigns = () => {
       let url = `${GET_CAMPAIGN_FILTER}?pageSize=6&pageNo=1`;
       const response = await axiosPublic.get(url, { signal });
       if (response.status === 200) {
-        const fetchedData = response.data.data.list;
+        const fetchedData = response.data.data;
         if (fetchedData.length === 0) {
           setHasMore(false);
         } else {
@@ -121,6 +121,7 @@ const CarouselCampaigns = () => {
                       isTransparent={item.isTransparent}
                       checkTransparentDate={item.checkTransparentDate}
                       campaignTier={item.campaignTier}
+                      isComplete={item.isComplete}
                     />
                   </div>
                 </CarouselItem>

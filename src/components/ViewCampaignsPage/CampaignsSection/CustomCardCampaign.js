@@ -28,6 +28,7 @@ const CustomCardCampaign = ({
   isTransparent,
   checkTransparentDate,
   campaignTier,
+  isComplete,
 }) => {
   // Chuyển đổi expectedEndDate từ string sang Date và tính toán số ngày còn lại
   const calculateDaysLeft = (endDate) => {
@@ -189,7 +190,7 @@ const CustomCardCampaign = ({
                 </div>
                 <div className="bg-white w-full px-6">
                   {isTransparent ? (
-                    processingPhaseName ? (
+                    !isComplete ? (
                       <>
                         <Badge variant="default">Đang thực hiện</Badge>
                         <Badge variant="outline">
