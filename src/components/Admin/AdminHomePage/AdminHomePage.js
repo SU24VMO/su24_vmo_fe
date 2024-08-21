@@ -325,7 +325,7 @@ const AdminHomePage = () => {
       {loading ? (<SkeletonHomePage />) : (
         <>
           <Helmet>
-            <title>Trang chủ người kiểm duyệt • VMO</title>
+            <title>Trang chủ hệ thống • VMO</title>
             <meta
               name="description"
               content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
