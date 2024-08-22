@@ -33,8 +33,8 @@ export const CREATESTAGEACTIVITYOFOM = '/api/create-activity-request/tier-ii/cre
 export const CREATESTAGEACTIVITYOFVOLUNTEER = '/api/create-activity-request/tier-ii/create-new'
 
 
-//
-export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/tier-ii/create-new";
+
+export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
 
 
 
@@ -62,13 +62,13 @@ export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/
 
 export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
 export const UPDATECAMPAIGNTIER2OM = '/api/create-campaign-request/tier-ii/update/campaign-information'
+export const UPDATECAMPAIGNTIER2VOLUNTEER = '/api/create-campaign-request/tier-ii/update/campaign-information'
 
 export const UPDATENEWS = '/api/create-post-request/update/post-information'
 export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-information'
 export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
 
 export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
-export const UPDATECAMPAIGNTIER2VOLUNTEER = '/api/create-campaign-request/tier-ii/update/campaign-information'
 
 
 
@@ -117,10 +117,6 @@ export const ENABLEDISABLEPOST = "/api/post/update/status"
 
 
 export const EXTENDONATEPHASE = "/api/donate-phase/update/end-date";
-
-
-
-
 
 
 export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";

@@ -276,7 +276,7 @@ export default function UpdateCampaignVolunteerTier2Page() {
 
 
 
-    const updateCampaign = async (data, resetForm) => {
+    const updateCampaign = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -330,6 +330,8 @@ export default function UpdateCampaignVolunteerTier2Page() {
             });
         } finally {
             setLoading(false)
+            setSubmitting(false);
+
         }
     }
 
@@ -485,8 +487,7 @@ export default function UpdateCampaignVolunteerTier2Page() {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                    updateCampaign(values, resetForm)
-                    setSubmitting(false);
+                    updateCampaign(values, resetForm, setSubmitting)
 
 
                 }}

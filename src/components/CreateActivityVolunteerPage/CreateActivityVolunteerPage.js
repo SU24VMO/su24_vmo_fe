@@ -47,7 +47,7 @@ export default function CreateActivityVolunteerPage() {
         };
     }, []);
 
-    const createActivity = async (data, resetForm) => {
+    const createActivity = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ProcessingPhaseId', data.processingPhase);
@@ -95,6 +95,8 @@ export default function CreateActivityVolunteerPage() {
             }
         } finally {
             setLoading(false)
+            setSubmitting(false)
+
         }
     }
 
@@ -130,8 +132,7 @@ export default function CreateActivityVolunteerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                createActivity(values, resetForm)
-                setSubmitting(false)
+                createActivity(values, resetForm, setSubmitting)
             }}
         >
             {({

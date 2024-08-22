@@ -179,7 +179,7 @@ export default function CreateCampaignOrganizationManagerPage() {
     }, [errorPlan])
 
 
-    const createCampaign = async (data, resetForm) => {
+    const createCampaign = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -249,6 +249,8 @@ export default function CreateCampaignOrganizationManagerPage() {
             }
         } finally {
             setLoading(false)
+            setSubmitting(false)
+
         }
     }
 
@@ -430,7 +432,7 @@ export default function CreateCampaignOrganizationManagerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                createCampaign(values, resetForm)
+                createCampaign(values, resetForm, setSubmitting)
 
             }}
         >

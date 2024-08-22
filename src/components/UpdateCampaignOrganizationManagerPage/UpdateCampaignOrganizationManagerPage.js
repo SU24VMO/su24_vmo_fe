@@ -171,7 +171,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
 
 
 
-    const updateCampaign = async (data, resetForm) => {
+    const updateCampaign = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -225,6 +225,8 @@ export default function UpdateCampaignOrganizationManagerPage() {
             });
         } finally {
             setLoading(false)
+            setSubmitting(false);
+
         }
     }
 
@@ -360,8 +362,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                updateCampaign(values, resetForm)
-                setSubmitting(false);
+                updateCampaign(values, resetForm, setSubmitting)
 
 
             }}

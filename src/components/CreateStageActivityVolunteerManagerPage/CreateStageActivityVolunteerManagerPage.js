@@ -77,7 +77,7 @@ export default function CreateStageActivityVolunteerManagerPage() {
         };
     }, []);
 
-    const createActivity = async (data, resetForm) => {
+    const createActivity = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ProcessingPhaseId', data.processingPhase);
@@ -130,6 +130,8 @@ export default function CreateStageActivityVolunteerManagerPage() {
             }
         } finally {
             setLoading(false)
+            setSubmitting(false)
+
         }
     }
 
@@ -169,8 +171,7 @@ export default function CreateStageActivityVolunteerManagerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                createActivity(values, resetForm)
-                setSubmitting(false)
+                createActivity(values, resetForm, setSubmitting)
             }}
         >
             {({

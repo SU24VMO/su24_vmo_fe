@@ -184,6 +184,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                             onChange={(e) => { handleSelectSheet(e, setFieldValue) }}
                                             type="file"
                                             accept="image/png, image/jpeg, image/jpg"
+                                            multiple
                                         />
                                         <div>
                                             {/* {values.statementFiles.map((file, index) => (

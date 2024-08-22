@@ -183,7 +183,7 @@ export default function CreateCampaignVolunteerPage() {
     }, [errorPlan])
 
 
-    const createCampaign = async (data, resetForm) => {
+    const createCampaign = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -250,6 +250,8 @@ export default function CreateCampaignVolunteerPage() {
             }
         } finally {
             setLoading(false)
+            setSubmitting(false)
+
         }
     }
 
@@ -425,8 +427,7 @@ export default function CreateCampaignVolunteerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                createCampaign(values, resetForm)
-                setSubmitting(false);
+                createCampaign(values, resetForm, setSubmitting)
 
 
             }}

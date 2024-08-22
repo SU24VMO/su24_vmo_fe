@@ -38,7 +38,7 @@ export default function CreatNewsPage() {
     }
 
 
-    const createNews = async (data, resetForm) => {
+    const createNews = async (data, resetForm, setSubmitting) => {
         setLoading(true)
 
         const formData = new FormData();
@@ -97,6 +97,7 @@ export default function CreatNewsPage() {
             }
         } finally {
             setLoading(false)
+            setSubmitting(false);
 
         }
     }
@@ -145,8 +146,7 @@ export default function CreatNewsPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                createNews(values, resetForm)
-                setSubmitting(false);
+                createNews(values, resetForm, setSubmitting)
 
 
             }}

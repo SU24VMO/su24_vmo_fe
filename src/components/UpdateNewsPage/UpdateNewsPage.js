@@ -110,7 +110,7 @@ export default function UpdateNewsPage() {
     }, []);
 
 
-    const updateNews = async (data, resetForm) => {
+    const updateNews = async (data, resetForm, setSubmitting) => {
         setLoading(true)
 
         const formData = new FormData();
@@ -132,6 +132,9 @@ export default function UpdateNewsPage() {
 
             if (response.status === 200) {
                 console.log(response.data);
+                
+                setImageCover(null);
+                setImageCenter(null);
                 if (user.role === "Volunteer") {
                     navigate("/manage/volunteer/allNews")
                     resetForm()
@@ -161,6 +164,7 @@ export default function UpdateNewsPage() {
             });
         } finally {
             setLoading(false)
+            setSubmitting(false);
 
         }
     }
@@ -212,12 +216,10 @@ export default function UpdateNewsPage() {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
-                    updateNews(values, resetForm)
-                    setSubmitting(false);
+                    updateNews(values, resetForm, setSubmitting)
+                 
 
 
-                    setImageCover(null);
-                    setImageCenter(null);
                 }}
             >
                 {({

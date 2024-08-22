@@ -121,7 +121,7 @@ export default function UpdateActivityTier2OrganizationManagerPage() {
 
 
 
-    const updateActivity = async (data, resetForm) => {
+    const updateActivity = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ProcessingPhaseId', data.processingPhase);
@@ -166,6 +166,8 @@ export default function UpdateActivityTier2OrganizationManagerPage() {
             });
         } finally {
             setLoading(false)
+            setSubmitting(false)
+
         }
     }
 
@@ -210,8 +212,7 @@ export default function UpdateActivityTier2OrganizationManagerPage() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                updateActivity(values, resetForm)
-                setSubmitting(false)
+                updateActivity(values, resetForm, setSubmitting)
             }}
         >
             {({

@@ -280,7 +280,7 @@ export default function UpdateCampaignOrganizationTier2ManagerPage() {
 
 
 
-    const updateCampaign = async (data, resetForm) => {
+    const updateCampaign = async (data, resetForm, setSubmitting) => {
         setLoading(true)
         const formData = new FormData();
         formData.append('ApplicationConfirmForm', data.imageLocalDocument);
@@ -336,6 +336,8 @@ export default function UpdateCampaignOrganizationTier2ManagerPage() {
             });
         } finally {
             setLoading(false)
+            setSubmitting(false);
+
         }
     }
 
@@ -501,11 +503,8 @@ export default function UpdateCampaignOrganizationTier2ManagerPage() {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-                    updateCampaign(values, resetForm)
-                    console.log('====================================');
-                    console.log("submit:", values);
-                    console.log('====================================');
-                    setSubmitting(false);
+                    updateCampaign(values, resetForm, setSubmitting)
+                 
 
 
                 }}
