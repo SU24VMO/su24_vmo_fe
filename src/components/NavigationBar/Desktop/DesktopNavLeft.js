@@ -16,7 +16,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { Skeleton } from "../../ui/skeleton";
 
 const DesktopNavLeft = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, headerLoading } = useContext(AuthContext);
   const location = useLocation();
 
   // Hàm kiểm tra và trả về class tương ứng
@@ -87,7 +87,7 @@ const DesktopNavLeft = () => {
       </NavigationMenu>
 
       <>
-        {loading ? (
+        {headerLoading ? (
           <Skeleton className="w-40 h-8 rounded-lg" />
         ) : (
           <>

@@ -35,6 +35,7 @@ const Notification = () => {
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [hasMore, setHasMore] = React.useState(true);
   const { toast } = useToast();
+  const abortController = React.useRef(new AbortController());
 
   // Mục đích là lấy ra tổng số lượng notification chưa đọc
   // React.useEffect(() => {
@@ -47,7 +48,8 @@ const Notification = () => {
     async (page) => {
       try {
         const response = await axiosPrivate.get(
-          `${GET_NOTIFICATIONS}${user.account_id}?pageSize=10&pageNo=${page}`
+          `${GET_NOTIFICATIONS}${user.account_id}?pageSize=10&pageNo=${page}`,
+          { signal: abortController.current.signal }
         );
         if (response.status === 200) {
           const fetchedData = response.data.data.list;
@@ -61,7 +63,11 @@ const Notification = () => {
           setDataLoaded(true);
         }
       } catch (error) {
-        console.error("Error fetching data from API:", error);
+        if (error.name === "AbortError") {
+          console.log("Request was aborted");
+        } else {
+          console.error("Error fetching data from API:", error);
+        }
       } finally {
         setLoadingMore(false);
       }
@@ -73,8 +79,15 @@ const Notification = () => {
   React.useEffect(() => {
     fetchData(1);
     if (isLogin) {
-      handleRefreshHeader();
+      const controller = new AbortController();
+      handleRefreshHeader(controller);
+      return () => {
+        controller.abort();
+      };
     }
+    return () => {
+      abortController.current.abort();
+    };
   }, [fetchData, location, isLogin]); // Chỉ gọi lại khi fetchData thay đổi (thực ra nó chỉ chạy 1 lần duy nhất vì fetchData không thay đổi =)))
 
   // Chức năng load more (xem thêm notification)
@@ -89,7 +102,8 @@ const Notification = () => {
     setDataLoaded(false); // Bật skeleton
     try {
       const response = await axiosPrivate.put(
-        `${UPDATE_NOTIFICATION_SEEN}?accountId=${user.account_id}`
+        `${UPDATE_NOTIFICATION_SEEN}?accountId=${user.account_id}`,
+        { signal: abortController.current.signal }
       );
       if (response.status === 200) {
         // Hiển thị toast thông báo thành công
@@ -102,7 +116,11 @@ const Notification = () => {
         fetchData(1); // Hoặc gọi lại hàm fetchData để cập nhật lại dữ liệu trên giao diện
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật thông báo:", error);
+      if (error.name === "AbortError") {
+        console.log("Request was aborted");
+      } else {
+        console.error("Lỗi khi cập nhật thông báo:", error);
+      }
     } finally {
       setDataLoaded(true); // Tắt skeleton
     }

@@ -12,7 +12,7 @@ import { Skeleton } from "../../ui/skeleton";
 
 const MobileNavLeft = () => {
   const [open, setOpen] = useState(false);
-  const { user, isLogin, loading } = useContext(AuthContext);
+  const { user, isLogin, headerLoading } = useContext(AuthContext);
   const location = useLocation();
 
   // Hàm kiểm tra và trả về class tương ứng
@@ -113,7 +113,7 @@ const MobileNavLeft = () => {
           )}
 
           <>
-            {loading ? (
+            {headerLoading ? (
               <>
                 <Separator className="mb-5" />
                 <div className="w-full mb-5">
