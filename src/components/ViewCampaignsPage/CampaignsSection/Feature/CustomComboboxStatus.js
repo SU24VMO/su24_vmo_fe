@@ -13,15 +13,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 
 const data = [
   {
-    value: "Đang thực hiện",
+    value: "đang thực hiện",
     label: "Đang thực hiện",
   },
   {
-    value: "Đạt mục tiêu",
+    value: "đạt mục tiêu",
     label: "Đạt mục tiêu",
   },
   {
-    value: "Đã kết thúc",
+    value: "đã kết thúc",
     label: "Đã kết thúc",
   },
 ];
