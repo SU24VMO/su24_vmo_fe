@@ -319,10 +319,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                 <Label htmlFor="createDate">Ngày tạo đơn</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                    {organize?.createDate ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={organize ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                    code={organize?.createDate ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="approvedDate">Ngày duyệt </Label>
+                <div className="flex items-center space-x-2">
+                  <Badge variant={"outline"}>
+                    {organize?.approvedDate ? format(new Date(organize?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                  </Badge>
+                  <CopyButton
+                    code={organize?.approvedDate ? format(new Date(organize?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>

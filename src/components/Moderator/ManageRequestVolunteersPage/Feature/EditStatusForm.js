@@ -112,10 +112,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="memberName"
-                    defaultValue={volunteer ? volunteer.memberName : "Không có"}
+                    defaultValue={volunteer?.memberName ? volunteer?.memberName : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.memberName : "Không có"} />
+                  <CopyButton code={volunteer?.memberName ? volunteer?.memberName : "Không có"} />
                 </div>
               </div>
             </div>
@@ -126,10 +126,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="email"
-                    defaultValue={volunteer ? volunteer.email : "Không có"}
+                    defaultValue={volunteer?.email ? volunteer?.email : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.email : "Không có"} />
+                  <CopyButton code={volunteer?.email ? volunteer?.email : "Không có"} />
                 </div>
               </div>
             </div>
@@ -141,10 +141,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="memberAddress"
-                    defaultValue={volunteer ? volunteer.memberAddress : "Không có"}
+                    defaultValue={volunteer?.memberAddress ? volunteer?.memberAddress : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.memberAddress : "Không có"} />
+                  <CopyButton code={volunteer?.memberAddress ? volunteer?.memberAddress : "Không có"} />
                 </div>
               </div>
             </div>
@@ -156,10 +156,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="phoneNumber"
-                    defaultValue={volunteer ? volunteer.phoneNumber : "Không có"}
+                    defaultValue={volunteer?.phoneNumber ? volunteer?.phoneNumber : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.phoneNumber : "Không có"} />
+                  <CopyButton code={volunteer?.phoneNumber ? volunteer?.phoneNumber : "Không có"} />
                 </div>
               </div>
             </div>
@@ -172,10 +172,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="citizenIdentification"
-                    defaultValue={volunteer ? volunteer.citizenIdentification : "Không có"}
+                    defaultValue={volunteer?.citizenIdentification ? volunteer?.citizenIdentification : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.citizenIdentification : "Không có"} />
+                  <CopyButton code={volunteer?.citizenIdentification ? volunteer?.citizenIdentification : "Không có"} />
                 </div>
               </div>
             </div>
@@ -187,10 +187,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
 
-                    {volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
+                    {volunteer?.birthday ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={volunteer ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
+                    code={volunteer?.birthday ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
                   />
                 </div>
               </div>
@@ -246,7 +246,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <Label htmlFor="roleInClub">Vai trò trong CLB</Label>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
-                    {volunteer ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
+                    {volunteer?.roleInClub ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
 
                   </Badge>
                   <CopyButton code={volunteer ? volunteer.roleInClub : ""} />
@@ -263,10 +263,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="achievementLink"
-                    defaultValue={volunteer ? volunteer.achievementLink : "Không có"}
+                    defaultValue={volunteer?.achievementLink ? volunteer.achievementLink : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.achievementLink : "Không có"} />
+                  <CopyButton code={volunteer?.achievementLink ? volunteer.achievementLink : "Không có"} />
                 </div>
               </div>
             </div>
@@ -279,10 +279,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Input
                     id="detailDescriptionLink"
-                    defaultValue={volunteer ? volunteer.detailDescriptionLink : "Không có"}
+                    defaultValue={volunteer?.detailDescriptionLink ? volunteer.detailDescriptionLink : "Không có"}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.detailDescriptionLink : "Không có"} />
+                  <CopyButton code={volunteer?.detailDescriptionLink ? volunteer.detailDescriptionLink : "Không có"} />
                 </div>
               </div>
             </div>
@@ -319,10 +319,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
 
-                    {volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                    {volunteer?.createDate ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   </Badge>
                   <CopyButton
-                    code={volunteer ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                    code={volunteer?.createDate ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                   />
                 </div>
               </div>
@@ -334,10 +334,10 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                 <div className="flex items-center space-x-2">
                   <Badge variant={"outline"}>
 
-                    {volunteer ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                    {volunteer?.approvedDate ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   </Badge>
                   <CopyButton
-                    code={volunteer ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                    code={volunteer?.approvedDate ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                   />
                 </div>
               </div>

@@ -76,6 +76,7 @@ export default function SignUpVerifyOrganizeForm() {
         }}
         validate={(values) => {
           const errors = {};
+          const cleanedTaxCode = values.personalTaxCode.replace(/\s+/g, '');
           // name validation
           if (!values.name) {
             errors.name = "Không được để trống!";
@@ -111,9 +112,7 @@ export default function SignUpVerifyOrganizeForm() {
           // personalTaxCode validation
           if (!values.personalTaxCode) {
             errors.personalTaxCode = "Không được để trống!";
-          } else if (values.personalTaxCode.length < 10) {
-            errors.personalTaxCode = "Số thuế không hợp lệ";
-          } else if (values.personalTaxCode.length > 10) {
+          } else if (!/^\d{10}-\d{3}$/.test(cleanedTaxCode) && !/^\d{10}$/.test(cleanedTaxCode)) {
             errors.personalTaxCode = "Số thuế không hợp lệ";
           }
           return errors;
