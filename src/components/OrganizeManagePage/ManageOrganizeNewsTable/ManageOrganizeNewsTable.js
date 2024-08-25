@@ -61,7 +61,7 @@ const ManageOrganizeNewsTable = () => {
   const fetchData = async (cancelToken, user, pageSize, pageNo, title, sortConfig) => {
     try {
       const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, title, setLoading);
-      setData(result?.list || []);
+      setData(result?.posts || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

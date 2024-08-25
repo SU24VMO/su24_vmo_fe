@@ -56,7 +56,7 @@ const ManageVolunteerPhase3Table = () => {
   const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
     try {
       const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
-      setData(result?.list || []);
+      setData(result?.campaigns || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

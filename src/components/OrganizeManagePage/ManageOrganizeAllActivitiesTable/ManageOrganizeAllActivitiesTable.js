@@ -60,7 +60,7 @@ const ManageOrganizeAllActivitiesTable = () => {
   const fetchData = async (cancelToken, user, pageSize, pageNo, activityTitle, sortConfig) => {
     try {
       const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, activityTitle, setLoading);
-      setData(result?.list || []);
+      setData(result?.activities || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {
