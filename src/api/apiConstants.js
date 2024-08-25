@@ -14,23 +14,18 @@ export const UPDATEAPPROVEORGANIZATIONREQUEST = "/api/create-organization-reques
 export const UPDATEAPPROVENEWSREQUEST = "/api/create-post-request/checking";
 export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checking";
 export const UPDATEAPPROVESTAGEACTIVITYREQUEST = "/api/create-activity-request/tier-ii/checking";
-
-
 export const UPDATESTATUSREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
-export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/report-campaign/send-email";
-
-
-
 export const UPDATEIMAGEBANKING = "/api/transaction/upload-transaction";
 
 
+export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/report-campaign/send-email";
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
 export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
 export const CREATENEWS = "/api/create-post-request/create-new";
 export const CREATEACTIVITYOFOM = '/api/create-activity-request/create-new'
-
 export const CREATESTAGEACTIVITYOFOM = '/api/create-activity-request/tier-ii/create-new'
 export const CREATESTAGEACTIVITYOFVOLUNTEER = '/api/create-activity-request/tier-ii/create-new'
+export const CREATEACCOUNTMODERATOR = '/api/account/create-new'
 
 
 
@@ -43,13 +38,10 @@ export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-reque
 export const GETALLORGANIZATIONBYID = "/api/organization/all/filter/organization-manager/";
 export const GETALLCAMPAIGNBYOMID = "/api/campaign/create-by/organization-manager/";
 export const GETALLCAMPAIGNTIER2BYOMID = "/api/campaign/tier-ii/create-by/organization-manager/";
-
 export const GETALLNEWSBYOMID = "/api/post/all/organization-manager/";
-
 export const GETOPTIONPROCESSINGPHASEOM = '/api/processing-phase/create-by/organization-manager'
 export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/'
 export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
-
 export const GETPROCESSINGOMTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/organization-manager'
 export const GETPROCESSINGVOLUNTEERTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/volunteer'
 // -----------------
@@ -58,7 +50,6 @@ export const GETREQUESTNEWSTOUPDATE = '/api/create-post-request/'
 export const GETREQUESTCAMPAIGNTOUPDATE = '/api/create-campaign-request/'
 export const GETREQUESTACTIVITYTOUPDATE = '/api/create-activity-request/'
 export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/'
-
 
 export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
 export const UPDATECAMPAIGNTIER2OM = '/api/create-campaign-request/tier-ii/update/campaign-information'
@@ -69,8 +60,6 @@ export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-info
 export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
 
 export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
-
-
 
 
 // ------------------
@@ -104,8 +93,6 @@ export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transact
 export const GETALLAMOUNT = "/api/transaction/all/admin/total-amount"
 
 
-export const CREATEACCOUNTMODERATOR = '/api/account/create-new'
-
 
 //enable disable
 
@@ -126,9 +113,7 @@ export const GETALLREQUESTOM = "/api/create-organization-manager-request/all/fil
 export const GETALLREQUESTVOLUNTEERS = "/api/create-volunteer-request/all/filter/volunteer-name";
 export const GETALLREQUESTACTIVITIES = "/api/create-activity-request/tier-i/all";
 export const GETALLREQUESTSTAGEACTIVITIES = "/api/create-activity-request/tier-ii/all";
-
 export const GETALLREQUESTNEWS = "/api/create-post-request/all/filter/post-title";
-
 export const GETALLACCOUNTSMEMBER = "/api/account/all/role/member"
 export const GETALLACCOUNTSVOLUNTEER = "/api/account/all/role/volunteer"
 export const GETALLACCOUNTSOM = "/api/account/all/role/organization-manager"

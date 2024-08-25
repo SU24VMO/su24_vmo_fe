@@ -77,7 +77,7 @@ export default function IntroductionPage() {
                         Mô hình thiện nguyện
                     </h1>
                     <p className="italic">
-                        Chúng tôi mang tới một giải pháp thiện nguyện hiện đại, minh bạch, dễ dàng, nhanh chóng, tiện lợi. Mang tới một cộng đồng thiện nguyện cho cả nước!
+                        Chúng tôi mang tới một giải pháp thiện nguyện hiện đại, rõ ràng, dễ dàng, nhanh chóng, tiện lợi. Mang tới một cộng đồng thiện nguyện cho cả nước!
                     </p>
                 </div>
 
@@ -109,7 +109,7 @@ export default function IntroductionPage() {
                             </div>
                             <div className="w-full">
                                 <span className="font-semibold text-xl">Tài trợ</span>
-                                <p className="break-words text-sm">Đóng góp tài trợ dễ dàng và minh bạch.</p>
+                                <p className="break-words text-sm">Đóng góp tài trợ dễ dàng và rõ ràng.</p>
                             </div>
                         </div>
                         <div className="flex gap-5 row-span-1 p-7">
@@ -157,8 +157,8 @@ export default function IntroductionPage() {
                     <img src={require('../../assets/images/thumbnail11.jpg')} className="hidden tablet:block drop-shadow-lg tablet:h-96  rounded-xl" alt="ảnh 1" />
                     <div className=" flex justify-center items-center ">
                         <div className=" w-full   mobile:w-3/4 block border-2 drop-shadow-xl shadow-inner p-10 rounded-xl bg-white">
-                            <h1 className="font-bold text-2xl tablet:text-3xl">Minh bạch</h1>
-                            <p className="my-5 break-words text-start mobile:text-justify">Chúng tôi cam kết đảm bảo sự minh bạch trong mọi hoạt động. Mọi đóng góp của bạn đều được sử dụng một cách công khai và hiệu quả để giúp đỡ cộng đồng.</p>
+                            <h1 className="font-bold text-2xl tablet:text-3xl">Rõ ràng</h1>
+                            <p className="my-5 break-words text-start mobile:text-justify">Chúng tôi cam kết đảm bảo sự rõ ràng trong mọi hoạt động. Mọi đóng góp của bạn đều được sử dụng một cách công khai và hiệu quả để giúp đỡ cộng đồng.</p>
                             <button type="button" className="text-white bg-vmo hover:bg-green-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-vmo focus:outline-none dark:focus:ring-green-bg-green-500">Tham gia ngay!</button>
                         </div>
 

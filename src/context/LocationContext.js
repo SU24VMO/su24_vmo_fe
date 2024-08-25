@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "../components/ui/use-toast";
 import { ToastAction } from "../components/ui/toast";
+import { useNavigate } from "react-router-dom";
 
 const LocationContext = createContext();
 
 const LocationProvider = ({ children }) => {
-
+const navigate = useNavigate()
   const [locationIP, setLocationIP] = useState({
     latitude: '',
     longitude: '',
@@ -46,7 +47,10 @@ const LocationProvider = ({ children }) => {
       }, (error) => {
 
         if (error.code === error.PERMISSION_DENIED) {
-          
+          console.log('====================================');
+          console.log('Location: ',error.code);
+          console.log('====================================');
+          // navigate('/home')
           toast({
             variant: "destructive",
             title: "Đã xảy ra lỗi!",
@@ -64,6 +68,9 @@ const LocationProvider = ({ children }) => {
 
   useEffect(() => {
     fetchLocation();
+    console.log("Đây là:", locationIP);
+
+
   }, []); // Empty dependency array means this runs only once when the component mounts
 
   return (
