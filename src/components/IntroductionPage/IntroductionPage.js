@@ -273,7 +273,7 @@ export default function IntroductionPage() {
                                 <img class="object-cover object-center h-32 " src={require('../../assets/images/introduction/fatnotfat.jpg')} alt='Woman looking front'/>
                             </div>
                             <div class="text-center mt-2">
-                                <h2 class="font-semibold">fatnotfat</h2>
+                                <h2 class="font-semibold">Nguyễn Tiến Phát</h2>
                                 {/* <p class="text-gray-500">Backend Developer</p> */}
                             </div>
                             
@@ -290,7 +290,7 @@ export default function IntroductionPage() {
                                 <img class="object-cover object-center h-32 " src={require('../../assets/images/introduction/cubi.jpg')} alt='Woman looking front'/>
                             </div>
                             <div class="text-center mt-2">
-                                <h2 class="font-semibold">CUBI</h2>
+                                <h2 class="font-semibold">Nguyễn Văn Dũng</h2>
                                 {/* <p class="text-gray-500">Frontend Developer</p> */}
                             </div>
                             
@@ -307,7 +307,7 @@ export default function IntroductionPage() {
                                 <img class="object-cover object-center h-32 " src={require('../../assets/images/introduction/truongmagnus.jpg')} alt='Woman looking front'/>
                             </div>
                             <div class="text-center mt-2">
-                                <h2 class="font-semibold">Truongmagnus</h2>
+                                <h2 class="font-semibold">Châu Nhật Trường</h2>
                                 {/* <p class="text-gray-500">Backend Developer</p> */}
                             </div>
                             
@@ -324,7 +324,7 @@ export default function IntroductionPage() {
                                 <img class="object-cover object-center h-32 " src={require('../../assets/images/introduction/khoa.jpg')} alt='Woman looking front'/>
                             </div>
                             <div class="text-center mt-2">
-                                <h2 class="font-semibold">bocchidesu</h2>
+                                <h2 class="font-semibold">Trương Đinh Đăng Khoa</h2>
                                 {/* <p class="text-gray-500">Frontend Developer</p> */}
                             </div>
                             
@@ -349,7 +349,7 @@ export default function IntroductionPage() {
                                 </h1>
                                 <div className="flex gap-1 items-center">
                                     <span className="text-xs mobile:text-xl">Email:</span>
-                                    <p className="font-bold text-xs mobile:text-xl">requestmanager@gmail.com</p>
+                                    <p className="font-bold text-xs mobile:text-xl">vmoorganization@gmail.com</p>
                                 </div>
                             </div>
                             <img className="  mobile:w-full rounded-tr-3xl rounded-bl-3xl" src={require('../../assets/images/introduction/Feedback.png')} alt="Feedback" />

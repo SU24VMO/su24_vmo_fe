@@ -21,10 +21,10 @@ const TermsPage = () => {
       <div className="py-5 px-5">
         <div>
           <p>
-            Chào mừng bạn đến với ứng dụng Thiện nguyện minh bạch - VMO. Trên
-            hành trình thực hiện sứ mệnh thiện nguyện, lan tỏa yêu thương của
-            mình, VMO hi vọng bạn vui lòng dành thời gian đọc, tìm hiểu những
-            điều khoản sau đây
+            Chào mừng bạn đến với ứng dụng Thiện nguyện - VMO. Trên hành trình
+            thực hiện sứ mệnh thiện nguyện, lan tỏa yêu thương của mình, VMO hi
+            vọng bạn vui lòng dành thời gian đọc, tìm hiểu những điều khoản sau
+            đây
           </p>
           <div className="my-3">
             {/* SECTION 1 */}
@@ -36,10 +36,10 @@ const TermsPage = () => {
                 cho các cá nhân, câu lạc bộ, hội, đội, nhóm đang hoạt động liên
                 quan đến lĩnh vực tình nguyện, nhân đạo, từ thiện, hoạt động xã
                 hội, tình nguyện vì mục tiêu phát triển bền vững tổ chức các
-                chiến dịch cộng đồng theo tiêu chí công khai, minh bạch, hiệu
-                quả. Ứng dụng ra đời với mục tiêu xây dựng một cộng đồng những
-                cá nhân theo đuổi sứ mệnh thiện nguyện minh bạch, bền vững, lan
-                toả những giá trị tốt đẹp trong cộng đồng.
+                chiến dịch cộng đồng theo tiêu chí công khai, rõ ràng, hiệu quả.
+                Ứng dụng ra đời với mục tiêu xây dựng một cộng đồng những cá
+                nhân theo đuổi sứ mệnh thiện nguyện công khai, bền vững, lan toả
+                những giá trị tốt đẹp trong cộng đồng.
               </p>
               <p className="mb-3">
                 2. <strong>“Người dùng”</strong> ứng dụng là các cá nhân và tổ
@@ -54,14 +54,14 @@ const TermsPage = () => {
                 nhưng không giới hạn các ngành nghề như nhà báo, nghệ sĩ, ca sĩ,
                 diễn viên, vận động viên thể thao nhà hoạt động xã hội có ảnh
                 hưởng tốt trong xã hội, cộng đồng, có mong muốn và khả năng tổ
-                chức các chiến dịch gây quỹ cộng đồng, đề cao giá trị minh bạch
+                chức các chiến dịch gây quỹ cộng đồng, đề cao giá trị cốt lõi
                 trong hoạt động thiện nguyện. Cá nhân có đủ năng lực hành vi dân
                 sự theo quy định tại Nghị định 93/2021/NĐ-CP và các quy định có
                 liên quan.
               </p>
               <p className="mb-3">
                 4. <strong>“Người ủng hộ”</strong> là tất cả các cá nhân, tổ
-                chức có mong muốn tham gia cộng đồng thiện nguyện minh bạch
+                chức có mong muốn tham gia cộng đồng thiện nguyện công khai
                 thông qua tải ứng dụng và đăng ký thành viên.
               </p>
               <p className="mb-3">
@@ -100,7 +100,7 @@ const TermsPage = () => {
               </p>
               <p className="mb-3">
                 3. Ứng dụng Thiện nguyện hoạt động trên tôn chỉ thúc đẩy tính
-                minh bạch của hoạt động từ thiện tại Việt Nam, thông qua cơ chế
+                chân thật của hoạt động từ thiện tại Việt Nam, thông qua cơ chế
                 giám sát công khai từ cộng đồng.
               </p>
               <p className="mb-3">
@@ -127,6 +127,10 @@ const TermsPage = () => {
               <p className="mb-3">
                 3. Lợi dụng hoạt động thiện nguyện để vụ lợi.
               </p>
+              <p className="mb-3">
+                4. Việc sử dụng tài khoản thiện nguyện để thực hiện các hành vi
+                "vi phạm" sẽ bị xử lý theo "quy định của pháp luật".
+              </p>
             </div>
             {/* SECTION 4 */}
             <div>
@@ -134,7 +138,7 @@ const TermsPage = () => {
               <p className="mb-3">
                 Với mục tiêu trở thành mạng xã hội thiện nguyện đầu tiên tại
                 Việt Nam, xây dựng và phát triển lớn mạnh cộng đồng những cá
-                nhân, tổ chức theo đuổi sứ mệnh thiện nguyện minh bạch, vì sự
+                nhân, tổ chức theo đuổi sứ mệnh thiện nguyện trong sạch, vì sự
                 phát triển bền vững của cộng đồng, các mục tiêu kêu gọi gây quỹ
                 trên ứng dụng Thiện nguyện khuyến khích phù hợp với 17 mục tiêu
                 phát triển bền vững đã được Chính phủ ban hành tại Nghị quyết
@@ -230,7 +234,7 @@ const TermsPage = () => {
               <p className="mb-3">
                 2. Khi đăng ký tham gia dưới vai trò Người vận động, mỗi cá nhân
                 bắt buộc phải hoàn thành bản đăng ký tham gia cộng đồng thiện
-                nguyện minh bạch: họ tên, năm sinh, giới tính, ngành nghề, trình
+                nguyện xác thực: họ tên, năm sinh, giới tính, ngành nghề, trình
                 độ, số điện thoại và địa chỉ email, tên quỹ/câu lạc bộ/nhóm
                 thiện nguyện do cá nhân điều hành, tôn chỉ, mục đích, kinh
                 nghiệm, thời gian hoạt động thiện nguyện. . . Người vận động
@@ -269,10 +273,10 @@ const TermsPage = () => {
               </p>
               <p className="mb-3">
                 7. Người vận động cần mở Tài khoản xác thực và đồng ý cho VMO
-                công khai, minh bạch số dư, hoạt động chiến dịch, mọi giao dịch
-                thu, chi với cộng đồng thông qua ứng dụng VMO đồng thời đồng ý
-                với các Điều khoản Điều kiện của VMO liên quan đến Tài khoản
-                thiện nguyện đã được xác thực.
+                công khai số dư, hoạt động chiến dịch, mọi giao dịch thu, chi
+                với cộng đồng thông qua ứng dụng VMO đồng thời đồng ý với các
+                Điều khoản Điều kiện của VMO liên quan đến Tài khoản thiện
+                nguyện đã được xác thực.
               </p>
               <p className="mb-3">
                 8. Người vận động có trách nhiệm tiếp nhận, quản lý, phân phối
@@ -323,7 +327,7 @@ const TermsPage = () => {
                 đơn vị pháp nhân nào. Để tránh hiểu nhầm, VMO không phải chịu
                 bất cứ trách nhiệm nào hoặc không đưa ra bất kỳ cam kết nào về
                 tính chính xác hoặc mức độ hiệu quả về các chiến dịch gây quỹ
-                được tổ chức trên ứng dụng Thiện nguyện;
+                được tổ chức trên ứng dụng Thiện nguyện VMO;
               </p>
               <p className="mb-3">
                 2. Ứng Dụng là một nền tảng công nghệ cung cấp cho người dùng
@@ -347,9 +351,8 @@ const TermsPage = () => {
             <div>
               <p className="font-bold my-5">QUY ĐỊNH KHÁC</p>
               <p className="mb-3">
-                Nhằm hướng đến xây dựng cộng đồng thiện nguyện minh bạch đầu
-                tiên tại Việt Nam, người dùng cần tuân thủ các quy định khác như
-                sau:
+                Nhằm hướng đến xây dựng cộng đồng thiện nguyện tại Việt Nam,
+                người dùng cần tuân thủ các quy định khác như sau:
               </p>
               {/* SUB SECTION */}
               <div>
