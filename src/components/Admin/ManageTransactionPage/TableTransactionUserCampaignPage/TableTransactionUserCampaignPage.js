@@ -64,7 +64,7 @@ const [campaignName, setCampaignName] = useState("")
   const fetchData = async (cancelToken, pageSize, pageNo, campaignName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo,sortConfig, campaignName,  setLoading);
-      setData(result?.list || []);
+      setData(result?.transactionForStatementByAdmins || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

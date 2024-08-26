@@ -11,12 +11,12 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let campaigns = response?.data?.data?.list.map((campaign) => ({
+      let campaigns = response?.data?.data?.createCampaignRequests.map((campaign) => ({
         "Tên chiến dịch": campaign.campaign?.name,
         "Loại chiến dịch": (campaign.campaign?.campaignTier * 1) === 2 ? "Từng phần" : "Toàn phần",
-        "Tạo bởi tình nguyện viên": campaign.member?.lastName,
-        "Tạo bởi quản lý tổ chức": campaign.organizationManager?.lastName,
-        "Người duyệt": campaign.moderator?.lastName,
+        "Tạo bởi tình nguyện viên": campaign.member ? (campaign.member?.firstName + campaign.member?.lastName) : "Không có",
+        "Tạo bởi quản lý tổ chức": campaign.organizationManager ? (campaign.organizationManager?.firstName + campaign.organizationManager?.lastName) : "Không có",
+        "Người duyệt": campaign.moderator ? (campaign.moderator?.firstName + campaign.moderator?.lastName) : "Chưa có",
         "Ngày tạo": campaign?.createDate,
         "Ngày duyệt": campaign?.approvedDate,
         "Xác thực": campaign?.isApproved === true ? "Đồng ý" : "Từ chối",

@@ -11,11 +11,11 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response.data.data);
 
-      let organzationManagers = response.data.data.list.map((organzationManager) => ({
+      let organzationManagers = response.data.data.accounts.map((organzationManager) => ({
         "ID người dùng": organzationManager?.accountID,
         "Tên người dùng": organzationManager?.username,
         "Email": organzationManager?.email ,
-        "Vai trò": "organzationManager",
+        "Vai trò": "Quản lí tổ chức",
         "Ngày tạo": organzationManager?.createdAt,
         "Trạng thái": organzationManager?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
       }));
@@ -29,7 +29,6 @@ export async function exportToExcel() {
             { label: "Email", value: "Email" },
             { label: "Vai trò", value: "Vai trò" },
             { label: "Ngày tạo", value: "Ngày tạo" },
-            { label: "Ngày duyệt", value: "Ngày duyệt" },
             { label: "Trạng thái", value: "Trạng thái" },
           ],
           content: organzationManagers,

@@ -12,7 +12,7 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let listOrganizations = response?.data?.data?.list.map((organizations) => ({
+      let listOrganizations = response?.data?.data?.createOrganizationRequests.map((organizations) => ({
         "ID tổ chức": organizations?.organizationID,
         "Tên tổ chức": organizations?.organizationName,
         "Mã số thuế": organizations?.organizationTaxCode, 
@@ -22,7 +22,7 @@ export async function exportToExcel() {
        "Lĩnh vực hoạt động": organizations?.areaOfActivity ,
        "Thành tích": organizations?.achievementLink,
         "Đơn xác thực ủy quyền": organizations?.authorizationDocuments,
-        "Người duyệt": (organizations?.moderator?.firstName + " " + organizations?.moderator?.lastName),
+        "Người duyệt": organizations?.moderator ? (organizations?.moderator?.firstName + " " + organizations?.moderator?.lastName) : "Chưa có",
         "Ngày tạo": format(new Date(organizations?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(organizations?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Xác thực": organizations.isApproved === true ? "Đồng ý" : "Từ chối",

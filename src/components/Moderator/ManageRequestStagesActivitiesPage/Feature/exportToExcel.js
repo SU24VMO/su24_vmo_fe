@@ -1,18 +1,18 @@
 import xlsx from "json-as-xlsx";
 import { axiosPrivate } from "../../../../api/axiosInstance";
-import { GETALLREQUESTACTIVITIES } from "../../../../api/apiConstants";
+import { GETALLREQUESTSTAGEACTIVITIES } from "../../../../api/apiConstants";
 import { format } from "date-fns";
 
 export async function exportToExcel() {
   try {
     const response = await axiosPrivate.get(
-      GETALLREQUESTACTIVITIES
+      GETALLREQUESTSTAGEACTIVITIES
     );
 
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let listActivities = response?.data?.data?.list.map((activity) => ({
+      let listActivities = response?.data?.data?.createActivityRequests.map((activity) => ({
         "ID activity": activity.activity?.activityId,  
         "Tiêu đề": activity.activity?.title,
         "Nội dung": activity.activity?.content,
@@ -20,9 +20,9 @@ export async function exportToExcel() {
 
         // "Nội dung": activity.activity?.content,
 
-        "Tạo bởi tình nguyện viên": (activity?.member?.firstName + " " + activity?.member?.lastName),
-        "Tạo bởi quản lý tổ chức": (activity?.organizationManager?.firstName + " " + activity?.organizationManager?.lastName),
-        "Người duyệt": (activity?.moderator?.firstName + " " + activity?.moderator?.lastName),
+        "Tạo bởi tình nguyện viên": activity?.member ? (activity?.member?.firstName + " " + activity?.member?.lastName) : "Không có",
+        "Tạo bởi quản lý tổ chức": activity?.organizationManager ? (activity?.organizationManager?.firstName + " " + activity?.organizationManager?.lastName) : "Không có",
+        "Người duyệt": activity?.moderator ? (activity?.moderator?.firstName + " " + activity?.moderator?.lastName) : "Chưa có",
         "Ngày tạo": format(new Date(activity?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(activity?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày cập nhật": format(new Date(activity?.updateDate), 'dd/MM/yyyy, h:mm:ss a'),
@@ -50,7 +50,7 @@ export async function exportToExcel() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách yêu cầu tạo hoạt động",
+        fileName: "Bảng danh sách yêu cầu tạo hoạt động từng phần",
       };
 
       xlsx(columns, settings);

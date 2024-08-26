@@ -71,7 +71,7 @@ const TableRequestCampaigns = () => {
   const fetchData = async (cancelToken, pageSize, pageNo,campaignName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig,campaignName, setLoading);
-      setData(result?.list || []);
+      setData(result?.createCampaignRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

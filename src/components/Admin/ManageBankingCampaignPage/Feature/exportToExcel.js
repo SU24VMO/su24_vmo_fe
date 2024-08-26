@@ -15,9 +15,10 @@ export async function exportToExcel() {
 
   
     if (response.status === 200) {
-      console.log("Fetched data:", response?.data?.data);
+      console.log("Fetched data excel:", response?.data?.data);
 
-      let banking = response?.data?.data?.list.map((banking) => ({
+      let banking = response?.data?.data?.campaignWithBankingAccountResponses
+      .map((banking) => ({
         "ID chiến dịch": banking?.campaignID,
         "Tên chiến dịch": banking?.name,
         "Số tiền đã đạt": banking?.amount ? formatAmount(banking?.amount) : "" ,
@@ -50,7 +51,7 @@ export async function exportToExcel() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách sao kê giao dịch",
+        fileName: "Bảng danh sách sao kê giao dịch toàn phần",
       };
 
       xlsx(columns, settings);

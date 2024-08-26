@@ -12,7 +12,7 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let listVolunteers = response?.data?.data?.list.map((members) => ({
+      let listVolunteers = response?.data?.data?.createVolunteerRequests.map((members) => ({
         "ID thành viên": members?.memberID,
         "Tên thành viên": members?.memberName,
         "Email": members?.email,
@@ -24,7 +24,7 @@ export async function exportToExcel() {
         "Mô tả": members?.detailDescriptionLink,
         "Thành tích": members?.achievementLink,
         "Đơn xác thực ủy quyền": members?.authorizationDocuments,
-        "Người duyệt": (members?.moderator?.firstName + " " + members?.moderator?.lastName),
+        "Người duyệt": members?.moderator ? (members?.moderator?.firstName + " " + members?.moderator?.lastName) : "Chưa có",
         "Ngày tạo": format(new Date(members?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(members?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Xác thực": members.isApproved === true ? "Đồng ý" : "Từ chối",
@@ -55,7 +55,7 @@ export async function exportToExcel() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách yêu cầu tạo thành viên",
+        fileName: "Bảng danh sách yêu cầu tạo tình nguyện viên",
       };
 
       xlsx(columns, settings);

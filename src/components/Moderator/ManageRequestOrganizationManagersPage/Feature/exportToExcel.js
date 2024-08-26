@@ -12,14 +12,14 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let listOM = response?.data?.data?.list.map((organizationManager) => ({
+      let listOM = response?.data?.data?.createOrganizationManagerRequests.map((organizationManager) => ({
         "ID quản lí tổ chức": organizationManager.organizationManager?.organizationManagerID,
-        "Tên quản lí tổ chức": (organizationManager?.organizationManager?.firstName + " " + organizationManager?.organizationManager?.lastName),
+        "Tên quản lí tổ chức": organizationManager?.organizationManager ? (organizationManager?.organizationManager?.firstName + " " + organizationManager?.organizationManager?.lastName) : "Không có",
         "Số diện thoại": organizationManager?.phoneNumber,
         "Địa chỉ": organizationManager?.address,
         "Mã CCCD": organizationManager?.citizenIdentification,
         "Mã số thuế cá nhân": organizationManager?.personalTaxCode,
-        "Người duyệt": (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName),
+        "Người duyệt": organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có",
         "Ngày tạo": format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Xác thực": organizationManager.isApproved === true ? "Đồng ý" : "Từ chối",

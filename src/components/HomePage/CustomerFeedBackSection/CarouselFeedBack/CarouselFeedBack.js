@@ -17,28 +17,28 @@ const feedbackData = [
   {
     avatar: avatar_img2,
     name: "Dũng",
-    category: "Front End Dev",
+    category: "",
     message:
       "Câu hỏi là làm thế nào để mình có thể minh bạch hoàn toàn việc thu, chi trong quá trình gây quỹ. Nếu như mà mình chỉ sử dụng những trang cá nhân của mình thì chỉ giải quyết được vấn đề tạm thời thì rất là may là App Thiện Nguyện giải quyết được vấn đề đó.",
   },
   {
     avatar: avatar_img3,
     name: "Khoa",
-    category: "Front End Dev",
+    category: "",
     message:
       "Sự ra đời của App Thiện Nguyện minh bạch đã giúp tôi có nhiều thời gian hơn để giúp đỡ người bị nạn mà không phải lo lắng đến vấn đề báo cáo không minh bạch hay báo cáo chậm với các nhà hảo tâm, đây cũng là giải pháp chuẩn nhất cho đến thời điểm hiện tại để có thể áp dụng quản lý chất lượng các chương trình thiện nguyện.",
   },
   {
     avatar: avatar_img4,
     name: "Phát",
-    category: "Back End Dev",
+    category: "",
     message:
       "Giải pháp rất tuyệt vời giúp mình làm từ thiện dễ dàng chứng minh sự đúng đắn của mình, gia tăng sự minh bạch, tăng cường trách nhiệm giải trình, đưa cộng đồng vào cùng giám sát.",
   },
   {
     avatar: avatar_img1,
     name: "Trường",
-    category: "Project Manager",
+    category: "",
     message:
       "Đây là dự án đầu tiên tại Việt Nam sử dụng công nghệ trong việc thiện nguyện. Sự trợ giúp này được công khai, minh bạch hoàn toàn qua đó lan tỏa những điều tốt đẹp trong xã hội.",
   },

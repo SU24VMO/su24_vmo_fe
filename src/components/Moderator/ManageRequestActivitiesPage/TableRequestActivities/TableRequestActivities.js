@@ -66,7 +66,7 @@ const TableRequestActivities = () => {
   const fetchData = async (cancelToken, pageSize, pageNo, activityName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig, activityName, setLoading);
-      setData(result?.list || []);
+      setData(result?.createActivityRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

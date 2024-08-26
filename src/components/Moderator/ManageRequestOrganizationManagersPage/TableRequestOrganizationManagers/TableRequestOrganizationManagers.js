@@ -63,7 +63,7 @@ const TableRequestOrganizationManagers = () => {
   const fetchData = async (cancelToken, pageSize, pageNo,organizationManagerName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig,organizationManagerName, setLoading);
-      setData(result?.list || []);
+      setData(result?.createOrganizationManagerRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

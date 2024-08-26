@@ -17,7 +17,7 @@ export async function exportToExcelUserTransaction() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let banking = response?.data?.data?.list.map((banking) => ({
+      let banking = response?.data?.data?.transactionForStatementByAdmins.map((banking) => ({
         // "ID chiến dịch": banking?.campaignID,
     //     date: "Ngày",
     // time: "Giờ",
@@ -64,7 +64,7 @@ export async function exportToExcelUserTransaction() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách giao dịch quản lý hệ thống",
+        fileName: "Bảng danh sách giao dịch người dùng",
       };
 
       xlsx(columns, settings);

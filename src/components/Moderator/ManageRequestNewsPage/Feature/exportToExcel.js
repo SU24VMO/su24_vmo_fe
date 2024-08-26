@@ -12,12 +12,12 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let listNews = response?.data?.data?.list.map((news) => ({
+      let listNews = response?.data?.data?.createPostRequests.map((news) => ({
         "ID News": news.post?.postID,  
         "Tên bài viết": news.post?.title,
-        "Tạo bởi tình nguyện viên": (news?.member?.firstName + " " + news?.member?.lastName),
-        "Tạo bởi quản lý tổ chức": (news?.organizationManager?.firstName + " " + news?.organizationManager?.lastName),
-        "Người duyệt": (news?.moderator?.firstName + " " + news?.moderator?.lastName),
+        "Tạo bởi tình nguyện viên": news?.member ? (news?.member?.firstName + " " + news?.member?.lastName) : "Không có",
+        "Tạo bởi quản lý tổ chức": news?.organizationManager ? (news?.organizationManager?.firstName + " " + news?.organizationManager?.lastName) : "Không có",
+        "Người duyệt": news?.moderator ? (news?.moderator?.firstName + " " + news?.moderator?.lastName) : "Chưa có",
         "Ngày tạo": format(new Date(news?.createDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Ngày duyệt": format(new Date(news?.approvedDate), 'dd/MM/yyyy, h:mm:ss a'),
         "Xác thực": news.isApproved === true ? "Đồng ý" : "Từ chối",

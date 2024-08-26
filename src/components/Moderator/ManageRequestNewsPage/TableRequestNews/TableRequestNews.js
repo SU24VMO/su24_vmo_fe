@@ -17,6 +17,9 @@ async function getData(cancelToken, pageSize, pageNo, sortConfig,postTitle, setL
     });
 
     if (response.status === 200) {
+      console.log('====================================');
+      console.log(response.data.data);
+      console.log('====================================');
       setLoading(false);
       return response.data.data;
     }
@@ -60,8 +63,7 @@ const TableRequestNews = () => {
   const fetchData = async (cancelToken, pageSize, pageNo,postTitle, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig, postTitle, setLoading);
-      console.log(result?.list);
-      setData(result?.list || []);
+      setData(result?.createPostRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

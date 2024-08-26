@@ -67,7 +67,7 @@ const TableRequestVolunteers = () => {
     try {
 
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig, volunteerName, setLoading);
-      setData(result?.list || []);
+      setData(result?.createVolunteerRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

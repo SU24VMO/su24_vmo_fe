@@ -84,7 +84,7 @@ const TableBankingTier2CampaignPage = () => {
         campaignName,
         setLoading
       );
-      setData(result?.list || []);
+      setData(result?.campaignWithBankingAccountResponses || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

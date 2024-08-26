@@ -11,11 +11,11 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response.data.data);
 
-      let moderators = response.data.data.list.map((moderator) => ({
+      let moderators = response.data.data.accounts.map((moderator) => ({
         "ID người dùng": moderator?.accountID,
         "Tên người dùng": moderator?.username,
         "Email": moderator?.email ,
-        "Vai trò": "Moderator",
+        "Vai trò": "Người kiểm duyệt",
         "Ngày tạo": moderator?.createdAt,
         "Trạng thái": moderator?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
       }));
@@ -29,7 +29,6 @@ export async function exportToExcel() {
             { label: "Email", value: "Email" },
             { label: "Vai trò", value: "Vai trò" },
             { label: "Ngày tạo", value: "Ngày tạo" },
-            { label: "Ngày duyệt", value: "Ngày duyệt" },
             { label: "Trạng thái", value: "Trạng thái" },
           ],
           content: moderators,

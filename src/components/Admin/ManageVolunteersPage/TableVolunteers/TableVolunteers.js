@@ -64,7 +64,7 @@ const [name, setName] = useState("")
   const fetchData = async (cancelToken, pageSize, pageNo, name, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo,sortConfig, name,  setLoading);
-      setData(result?.list || []);
+      setData(result?.accounts || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

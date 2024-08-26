@@ -66,7 +66,7 @@ const TableRequestOrganizations = () => {
   const fetchData = async (cancelToken, pageSize, pageNo, organizationName, sortConfig) => {
     try {
       const result = await getData(cancelToken, pageSize, pageNo, sortConfig, organizationName, setLoading);
-      setData(result?.list || []);
+      setData(result?.createOrganizationRequests || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
     } catch (error) {

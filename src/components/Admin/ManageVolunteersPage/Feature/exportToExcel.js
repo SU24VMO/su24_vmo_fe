@@ -11,11 +11,11 @@ export async function exportToExcel() {
     if (response.status === 200) {
       console.log("Fetched data:", response.data.data);
 
-      let volunteers = response.data.data.list.map((volunteer) => ({
+      let volunteers = response.data.data.accounts.map((volunteer) => ({
         "ID người dùng": volunteer?.accountID,
         "Tên người dùng": volunteer?.username,
         "Email": volunteer?.email ,
-        "Vai trò": "Volunteer",
+        "Vai trò": "Tình nguyện viên",
         "Ngày tạo": volunteer?.createdAt,
         "Trạng thái": volunteer?.isActived === true ? "Đang hoạt động" : "Dừng hoạt động",
       }));
@@ -36,7 +36,7 @@ export async function exportToExcel() {
       ];
 
       let settings = {
-        fileName: "Bảng danh sách tài khoản thành viên",
+        fileName: "Bảng danh sách tài khoản tình nguyện viên",
       };
 
       xlsx(columns, settings);

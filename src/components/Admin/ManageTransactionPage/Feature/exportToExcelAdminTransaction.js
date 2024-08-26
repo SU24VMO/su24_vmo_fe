@@ -17,7 +17,7 @@ export async function exportToExcelAdminTransaction() {
     if (response.status === 200) {
       console.log("Fetched data:", response?.data?.data);
 
-      let banking = response?.data?.data?.list.map((banking) => ({
+      let banking = response?.data?.data?.transactionForStatementByAdmins.map((banking) => ({
         // "ID chiến dịch": banking?.campaignID,
     //     date: "Ngày",
     // time: "Giờ",

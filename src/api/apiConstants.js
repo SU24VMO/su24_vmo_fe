@@ -16,8 +16,6 @@ export const UPDATEAPPROVEACTIVITYREQUEST = "/api/create-activity-request/checki
 export const UPDATEAPPROVESTAGEACTIVITYREQUEST = "/api/create-activity-request/tier-ii/checking";
 export const UPDATESTATUSREPORTCAMPAIGN = "/api/campaign/update/report-campaign";
 export const UPDATEIMAGEBANKING = "/api/transaction/upload-transaction";
-
-
 export const CREATEEMAILREPORTCAMPAIGN = "/api/campaign/report-campaign/send-email";
 export const CREATEORGANIZATION = "/api/create-organization-request/create-new";
 export const CREATECAMPAIGN = "/api/create-campaign-request/create-new";
@@ -26,10 +24,6 @@ export const CREATEACTIVITYOFOM = '/api/create-activity-request/create-new'
 export const CREATESTAGEACTIVITYOFOM = '/api/create-activity-request/tier-ii/create-new'
 export const CREATESTAGEACTIVITYOFVOLUNTEER = '/api/create-activity-request/tier-ii/create-new'
 export const CREATEACCOUNTMODERATOR = '/api/account/create-new'
-
-
-
-export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
 
 
 
@@ -54,13 +48,12 @@ export const GETREQUESTORGANIZATIONTOUPDATE = '/api/create-organization-request/
 export const UPDATECAMPAIGNOM = '/api/create-campaign-request/update/campaign-information'
 export const UPDATECAMPAIGNTIER2OM = '/api/create-campaign-request/tier-ii/update/campaign-information'
 export const UPDATECAMPAIGNTIER2VOLUNTEER = '/api/create-campaign-request/tier-ii/update/campaign-information'
-
 export const UPDATENEWS = '/api/create-post-request/update/post-information'
 export const UPDATEACTIVITY = '/api/create-activity-request/update/activity-information'
 export const UPDATEORGANIZATION = '/api/create-organization-request/update/organization-information'
-
 export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/campaign-information'
 
+export const VERIFYORGANIZATIONMANAGER = "/api/create-organization-manager-request/create-new";
 
 // ------------------
 
@@ -68,20 +61,15 @@ export const UPDATECAMPAIGNVOLUNTEER = '/api/create-campaign-request/update/camp
 export const GETALLACTIVITIESVOLUNTEER = "/api/activity/create-by/volunteer/";
 export const GETALLCAMPAIGNBYVOLUNTEERID = "/api/campaign/create-by/volunteer/";
 export const GETALLCAMPAIGNTIER2BYVOLUNTEERID = "/api/campaign/tier-ii/create-by/volunteer/";
-
 export const GETALLNEWSBYVOLUNTEERID = "/api/post/all/volunteer/";   
 export const GETOPTIONPROCESSINGPHASEVOLUNTEER = '/api/processing-phase/create-by/volunteer'
-
 export const GETALLPHASE123BYVOLUNTEER = "/api/campaign/create-by/volunteer/"
-
-export const VERIFYVOLUNTEER = "/api/create-volunteer-request/create-new";
-
-
 
 export const PUTPROCESSINGPHASE = "/api/processing-phase/status/update";
 export const PUTSTATEMENTPHASE = "/api/statement-phase/status/update";
 export const POSTSTATEMENTFILE = "/api/statement-file/upload"
 
+export const VERIFYVOLUNTEER = "/api/create-volunteer-request/create-new";
 //admin
 
 export const GETALLACCOUNT = "/api/account/all"
@@ -93,7 +81,6 @@ export const GETALLTRANSACTIONRECENTLY = "/api/transaction/all/recently-transact
 export const GETALLAMOUNT = "/api/transaction/all/admin/total-amount"
 
 
-
 //enable disable
 
 export const ENABLEDISABLEACTIVITY = "/api/activity/update/status"
@@ -101,10 +88,7 @@ export const ENABLEDISABLECAMPAIGN = "/api/campaign/update/status"
 export const ENABLEDISABLEORGANIZATION = "/api/organization/update/status"
 export const ENABLEDISABLEPOST = "/api/post/update/status"
 
-
-
 export const EXTENDONATEPHASE = "/api/donate-phase/update/end-date";
-
 
 export const GETALLTYPECAMPAIGN = "/api/campaign-type/all";
 export const GETALLREQUESTCAMPAIGN = "/api/create-campaign-request/all/filter/campaign-name";
