@@ -19,35 +19,35 @@ const feedbackData = [
     name: "Dũng",
     category: "",
     message:
-      "Câu hỏi là làm thế nào để mình có thể minh bạch hoàn toàn việc thu, chi trong quá trình gây quỹ. Nếu như mà mình chỉ sử dụng những trang cá nhân của mình thì chỉ giải quyết được vấn đề tạm thời thì rất là may là App Thiện Nguyện giải quyết được vấn đề đó.",
+      "Ứng dụng thiện nguyện này mang đến cho người dùng một môi trường đáng tin cậy, nơi họ có thể cảm nhận rõ ràng về sự an tâm khi đóng góp. Mọi hoạt động, từ việc tiếp nhận quyên góp đến việc phân bổ nguồn lực, đều được hiển thị một cách rõ ràng, giúp người dùng hiểu rõ cách thức và tiến trình mà khoản đóng góp của mình đang trải qua.",
   },
   {
     avatar: avatar_img3,
     name: "Khoa",
     category: "",
     message:
-      "Sự ra đời của App Thiện Nguyện minh bạch đã giúp tôi có nhiều thời gian hơn để giúp đỡ người bị nạn mà không phải lo lắng đến vấn đề báo cáo không minh bạch hay báo cáo chậm với các nhà hảo tâm, đây cũng là giải pháp chuẩn nhất cho đến thời điểm hiện tại để có thể áp dụng quản lý chất lượng các chương trình thiện nguyện.",
+      "Ứng dụng cũng đặc biệt chú trọng đến việc cung cấp thông tin chi tiết về các dự án và hoạt động từ thiện. Người dùng có thể dễ dàng truy cập và xem xét các báo cáo tài chính, cũng như theo dõi hành trình của từng khoản quyên góp, từ lúc bắt đầu tiếp nhận cho đến khi nó được sử dụng để giúp đỡ những người có hoàn cảnh khó khăn. Những thông tin này không chỉ là minh chứng cho tính hiệu quả của các hoạt động từ thiện mà còn giúp người dùng cảm nhận được vai trò quan trọng của họ trong việc tạo ra sự thay đổi tích cực trong cộng đồng.",
   },
   {
     avatar: avatar_img4,
     name: "Phát",
     category: "",
     message:
-      "Giải pháp rất tuyệt vời giúp mình làm từ thiện dễ dàng chứng minh sự đúng đắn của mình, gia tăng sự minh bạch, tăng cường trách nhiệm giải trình, đưa cộng đồng vào cùng giám sát.",
+      "Giải pháp rất tuyệt vời giúp mình làm từ thiện dễ dàng chứng minh sự đúng đắn của mình, gia tăng tính cụ thể mục tiêu, tăng cường trách nhiệm giải trình, đưa cộng đồng vào cùng giám sát.",
   },
   {
     avatar: avatar_img1,
     name: "Trường",
     category: "",
     message:
-      "Đây là dự án đầu tiên tại Việt Nam sử dụng công nghệ trong việc thiện nguyện. Sự trợ giúp này được công khai, minh bạch hoàn toàn qua đó lan tỏa những điều tốt đẹp trong xã hội.",
+      "Đây là dự án tại Việt Nam sử dụng công nghệ trong việc thiện nguyện. Sự trợ giúp này được công khai, rõ ràng hoàn toàn qua đó lan tỏa những điều tốt đẹp trong xã hội.",
   },
   {
     avatar: avatar_img5,
     name: "Dương Mentor",
     category: "Giảng Viên Hướng Dẫn",
     message:
-      "App Thiện Nguyện với cách sử dụng rất là thuận lợi và mọi thông tin rất là minh bạch thì đã đáp ứng được những mong mỏi của người làm công tác nhân đạo hiện nay.",
+      "App Thiện Nguyện với cách sử dụng rất là thuận lợi và mọi thông tin rất là rõ ràng thì đã đáp ứng được những mong mỏi của người làm công tác nhân đạo hiện nay.",
   },
   // ... add more feedback objects here
 ];
