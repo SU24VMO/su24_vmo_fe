@@ -152,7 +152,7 @@ const Notification = () => {
                 !dataLoaded && "disabled"
               }`}
               onClick={updateAllNotificationsToSeen}
-              disabled={!dataLoaded} // Disable nút này khi dataLoaded là false
+              disabled={!dataLoaded || unreadCount === 0} // Disable nút này khi dataLoaded là false hoặc không có notification nào chưa đọc
             >
               Đánh dấu đã đọc
             </Button>
