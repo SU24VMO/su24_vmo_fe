@@ -283,7 +283,7 @@ export default function SignUpVerifyOrganizeForm() {
 
             <div>
               <span class="block mb-2 text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify ">
-                ⚫ Thành viên/tổ chức cam kết sử dụng VMO cho mục đích *
+                ⚫ Tình nguyện viên/tổ chức cam kết sử dụng VMO cho mục đích *
               </span>
               <ul className="flex flex-col gap-4 mb-2  text-sm mobile:text-base text-justify">
                 <li>- Vận động, tiếp nhận các nguồn đóng góp tự nguyện</li>
@@ -299,12 +299,12 @@ export default function SignUpVerifyOrganizeForm() {
               </ul>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                ⚫ Thành viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
+                ⚫ Tình nguyện viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
                 tất cả sau khi chiến dịch kết thúc
               </span>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                ⚫ Thành viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
+                ⚫ Tình nguyện viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
                 để nắm rõ *
               </span>
               <ul className="flex flex-col gap-4 mb-2 text-sm mobile:text-base text-justify">
@@ -326,7 +326,7 @@ export default function SignUpVerifyOrganizeForm() {
               </ul>
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
                 Mọi hành vi thiện nguyện trái với mục tiêu đạo đức hoặc vi phạm
-                pháp luật phải chịu trách nhiệm thành viên/tổ chức có:
+                pháp luật phải chịu trách nhiệm tình nguyện viên/tổ chức có:
               </span>
               <div class="flex items-start mb-5">
                 <div class="flex items-center h-5">
@@ -347,8 +347,8 @@ export default function SignUpVerifyOrganizeForm() {
                 </label>
               </div>
               <span class="block mb-2 text-sm font-medium text-red-600 dark:text-white text-justify">
-                **Lưu ý: Mọi thông tin thành viên/tổ chức điền sẽ là bằng chứng cho mọi hành vi
-                phạm pháp của thành viên/tổ chức trước pháp luật.
+                **Lưu ý: Mọi thông tin tình nguyện viên/tổ chức điền sẽ là bằng chứng cho mọi hành vi
+                phạm pháp của tình nguyện viên/tổ chức trước pháp luật.
               </span>
             </div>
 

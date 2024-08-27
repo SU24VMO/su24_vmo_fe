@@ -223,14 +223,14 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="user">Thành viên</Label>
+                <Label htmlFor="member">Tình nguyện viên</Label>
                 <div className="flex items-center space-x-2">
                   <Input
-                    id="user"
-                    defaultValue={posts?.user ? (posts.user?.firstName + " " + posts.user?.lastName) : "Không có"}
+                    id="member"
+                    defaultValue={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"}
                     disabled
                   />
-                  <CopyButton code={posts?.user ? (posts.user?.firstName + " " + posts.user?.lastName) : "Không có"} />
+                  <CopyButton code={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"} />
                 </div>
               </div>
             </div>

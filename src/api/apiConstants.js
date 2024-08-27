@@ -145,7 +145,7 @@ export const GET_CAMPAIGN_TYPE = "https://vmo.azurewebsites.net/api/campaign-typ
 export const GET_ALL_AMOUNT_OF_DONATE_PHASE = "https://vmo.azurewebsites.net/api/donate-phase/all/amount";
 
 //post 
-export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all";
+export const GET_ALL_POST = "https://vmo.azurewebsites.net/api/post/all/active";
 export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
 
 //transaction
