@@ -275,7 +275,14 @@ export default function ViewProfileVolunteerPage() {
             <TabsTrigger value="campaigns">
               Chiến dịch
               {data.campaigns ? (
-                <span className="ml-1"> ({data.campaigns.length})</span>
+                <span className="ml-1">
+                  (
+                  {
+                    data.campaigns.filter((campaign) => campaign.isActive)
+                      .length
+                  }
+                  )
+                </span>
               ) : (
                 ""
               )}
