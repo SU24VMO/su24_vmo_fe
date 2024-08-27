@@ -104,6 +104,11 @@ const Term = () => {
                 thực hiện các công tác thiện nguyện như đã đề ra mục tiêu ban
                 đầu.
               </p>
+              <p className="mb-3">
+                5. Khi người dùng đồng ý quyên góp cho chiến dịch và nếu chiến
+                dịch đó có xảy ra sự cố không mong muốn thì số tiền quyên góp đó
+                có thể sử dụng cho chiến dịch khác trên nền tảng.
+              </p>
             </div>
             {/* SECTION 3 */}
             <div>
