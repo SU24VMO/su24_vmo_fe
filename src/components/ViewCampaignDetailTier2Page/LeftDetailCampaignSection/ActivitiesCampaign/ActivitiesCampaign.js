@@ -28,7 +28,7 @@ const ActivitiesCampaign = ({ processingPhases }) => {
   // Giá trị ban đầu cho mỗi key là link của ảnh đầu tiên trong mảng `activityImages` của `activity` đó,
   // hoặc là `img_demo` nếu `activityImages[0]?.link` không tồn tại (sử dụng optional chaining `?.` và logical OR `||`).
   const [selectedImages, setSelectedImages] = React.useState({});
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState({});
 
   const handleDownload = (url) => {
     window.open(url, "_blank");
@@ -60,6 +60,20 @@ const ActivitiesCampaign = ({ processingPhases }) => {
     setSelectedImages((prevImages) => ({
       ...prevImages,
       [activityId]: imageLink,
+    }));
+  };
+
+  const handleMouseEnter = (activityId) => {
+    setIsHovered((prevHovered) => ({
+      ...prevHovered,
+      [activityId]: true,
+    }));
+  };
+
+  const handleMouseLeave = (activityId) => {
+    setIsHovered((prevHovered) => ({
+      ...prevHovered,
+      [activityId]: false,
     }));
   };
 
@@ -151,15 +165,19 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                                 <AspectRatio ratio={16 / 9}>
                                   <div
                                     className="relative w-full h-full"
-                                    onMouseEnter={() => setIsHovered(true)}
-                                    onMouseLeave={() => setIsHovered(false)}
+                                    onMouseEnter={() =>
+                                      handleMouseEnter(activity.activityId)
+                                    }
+                                    onMouseLeave={() =>
+                                      handleMouseLeave(activity.activityId)
+                                    }
                                   >
                                     <img
                                       src={selectedImages[activity.activityId]}
                                       alt="Activity Image"
                                       className="w-full h-full rounded-md object-cover"
                                     />
-                                    {isHovered && (
+                                    {isHovered[activity.activityId] && (
                                       <button
                                         className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-md"
                                         onClick={() =>
