@@ -322,15 +322,25 @@ export default function UpdateCampaignVolunteerTier2Page() {
             }
 
         } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Tạo chiến dịch thất bại !",
-                description: "Vui lòng kiểm tra lại thông tin Tạo chiến dịch !",
-                action: <ToastAction altText="undo">Ẩn</ToastAction>,
-            });
+            if (error.response && error.response.data) {
+                const serverMessage = error?.response?.data?.message;
+                toast({
+                    variant: "destructive",
+                    title: "Đã xảy ra lỗi!",
+                    description: serverMessage,
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Đã xảy ra lỗi!",
+                    description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+                    action: <ToastAction altText="undo">Ẩn</ToastAction>,
+                });
+            }
         } finally {
             setLoading(false)
-            setSubmitting(false);
+            setSubmitting(false)
 
         }
     }

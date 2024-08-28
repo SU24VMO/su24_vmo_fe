@@ -76,7 +76,7 @@ export default function CreateActivityVolunteerPage() {
                 });
             } 
 
-        } catch (error) {
+        }catch (error) {
             if (error.response && error.response.data) {
                 const serverMessage = error?.response?.data?.message;
                 toast({

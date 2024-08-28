@@ -9,113 +9,118 @@ import { AuthContext } from "../../../context/AuthContext";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function CreateOrganizeForm() {
   const { toast } = useToast();
-  const { user } = useContext(AuthContext)
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [fileImage, setFileImage] = useState();
 
-  const [fileImagelogo, setFileImageLogo] = useState()
+  const [fileImagelogo, setFileImageLogo] = useState();
 
   const [fileAuthorImage, setFileAuthorImage] = useState();
 
-  const [authorizationDocumentsImage, setAuthorizationDocumentsImage] = useState()
-
+  const [authorizationDocumentsImage, setAuthorizationDocumentsImage] =
+    useState();
 
   // Xử lí ảnh logo
   function handleLogoChange(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
     setFileImage(e.target.files[0]);
-    setFileImageLogo(URL.createObjectURL(e.target.files[0]))
-    setFieldValue('Logo', e.target.files[0]);
+    setFileImageLogo(URL.createObjectURL(e.target.files[0]));
+    setFieldValue("Logo", e.target.files[0]);
   }
 
   function removeLogo(e, setFieldValue) {
-    setFileImageLogo('');
+    setFileImageLogo("");
     setFieldValue("Logo", null);
-
   }
   // Xử lí ảnh ủy quyền tổ chức cho thành viên
 
   function handleAuthorizationDocumentsImage(e, setFieldValue) {
     console.log("File ảnh đại diện vừa chọn: ", e.target.files);
     setFileAuthorImage(e.target.files[0]);
-    setAuthorizationDocumentsImage(URL.createObjectURL(e.target.files[0]))
-    setFieldValue('AuthorizationDocuments', e.target.files[0]);
+    setAuthorizationDocumentsImage(URL.createObjectURL(e.target.files[0]));
+    setFieldValue("AuthorizationDocuments", e.target.files[0]);
   }
 
   function removeAuthorizationDocumentsImage(e, setFieldValue) {
-    setAuthorizationDocumentsImage('');
+    setAuthorizationDocumentsImage("");
     setFieldValue("AuthorizationDocuments", null);
-
   }
 
-  const createOrganization = async (data, resetForm, setFieldValue, setSubmitting) => {
+  const createOrganization = async (
+    data,
+    resetForm,
+    setFieldValue,
+    setSubmitting
+  ) => {
     try {
-
       const formData = new FormData();
-      formData.append('OrganizationName', data.OrganizationName);
-      formData.append('OrganizationManagerEmail', data.OrganizationManagerEmail);
-      formData.append('OrganizationTaxCode', data.OrganizationTaxCode);
-      formData.append('FoundingDate', data.FoundingDate);
-      formData.append('SocialMediaLink', data.SocialMediaLink);
-      formData.append('AreaOfActivity', data.AreaOfActivity);
-      formData.append('Address', data.Address);
-      formData.append('PlanInformation', data.PlanInformation);
-      formData.append('AchievementLink', data.AchievementLink);
+      formData.append("OrganizationName", data.OrganizationName);
+      formData.append(
+        "OrganizationManagerEmail",
+        data.OrganizationManagerEmail
+      );
+      formData.append("OrganizationTaxCode", data.OrganizationTaxCode);
+      formData.append("FoundingDate", data.FoundingDate);
+      formData.append("SocialMediaLink", data.SocialMediaLink);
+      formData.append("AreaOfActivity", data.AreaOfActivity);
+      formData.append("Address", data.Address);
+      formData.append("PlanInformation", data.PlanInformation);
+      formData.append("AchievementLink", data.AchievementLink);
       // formData.append('AuthorizationDocuments', data.AuthorizationDocuments);
-      formData.append('AuthorizationDocuments', fileAuthorImage);
+      formData.append("AuthorizationDocuments", fileAuthorImage);
 
-      formData.append('Logo', fileImage)
+      formData.append("Logo", fileImage);
 
-      setLoading(true)
+      setLoading(true);
 
-      const response = await axiosPrivate.post(CREATEORGANIZATION +
-        `?organizationManagerId=${user.organization_manager_id}`, formData,
+      const response = await axiosPrivate.post(
+        CREATEORGANIZATION +
+          `?organizationManagerId=${user.organization_manager_id}`,
+        formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            "Content-Type": "multipart/form-data",
+          },
         }
-
       );
       if (response.status === 200) {
-        resetForm()
-        setFileImage(null)
-        setFieldValue('Logo', null);
-        setFieldValue('FoundingDate', null);
-        setFieldValue('AuthorizationDocuments', null);
-        navigate("/manage/organize/allOrganizations")
-
+        resetForm();
+        setFileImage(null);
+        setFieldValue("Logo", null);
+        setFieldValue("FoundingDate", null);
+        setFieldValue("AuthorizationDocuments", null);
+        navigate("/manage/organize/allOrganizations");
 
         toast({
           title: "Tạo tổ chức thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } else {
-
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const serverMessage = error?.response?.data?.message;
         toast({
           variant: "destructive",
-          title: "Tạo tổ chức thất bại !",
-          description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
       }
-    } catch (error) {
-
-      toast({
-        variant: "destructive",
-        title: "Tạo tổ chức thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin Tạo tổ chức !",
-        action: <ToastAction altText="undo">Ẩn</ToastAction>,
-      });
     } finally {
-      setLoading(false)
-      setSubmitting(false)
+      setLoading(false);
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
@@ -136,7 +141,7 @@ export default function CreateOrganizeForm() {
         validate={(values) => {
           const errors = {};
           var today = new Date();
-          const cleanedTaxCode = values.OrganizationTaxCode.replace(/\s+/g, '');
+          const cleanedTaxCode = values.OrganizationTaxCode.replace(/\s+/g, "");
           // OrganizationName  validation
           if (!values.OrganizationName) {
             errors.OrganizationName = "Không được để trống!";
@@ -146,8 +151,8 @@ export default function CreateOrganizeForm() {
             errors.FoundingDate = "Không được để trống!";
           } else {
             if (new Date(values.FoundingDate) > today) {
-              errors.FoundingDate = "Ngày thành lập không được diễn ra ở tương lai!";
-
+              errors.FoundingDate =
+                "Ngày thành lập không được diễn ra ở tương lai!";
             }
           }
 
@@ -168,7 +173,10 @@ export default function CreateOrganizeForm() {
           // OrganizationTaxCode validation
           if (!values.OrganizationTaxCode) {
             errors.OrganizationTaxCode = "Không được để trống!";
-          } else if (!/^\d{10}-\d{3}$/.test(cleanedTaxCode) && !/^\d{10}$/.test(cleanedTaxCode)) {
+          } else if (
+            !/^\d{10}-\d{3}$/.test(cleanedTaxCode) &&
+            !/^\d{10}$/.test(cleanedTaxCode)
+          ) {
             errors.OrganizationTaxCode = "Số thuế không hợp lệ";
           }
 
@@ -184,8 +192,7 @@ export default function CreateOrganizeForm() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          createOrganization(values, resetForm, setFieldValue, setSubmitting)
-
+          createOrganization(values, resetForm, setFieldValue, setSubmitting);
         }}
       >
         {({
@@ -198,12 +205,10 @@ export default function CreateOrganizeForm() {
           isSubmitting,
           setFieldValue,
         }) => (
-
           <form
             onSubmit={handleSubmit}
             class=" w-3/4 laptop:max-w-4xl mx-auto my-8"
           >
-
             <div class="mb-5 ">
               <label
                 for="OrganizationName "
@@ -223,7 +228,9 @@ export default function CreateOrganizeForm() {
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.OrganizationName && touched.OrganizationName && errors.OrganizationName}
+                {errors.OrganizationName &&
+                  touched.OrganizationName &&
+                  errors.OrganizationName}
               </p>
             </div>
             <div class="mb-5 ">
@@ -245,7 +252,9 @@ export default function CreateOrganizeForm() {
               />
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.OrganizationManagerEmail && touched.OrganizationManagerEmail && errors.OrganizationManagerEmail}
+                {errors.OrganizationManagerEmail &&
+                  touched.OrganizationManagerEmail &&
+                  errors.OrganizationManagerEmail}
               </p>
             </div>
             <div class="mb-5">
@@ -290,7 +299,9 @@ export default function CreateOrganizeForm() {
               </div>
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 {" "}
-                {errors.FoundingDate && touched.FoundingDate && errors.FoundingDate}
+                {errors.FoundingDate &&
+                  touched.FoundingDate &&
+                  errors.FoundingDate}
               </p>
             </div>
             <div class="mb-5">
@@ -298,7 +309,8 @@ export default function CreateOrganizeForm() {
                 for="SocialMediaLink"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                SocialMediaLink, liên kết mạng xã hội hoặc trang tin điện tử của tổ chức
+                SocialMediaLink, liên kết mạng xã hội hoặc trang tin điện tử của
+                tổ chức
               </label>
               <input
                 type="text"
@@ -427,34 +439,46 @@ export default function CreateOrganizeForm() {
                   >
                     Giấy ủy quyền của tổ chức *
                   </label>
-                  {authorizationDocumentsImage ? (<div className=" flex flex-col justify-center items-center">
-                    <img className="mb-6 w-1/3 h-fit rounded-xl shadow-md"
-                      id="image"
-
-                      value={authorizationDocumentsImage}
-                      src={authorizationDocumentsImage} alt="author_image" />
-                    <button type="button"
-                      onClick={(e) => { removeAuthorizationDocumentsImage(e, setFieldValue) }}
-                      class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
-
-                  </div>) : (<div>
-
-                    <label
-                      className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      htmlFor="AuthorizationDocuments"
-                    >
-                      <span className="ml-2">Chọn ảnh</span>
-                    </label>
-                    <input
-                      className="hidden"
-                      aria-describedby="AuthorizationDocuments"
-                      id="AuthorizationDocuments"
-                      name="AuthorizationDocuments"
-                      onChange={(e) => { handleAuthorizationDocumentsImage(e, setFieldValue) }}
-                      type="file"
-                      accept="image/png, image/jpeg, image/jpg"
-                    />
-                  </div>)}
+                  {authorizationDocumentsImage ? (
+                    <div className=" flex flex-col justify-center items-center">
+                      <img
+                        className="mb-6 w-1/3 h-fit rounded-xl shadow-md"
+                        id="image"
+                        value={authorizationDocumentsImage}
+                        src={authorizationDocumentsImage}
+                        alt="author_image"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          removeAuthorizationDocumentsImage(e, setFieldValue);
+                        }}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                      >
+                        Xóa ảnh
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <label
+                        className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        htmlFor="AuthorizationDocuments"
+                      >
+                        <span className="ml-2">Chọn ảnh</span>
+                      </label>
+                      <input
+                        className="hidden"
+                        aria-describedby="AuthorizationDocuments"
+                        id="AuthorizationDocuments"
+                        name="AuthorizationDocuments"
+                        onChange={(e) => {
+                          handleAuthorizationDocumentsImage(e, setFieldValue);
+                        }}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
+                    </div>
+                  )}
                 </div>
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                   {" "}
@@ -473,45 +497,53 @@ export default function CreateOrganizeForm() {
                   >
                     Vui lòng chọn ảnh Logo tổ chức(công ty) *
                   </label>
-                  {fileImagelogo ? (<div className=" flex flex-col justify-center items-center">
-                    <img className="mb-6 w-52 h-52  laptop:w-40 laptop:h-40 rounded-xl shadow-md"
-                      id="image"
-
-                      value={fileImagelogo}
-                      src={fileImagelogo} alt="qr-code" />
-                    <button type="button"
-                      onClick={(e) => { removeLogo(e, setFieldValue) }}
-                      class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Xóa ảnh</button>
-
-                  </div>) : (<div>
-
-                    <label
-                      className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      htmlFor="Logo"
-                    >
-                      <span className="ml-2">Chọn ảnh</span>
-                    </label>
-                    <input
-                      className="hidden"
-                      aria-describedby="Logo"
-                      id="Logo"
-                      name="Logo"
-                      onChange={(e) => { handleLogoChange(e, setFieldValue) }}
-                      type="file"
-                      accept="image/png, image/jpeg, image/jpg"
-                    />
-                  </div>)}
+                  {fileImagelogo ? (
+                    <div className=" flex flex-col justify-center items-center">
+                      <img
+                        className="mb-6 w-52 h-52  laptop:w-40 laptop:h-40 rounded-xl shadow-md"
+                        id="image"
+                        value={fileImagelogo}
+                        src={fileImagelogo}
+                        alt="qr-code"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          removeLogo(e, setFieldValue);
+                        }}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                      >
+                        Xóa ảnh
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <label
+                        className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        htmlFor="Logo"
+                      >
+                        <span className="ml-2">Chọn ảnh</span>
+                      </label>
+                      <input
+                        className="hidden"
+                        aria-describedby="Logo"
+                        id="Logo"
+                        name="Logo"
+                        onChange={(e) => {
+                          handleLogoChange(e, setFieldValue);
+                        }}
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
+                    </div>
+                  )}
                 </div>
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                   {" "}
-                  {errors.Logo &&
-                    touched.Logo &&
-                    errors.Logo}
+                  {errors.Logo && touched.Logo && errors.Logo}
                 </p>
               </div>
             </div>
-
-
 
             <div class="mb-5 bg-vmo p-5 rounded-xl">
               <span className="text-white text-sm mobile:text-xl font-semibold text-justify">
@@ -537,13 +569,13 @@ export default function CreateOrganizeForm() {
               </ul>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                ⚫ Tình nguyện viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin hình ảnh
-                tất cả sau khi chiến dịch kết thúc
+                ⚫ Tình nguyện viên/tổ chức phải đảm bảo sao kê đầy đủ thông tin
+                hình ảnh tất cả sau khi chiến dịch kết thúc
               </span>
 
               <span class="block mb-2  text-sx mobile:text-lg font-bold text-gray-900 dark:text-white text-justify">
-                ⚫ Tình nguyện viên/tổ chức vui lòng đọc các quy định về pháp luật dưới đây
-                để nắm rõ *
+                ⚫ Tình nguyện viên/tổ chức vui lòng đọc các quy định về pháp
+                luật dưới đây để nắm rõ *
               </span>
               <ul className="flex flex-col gap-4 mb-2 text-sm mobile:text-base text-justify">
                 <li>
@@ -573,7 +605,12 @@ export default function CreateOrganizeForm() {
                     type="checkbox"
                     name="isAcceptTermOfUse"
                     checked={values.isAcceptTermOfUse}
-                    onChange={() => setFieldValue("isAcceptTermOfUse", !values.isAcceptTermOfUse)}
+                    onChange={() =>
+                      setFieldValue(
+                        "isAcceptTermOfUse",
+                        !values.isAcceptTermOfUse
+                      )
+                    }
                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                   />
                 </div>
@@ -585,15 +622,14 @@ export default function CreateOrganizeForm() {
                 </label>
               </div>
               <span class="block mb-2 text-sm font-medium text-red-600 dark:text-white text-justify">
-                **Lưu ý: Mọi thông tin tình nguyện viên/tổ chức điền sẽ là bằng chứng cho mọi hành vi
-                phạm pháp của tình nguyện viên/tổ chức trước pháp luật.
+                **Lưu ý: Mọi thông tin tình nguyện viên/tổ chức điền sẽ là bằng
+                chứng cho mọi hành vi phạm pháp của tình nguyện viên/tổ chức
+                trước pháp luật.
               </span>
             </div>
 
-
             <div className="flex justify-end">
               {values.isAcceptTermOfUse ? (
-
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -607,9 +643,6 @@ export default function CreateOrganizeForm() {
                     "Gửi"
                   )}
                 </button>
-
-
-
               ) : (
                 <button
                   type="button"
