@@ -31,7 +31,7 @@ const CustomStepperCampaignDetail = ({ data }) => {
         : "Chưa bắt đầu giai đoạn",
     },
     {
-      label: data?.processingPhases[0]?.name,
+      label: "Giai đoạn hoạt động thiện nguyện",
       description: data?.processingPhases[0]?.startDate
         ? `Ngày bắt đầu: ${format(
             new Date(data?.processingPhases[0]?.startDate),
