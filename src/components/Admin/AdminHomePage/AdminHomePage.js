@@ -6,12 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../ui/card";
-import {
-  Building2,
-  HeartHandshake,
-  User,
-  Users,
-} from "lucide-react";
+import { Building2, HeartHandshake, User, Users } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -24,11 +19,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import { Helmet } from "react-helmet";
 import { axiosPrivate } from "../../../api/axiosInstance";
-import { GETALLACCOUNT, GETALLAMOUNT, GETALLCAMPAIGN, GETALLORGANIZATION, GETALLTRANSACTIONRECENTLY, GETALLVOLUNTEER, GETNUMBERACCOUNT } from "../../../api/apiConstants";
+import {
+  GETALLACCOUNT,
+  GETALLAMOUNT,
+  GETALLCAMPAIGN,
+  GETALLORGANIZATION,
+  GETALLTRANSACTIONRECENTLY,
+  GETALLVOLUNTEER,
+  GETNUMBERACCOUNT,
+} from "../../../api/apiConstants";
 import { toast } from "../../ui/use-toast";
 import { ToastAction } from "../../ui/toast";
 import SkeletonHomePage from "./SkeletonHomePage/SkeletonHomePage";
 import axios from "axios";
+import { Badge } from "../../ui/badge";
 
 const AdminHomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -40,18 +44,14 @@ const AdminHomePage = () => {
   const [transactionRecently, setTransactionRecently] = useState([]);
   const [numberAmount, setNumberAmount] = useState();
 
-
-
   async function getNumberAccount(controller) {
-
     try {
       const response = await axiosPrivate.get(GETNUMBERACCOUNT, {
-        signal: controller.signal
+        signal: controller.signal,
       });
       if (response.status === 200) {
         setNumberAccount(response?.data?.data?.totalItem);
         setDataAccount(response?.data?.data?.list.slice(0, 7));
-
       } else {
         toast({
           variant: "destructive",
@@ -63,28 +63,24 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
-
+  }
 
   async function getAllAccount(controller) {
-
     try {
       const response = await axiosPrivate.get(GETALLACCOUNT, {
-        signal: controller.signal
+        signal: controller.signal,
       });
       if (response.status === 200) {
-
         setDataAccount(response?.data?.data?.list.slice(0, 7));
-
       } else {
         toast({
           variant: "destructive",
@@ -96,26 +92,25 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
+  }
 
   async function getAllCampaign(controller) {
     try {
       const response = await axiosPrivate.get(GETALLCAMPAIGN, {
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       if (response.status === 200) {
         setNumberCampaign(response?.data?.data?.totalItem);
-
       } else {
         toast({
           variant: "destructive",
@@ -127,26 +122,25 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
+  }
 
   async function getAllOrganization(controller) {
     try {
       const response = await axiosPrivate.get(GETALLORGANIZATION, {
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       if (response.status === 200) {
         setNumberOrganization(response?.data?.data?.totalItem);
-
       } else {
         toast({
           variant: "destructive",
@@ -158,26 +152,28 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
+  }
 
   async function getAllTransaction(controller) {
     try {
-      const response = await axiosPrivate.get(GETALLTRANSACTIONRECENTLY + `?pageSize=5`, {
-        signal: controller.signal
-      });
+      const response = await axiosPrivate.get(
+        GETALLTRANSACTIONRECENTLY + `?pageSize=5`,
+        {
+          signal: controller.signal,
+        }
+      );
 
       if (response.status === 200) {
         setTransactionRecently(response?.data?.data?.list);
-
       } else {
         toast({
           variant: "destructive",
@@ -189,26 +185,25 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
+  }
 
   async function getAllVolunteer(controller) {
     try {
       const response = await axiosPrivate.get(GETALLVOLUNTEER, {
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       if (response.status === 200) {
         setNumberVolunteer(response?.data?.data?.totalItem);
-
       } else {
         toast({
           variant: "destructive",
@@ -220,27 +215,24 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
-
+  }
 
   async function getNumberAmount(controller) {
-
     try {
       const response = await axiosPrivate.get(GETALLAMOUNT, {
-        signal: controller.signal
+        signal: controller.signal,
       });
       if (response.status === 200) {
         setNumberAmount(response?.data?.data);
-
       } else {
         toast({
           variant: "destructive",
@@ -252,16 +244,16 @@ const AdminHomePage = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
-       
+
         toast({
           variant: "destructive",
           title: "Đã xảy ra lỗi!",
           description: serverMessage,
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     }
-  };
+  }
 
   //useEffect để dữ liệu refresh lại
 
@@ -270,17 +262,16 @@ const AdminHomePage = () => {
 
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
     //Xác nhận component này mounted thì bắt đầu gọi fetch
 
     let isMounted = true;
 
     const fetchData = async () => {
-
       try {
         if (isMounted) setLoading(true);
-        //bắt đầu tạo promise duy nhất 
+        //bắt đầu tạo promise duy nhất
         await Promise.allSettled([
           getNumberAccount(controller),
           getAllOrganization(controller),
@@ -288,16 +279,12 @@ const AdminHomePage = () => {
           getAllCampaign(controller),
           getAllTransaction(controller),
           getAllVolunteer(controller),
-          getNumberAmount(controller)
+          getNumberAmount(controller),
         ]);
-
-
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
-
         if (isMounted) setLoading(false);
-
       }
     };
     fetchData();
@@ -305,24 +292,23 @@ const AdminHomePage = () => {
       isMounted = false;
       controller.abort();
     };
-
   }, []);
 
-  useEffect(() => {
-
-  }, [loading])
+  useEffect(() => {}, [loading]);
 
   const formatAmount = (value) => {
-    if (!value) return '';
+    if (!value) return "";
     const stringValue = value.toString();
-    const cleanValue = stringValue.replace(/\D/g, '');
-    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const cleanValue = stringValue.replace(/\D/g, "");
+    const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return formattedValue + " VND";
   };
 
   return (
     <>
-      {loading ? (<SkeletonHomePage />) : (
+      {loading ? (
+        <SkeletonHomePage />
+      ) : (
         <>
           <Helmet>
             <title>Trang chủ hệ thống • VMO</title>
@@ -333,56 +319,65 @@ const AdminHomePage = () => {
           </Helmet>
           <span className="font-bold text-2xl">Thống kê số liệu</span>
           {/*Thống kê header*/}
-          <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4" >
+          <div className="grid gap-4 mobile:grid-cols-2 mobile:gap-8 laptop:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Số lượng người dùng</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Số lượng người dùng
+                </CardTitle>
                 <div className="w-fit">
                   <User className="w-fit" />
-
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold animate-zoomInOut">{numberAccount}</div>
-
+                <div className="text-2xl font-bold animate-zoomInOut">
+                  {numberAccount}
+                </div>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-1">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Số lượng chiến dịch</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Số lượng chiến dịch
+                </CardTitle>
                 <div className="w-fit">
                   <HeartHandshake className="w-fit" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold animate-zoomInOut">{numberCampaign}</div>
-
+                <div className="text-2xl font-bold animate-zoomInOut">
+                  {numberCampaign}
+                </div>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Số lượng tổ chức</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Số lượng tổ chức
+                </CardTitle>
                 <div className="w-fit">
                   <Building2 className="w-fit" />
-
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold animate-zoomInOut">{numberOrganization}</div>
-
+                <div className="text-2xl font-bold animate-zoomInOut">
+                  {numberOrganization}
+                </div>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-01-chunk-3">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Số lượng tình nguyện viên</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Số lượng tình nguyện viên
+                </CardTitle>
                 <div className="w-fit">
                   <Users className="w-fit" />
-
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold animate-zoomInOut">{numberVolunteer}</div>
-
+                <div className="text-2xl font-bold animate-zoomInOut">
+                  {numberVolunteer}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -392,42 +387,82 @@ const AdminHomePage = () => {
             <Card className="laptop:col-span-2" x-chunk="dashboard-01-chunk-4">
               <CardHeader className="flex flex-row items-center">
                 <div className="grid gap-2">
-                  <CardTitle>Giao dịch</CardTitle>
-                  <CardDescription>
-                    Giao dịch gần đây
-                  </CardDescription>
+                  <CardTitle>Giao dịch gần đây</CardTitle>
+                  <CardDescription>5 giao dịch gần đây nhất</CardDescription>
                 </div>
                 <div className="grid gap-2 ml-auto">
                   <CardTitle>Tổng tiền hệ thống</CardTitle>
                   <CardDescription>
-                    <span className="text-xl font-semibold"> {numberAmount !== 0 ? (formatAmount(numberAmount)) : ("0 VND")}</span>
+                    <span className="text-xl font-semibold">
+                      {" "}
+                      {numberAmount !== 0
+                        ? formatAmount(numberAmount)
+                        : "0 VND"}
+                    </span>
                   </CardDescription>
                 </div>
-
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
-                    <TableRow >
+                    <TableRow>
                       <TableHead>Người dùng</TableHead>
                       <TableHead className="text-right">Số tiền</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {transactionRecently && transactionRecently.map(transaction => (
-                      <TableRow>
-                        <TableCell>
-                          <div className="font-medium animate-fadeInLeft">{transaction.payerName}</div>
-                          <div className="hidden text-sm text-muted-foreground mobile:inline animate-fadeInLeft">
-                            {transaction.donatationPeriod}
-                          </div>
-                        </TableCell>
+                    {transactionRecently &&
+                      transactionRecently.map((transaction) => (
+                        <TableRow>
+                          <TableCell>
+                            <div className="font-medium animate-fadeInLeft">
+                              {transaction.payerName}
+                            </div>
+                            <div className="hidden text-sm text-muted-foreground mobile:inline animate-fadeInLeft">
+                              {transaction.donatationPeriod}
+                            </div>
+                            <div>
+                              {transaction?.payerName === "ADMIN" &&
+                              transaction?.campaignTier === 1 ? (
+                                <Badge variant={"destructive"} className="animate-fadeInLeft">
+                                  Giải ngân - chiến dịch giải ngân toàn phần
+                                </Badge>
+                              ) : transaction?.payerName === "ADMIN" &&
+                                transaction?.campaignTier === 2 ? (
+                                <Badge variant={"destructive"} className="animate-fadeInLeft">
+                                  Giải ngân - chiến dịch giải ngân từng phần
+                                </Badge>
+                              ) : (
+                                <Badge variant={"success"} className="animate-fadeInLeft">Người ủng hộ</Badge>
+                              )}
+                            </div>
+                          </TableCell>
 
-                        <TableCell className="text-right animate-fadeInLeft">{transaction?.amount ? (formatAmount(transaction?.amount)) : ("0 VND")}</TableCell>
-                      </TableRow>
-
-                    ))}
-
+                          <TableCell className="text-right animate-fadeInLeft">
+                            {transaction?.transactionType === 0 ? (
+                              <>
+                                {transaction?.amount ? (
+                                  <span className="font-bold text-red-500">
+                                    -{formatAmount(transaction?.amount)}
+                                  </span>
+                                ) : (
+                                  "0 VND"
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {transaction?.amount ? (
+                                  <span className="font-bold text-green-500">
+                                    +{formatAmount(transaction?.amount)}
+                                  </span>
+                                ) : (
+                                  "0 VND"
+                                )}
+                              </>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -436,28 +471,36 @@ const AdminHomePage = () => {
             <Card x-chunk="dashboard-01-chunk-5">
               <CardHeader>
                 <CardTitle>Tài khoản</CardTitle>
-                <CardDescription>
-                  Tài khoản gần đây
-                </CardDescription>
+                <CardDescription>Tài khoản gần đây</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-8">
-
-                {dataAccount && dataAccount.map(data => (
-                  <div key={data.accountID} className="flex items-center gap-4 animate-slide-in-left">
-                    <Avatar className="hidden h-9 w-9 mobile:flex">
-                      <AvatarImage src={data.avatar !== ("string" || "") ? data.avatar : ""} alt="Avatar" />
-                      <AvatarFallback className="capitalize">{data.username[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="grid gap-1">
-                      <span className="text-sm font-medium leading-none">
-                        {data.username}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {data.email}
-                      </span>
+                {dataAccount &&
+                  dataAccount.map((data) => (
+                    <div
+                      key={data.accountID}
+                      className="flex items-center gap-4 animate-slide-in-left"
+                    >
+                      <Avatar className="hidden h-9 w-9 mobile:flex">
+                        <AvatarImage
+                          src={
+                            data.avatar !== ("string" || "") ? data.avatar : ""
+                          }
+                          alt="Avatar"
+                        />
+                        <AvatarFallback className="capitalize">
+                          {data.username[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid gap-1">
+                        <span className="text-sm font-medium leading-none">
+                          {data.username}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {data.email}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </CardContent>
             </Card>
           </div>
