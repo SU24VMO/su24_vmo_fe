@@ -176,6 +176,8 @@ const AdminHomePage = () => {
       });
 
       if (response.status === 200) {
+        console.log(response?.data?.data?.list);
+        
         setTransactionRecently(response?.data?.data?.list);
 
       } else {

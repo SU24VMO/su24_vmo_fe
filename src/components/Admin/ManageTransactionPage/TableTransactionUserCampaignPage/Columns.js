@@ -76,8 +76,8 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const receiveAccount = row.original?.receiveAccount;
-      return <div className="line-clamp-1">{receiveAccount}</div>;
+      // const receiveAccount = row.original?.receiveAccount;
+      return <div className="line-clamp-1">admin</div>;
     },
   },
 
@@ -117,6 +117,33 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       return <div className="line-clamp-1">{platform}</div>;
     },
   },
+  {
+    accessorKey: "spending",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        // onClick={() => onSort("spending")}
+      >
+        Giao dịch loại
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      // const spending = row.getValue("spending");
+      return (
+        <div className="w-max">
+          {/* {spending === 1 ? (
+            <Badge variant="success">Thành công</Badge>
+          ) : (
+            <Badge variant="destructive">Không thành công</Badge>
+          )} */}
+            <Badge variant="success">Thu tiền</Badge>
+
+        </div>
+      );
+    },
+  },
 
   {
     accessorKey: "amount",
@@ -137,7 +164,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         currency: "VND",
       }).format(amount);
 
-      return <div className="text-start font-medium">{formatted}</div>;
+      return <div className="text-start font-medium text-green-600">{"+" + formatted}</div>;
     },
   },
 
