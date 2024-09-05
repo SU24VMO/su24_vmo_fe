@@ -42,10 +42,10 @@ const CarouselCampaigns = () => {
             fetchedData
           );
         }
-        toast({
-          title: "Tải dữ liệu các các chiến dịch khác thành công!",
-          action: <ToastAction altText="undo">Ẩn</ToastAction>,
-        });
+        // toast({
+        //   title: "Tải dữ liệu các các chiến dịch khác thành công!",
+        //   action: <ToastAction altText="undo">Ẩn</ToastAction>,
+        // });
         setDataLoaded(true);
       }
     } catch (error) {

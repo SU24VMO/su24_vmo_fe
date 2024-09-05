@@ -52,7 +52,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         variant="ghost"
         onClick={() => onSort("SendAccount")}
       >
-        Tài khoản gửi
+        Người gửi
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -61,25 +61,45 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       return <div className="line-clamp-1">{sendAccount}</div>;
     },
   },
+  
   {
-    accessorKey: "receiveAccount",
+    accessorKey: "treasurer",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => onSort("ReceiveAccount")}
+          onClick={() => onSort("Treasurer")}
         >
-          Tài khoản nhận
+          Thủ quỹ
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      // const receiveAccount = row.original?.receiveAccount;
+      // const treasurer = row.original?.treasurer;
       return <div className="line-clamp-1">admin</div>;
     },
   },
+
+  {
+    accessorKey: "receiveAccount",
+    header: ({ column }) => (
+      <Button
+        className="px-0 py-0"
+        variant="ghost"
+        onClick={() => onSort("ReceiveAccount")}
+      >
+        Người nhận
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const receiveAccount = row.original?.receiveAccount;
+      return <div className="line-clamp-1">{receiveAccount}</div>;
+    },
+  },
+ 
 
   {
     accessorKey: "campaignName",

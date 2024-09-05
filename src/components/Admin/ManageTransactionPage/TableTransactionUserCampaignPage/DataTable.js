@@ -69,9 +69,10 @@ export function DataTable({
   const columnHeaders = {
     date: "Ngày",
     time: "Giờ",
-    sendAccount: "Tài khoản gửi",
-    receiveAccount: "Tài khoản nhận",
-    campaignName: "Tên chiến dịch",
+    sendAccount: "Người gửi",
+    treasurer: "Thủ quỹ",
+    receiveAccount: "Người nhận",
+    campaignName: "Chiến dịch",
     platform: "Nền tảng",
     amount: "Số tiền",
     status: "Trạng thái",

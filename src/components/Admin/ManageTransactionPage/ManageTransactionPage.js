@@ -13,9 +13,9 @@ const ManageTransactionPage = () => {
           content="Mô hình tình nguyện cho người có hoàn cảnh khó khăn"
         />
       </Helmet>
-      <p className="font-bold text-2xl">Quản lý danh sách giao dịch người dùng</p>
+      <p className="font-bold text-2xl">Quản lý danh sách giao dịch quyên góp</p>
       <TableTransactionUserCampaignPage />
-      <p className="font-bold text-2xl">Quản lý danh sách giao dịch quản lý hệ thống</p>
+      <p className="font-bold text-2xl">Quản lý danh sách giao dịch giải ngân</p>
       <TableTransactionAdminCampaignPage/>
 
     </>
