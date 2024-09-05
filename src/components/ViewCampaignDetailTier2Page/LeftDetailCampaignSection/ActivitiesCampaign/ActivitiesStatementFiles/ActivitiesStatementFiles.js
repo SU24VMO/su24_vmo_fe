@@ -12,7 +12,7 @@ const ActivitiesStatementFiles = ({ activity }) => {
           <TabsTrigger value="activitiesStatemenFiles">Sao kê</TabsTrigger>
         </TabsList>
       </Tabs>
-      <ScrollArea className="h-full w-full rounded-md border p-4">
+      <ScrollArea className="h-[400px] w-full rounded-md border p-4">
         <div className="flex flex-col items-center justify-center space-y-4">
           {activity.activityStatementFiles &&
           activity.activityStatementFiles.length > 0 ? (
