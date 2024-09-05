@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
 import { ArrowUpRight } from "lucide-react";
-import { Button } from "../../../ui/button";
+import { Button } from "../../../../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,9 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../ui/dialog";
-import { ScrollArea } from "../../../ui/scroll-area";
-import img_placeholder from "../../../../assets/images/placeholder.svg";
+} from "../../../../ui/dialog";
+import { ScrollArea } from "../../../../ui/scroll-area";
+import img_placeholder from "../../../../../assets/images/placeholder.svg";
 
 const StatementCard = ({ statementImage, statementCreatedDate }) => {
   return (
@@ -22,10 +22,10 @@ const StatementCard = ({ statementImage, statementCreatedDate }) => {
         <div className="relative overflow-hidden rounded-lg shadow-lg group hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer">
           <img
             src={statementImage ? statementImage : img_placeholder}
-            width={600}
-            height={400}
+            width={300}
+            height={200}
             alt="Statement 1"
-            className="object-cover w-full h-64"
+            className="rounded-lg shadow-md"
           />
           <div className="p-4 bg-background flex items-center justify-between">
             <p className="text-sm text-muted-foreground">

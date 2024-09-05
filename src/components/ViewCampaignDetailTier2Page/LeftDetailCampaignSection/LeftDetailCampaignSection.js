@@ -52,14 +52,14 @@ const LeftDetailCampaignSection = ({ data }) => {
                 <TabsTrigger value="activities">
                   Tiến trình ({data.processingPhases.length})
                 </TabsTrigger>
-                <TabsTrigger
+                {/* <TabsTrigger
                   value="statement"
                   disabled={
                     !data.adminTransactions || !data.adminTransactions[0]
                   }
                 >
                   Giao dịch từ hệ thống ({data.adminTransactions.length})
-                </TabsTrigger>
+                </TabsTrigger> */}
               </TabsList>
             </div>
             <ScrollBar orientation="horizontal" />
@@ -73,7 +73,7 @@ const LeftDetailCampaignSection = ({ data }) => {
           <TabsContent value="activities">
             <ActivitiesCampaign processingPhases={processingPhases} />
           </TabsContent>
-          <TabsContent value="statement">
+          {/* <TabsContent value="statement">
             <AdminTransaction
               campaignCreator={
                 data.organization
@@ -84,7 +84,7 @@ const LeftDetailCampaignSection = ({ data }) => {
               }
               statementFiles={adminTransactions}
             />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </div>
     </div>

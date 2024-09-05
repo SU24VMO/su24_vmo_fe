@@ -1,25 +1,13 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import { AspectRatio } from "../../../ui/aspect-ratio";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../../ui/card";
 import img_demo from "../../../../assets/images/placeholder.svg";
 import { format } from "date-fns";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../../../ui/carousel";
-import { Step, Stepper, useStepper } from "../../../ui/stepper";
+import { Step, Stepper } from "../../../ui/stepper";
 import { Badge } from "../../../ui/badge";
-import StatementCard from "./StatementCard";
+import { Separator } from "../../../ui/separator";
+import ActivitiesImages from "./ActivitiesImages/ActivitiesImages";
+import ActivitiesStatementFiles from "./ActivitiesStatementFiles/ActivitiesStatementFiles";
+import { Button } from "../../../ui/button";
+import AdminTransactions from "./AdminTransactions/AdminTransactions";
 
 const ActivitiesCampaign = ({ processingPhases }) => {
   // Khởi tạo state với mỗi activityId là key và link ảnh đầu tiên là giá trị
@@ -29,6 +17,7 @@ const ActivitiesCampaign = ({ processingPhases }) => {
   // hoặc là `img_demo` nếu `activityImages[0]?.link` không tồn tại (sử dụng optional chaining `?.` và logical OR `||`).
   const [selectedImages, setSelectedImages] = React.useState({});
   const [isHovered, setIsHovered] = React.useState({});
+  const [showAllActivities, setShowAllActivities] = React.useState(false);
 
   const handleDownload = (url) => {
     window.open(url, "_blank");
@@ -119,151 +108,55 @@ const ActivitiesCampaign = ({ processingPhases }) => {
             label={steps[index].label}
             description={steps[index].description}
           >
-            <div className="flex flex-col space-y-4">
-              {phase.isEnd === false ? (
-                <Badge className={"w-fit"} variant="secondary">
-                  Đang xử lý
-                </Badge>
-              ) : (
-                <Badge className={"w-fit"} variant="success">
-                  Đã xử lý
-                </Badge>
-              )}
-              {phase.activities.length === 0 ? (
-                <p className="text-muted-foreground">Không có hoạt động nào</p>
-              ) : (
-                phase.activities.map((activity) => (
-                  <Card
-                    key={activity.activityId}
-                    className="flex flex-col space-y-4 max-w-lg"
-                  >
-                    {activity.isActive ? (
-                      <>
-                        <CardHeader>
-                          <CardTitle>{activity.title}</CardTitle>
-                          <CardDescription>
-                            Đã đăng vào{" "}
-                            {format(
-                              new Date(activity.createDate),
-                              "yyyy-MM-dd HH:mm a"
-                            )}
-                            <div
-                              className="text-black my-3"
-                              dangerouslySetInnerHTML={{
-                                __html: activity.content.replace(
-                                  /(?:\r\n|\r|\n)/g,
-                                  "<br>"
-                                ),
-                              }}
+            {phase.isEnd === false ? (
+              <Badge className={"w-fit"} variant="secondary">
+                Đang xử lý
+              </Badge>
+            ) : (
+              <Badge className={"w-fit"} variant="success">
+                Đã xử lý
+              </Badge>
+            )}
+            <AdminTransactions adminTransactions={phase.adminTransactions} />
+            <div className="flex flex-col space-x-4 mt-3">
+              <div className="flex flex-col items-center space-y-4">
+                {phase.activities.length === 0 ? (
+                  <p className="text-muted-foreground">
+                    Không có hoạt động nào
+                  </p>
+                ) : (
+                  <>
+                    {phase.activities
+                      .slice(0, showAllActivities ? phase.activities.length : 2)
+                      .map((activity) => (
+                        <React.Fragment key={activity.activityId}>
+                          <div className="flex space-y-4 tablet:space-y-0 tablet:flex-row flex-col space-x-4">
+                            <ActivitiesImages
+                              activity={activity}
+                              selectedImages={selectedImages}
+                              handleMouseEnter={handleMouseEnter}
+                              handleMouseLeave={handleMouseLeave}
+                              handleDownload={handleDownload}
+                              handleSelectImage={handleSelectImage}
+                              isHovered={isHovered}
                             />
-                          </CardDescription>
-                        </CardHeader>
-                        <div className="">
-                          <div className="">
-                            <CardContent>
-                              <div className="flex flex-col items-center justify-center space-y-3">
-                                <AspectRatio ratio={16 / 9}>
-                                  <div
-                                    className="relative w-full h-full"
-                                    onMouseEnter={() =>
-                                      handleMouseEnter(activity.activityId)
-                                    }
-                                    onMouseLeave={() =>
-                                      handleMouseLeave(activity.activityId)
-                                    }
-                                  >
-                                    <img
-                                      src={selectedImages[activity.activityId]}
-                                      alt="Activity Image"
-                                      className="w-full h-full rounded-md object-cover"
-                                    />
-                                    {isHovered[activity.activityId] && (
-                                      <button
-                                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-md"
-                                        onClick={() =>
-                                          handleDownload(
-                                            selectedImages[activity.activityId]
-                                          )
-                                        }
-                                      >
-                                        Tải về
-                                      </button>
-                                    )}
-                                  </div>
-                                </AspectRatio>
-                                <div className="flex flex-col items-center justify-center">
-                                  <Carousel>
-                                    <CarouselContent className="-ml-1 max-w-[378px] transactionTable:max-w-full">
-                                      {activity.activityImages.map(
-                                        (img, imgIndex) => (
-                                          <CarouselItem
-                                            key={img.activityImageId}
-                                            onClick={() =>
-                                              handleSelectImage(
-                                                activity.activityId,
-                                                img.link
-                                              )
-                                            }
-                                            className="basis-1/3"
-                                          >
-                                            <div
-                                              className={`w-full h-full overflow-hidden ${
-                                                selectedImages[
-                                                  activity.activityId
-                                                ] === img.link
-                                                  ? "border-2 border-green-400 border-solid rounded-md"
-                                                  : ""
-                                              }`}
-                                            >
-                                              <img
-                                                src={img.link}
-                                                alt={`Activity Image ${
-                                                  imgIndex + 1
-                                                }`}
-                                                className="w-full h-full rounded-md object-cover"
-                                              />
-                                            </div>
-                                          </CarouselItem>
-                                        )
-                                      )}
-                                    </CarouselContent>
-                                    <div className="flex items-center justify-center mt-3">
-                                      <CarouselPrevious className="static transform-none" />
-                                      <CarouselNext className="static transform-none" />
-                                    </div>
-                                  </Carousel>
-                                </div>
-                              </div>
-                            </CardContent>
+                            <ActivitiesStatementFiles activity={activity} />
                           </div>
-                        </div>
-                      </>
-                    ) : (
-                      <CardContent>
-                        <div className="text-center text-gray-500 mt-5">
-                          Hoạt động đang chờ được duyệt
-                        </div>
-                      </CardContent>
+                          <Separator className="w-full" />
+                        </React.Fragment>
+                      ))}
+                    {phase.activities.length > 2 && !showAllActivities && (
+                      <Button
+                        className="mt-4"
+                        variant="green_theme_primary"
+                        onClick={() => setShowAllActivities(true)}
+                      >
+                        Xem thêm
+                      </Button>
                     )}
-                  </Card>
-                ))
-              )}
-              {phase.processingPhaseStatementFiles.length === 0 ? (
-                <p className="text-muted-foreground">Chưa có sao kê nào</p>
-              ) : (
-                <div className="flex flex-col space-y-4">
-                  <p className="text-black font-bold">Sao kê</p>
-                  <div className="grid mobile:grid-cols-3 gap-6">
-                    {phase.processingPhaseStatementFiles.map((file, index) => (
-                      <StatementCard
-                        key={index}
-                        statementImage={file.link}
-                        statementCreatedDate={file.createDate}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+                  </>
+                )}
+              </div>
             </div>
           </Step>
         ))}
