@@ -66,6 +66,11 @@ const ManageVolunteerPhase1Table = () => {
 
     }
   };
+  const onExtend = React.useCallback((row) => {
+    // Implement Extend logic here.
+    setIsDialogOpen(true); // Mở dialog
+    setSelectedRow(row);
+  }, []);
 
   const onSort = (property) => {
     setSortConfig((prevConfig) => ({
@@ -122,7 +127,7 @@ const ManageVolunteerPhase1Table = () => {
           />
         </div>
         <DataTable
-          columns={columns({ onSort })}
+          columns={columns({ onSort, onExtend })}
           setCampaignName={setCampaignName}
           data={data}
           loading={loading}

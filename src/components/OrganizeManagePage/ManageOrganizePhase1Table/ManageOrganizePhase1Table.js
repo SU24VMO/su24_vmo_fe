@@ -128,7 +128,7 @@ const ManageOrganizePhase1Table = () => {
           />
         </div>
         <DataTable
-          columns={columns({ onSort, onExtend })}
+          columns={columns({ onSort, onExtend  })}
           setCampaignName={setCampaignName}
           data={data}
           loading={loading}

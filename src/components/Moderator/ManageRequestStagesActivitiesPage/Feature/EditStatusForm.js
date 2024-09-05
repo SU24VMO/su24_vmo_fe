@@ -42,7 +42,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
   const [loading, setLoading] = useState(false)
 
 
-  const [isExpanded, setIsExpanded] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false);
   const content = activities?.activity?.content ? (activities?.activity?.content?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có"
 
 
@@ -67,24 +67,24 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
           title: "Cập nhật thành công",
           action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-      } 
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: serverMessage,
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    } else {
+      } else {
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    }
+      }
     } finally {
       onOpenChange(false);
       setLoading(false)
@@ -114,17 +114,38 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
       isApproved: activities ? activities.isApproved : false,
     });
   }, [activities]);
- // Handle switch change
- const handleSwitchChange = (isApproved) => {
-  formik.setFieldValue("isApproved", isApproved);
-};
+  // Handle switch change
+  const handleSwitchChange = (isApproved) => {
+    formik.setFieldValue("isApproved", isApproved);
+  };
 
 
   //handle caroulsel
 
   const [api, setApi] = React.useState()
+  const [apiActivity, setApiActivity] = React.useState()
+
   const [current, setCurrent] = React.useState(0);
+  const [currentActivity, setCurrentActivity] = React.useState(0);
+
   const [count, setCount] = React.useState(0);
+  const [countActivity, setCountActivity] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!apiActivity) {
+      return
+    }
+
+    setCountActivity(apiActivity.scrollSnapList().length)
+
+    setCurrentActivity(apiActivity.selectedScrollSnap() + 1)
+
+
+    apiActivity.on("select", () => {
+      setCurrentActivity(apiActivity.selectedScrollSnap() + 1)
+
+    })
+  }, [apiActivity])
 
   React.useEffect(() => {
     if (!api) {
@@ -132,12 +153,18 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
     }
 
     setCount(api.scrollSnapList().length)
+
     setCurrent(api.selectedScrollSnap() + 1)
+
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1)
+
     })
   }, [api])
+
+
+
 
 
   const toggleDescription = () => {
@@ -148,7 +175,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
         <DialogHeader>
           <DialogTitle>Chi tiết hoạt động</DialogTitle>
-          
+
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của hoạt động!
           </DialogDescription>
@@ -202,7 +229,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <Label htmlFor="content">Nội dung </Label>
                 <div className="flex items-center space-x-2 text-sm">
 
-                <div variant={"outline"}>
+                  <div variant={"outline"}>
                     <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
                     <Button variant="link" onClick={toggleDescription}>
                       {isExpanded ? "Thu gọn" : "Xem thêm"}
@@ -214,32 +241,9 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
             {/* Show ảnh bài đăng*/}
             <div className="flex">
               <div className="grid flex-1 gap-2">
-                <Label htmlFor="link">Ảnh</Label>
-                {/* <div className="max-w-40">
-                  <img
-                    src={activity ? activity.link : ""}
-                    alt="link"
-                    width="160"
-                    height="160"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {activity && activity.link && (
-                  <a href={activity.link} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )} */}
-
-
-
+                <Label htmlFor="link">Ảnh hoạt động</Label>
                 <div className="">
-                  <Carousel setApi={setApi} className="w-full">
+                  <Carousel setApi={setApiActivity} className="w-full">
                     <CarouselContent>
                       {activities?.activity?.activityImages.map((image, index) => (
                         <CarouselItem key={index}>
@@ -257,7 +261,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                     <CarouselNext />
                   </Carousel>
                   <div className="py-2 text-center text-sm text-muted-foreground">
-                    Ảnh {current} trên {count}
+                    Ảnh {currentActivity} trên {countActivity}
                   </div>
                 </div>
 
@@ -267,8 +271,8 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
 
 
 
-                {/* Show sao kê bài đăng*/}
-                <div className="flex">
+            {/* Show sao kê bài đăng*/}
+            <div className="flex">
               <div className="grid flex-1 gap-2">
                 <Label htmlFor="link">Ảnh sao kê</Label>
                 <div className="">
@@ -296,7 +300,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
 
 
               </div>
-            </div>       
+            </div>
 
 
 
@@ -346,27 +350,27 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
             </div>
 
             {activities && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(true)}
-                  />
-                  <Label htmlFor="isApproved">Chấp thuận</Label>
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(true)}
+                    />
+                    <Label htmlFor="isApproved">Chấp thuận</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="isApproved"
+                      checked={!formik.values.isApproved}
+                      onCheckedChange={() => handleSwitchChange(false)}
+                    />
+                    <Label htmlFor="isApproved">Từ chối</Label>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="isApproved"
-                    checked={!formik.values.isApproved}
-                    onCheckedChange={() => handleSwitchChange(false)}
-                  />
-                  <Label htmlFor="isApproved">Từ chối</Label>
-                </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
           </div>
         </ScrollArea>
         <DialogFooter>
