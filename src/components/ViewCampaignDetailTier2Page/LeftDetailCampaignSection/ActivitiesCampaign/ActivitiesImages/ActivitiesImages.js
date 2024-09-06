@@ -26,7 +26,28 @@ const ActivitiesImages = ({
   handleDownload,
   handleSelectImage,
   isHovered,
+  cardRef,
+  onCardHeightChange,
 }) => {
+  const resizeObserverRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (cardRef.current) {
+      resizeObserverRef.current = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          onCardHeightChange(entry.contentRect.height);
+        }
+      });
+      resizeObserverRef.current.observe(cardRef.current);
+    }
+
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+      }
+    };
+  }, [cardRef, onCardHeightChange]);
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Tabs defaultValue="activities" className="flex items-center">
@@ -34,7 +55,7 @@ const ActivitiesImages = ({
           <TabsTrigger value="activities">Hoạt động</TabsTrigger>
         </TabsList>
       </Tabs>
-      <Card className="flex flex-col space-y-4 max-w-lg">
+      <Card className="flex flex-col space-y-4 max-w-lg" ref={cardRef}>
         {activity.isActive ? (
           <>
             <CardHeader>
@@ -45,10 +66,7 @@ const ActivitiesImages = ({
                 <div
                   className="text-black my-3"
                   dangerouslySetInnerHTML={{
-                    __html: activity.content.replace(
-                      /(?:\r\n|\r|\n)/g,
-                      "<br>"
-                    ),
+                    __html: activity.content.replace(/(?:\r\n|\r|\n)/g, "<br>"),
                   }}
                 />
               </CardDescription>
@@ -63,8 +81,12 @@ const ActivitiesImages = ({
                     >
                       <div
                         className="relative w-full h-full"
-                        onMouseEnter={() => handleMouseEnter(activity.activityId)}
-                        onMouseLeave={() => handleMouseLeave(activity.activityId)}
+                        onMouseEnter={() =>
+                          handleMouseEnter(activity.activityId)
+                        }
+                        onMouseLeave={() =>
+                          handleMouseLeave(activity.activityId)
+                        }
                       >
                         <img
                           src={selectedImages[activity.activityId]}
@@ -75,7 +97,9 @@ const ActivitiesImages = ({
                           <button
                             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-md"
                             onClick={() =>
-                              handleDownload(selectedImages[activity.activityId])
+                              handleDownload(
+                                selectedImages[activity.activityId]
+                              )
                             }
                           >
                             Tải về
@@ -96,7 +120,8 @@ const ActivitiesImages = ({
                             >
                               <div
                                 className={`w-full h-full overflow-hidden ${
-                                  selectedImages[activity.activityId] === img.link
+                                  selectedImages[activity.activityId] ===
+                                  img.link
                                     ? "border-2 border-green-400 border-solid rounded-md"
                                     : ""
                                 }`}

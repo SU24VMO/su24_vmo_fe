@@ -18,6 +18,8 @@ const ActivitiesCampaign = ({ processingPhases }) => {
   const [selectedImages, setSelectedImages] = React.useState({});
   const [isHovered, setIsHovered] = React.useState({});
   const [showAllActivities, setShowAllActivities] = React.useState(false);
+  const cardRef = React.useRef(null);
+  const [cardHeight, setCardHeight] = React.useState(0);
 
   const handleDownload = (url) => {
     window.open(url, "_blank");
@@ -43,6 +45,12 @@ const ActivitiesCampaign = ({ processingPhases }) => {
     }, {});
     setSelectedImages(initialSelectedImages);
   }, [processingPhases]);
+
+  React.useEffect(() => {
+    if (cardRef.current) {
+      setCardHeight(cardRef.current.clientHeight);
+    }
+  }, [selectedImages, showAllActivities]);
 
   // Hàm để cập nhật ảnh được chọn
   const handleSelectImage = (activityId, imageLink) => {
@@ -131,16 +139,25 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                       .map((activity) => (
                         <React.Fragment key={activity.activityId}>
                           <div className="flex space-y-4 tablet:space-y-0 tablet:flex-row flex-col space-x-4">
-                            <ActivitiesImages
-                              activity={activity}
-                              selectedImages={selectedImages}
-                              handleMouseEnter={handleMouseEnter}
-                              handleMouseLeave={handleMouseLeave}
-                              handleDownload={handleDownload}
-                              handleSelectImage={handleSelectImage}
-                              isHovered={isHovered}
-                            />
-                            <ActivitiesStatementFiles activity={activity} />
+                            <div className="flex-1">
+                              <ActivitiesImages
+                                activity={activity}
+                                selectedImages={selectedImages}
+                                handleMouseEnter={handleMouseEnter}
+                                handleMouseLeave={handleMouseLeave}
+                                handleDownload={handleDownload}
+                                handleSelectImage={handleSelectImage}
+                                isHovered={isHovered}
+                                cardRef={cardRef}
+                                onCardHeightChange={setCardHeight}
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <ActivitiesStatementFiles
+                                activity={activity}
+                                cardHeight={cardHeight}
+                              />
+                            </div>
                           </div>
                           <Separator className="w-full" />
                         </React.Fragment>
