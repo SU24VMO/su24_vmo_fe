@@ -38,6 +38,11 @@ export const GETALLACTIVITIESOM = '/api/activity/create-by/organization-manager/
 export const GETALLPHASE123BYOM = "/api/campaign/create-by/organization-manager/"
 export const GETPROCESSINGOMTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/organization-manager'
 export const GETPROCESSINGVOLUNTEERTIERIIACTIVE = '/api/processing-phase/tier-ii/active-status/create-by/volunteer'
+export const GETALLPROCESSINGPHASETIER2 = '/api/processing-phase/tier-ii/'
+export const PUTPROCESSINGPHASETIER2 = '/api/processing-phase/tier-ii/status/update'
+
+
+
 // -----------------
 
 export const GETREQUESTNEWSTOUPDATE = '/api/create-post-request/'

@@ -3,8 +3,10 @@ import { format } from "date-fns";
 
 import {
   ArrowUpDown,
+
   MoreHorizontal,
 } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Link } from "react-router-dom";
+import { Badge } from "../../ui/badge";
 
 export const columns = ({ onSort, onConfirm }) => [
 
@@ -36,6 +39,34 @@ export const columns = ({ onSort, onConfirm }) => [
       return <div className="w-52  line-clamp-3 ">{name}</div>;
     },
   },
+  {
+    accessorKey: "campaignTier",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+           onClick={() => onSort("CampaignTier")}
+        >
+          Loại chiến dịch
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const tier = row.original?.campaignTier;
+      let statusBadge;
+      if (tier === 1) {
+        statusBadge = <Badge variant="blue">Toàn phần</Badge>;
+      } else if (tier === 2) {
+        statusBadge = <Badge variant="orange">Từng phần</Badge>;
+      }
+      return (
+        <div>{statusBadge}</div>
+      );
+    },
+  },
+
 
   {
     accessorKey: "targetAmount",

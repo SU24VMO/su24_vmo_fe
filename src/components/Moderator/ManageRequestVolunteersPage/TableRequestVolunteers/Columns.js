@@ -130,7 +130,7 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       );
     },
     cell: ({ row }) => {
-      const approvedDate = format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a');
+      const approvedDate = row.getValue("approvedDate") ?  format(new Date(row.getValue("approvedDate")), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có";
       return <div className="">{approvedDate}</div>;
     },
   },

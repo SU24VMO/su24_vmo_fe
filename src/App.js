@@ -93,6 +93,8 @@ import UpdateCampaignOrganizationTier2ManagerPage from "./components/UpdateCampa
 import UpdateCampaignVolunteerTier2Page from "./components/UpdateCampaignVolunteerTier2Page/UpdateCampaignVolunteerTier2Page";
 import UpdateActivityTier2VolunteerPage from "./components/UpdateActivityTier2VolunteerPage/UpdateActivityTier2VolunteerPage";
 import UpdateActivityTier2OrganizationManagerPage from "./components/UpdateActivityTier2OrganizationManagerPage/UpdateActivityTier2OrganizationManagerPage";
+import ManageOrganizeAllProcessingPhase from "./components/OrganizeManagePage/ManageOrganizeAllProcessingPhase/ManageOrganizeAllProcessingPhase";
+import ManageVolunteerAllProcessingPhase from "./components/VolunteerManagePage/ManageVolunteerAllProcessingPhase/ManageVolunteerAllProcessingPhase";
 
 
 function App() {
@@ -165,6 +167,8 @@ function App() {
                 <Route path="/manage/volunteer/allPhase2" element={<ManageVolunteerPhase2Table />} />
                 <Route path="/manage/volunteer/allPhase3" element={<ManageVolunteerPhase3Table />} />
                 <Route path="/manage/volunteer/allActivities" element={<ManageVolunteerAllActivitiesTable />} />
+                <Route path="/manage/volunteer/allProcessingPhase" element={<ManageVolunteerAllProcessingPhase />} />
+                
 
                 <Route path="/createActivityVolunteer" element={<CreateActivityVolunteerPage />} />
                 <Route path="/createCampaignVolunteer" element={<CreateCampaignVolunteerPage />} />
@@ -190,6 +194,8 @@ function App() {
                 <Route path="/manage/organize/allPhase2" element={<ManageOrganizePhase2Table></ManageOrganizePhase2Table>} />
                 <Route path="/manage/organize/allPhase3" element={<ManageOrganizePhase3Table></ManageOrganizePhase3Table>} />
                 <Route path="/manage/organize/allActivities" element={<ManageOrganizeAllActivitiesTable />} />
+                <Route path="/manage/organize/allProcessingPhase" element={<ManageOrganizeAllProcessingPhase />} />
+                
                 <Route path="/createOrganization" element={<CreateOrganizePage />} />
                 {/* <Route path="/createVerifyOrganizationManager" element={<SignUpVerifyOrganizePage />} /> */}
                 <Route path="/createActivityOM" element={<CreateActivityOrganizationManagerPage />} />

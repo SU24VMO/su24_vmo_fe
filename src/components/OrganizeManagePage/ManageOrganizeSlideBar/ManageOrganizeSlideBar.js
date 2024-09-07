@@ -10,6 +10,7 @@ import AllOrganizationsButton from "./AllOrganizationsButton";
 import AllNewsButton from "./AllNewsButton";
 import AllCampaignTier1Button from "./AllCampaignTier1Button";
 import AllCampaignTier2Button from "./AllCampaignTier2Button";
+import AllProcessingPhaseButton from "./AllProcessingPhaseButton";
 
 export default function ManageOrganizeSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -130,6 +131,11 @@ export default function ManageOrganizeSlideBar() {
             <Link to="/manage/organize/allPhase3">
               <li className={getLinkClass("/manage/organize/allPhase3")}>
                 <Phase3Button />
+              </li>
+            </Link>
+            <Link to="/manage/organize/allProcessingPhase">
+              <li className={getLinkClass("/manage/organize/allProcessingPhase")}>
+                <AllProcessingPhaseButton />
               </li>
             </Link>
           </ul>

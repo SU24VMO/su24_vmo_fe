@@ -86,7 +86,7 @@ const TableBankingCampaignPage = () => {
       );
       setData(result?.campaignWithBankingAccountResponses || []);
       setList(result);
-      setTotalItems(result?.totalITem || 0);
+      setTotalItems(result?.totalItem || 0);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

@@ -19,8 +19,8 @@ import {
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import React from "react";
-import { Link } from "react-router-dom";
-import SkeletonPhase2Table from "./SkeletonPhase2Table/SkeletonPhase2Table";
+import SkeletonProcessingPhaseTable from "./SkeletonProcessingPhaseTable/SkeletonProcessingPhaseTable";
+
 
 export function DataTable({ 
   columns,
@@ -83,7 +83,7 @@ export function DataTable({
   return (
     <>
         <div className="my-4 w-fit bg-vmo pr-10 pl-5 py-2 rounded-tr-md rounded-br-2xl drop-shadow-md animate-slide-in-left ">
-      <p className="font-bold text-base mobile:text-2xl">Giai đoạn hoạt động toàn phần</p>
+      <p className="font-bold text-base mobile:text-2xl">Giai đoạn hoạt động từng phần</p>
       </div>
 
       <div className="flex items-center py-4">
@@ -100,7 +100,7 @@ export function DataTable({
       
       <div className="rounded-md border">
         {loading ? (
-          <SkeletonPhase2Table />
+          <SkeletonProcessingPhaseTable />
         ) : (
           <Table>
             <TableHeader>

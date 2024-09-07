@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ReactComponent as IconSlidebar } from "../../../assets/images/button-slidebar.svg";
-import AllCampaignsButton from "./AllCampaignsTier1Button";
 import Phase1Button from "./Phase1Button";
 import Phase2Button from "./Phase2Button";
 import Phase3Button from "./Phase3Button";
@@ -9,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import AllNewsButton from "./AllNewsButton";
 import AllCampaignsTier2Button from "./AllCampaignsTier2Button";
 import AllCampaignsTier1Button from "./AllCampaignsTier1Button";
+import AllProcessingPhaseButton from "./AllProcessingPhaseButton";
 
 export default function ManageVolunteerSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -127,6 +127,11 @@ export default function ManageVolunteerSlideBar() {
             <Link to="/manage/volunteer/allPhase3">
               <li className={getLinkClass("/manage/volunteer/allPhase3")}>
                 <Phase3Button />
+              </li>
+            </Link>
+            <Link to="/manage/volunteer/allProcessingPhase">
+              <li className={getLinkClass("/manage/volunteer/allProcessingPhase")}>
+                <AllProcessingPhaseButton />
               </li>
             </Link>
           </ul>

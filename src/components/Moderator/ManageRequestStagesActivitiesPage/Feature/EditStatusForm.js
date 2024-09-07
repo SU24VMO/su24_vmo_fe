@@ -278,7 +278,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                 <div className="">
                   <Carousel setApi={setApi} className="w-full">
                     <CarouselContent>
-                      {activities?.activity?.processingPhase?.processingPhaseStatementFiles.map((image, index) => (
+                      {activities?.activity?.activityStatementFiles.map((image, index) => (
                         <CarouselItem key={index}>
                           <div className=" w-full mobile:w-1/3   mx-auto">
                             <img

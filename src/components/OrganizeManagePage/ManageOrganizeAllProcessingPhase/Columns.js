@@ -16,8 +16,8 @@ import {
 import { Link } from "react-router-dom";
 import { Badge } from "../../ui/badge";
 
-export const columns =({ onSort, onConfirm }) => [
-  
+export const columns = ({ onSort, onConfirm }) => [
+
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -27,7 +27,7 @@ export const columns =({ onSort, onConfirm }) => [
           className="px-0 py-0"
           onClick={() => onSort("Name")}
         >
-          Tên chiến dịch
+          Tên kế hoạch
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -44,7 +44,7 @@ export const columns =({ onSort, onConfirm }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-           onClick={() => onSort("CampaignTier")}
+          onClick={() => onSort("CampaignTier")}
         >
           Loại chiến dịch
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -52,7 +52,7 @@ export const columns =({ onSort, onConfirm }) => [
       );
     },
     cell: ({ row }) => {
-      const tier = row.original?.campaignTier;
+      const tier = row.original?.campaign?.campaignTier;
       let statusBadge;
       if (tier === 1) {
         statusBadge = <Badge variant="blue">Toàn phần</Badge>;
@@ -64,24 +64,49 @@ export const columns =({ onSort, onConfirm }) => [
       );
     },
   },
+
+
   {
-    accessorKey: "targetAmount",
+    accessorKey: "isEnd",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 py-0"
+          onClick={() => onSort("IsEnd")}
+        >
+          Trạng thái
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const statusBadge = row.original?.isEnd;
+      
+      return (
+        <div>{statusBadge ? (<Badge variant="success">Đã hoàn thành</Badge>) : (<Badge variant="info">Chưa thực hiện</Badge>)}</div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "currentMoney",
     header: ({ column }) => (
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("TargetAmount")}
+        onClick={() => onSort("CurrentMoney")}
       >
         Số tiền mục tiêu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const targetAmount = parseFloat(row.getValue("targetAmount"));
+      const currentMoney = parseFloat(row.getValue("currentMoney"));
       const formatted = new Intl.NumberFormat("it-IT", {
         style: "currency",
         currency: "VND",
-      }).format(targetAmount);
+      }).format(currentMoney);
 
       return <div className="font-medium">{formatted}</div>;
     },
@@ -108,40 +133,40 @@ export const columns =({ onSort, onConfirm }) => [
   //     return <div className="font-medium">{formatted}</div>;
   //   },
   // },
+  // {
+  //   accessorKey: "organization",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="px-0 py-0"
+  //         onClick={() => onSort("Organization.Name")}
+  //       >
+  //         Tổ chức
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const organizeName = row.original?.organization.name
+  //     return (
+  //       <div className="w-48 line-clamp-3">
+  //           <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
+  //             {organizeName}
+  //           </span>
+
+  //       </div>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: "organization",
+    accessorKey: "createDate",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => onSort("Organization.Name")}
-        >
-          Tổ chức
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const organizeName = row.original?.organization.name
-      return (
-        <div className="w-48 line-clamp-3">
-            <span className="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">
-              {organizeName}
-            </span>
-          
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "startDate",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="px-0 py-0"
-          onClick={() => onSort("StartDate")}
+          onClick={() => onSort("CreateDate")}
         >
           Thời gian bắt đầu
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -149,8 +174,8 @@ export const columns =({ onSort, onConfirm }) => [
       );
     },
     cell: ({ row }) => {
-      const startDate = format(new Date(row.original?.processingPhases[0]?.startDate), 'dd/MM/yyyy, h:mm:ss a');
-      return <div className="w-max">{startDate}</div>;
+      const createDate = format(new Date(row.original?.createDate), 'dd/MM/yyyy, h:mm:ss a');
+      return <div className="w-max">{createDate}</div>;
     },
   },
   // {
@@ -207,29 +232,25 @@ export const columns =({ onSort, onConfirm }) => [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Hành Động</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(infoRow.nameOfCampaign)
-              }
-            >
-              Copy tên chiến dịch
-            </DropdownMenuItem>
+
             <DropdownMenuSeparator />
             {infoRow?.isActive === true ? (<DropdownMenuItem
-              
+
+            >
+              {(infoRow?.campaign?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignId}`}>
+                Xem chiến dịch toàn phần
+              </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignId}`}>
+                Xem chiến dịch từng phần
+              </Link>)}
+            </DropdownMenuItem>) : ""}
+
+            {(infoRow?.isEnd === false && infoRow?.isProcessing === true && infoRow?.isEligible === true) ? (
+              <DropdownMenuItem
+                onClick={() => onConfirm(row.original)}
               >
-              {(infoRow?.campaignTier * 1) === 1 ? (<Link to={`/viewCampaigns/campaignDetail/tier1/${row.original?.campaignID}`}>
-                    Xem chiến dịch toàn phần
-                  </Link>) : (<Link to={`/viewCampaigns/campaignDetail/tier2/${row.original?.campaignID}`}>
-                    Xem chiến dịch từng phần
-                  </Link>)}
-              </DropdownMenuItem>) : "" }
-              {(infoRow?.campaignTier * 1) === 1 ? (
-                  <DropdownMenuItem
-                  onClick={() => onConfirm(row.original)}
-                   >
-                     Kết thúc giai đoạn 
-                   </DropdownMenuItem>) : ""}
+                Kết thúc giai đoạn
+              </DropdownMenuItem>
+            ) : ""}
           </DropdownMenuContent>
         </DropdownMenu>
       );
