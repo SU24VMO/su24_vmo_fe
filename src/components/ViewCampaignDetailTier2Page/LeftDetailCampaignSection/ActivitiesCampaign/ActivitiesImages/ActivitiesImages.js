@@ -94,16 +94,19 @@ const ActivitiesImages = ({
                           className="w-full h-full rounded-lg shadow-md object-cover"
                         />
                         {isHovered[activity.activityId] && (
-                          <button
+                          <a
+                            href={selectedImages[activity.activityId]}
+                            download
                             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-md"
-                            onClick={() =>
+                            onClick={(e) =>
                               handleDownload(
+                                e,
                                 selectedImages[activity.activityId]
                               )
                             }
                           >
                             Tải về
-                          </button>
+                          </a>
                         )}
                       </div>
                     </AspectRatio>

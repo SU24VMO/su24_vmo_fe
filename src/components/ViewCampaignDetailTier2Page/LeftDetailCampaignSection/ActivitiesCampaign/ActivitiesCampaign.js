@@ -21,9 +21,32 @@ const ActivitiesCampaign = ({ processingPhases }) => {
   const cardRef = React.useRef(null);
   const [cardHeight, setCardHeight] = React.useState(0);
 
-  const handleDownload = (url) => {
-    window.open(url, "_blank");
-  };
+  async function handleDownload(e, url) {
+    e.preventDefault();
+    console.log("URL to download:", e.target.href);
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {},
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const buffer = await response.arrayBuffer();
+      const blobUrl = window.URL.createObjectURL(new Blob([buffer]));
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", "ảnh hoạt động.jpg"); // Đặt tên tệp với phần mở rộng .jpg
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Failed to download image:", error);
+      alert("Tải ảnh thất bại. Vui lòng thử lại sau.");
+    }
+  }
 
   const calculateInitialStep = (processingPhases) => {
     let step = 0;
