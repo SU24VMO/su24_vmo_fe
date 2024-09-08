@@ -18,8 +18,7 @@ const ActivitiesCampaign = ({ processingPhases }) => {
   const [selectedImages, setSelectedImages] = React.useState({});
   const [isHovered, setIsHovered] = React.useState({});
   const [showAllActivities, setShowAllActivities] = React.useState(false);
-  const cardRef = React.useRef(null);
-  const [cardHeight, setCardHeight] = React.useState(0);
+  const [cardHeights, setCardHeights] = React.useState({});
 
   async function handleDownload(e, url) {
     e.preventDefault();
@@ -69,11 +68,13 @@ const ActivitiesCampaign = ({ processingPhases }) => {
     setSelectedImages(initialSelectedImages);
   }, [processingPhases]);
 
-  React.useEffect(() => {
-    if (cardRef.current) {
-      setCardHeight(cardRef.current.clientHeight);
-    }
-  }, [selectedImages, showAllActivities]);
+  // Hàm để cập nhật chiều cao của hình ảnh activity -> đưa vào bên trong các statement files
+  const handleCardHeightChange = (activityId, height) => {
+    setCardHeights((prevHeights) => ({
+      ...prevHeights,
+      [activityId]: height,
+    }));
+  };
 
   // Hàm để cập nhật ảnh được chọn
   const handleSelectImage = (activityId, imageLink) => {
@@ -171,14 +172,19 @@ const ActivitiesCampaign = ({ processingPhases }) => {
                                 handleDownload={handleDownload}
                                 handleSelectImage={handleSelectImage}
                                 isHovered={isHovered}
-                                cardRef={cardRef}
-                                onCardHeightChange={setCardHeight}
+                                // cardRef={cardRef}
+                                onCardHeightChange={(height) =>
+                                  handleCardHeightChange(
+                                    activity.activityId,
+                                    height
+                                  )
+                                }
                               />
                             </div>
                             <div className="flex-1">
                               <ActivitiesStatementFiles
                                 activity={activity}
-                                cardHeight={cardHeight}
+                                cardHeight={cardHeights[activity.activityId]}
                               />
                             </div>
                           </div>

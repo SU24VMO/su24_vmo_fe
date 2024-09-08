@@ -26,10 +26,10 @@ const ActivitiesImages = ({
   handleDownload,
   handleSelectImage,
   isHovered,
-  cardRef,
   onCardHeightChange,
 }) => {
   const resizeObserverRef = React.useRef(null);
+  const cardRef = React.useRef(null);
 
   React.useEffect(() => {
     if (cardRef.current) {
