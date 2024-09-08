@@ -16,7 +16,7 @@ async function getData(cancelToken, user, pageSize, pageNo, sortConfig, campaign
     const normalizeAndEncode = (str) => encodeURIComponent(str.normalize('NFC'));
 
     const encoded = normalizeAndEncode(campaignName);
-    const response = await axiosPrivate.get(GETALLPROCESSINGPHASETIER2 + `?accountId=${user.account_id}&pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&campaignName=${encoded}`, {
+    const response = await axiosPrivate.get(GETALLPROCESSINGPHASETIER2 + `?accountId=${user.account_id}&pageSize=${pageSize}&pageNo=${pageNo}&orderBy=${sortConfig.orderByDirection}&orderByProperty=${sortConfig.orderByProperty}&processingPhaseName=${encoded}`, {
       cancelToken: cancelToken
     });
 
@@ -51,11 +51,11 @@ const ManageOrganizeAllProcessingPhase = () => {
     orderByProperty: '',
     orderByDirection: 'asc',
   });
-  const [campaignName, setCampaignName] = useState("")
+  const [processingPhaseName, setProcessingPhaseName] = useState("")
 
-  const fetchData = async (cancelToken, user, pageSize, pageNo, campaignName, sortConfig) => {
+  const fetchData = async (cancelToken, user, pageSize, pageNo, processingPhaseName, sortConfig) => {
     try {
-      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, campaignName, setLoading);
+      const result = await getData(cancelToken, user, pageSize, pageNo, sortConfig, processingPhaseName, setLoading);
       setData(result?.processingPhases || []);
       setList(result);
       setTotalItems(result?.totalItem || 0);
@@ -79,12 +79,12 @@ const ManageOrganizeAllProcessingPhase = () => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
-    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, processingPhaseName, sortConfig);
 
     return () => {
       source.cancel('Component unmounted');
     };
-  }, [pageSize, pageNo, campaignName, sortConfig]);
+  }, [pageSize, pageNo, processingPhaseName, sortConfig]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -98,7 +98,7 @@ const ManageOrganizeAllProcessingPhase = () => {
   const handleRefresh = () => {
     setLoading(true);
     const source = axios.CancelToken.source();
-    fetchData(source.token, user, pageSize, pageNo, campaignName, sortConfig);
+    fetchData(source.token, user, pageSize, pageNo, processingPhaseName, sortConfig);
   };
   return (
     <>
@@ -125,7 +125,7 @@ const ManageOrganizeAllProcessingPhase = () => {
         />
         <DataTable
           columns={columns({ onSort, onConfirm })}
-          setCampaignName={setCampaignName}
+          setProcessingPhaseName={setProcessingPhaseName}
           data={data}
           loading={loading}
           list={list}

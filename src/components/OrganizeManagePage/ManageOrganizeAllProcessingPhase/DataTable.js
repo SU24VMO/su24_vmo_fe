@@ -32,7 +32,7 @@ export function DataTable({
   setPageSize,
   setPageNo,
   totalPages,
-  setCampaignName
+  setProcessingPhaseName
  }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -90,9 +90,9 @@ export function DataTable({
       <div className="flex items-center py-4">
         <Input
           type="search"
-          placeholder="Tìm kiếm tên chiến dịch ..."
+          placeholder="Tìm kiếm tên kế hoạch ..."
           onChange={(event) =>
-           setCampaignName(event.target.value)
+           setProcessingPhaseName(event.target.value)
           }
           className="max-w-sm"
         />
