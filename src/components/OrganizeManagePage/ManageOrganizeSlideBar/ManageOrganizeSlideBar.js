@@ -11,6 +11,13 @@ import AllNewsButton from "./AllNewsButton";
 import AllCampaignTier1Button from "./AllCampaignTier1Button";
 import AllCampaignTier2Button from "./AllCampaignTier2Button";
 import AllProcessingPhaseButton from "./AllProcessingPhaseButton";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectTrigger,
+} from "../../ui/select"
+import { Component } from "lucide-react";
 
 export default function ManageOrganizeSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -97,7 +104,7 @@ export default function ManageOrganizeSlideBar() {
                 <AllOrganizationsButton />
               </li>
             </Link>
-            
+
             <Link to="/manage/organize/allCampaignsTier1">
               <li className={getLinkClass("/manage/organize/allCampaignsTier1")}>
                 <AllCampaignTier1Button />
@@ -123,21 +130,44 @@ export default function ManageOrganizeSlideBar() {
                 <Phase1Button />
               </li>
             </Link>
-            <Link to="/manage/organize/allPhase2">
-              <li className={getLinkClass("/manage/organize/allPhase2")}>
-                <Phase2Button />
-              </li>
-            </Link>
+
+
+            <Select className="">
+              <SelectTrigger className="py-8 bg-green-500 rounded-lg transition-all shadow-inner border-none hover:text-gray-300 hover:shadow-lg hover:border-transparent hover:bg-green-600">
+                <a
+                  href="."
+                  className="flex h-14 items-center   tablet:h-[40px]"
+                >
+                  <Component className="w-fit" />
+                  <span className="flex-1 ms-3 text-base text-left">Giai đoạn hoạt động thiện nguyện</span>
+
+
+                </a>
+              </SelectTrigger>
+              <SelectContent className="z-[100]">
+                <SelectGroup>
+                  <Link to="/manage/organize/allPhase2">
+                    <li className={getLinkClass("/manage/organize/allPhase2")}>
+                      <Phase2Button />
+                    </li>
+                  </Link>
+                  <Link to="/manage/organize/allProcessingPhase">
+                    <li className={getLinkClass("/manage/organize/allProcessingPhase")}>
+                      <AllProcessingPhaseButton />
+                    </li>
+                  </Link>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+
+
             <Link to="/manage/organize/allPhase3">
               <li className={getLinkClass("/manage/organize/allPhase3")}>
                 <Phase3Button />
               </li>
             </Link>
-            <Link to="/manage/organize/allProcessingPhase">
-              <li className={getLinkClass("/manage/organize/allProcessingPhase")}>
-                <AllProcessingPhaseButton />
-              </li>
-            </Link>
+
           </ul>
         </div>
       </div>

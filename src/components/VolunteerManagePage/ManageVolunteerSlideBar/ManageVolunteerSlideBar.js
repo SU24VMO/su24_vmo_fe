@@ -9,7 +9,13 @@ import AllNewsButton from "./AllNewsButton";
 import AllCampaignsTier2Button from "./AllCampaignsTier2Button";
 import AllCampaignsTier1Button from "./AllCampaignsTier1Button";
 import AllProcessingPhaseButton from "./AllProcessingPhaseButton";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectTrigger,
+} from "../../ui/select"
+import { Component } from "lucide-react";
 export default function ManageVolunteerSlideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -96,7 +102,7 @@ export default function ManageVolunteerSlideBar() {
 
             <Link to="/manage/volunteer/allCampaignsTier1">
               <li className={getLinkClass("/manage/volunteer/allCampaignsTier1")}>
-                <AllCampaignsTier1Button/>
+                <AllCampaignsTier1Button />
               </li>
             </Link>
             <Link to="/manage/volunteer/allCampaignsTier2">
@@ -119,21 +125,42 @@ export default function ManageVolunteerSlideBar() {
                 <Phase1Button />
               </li>
             </Link>
-            <Link to="/manage/volunteer/allPhase2">
-              <li className={getLinkClass("/manage/volunteer/allPhase2")}>
-                <Phase2Button />
-              </li>
-            </Link>
+
+            <Select className="">
+             <SelectTrigger className="py-8 bg-green-500 rounded-lg transition-all shadow-inner border-none hover:text-gray-300 hover:shadow-lg hover:border-transparent hover:bg-green-600">
+                  <a
+                  href="."
+                  className="flex h-14 items-center   tablet:h-[40px]"
+                >
+                  <Component className="w-fit" />
+                  <span className="flex-1 ms-3 text-base text-left">Giai đoạn hoạt động thiện nguyện</span>
+
+
+                </a>
+              </SelectTrigger>
+              <SelectContent className="z-[100]">
+                <SelectGroup>
+                  <Link to="/manage/volunteer/allPhase2">
+                    <li className={getLinkClass("/manage/volunteer/allPhase2")}>
+                      <Phase2Button />
+                    </li>
+                  </Link>
+                  <Link to="/manage/volunteer/allProcessingPhase">
+                    <li className={getLinkClass("/manage/volunteer/allProcessingPhase")}>
+                      <AllProcessingPhaseButton />
+                    </li>
+                  </Link>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+
             <Link to="/manage/volunteer/allPhase3">
               <li className={getLinkClass("/manage/volunteer/allPhase3")}>
                 <Phase3Button />
               </li>
             </Link>
-            <Link to="/manage/volunteer/allProcessingPhase">
-              <li className={getLinkClass("/manage/volunteer/allProcessingPhase")}>
-                <AllProcessingPhaseButton />
-              </li>
-            </Link>
+
           </ul>
         </div>
       </div>
