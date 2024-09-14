@@ -200,7 +200,7 @@ export default function UpdateCampaignOrganizationManagerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
-                navigate("/manage/organize/allCampaigns")
+                navigate("/manage/organize/allCampaignsTier1")
                 resetForm();
 
                 toast({
