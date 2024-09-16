@@ -297,7 +297,7 @@ export default function CreateStageActivityOrganizationManagerPage() {
 
                                         <div>
                                             <label htmlFor="listImagesPreview" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                Danh sách hình ảnh sao kê:
+                                                Danh sách hình ảnh sao kê và hóa đơn:
                                             </label>
                                             <div>
                                                 <ul className="flex justify-stretch flex-wrap gap-3">
