@@ -84,7 +84,7 @@ export const columns = ({ onSort, onConfirm }) => [
       const statusBadge = row.original?.isEnd;
       
       return (
-        <div>{statusBadge ? (<Badge variant="success">Đã hoàn thành</Badge>) : (<Badge variant="info">Chưa thực hiện</Badge>)}</div>
+        <div>{statusBadge ? (<Badge variant="success">Đã hoàn thành</Badge>) : (<Badge variant="info">Đang thực hiện</Badge>)}</div>
       );
     },
   },
