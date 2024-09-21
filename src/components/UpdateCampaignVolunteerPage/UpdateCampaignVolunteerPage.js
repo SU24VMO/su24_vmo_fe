@@ -201,7 +201,11 @@ export default function UpdateCampaignVolunteerPage() {
             if (response.status === 200) {
                 console.log(response.data);
                 setFileImageBackground(null);
-                navigate("/manage/volunteer/allCampaigns")
+                if ((data.campaignTier * 1) === 2) {
+                    navigate("/manage/volunteer/allCampaignsTier2")
+                } else {
+                    navigate("/manage/volunteer/allCampaignsTier1")
+                }
                 resetForm();
                 toast({
                     title: "Tạo chiến dịch thành công",
