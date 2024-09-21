@@ -157,7 +157,7 @@ export const GET_POST_BY_ID = "https://vmo.azurewebsites.net/api/post/";
 export const GET_TRANSACTION_BY_ACCOUNT_ID = "https://vmo.azurewebsites.net/api/transaction/history-transaction/account/";
 export const CREATE_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/create-transaction";
 export const CHECK_TRANSACTION_BY_ORDER_ID = "https://vmo.azurewebsites.net/api/transaction/check-transaction/send-email";
-export const GET_ALL_RECENTLY_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/recently-transaction";
+export const GET_ALL_RECENTLY_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/recently-receive-transaction";
 export const GET_NUMBER_OF_TRANSACTION = "https://vmo.azurewebsites.net/api/transaction/all/number-of-transactions";
 
 //organization 
