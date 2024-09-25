@@ -1,5 +1,5 @@
 import { Button } from "../../../ui/button";
-import { ArrowUpDown } from "lucide-react";
+// import { ArrowUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar";
 import { Badge } from "../../../ui/badge";
 import { format } from "date-fns";
@@ -13,10 +13,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => onSort("Date")}
+          // onClick={() => onSort("Date")}
         >
           Ngày
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
         </Button>
       );
     },
@@ -32,10 +32,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("Time")}
+        // onClick={() => onSort("Time")}
       >
         Giờ
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -50,10 +50,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("SendAccount")}
+        // onClick={() => onSort("SendAccount")}
       >
         Người gửi
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -69,10 +69,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
         <Button
           variant="ghost"
           className="px-0 py-0"
-          onClick={() => onSort("Treasurer")}
+          // onClick={() => onSort("Treasurer")}
         >
           Thủ quỹ
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
         </Button>
       );
     },
@@ -88,10 +88,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("ReceiveAccount")}
+        // onClick={() => onSort("ReceiveAccount")}
       >
         Người nhận
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -107,10 +107,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("CampaignName")}
+        // onClick={() => onSort("CampaignName")}
       >
         Chiến dịch
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -126,10 +126,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("Platform")}
+        // onClick={() => onSort("Platform")}
       >
         Nền tảng
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -143,10 +143,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        // onClick={() => onSort("spending")}
+        onClick={() => onSort("spending")}
       >
         Giao dịch loại
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -171,10 +171,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("Amount")}
+        // onClick={() => onSort("Amount")}
       >
         Số tiền
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -195,10 +195,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("Status")}
+        // onClick={() => onSort("Status")}
       >
         Trạng thái
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
@@ -221,10 +221,10 @@ export const columns = ({ onEdit, onDelete, onSort }) => [
       <Button
         className="px-0 py-0"
         variant="ghost"
-        onClick={() => onSort("IsCognito")}
+        // onClick={() => onSort("IsCognito")}
       >
         Trạng thái ẩn danh
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
       </Button>
     ),
     cell: ({ row }) => {
