@@ -58,7 +58,7 @@ const EditBankingCampaignForm = ({
   };
 
   //Upload ảnh sao kê giao dịch admin
-  const uploadImageBanking = async (data) => {
+  const uploadImageBanking = async (data, setSubmitting) => {
     try {
       setLoading(true);
       const formData = new FormData();
@@ -96,6 +96,7 @@ const EditBankingCampaignForm = ({
     } finally {
       onOpenChange(false);
       setLoading(false);
+      setSubmitting(false)
     }
   };
 
@@ -114,8 +115,7 @@ const EditBankingCampaignForm = ({
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        uploadImageBanking(values);
-        setSubmitting(false);
+        uploadImageBanking(values, setSubmitting);
       }}
     >
       {({
@@ -129,6 +129,7 @@ const EditBankingCampaignForm = ({
         setFieldValue,
       }) => (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
+
           <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
             <DialogHeader>
               <DialogTitle>Thông tin giao dịch</DialogTitle>
@@ -137,6 +138,7 @@ const EditBankingCampaignForm = ({
               </DialogDescription>
             </DialogHeader>
             {/* Thông tin */}
+            <form onSubmit={handleSubmit}>
             <ScrollArea className="h-[65vh] shadow-inner">
               <div className="flex flex-col p-5 gap-5">
                 <div className="grid flex-1 gap-2">
@@ -297,7 +299,6 @@ const EditBankingCampaignForm = ({
                 </div>
               ) : (
                 banking && (
-                  <form onSubmit={handleSubmit} className="space-y-3">
                     <div className="flex flex-col p-5 gap-5">
                       {fileImageBanking ? (
                         <div className="flex flex-col justify-center items-center gap-2">
@@ -366,7 +367,6 @@ const EditBankingCampaignForm = ({
                         </div>
                       )}
                     </div>
-                  </form>
                 )
               )}
             </ScrollArea>
@@ -378,9 +378,9 @@ const EditBankingCampaignForm = ({
                 ""
               ) : (
                 <Button
-                  type="button"
+                  type="submit"
                   disabled={isSubmitting}
-                  onClick={handleSubmit}
+                  
                   variant="green_theme_primary"
                 >
                   {loading ? (
@@ -391,7 +391,9 @@ const EditBankingCampaignForm = ({
                 </Button>
               )}
             </DialogFooter>
+            </form> {/* Đóng form */}
           </DialogContent>
+
         </Dialog>
       )}
     </Formik>

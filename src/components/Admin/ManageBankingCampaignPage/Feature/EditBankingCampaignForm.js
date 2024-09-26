@@ -57,7 +57,7 @@ const EditBankingCampaignForm = ({
   };
 
   //Upload ảnh sao kê giao dịch admin
-  const uploadImageBanking = async (data) => {
+  const uploadImageBanking = async (data, setSubmitting) => {
     try {
       setLoading(true);
       const formData = new FormData();
@@ -94,6 +94,7 @@ const EditBankingCampaignForm = ({
     } finally {
       onOpenChange(false);
       setLoading(false);
+      setSubmitting(false)
     }
   };
 
@@ -112,8 +113,7 @@ const EditBankingCampaignForm = ({
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        uploadImageBanking(values);
-        setSubmitting(false);
+        uploadImageBanking(values, setSubmitting);
       }}
     >
       {({
@@ -127,6 +127,8 @@ const EditBankingCampaignForm = ({
         setFieldValue,
       }) => (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <form onSubmit={handleSubmit} className="space-y-3">
+
           <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
             <DialogHeader>
               <DialogTitle>Thông tin giao dịch</DialogTitle>
@@ -278,7 +280,6 @@ const EditBankingCampaignForm = ({
                 </div>
               ) : (
                 banking && (
-                  <form onSubmit={handleSubmit} className="space-y-3">
                     <div className="flex flex-col p-5 gap-5">
                       {fileImageBanking ? (
                         <div className="flex flex-col justify-center items-center gap-2">
@@ -347,7 +348,6 @@ const EditBankingCampaignForm = ({
                         </div>
                       )}
                     </div>
-                  </form>
                 )
               )}
             </ScrollArea>
@@ -359,9 +359,8 @@ const EditBankingCampaignForm = ({
                 ""
               ) : (
                 <Button
-                  type="button"
+                  type="submit"
                   disabled={isSubmitting}
-                  onClick={handleSubmit}
                   variant="green_theme_primary"
                 >
                   {loading ? (
@@ -373,6 +372,8 @@ const EditBankingCampaignForm = ({
               )}
             </DialogFooter>
           </DialogContent>
+          </form>
+
         </Dialog>
       )}
     </Formik>
