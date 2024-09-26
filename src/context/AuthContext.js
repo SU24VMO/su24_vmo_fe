@@ -223,7 +223,9 @@ const AuthProvider = ({ children }) => {
       toast({
         variant: "destructive",
         title: "Đăng nhập thất bại !",
-        description: "Vui lòng kiểm tra lại thông tin đăng nhập !",
+        description: error.response
+          ? error.response.data.message
+          : "Vui lòng kiểm tra lại thông tin đăng nhập !",
         action: <ToastAction altText="undo">Ẩn</ToastAction>,
       });
     } finally {
