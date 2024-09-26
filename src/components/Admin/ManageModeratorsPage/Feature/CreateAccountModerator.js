@@ -23,7 +23,7 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
     // Formik setup
     const [loading, setLoading] = useState(false)
 
-    const createAccount = async (data) => {
+    const createAccount = async (data, setSubmitting, resetForm) => {
         try {
             setLoading(true)
 
@@ -40,6 +40,7 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
             if (response.status === 200) {
                 console.log(response);
                 onSubmitSuccess()
+                resetForm()
                 toast({
                     title: "Tạo tài khoản kiểm duyệt thành công",
                     action: <ToastAction altText="undo">Ẩn</ToastAction>,
@@ -66,6 +67,7 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
 
             onOpenChange(false);
             setLoading(false)
+            setSubmitting(false)
         }
     }
 
@@ -135,9 +137,8 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
 
                     return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                    createAccount(values);
-                    setSubmitting(false);
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                    createAccount(values, setSubmitting, resetForm);
                 }}
             >
                 {({
@@ -150,9 +151,9 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                     isSubmitting,
                     setFieldValue
                 }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+                    <Dialog open={isOpen} onOpenChange={onOpenChange}>
                             <DialogContent className="mobile:max-w-screen-tablet">
+                            <form onSubmit={handleSubmit}>
                                 <DialogHeader>
                                 <div className="flex justify-between items-center pb-4  rounded-t border-b dark:border-gray-600">
                                 <DialogTitle>Tạo tài khoản nhân viên kiểm duyệt</DialogTitle>
@@ -276,9 +277,8 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                                         </Button>
                                     </DialogClose>
                                     <Button
-                                        type="button"
+                                        type="submit"
                                         disabled={isSubmitting}
-                                        onClick={handleSubmit}
                                         variant="green_theme_primary"
                                     >
                                         {loading ? (
@@ -291,9 +291,9 @@ const CreateAccountModerator = ({ isOpen, onOpenChange, onSubmitSuccess }) => {
                                         )}
                                     </Button>
                                 </DialogFooter>
+                    </form>
                             </DialogContent>
                         </Dialog>
-                    </form>
                 )}
             </Formik>
         </>

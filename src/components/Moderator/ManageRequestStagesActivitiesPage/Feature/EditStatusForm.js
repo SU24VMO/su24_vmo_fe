@@ -48,7 +48,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
 
 
 
-  const updateStatus = async (data) => {
+  const updateStatus = async (data, setSubmitting) => {
     try {
       setLoading(true)
 
@@ -88,7 +88,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
     } finally {
       onOpenChange(false);
       setLoading(false)
-
+      setSubmitting(false)
     }
   }
 
@@ -100,8 +100,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values);
-      updateStatus(values)
-      setSubmitting(false);
+      updateStatus(values,setSubmitting)
     },
   });
   /* Giải thích: 
@@ -173,184 +172,185 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
-        <DialogHeader>
-          <DialogTitle>Chi tiết hoạt động</DialogTitle>
+        {activities && (
+          <form onSubmit={formik.handleSubmit} className="space-y-3">
+            <DialogHeader>
+              <DialogTitle>Chi tiết hoạt động</DialogTitle>
 
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của hoạt động!
-          </DialogDescription>
-        </DialogHeader>
+              <DialogDescription>
+                Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của hoạt động!
+              </DialogDescription>
+            </DialogHeader>
 
-        <ScrollArea className="h-[65vh] shadow-inner ">
-          <div className="flex flex-col p-5 gap-5">
-            {/* Show tên hoạt động */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="title">Tiêu đề</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="title"
-                    defaultValue={activities ? activities.activity?.title : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={activities ? activities.activity?.title : "Không có"} />
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="member"
-                    defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_by_om">Tạo bởi quản lý tổ chức</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="create_by_om"
-                    defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"} />
-                </div>
-              </div>
-            </div>
-            {/* Show nội dung bài đăng*/}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="content">Nội dung </Label>
-                <div className="flex items-center space-x-2 text-sm">
-
-                  <div variant={"outline"}>
-                    <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
-                    <Button variant="link" onClick={toggleDescription}>
-                      {isExpanded ? "Thu gọn" : "Xem thêm"}
-                    </Button>
+            <ScrollArea className="h-[65vh] shadow-inner ">
+              <div className="flex flex-col p-5 gap-5">
+                {/* Show tên hoạt động */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="title">Tiêu đề</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="title"
+                        defaultValue={activities ? activities.activity?.title : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={activities ? activities.activity?.title : "Không có"} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            {/* Show ảnh bài đăng*/}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="link">Ảnh hoạt động</Label>
-                <div className="">
-                  <Carousel setApi={setApiActivity} className="w-full">
-                    <CarouselContent>
-                      {activities?.activity?.activityImages.map((image, index) => (
-                        <CarouselItem key={index}>
-                          <div className=" w-full mobile:w-1/3   mx-auto">
-                            <img
-                              src={image.link}
-                              alt=""
-                              className="h-full w-full object-cover shadow block"
-                            />
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                  <div className="py-2 text-center text-sm text-muted-foreground">
-                    Ảnh {currentActivity} trên {countActivity}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="member"
+                        defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
+                    </div>
                   </div>
                 </div>
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="create_by_om">Tạo bởi quản lý tổ chức</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="create_by_om"
+                        defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"} />
+                    </div>
+                  </div>
+                </div>
+                {/* Show nội dung bài đăng*/}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="content">Nội dung </Label>
+                    <div className="flex items-center space-x-2 text-sm">
+
+                      <div variant={"outline"}>
+                        <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
+                        <Button variant="link" onClick={toggleDescription}>
+                          {isExpanded ? "Thu gọn" : "Xem thêm"}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Show ảnh bài đăng*/}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="link">Ảnh hoạt động</Label>
+                    <div className="">
+                      <Carousel setApi={setApiActivity} className="w-full">
+                        <CarouselContent>
+                          {activities?.activity?.activityImages.map((image, index) => (
+                            <CarouselItem key={index}>
+                              <div className=" w-full mobile:w-1/3   mx-auto">
+                                <img
+                                  src={image.link}
+                                  alt=""
+                                  className="h-full w-full object-cover shadow block"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                      </Carousel>
+                      <div className="py-2 text-center text-sm text-muted-foreground">
+                        Ảnh {currentActivity} trên {countActivity}
+                      </div>
+                    </div>
 
 
-              </div>
-            </div>
-
-
-
-            {/* Show sao kê bài đăng*/}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="link">Ảnh sao kê</Label>
-                <div className="">
-                  <Carousel setApi={setApi} className="w-full">
-                    <CarouselContent>
-                      {activities?.activity?.activityStatementFiles.map((image, index) => (
-                        <CarouselItem key={index}>
-                          <div className=" w-full mobile:w-1/3   mx-auto">
-                            <img
-                              src={image.link}
-                              alt=""
-                              className="h-full w-full object-cover shadow block"
-                            />
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                  <div className="py-2 text-center text-sm text-muted-foreground">
-                    Ảnh {current} trên {count}
                   </div>
                 </div>
 
 
-              </div>
-            </div>
+
+                {/* Show sao kê bài đăng*/}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="link">Ảnh sao kê</Label>
+                    <div className="">
+                      <Carousel setApi={setApi} className="w-full">
+                        <CarouselContent>
+                          {activities?.activity?.activityStatementFiles.map((image, index) => (
+                            <CarouselItem key={index}>
+                              <div className=" w-full mobile:w-1/3   mx-auto">
+                                <img
+                                  src={image.link}
+                                  alt=""
+                                  className="h-full w-full object-cover shadow block"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                      </Carousel>
+                      <div className="py-2 text-center text-sm text-muted-foreground">
+                        Ảnh {current} trên {count}
+                      </div>
+                    </div>
 
 
-
-            {/* Show ngày tạo */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="createDate">Ngày tạo</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  />
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show Ngày duyệt */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approvedDate">Ngày duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  />
+
+
+                {/* Show ngày tạo */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="createDate">Ngày tạo</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show ngày Ngày cập nhật */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="updateDate">Ngày cập nhật</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  />
+                {/* Show Ngày duyệt */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="approvedDate">Ngày duyệt</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {activities && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/* Show ngày Ngày cập nhật */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="updateDate">Ngày cập nhật</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -369,32 +369,32 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                     <Label htmlFor="isApproved">Từ chối</Label>
                   </div>
                 </div>
-              </form>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+              </div>
+            </ScrollArea>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Đóng
+                </Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                disabled={formik.isSubmitting}
+                variant="green_theme_primary"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

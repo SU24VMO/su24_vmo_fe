@@ -32,7 +32,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
   const [loading, setLoading] = useState(false)
 
   console.log(organizationManager);
-  const updateStatus = async (data) => {
+  const updateStatus = async (data, setSubmitting) => {
     try {
       setLoading(true)
 
@@ -69,6 +69,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
     } finally {
       onOpenChange(false);
       setLoading(false)
+      setSubmitting(false)
 
     }
   }
@@ -79,8 +80,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values.createOrganizationManagerRequestID);
-      updateStatus(values)
-      setSubmitting(false);
+      updateStatus(values, setSubmitting)
     },
   });
 
@@ -100,149 +100,150 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
-        <DialogHeader>
-          <DialogTitle>Thông tin đơn duyệt quản lý tổ chức</DialogTitle>
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo quản lý tổ chức!
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="h-[65vh] shadow-inner ">
-          <div className="flex flex-col p-5 gap-5">
+        {organizationManager && (
+          <form onSubmit={formik.handleSubmit} className="space-y-3">
+            <DialogHeader>
+              <DialogTitle>Thông tin đơn duyệt quản lý tổ chức</DialogTitle>
+              <DialogDescription>
+                Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của đơn tạo quản lý tổ chức!
+              </DialogDescription>
+            </DialogHeader>
+            <ScrollArea className="h-[65vh] shadow-inner ">
+              <div className="flex flex-col p-5 gap-5">
 
-            {/* Show tên quản lý tổ chức */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="name">Tên quản lý tổ chức</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="name"
-                    defaultValue={organizationManager ? organizationManager?.name : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.name : "Không có"} />
+                {/* Show tên quản lý tổ chức */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="name">Tên quản lý tổ chức</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="name"
+                        defaultValue={organizationManager ? organizationManager?.name : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.name : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show sdt quản lý tổ chức */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="phoneNumber"
-                    defaultValue={organizationManager ? organizationManager?.phoneNumber : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.phoneNumber : "Không có"} />
+                {/* Show sdt quản lý tổ chức */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="phoneNumber"
+                        defaultValue={organizationManager ? organizationManager?.phoneNumber : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.phoneNumber : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show sdt quản lý tổ chức */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="email"
-                    defaultValue={organizationManager ? organizationManager?.email : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.email : "Không có"} />
+                {/* Show sdt quản lý tổ chức */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="email"
+                        defaultValue={organizationManager ? organizationManager?.email : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.email : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show mã số thuế  */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="address">Địa chỉ</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="address"
-                    defaultValue={organizationManager ? organizationManager?.address : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.address : "Không có"} />
+                {/* Show mã số thuế  */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="address">Địa chỉ</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="address"
+                        defaultValue={organizationManager ? organizationManager?.address : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.address : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show mã CCCD  */}
+                {/* Show mã CCCD  */}
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="citizenIdentification">CCCD</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="citizenIdentification"
-                    defaultValue={organizationManager ? organizationManager?.citizenIdentification : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.citizenIdentification : "Không có"} />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="citizenIdentification">CCCD</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="citizenIdentification"
+                        defaultValue={organizationManager ? organizationManager?.citizenIdentification : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.citizenIdentification : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show Mã số thuế cá nhân */}
+                {/* Show Mã số thuế cá nhân */}
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="personalTaxCode">Mã số thuế cá nhân</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="personalTaxCode"
-                    defaultValue={organizationManager ? organizationManager?.personalTaxCode : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager?.personalTaxCode : "Không có"} />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="personalTaxCode">Mã số thuế cá nhân</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="personalTaxCode"
+                        defaultValue={organizationManager ? organizationManager?.personalTaxCode : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager?.personalTaxCode : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show Ngày tạo */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
+                {/* Show Ngày tạo */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="createDate">Ngày tạo yêu cầu</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
 
-                    {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  />
+                        {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      </Badge>
+                      <CopyButton
+                        code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show ngày duyệt*/}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approvedDate">Ngày duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  />
+                {/* Show ngày duyệt*/}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="approvedDate">Ngày duyệt</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show Người duyệt */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approvedBy">Người duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
-                  />
+                {/* Show Người duyệt */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="approvedBy">Người duyệt</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {organizationManager && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
+
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -261,32 +262,32 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                     <Label htmlFor="isApproved">Từ chối</Label>
                   </div>
                 </div>
-              </form>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+              </div>
+            </ScrollArea>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Đóng
+                </Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                disabled={formik.isSubmitting}
+                variant="green_theme_primary"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

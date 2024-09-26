@@ -63,7 +63,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
         setCurrentImage(null);
     }
 
-    const submitStatementFile = async (data) => {
+    const submitStatementFile = async (data, setSubmitting) => {
         setLoading(true);
         const formData = new FormData();
         console.log(data);
@@ -108,6 +108,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
         } finally {
             setLoading(false);
             onOpenChange(false);
+            setSubmitting(false)
         }
     };
 
@@ -127,49 +128,52 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
 
     return (
         <>
-         <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
-                <DialogContent className="flex items-center justify-center">
-                    <img src={currentImage} alt="Preview" className="max-w-full min-h-full" />
-                    <Button onClick={closeImageModal} className="absolute top-0 right-0 m-4">Đóng</Button>
+            <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen} >
+                <DialogContent className=" w-full  h-full  m-auto ">
+                    <ScrollArea className="mobile:max-w-screen-tablet">
+                        <img src={currentImage} alt="Preview" className="h-full w-full object-cover shadow block" />
+                    </ScrollArea>
+                        <Button type="button" onClick={closeImageModal} className="absolute top-0 right-0 m-4">Đóng</Button>
                 </DialogContent>
             </Dialog>
-        <Formik
-            initialValues={{
-                statementFiles: []
-            }}
-            validate={(values) => {
-                const errors = {};
-                if (values.statementFiles.length === 0) {
-                    errors.statementFiles = "Không được để trống!";
-                }
-                console.log(errors);
-                return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-                submitStatementFile(values);
-                setSubmitting(false);
-            }}
-        >
-            {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-                setFieldValue
-            }) => (
-                <form onSubmit={handleSubmit}>
+            
+
+            <Formik
+                initialValues={{
+                    statementFiles: []
+                }}
+                validate={(values) => {
+                    const errors = {};
+                    if (values.statementFiles.length === 0) {
+                        errors.statementFiles = "Không được để trống!";
+                    }
+                    console.log(errors);
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    submitStatementFile(values, setSubmitting);
+                }}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    setFieldValue
+                }) => (
                     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-                        <DialogContent className="mobile:max-w-screen-tablet">
-                            <DialogHeader>
-                                <DialogTitle>Bạn vui lòng gửi chi tiết sao kê</DialogTitle>
-                            </DialogHeader>
-                            {row && (
-                                <div className="flex flex-col gap-3">
-                                    
-                                    <label
+                            <DialogContent className="mobile:max-w-screen-tablet">
+                            <form onSubmit={handleSubmit}>
+                                <DialogHeader>
+                                    <DialogTitle>Bạn vui lòng gửi chi tiết sao kê</DialogTitle>
+                                </DialogHeader>
+                                {row && (
+                                    <div className="flex flex-col gap-3">
+
+                                        <label
                                             className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                             htmlFor="statementFile"
                                         >
@@ -185,8 +189,8 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                             accept="image/png, image/jpeg, image/jpg"
                                             multiple
                                         />
-                                    <div>
-                                        {/* {values.statementFiles.map((file, index) => (
+                                        <div>
+                                            {/* {values.statementFiles.map((file, index) => (
                                             <div key={index} className="flex items-center gap-3 mt-2">
                                                 <span>{file.name}</span>
                                                 <Button type="button" variant="destructive" onClick={() => removeFile(index, setFieldValue)}>
@@ -194,8 +198,8 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                                 </Button>
                                             </div>
                                         ))} */}
-                                        <ScrollArea className="h-[40vh] ">
-                                            <ul className=" grid grid-cols-4 gap-2">
+                                            <ScrollArea className="h-[40vh] ">
+                                                <ul className=" grid grid-cols-4 gap-2">
                                                     {imagePreviews.map((imagePreview, index) => (
                                                         <li key={index} className="mx-auto">
                                                             <div className="w-52 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
@@ -204,45 +208,45 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                                                     <h2 className="font-bold text-lg mb-2">File {index + 1}</h2>
                                                                 </div>
                                                                 <div className="flex justify-evenly">
-                                                                    <button className="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
+                                                                    <button  type="button" className="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
                                                                         onClick={() => removeFile(index, setFieldValue)}
                                                                     >Xóa</button>
-                                                                    <button className="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
+                                                                    <button  type="button" className="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
                                                                         onClick={() => viewImage(imagePreview)}
                                                                     >Xem</button>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                     ))}
-                                            </ul>
-                                        </ScrollArea>
+                                                </ul>
+                                            </ScrollArea>
 
+                                        </div>
+                                        <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                                            {errors.statementFiles && touched.statementFiles && errors.statementFiles}
+                                        </p>
                                     </div>
-                                    <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        {errors.statementFiles && touched.statementFiles && errors.statementFiles}
-                                    </p>
-                                </div>
-                            )}
-                            <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button type="button" variant="secondary">
-                                        Đóng
+                                )}
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button type="button" variant="secondary">
+                                            Đóng
+                                        </Button>
+                                    </DialogClose>
+                                    <Button className="" type="submit" disabled={isSubmitting}
+                                        variant="green_theme_primary">
+                                        {loading ? (
+                                            <Loader2 className="animate-spin flex items-center justify-center w-full" />
+                                        ) : (
+                                            "Xác nhận"
+                                        )}
                                     </Button>
-                                </DialogClose>
-                                <Button className="" type="submit" disabled={isSubmitting} onClick={handleSubmit}
-                                variant="green_theme_primary">
-                                    {loading ? (
-                                        <Loader2 className="animate-spin flex items-center justify-center w-full" />
-                                    ) : (
-                                        "Xác nhận"
-                                    )}
-                                </Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </form>
-            )}
-        </Formik>
+                                </DialogFooter>
+                    </form>
+                            </DialogContent>
+                        </Dialog>
+                )}
+            </Formik>
         </>
     );
 };

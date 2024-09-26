@@ -45,7 +45,7 @@ const EditBankingCampaignForm = ({
     setFileImageBanking("");
     setFieldValue("transactionImage", null);
   }
-// Format tiền
+  // Format tiền
   const formatAmount = (value) => {
     const cleanValue = value.replace(/\D/g, "");
     const formattedValue = cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -98,7 +98,7 @@ const EditBankingCampaignForm = ({
     }
   };
 
-  useEffect(() => {}, [banking?.transactionImage]);
+  useEffect(() => { }, [banking?.transactionImage]);
 
   return (
     <Formik
@@ -127,159 +127,160 @@ const EditBankingCampaignForm = ({
         setFieldValue,
       }) => (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <form onSubmit={handleSubmit} className="space-y-3">
 
           <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
-            <DialogHeader>
-              <DialogTitle>Thông tin giao dịch</DialogTitle>
-              <DialogDescription>
-                Lưu ý: Xem kĩ thông tin trước khi giao dịch !
-              </DialogDescription>
-            </DialogHeader>
-            {/* Thông tin */}
-            <ScrollArea className="h-[65vh] shadow-inner">
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="qrCode">Ảnh QR Code</Label>
-                  <div className=" w-52 h-fit mx-auto">
-                    <img
-                      src={banking?.qrCode ? banking?.qrCode : "Chưa có"}
-                      alt="ảnh-nền"
-                      className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="campaignID">ID chiến dịch</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="campaignID"
-                      defaultValue={
-                        banking?.campaignID ? banking?.campaignID : "Chưa có"
-                      }
-                      disabled
-                    />
-                    <CopyButton
-                      code={
-                        banking?.campaignID ? banking?.campaignID : "Chưa có"
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="name">Tên chiến dịch</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="name"
-                      defaultValue={banking?.name ? banking?.name : "Chưa có"}
-                      disabled
-                    />
-                    <CopyButton
-                      code={banking?.name ? banking?.name : "Chưa có"}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="bankingName">Tên ngân hàng</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="bankingName"
-                      defaultValue={
-                        banking?.bankingName ? banking?.bankingName : "Chưa có"
-                      }
-                      disabled
-                    />
-                    <CopyButton
-                      code={
-                        banking?.bankingName ? banking?.bankingName : "Chưa có"
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="accountName">Tên tài khoản</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="accountName"
-                      defaultValue={
-                        banking?.accountName ? banking?.accountName : "Chưa có"
-                      }
-                      disabled
-                    />
-                    <CopyButton
-                      code={
-                        banking?.accountName ? banking?.accountName : "Chưa có"
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="bankingAccountNumber">Số tài khoản</Label>
-                  <div className="flex items-center space-x-2">
-                    <Input
-                      id="bankingAccountNumber"
-                      defaultValue={
-                        banking?.bankingAccountNumber
-                          ? banking?.bankingAccountNumber
-                          : "Chưa có"
-                      }
-                      disabled
-                    />
-                    <CopyButton
-                      code={
-                        banking?.bankingAccountNumber
-                          ? banking?.bankingAccountNumber
-                          : "Chưa có"
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col p-5 gap-5">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="create_date">Số tiền</Label>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant={"outline"}>
-                      {banking ? formatAmount(banking?.amount) : ""}
-                    </Badge>
-                    <CopyButton
-                      code={banking ? formatAmount(banking?.amount) : ""}
-                    />
-                  </div>
-                </div>
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-3">
 
-              {/* Ảnh giao dịch */}
-
-              {banking?.transactionImage !== null ? (
+              <DialogHeader>
+                <DialogTitle>Thông tin giao dịch</DialogTitle>
+                <DialogDescription>
+                  Lưu ý: Xem kĩ thông tin trước khi giao dịch !
+                </DialogDescription>
+              </DialogHeader>
+              {/* Thông tin */}
+              <ScrollArea className="h-[65vh] shadow-inner">
                 <div className="flex flex-col p-5 gap-5">
                   <div className="grid flex-1 gap-2">
-                    <Label htmlFor="transactionImage">Ảnh sao kê</Label>
+                    <Label htmlFor="qrCode">Ảnh QR Code</Label>
                     <div className=" w-52 h-fit mx-auto">
                       <img
-                        src={
-                          banking?.transactionImage
-                            ? banking?.transactionImage
-                            : "Chưa có"
-                        }
+                        src={banking?.qrCode ? banking?.qrCode : "Chưa có"}
                         alt="ảnh-nền"
                         className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
                       />
                     </div>
                   </div>
                 </div>
-              ) : (
-                banking && (
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="campaignID">ID chiến dịch</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="campaignID"
+                        defaultValue={
+                          banking?.campaignID ? banking?.campaignID : "Chưa có"
+                        }
+                        disabled
+                      />
+                      <CopyButton
+                        code={
+                          banking?.campaignID ? banking?.campaignID : "Chưa có"
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="name">Tên chiến dịch</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="name"
+                        defaultValue={banking?.name ? banking?.name : "Chưa có"}
+                        disabled
+                      />
+                      <CopyButton
+                        code={banking?.name ? banking?.name : "Chưa có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="bankingName">Tên ngân hàng</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="bankingName"
+                        defaultValue={
+                          banking?.bankingName ? banking?.bankingName : "Chưa có"
+                        }
+                        disabled
+                      />
+                      <CopyButton
+                        code={
+                          banking?.bankingName ? banking?.bankingName : "Chưa có"
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="accountName">Tên tài khoản</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="accountName"
+                        defaultValue={
+                          banking?.accountName ? banking?.accountName : "Chưa có"
+                        }
+                        disabled
+                      />
+                      <CopyButton
+                        code={
+                          banking?.accountName ? banking?.accountName : "Chưa có"
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="bankingAccountNumber">Số tài khoản</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="bankingAccountNumber"
+                        defaultValue={
+                          banking?.bankingAccountNumber
+                            ? banking?.bankingAccountNumber
+                            : "Chưa có"
+                        }
+                        disabled
+                      />
+                      <CopyButton
+                        code={
+                          banking?.bankingAccountNumber
+                            ? banking?.bankingAccountNumber
+                            : "Chưa có"
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col p-5 gap-5">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="create_date">Số tiền</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {banking ? formatAmount(banking?.amount) : ""}
+                      </Badge>
+                      <CopyButton
+                        code={banking ? formatAmount(banking?.amount) : ""}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ảnh giao dịch */}
+
+                {banking?.transactionImage !== null ? (
+                  <div className="flex flex-col p-5 gap-5">
+                    <div className="grid flex-1 gap-2">
+                      <Label htmlFor="transactionImage">Ảnh sao kê</Label>
+                      <div className=" w-52 h-fit mx-auto">
+                        <img
+                          src={
+                            banking?.transactionImage
+                              ? banking?.transactionImage
+                              : "Chưa có"
+                          }
+                          alt="ảnh-nền"
+                          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  banking && (
                     <div className="flex flex-col p-5 gap-5">
                       {fileImageBanking ? (
                         <div className="flex flex-col justify-center items-center gap-2">
@@ -348,31 +349,32 @@ const EditBankingCampaignForm = ({
                         </div>
                       )}
                     </div>
-                )
-              )}
-            </ScrollArea>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button type="button">Đóng</Button>
-              </DialogClose>
-              {banking?.transactionImage !== null ? (
-                ""
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  variant="green_theme_primary"
-                >
-                  {loading ? (
-                    <Loader2 className="animate-spin flex items-center justify-center w-full" />
-                  ) : (
-                    "Xác nhận"
-                  )}
-                </Button>
-              )}
-            </DialogFooter>
+                  )
+                )}
+              </ScrollArea>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="button">Đóng</Button>
+                </DialogClose>
+                {banking?.transactionImage !== null ? (
+                  ""
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    variant="green_theme_primary"
+                  >
+                    {loading ? (
+                      <Loader2 className="animate-spin flex items-center justify-center w-full" />
+                    ) : (
+                      "Xác nhận"
+                    )}
+                  </Button>
+                )}
+              </DialogFooter>
+            </form>
+
           </DialogContent>
-          </form>
 
         </Dialog>
       )}

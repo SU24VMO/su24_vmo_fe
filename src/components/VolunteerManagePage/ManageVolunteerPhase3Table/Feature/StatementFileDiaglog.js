@@ -63,7 +63,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
         setCurrentImage(null);
     }
 
-    const submitStatementFile = async (data) => {
+    const submitStatementFile = async (data, setSubmitting) => {
         setLoading(true);
         const formData = new FormData();
         console.log(data);
@@ -108,6 +108,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
         } finally {
             setLoading(false);
             onOpenChange(false);
+            setSubmitting(false)
         }
     };
 
@@ -127,10 +128,12 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
 
     return (
         <>
-            <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
-                <DialogContent className="flex items-center justify-center">
-                    <img src={currentImage} alt="Preview" className="max-w-full min-h-full" />
-                    <Button onClick={closeImageModal} className="absolute top-0 right-0 m-4">Đóng</Button>
+            <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen} >
+                <DialogContent className=" w-full  h-full  m-auto ">
+                    <ScrollArea className="mobile:max-w-screen-tablet">
+                        <img src={currentImage} alt="Preview" className="h-full w-full object-cover shadow block" />
+                    </ScrollArea>
+                    <Button type="button" onClick={closeImageModal} className="absolute top-0 right-0 m-4">Đóng</Button>
                 </DialogContent>
             </Dialog>
             <Formik
@@ -146,8 +149,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    submitStatementFile(values);
-                    setSubmitting(false);
+                    submitStatementFile(values, setSubmitting);
                 }}
             >
                 {({
@@ -160,15 +162,16 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                     isSubmitting,
                     setFieldValue
                 }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Dialog open={isOpen} onOpenChange={onOpenChange}>
-                            <DialogContent className="mobile:max-w-screen-tablet">
+
+                    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+                        <DialogContent className="mobile:max-w-screen-tablet">
+                            <form onSubmit={handleSubmit}>
                                 <DialogHeader>
                                     <DialogTitle>Bạn vui lòng gửi chi tiết sao kê</DialogTitle>
                                 </DialogHeader>
                                 {row && (
                                     <div className="flex flex-col gap-3">
-                                       
+
 
                                         <label
                                             className="block w-full py-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -205,10 +208,10 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                                                     <h2 className="font-bold text-lg mb-2">File {index + 1}</h2>
                                                                 </div>
                                                                 <div className="flex justify-evenly">
-                                                                    <button className="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
+                                                                    <button type="button" className="text-white bg-red-600 px-4 py-1 rounded-md hover:bg-red-700"
                                                                         onClick={() => removeFile(index, setFieldValue)}
                                                                     >Xóa</button>
-                                                                    <button className="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
+                                                                    <button type="button" className="text-white bg-green-600 px-4 py-1 rounded-md hover:bg-green-700"
                                                                         onClick={() => viewImage(imagePreview)}
                                                                     >Xem</button>
                                                                 </div>
@@ -230,7 +233,7 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                             Đóng
                                         </Button>
                                     </DialogClose>
-                                    <Button className="" type="submit" disabled={isSubmitting} onClick={handleSubmit}
+                                    <Button className="" type="submit" disabled={isSubmitting}
                                         variant="green_theme_primary"
                                     >
                                         {loading ? (
@@ -240,9 +243,10 @@ const StatementFileDiaglog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
                                         )}
                                     </Button>
                                 </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                    </form>
+                            </form>
+
+                        </DialogContent>
+                    </Dialog>
                 )}
             </Formik>
         </>

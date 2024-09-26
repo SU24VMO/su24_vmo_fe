@@ -29,7 +29,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
   // Formik setup
   const [loading, setLoading] = useState(false)
 
-  const updateStatus = async (accountID, isActived) => {
+  const updateStatus = async (accountID, isActived, setSubmitting) => {
     try {
       setLoading(true)
 
@@ -67,6 +67,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
     } finally {
       onOpenChange(false);
       setLoading(false)
+      setSubmitting(false)
     }
   }
 
@@ -78,8 +79,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
       accountID: organizationManager ? organizationManager.accountID : ""
     },
     onSubmit: (values, { setSubmitting }) => {
-      updateStatus(values.accountID, values.isActived)
-      setSubmitting(false);
+      updateStatus(values.accountID, values.isActived, setSubmitting)
     },
   });
   /* Giải thích: 
@@ -106,139 +106,139 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-tablet">
-        <DialogHeader>
-          <DialogTitle>Thông tin người dùng</DialogTitle>
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
-          <div className="flex flex-col gap-5">
-            {/* Show avatar người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="avatar">Avatar</Label>
-                <div className="flex items-center space-x-2">
-                  <Avatar className="w-20 h-20">
-                    <AvatarImage
-                      src={organizationManager ? organizationManager.avatar : ""}
-                      alt="@avatar"
-                    />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
+        {organizationManager && (
+          <form onSubmit={formik.handleSubmit} className="space-y-3">
+            <DialogHeader>
+              <DialogTitle>Thông tin người dùng</DialogTitle>
+              <DialogDescription>
+                Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
+              </DialogDescription>
+            </DialogHeader>
+            <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+              <div className="flex flex-col gap-5">
+                {/* Show avatar người dùng */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="avatar">Avatar</Label>
+                    <div className="flex items-center space-x-2">
+                      <Avatar className="w-20 h-20">
+                        <AvatarImage
+                          src={organizationManager ? organizationManager.avatar : ""}
+                          alt="@avatar"
+                        />
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show id người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="accountID">ID tài khoản</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="accountID"
-                    defaultValue={organizationManager ? organizationManager.accountID : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.accountID : ""} />
+                {/* Show id người dùng */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="accountID">ID tài khoản</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="accountID"
+                        defaultValue={organizationManager ? organizationManager.accountID : ""}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager.accountID : ""} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show tên người dùng */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="username">Tên người dùng</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="username"
-                    defaultValue={organizationManager ? organizationManager.username : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.username : ""} />
+                {/* Show tên người dùng */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="username">Tên người dùng</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="username"
+                        defaultValue={organizationManager ? organizationManager.username : ""}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager.username : ""} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show email */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="email"
-                    defaultValue={organizationManager ? organizationManager.email : ""}
-                    disabled
-                  />
-                  <CopyButton code={organizationManager ? organizationManager.email : ""} />
+                {/* Show email */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="email"
+                        defaultValue={organizationManager ? organizationManager.email : ""}
+                        disabled
+                      />
+                      <CopyButton code={organizationManager ? organizationManager.email : ""} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show ngày tạo */}
+                {/* Show ngày tạo */}
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_date">Ngày tạo</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                  </Badge>
-                  <CopyButton
-                    code={organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
-                  />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="create_date">Ngày tạo</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                      </Badge>
+                      <CopyButton
+                        code={organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* Show role thành viên */}
-            <div className="flex mb-3">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="role">Vai trò</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="primary">Quản lý tổ chức</Badge>
+                {/* Show role thành viên */}
+                <div className="flex mb-3">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="role">Vai trò</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="primary">Quản lý tổ chức</Badge>
 
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {organizationManager && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
-                {/*  */}
+
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="isActived"
                     checked={formik.values.isActived}
                     onCheckedChange={handleSwitchChange("isActived")}
                   />
-                    {formik.values?.isActived ? (
+                  {formik.values?.isActived ? (
                     <Label htmlFor="isActived">Đang hoạt động</Label>
                   ) : (
                     <Label htmlFor="isActived">Dừng hoạt động</Label>
                   )}
                 </div>
 
-              </form>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+              </div>
+            </ScrollArea>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Đóng
+                </Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                disabled={formik.isSubmitting}
+                variant="green_theme_primary"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

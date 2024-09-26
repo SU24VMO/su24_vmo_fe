@@ -29,7 +29,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   const [loading, setLoading] = useState(false);
 
   // Cập nhật trạng thái account
-  const updateStatus = async (accountID, isActived) => {
+  const updateStatus = async (accountID, isActived, setSubmitting) => {
     try {
       setLoading(true);
 
@@ -66,6 +66,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
     } finally {
       onOpenChange(false);
       setLoading(false);
+      setSubmitting(false)
     }
   };
 
@@ -76,8 +77,10 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values.accountID);
-      updateStatus(values.accountID, values.isActived);
-      setSubmitting(false);
+      console.log('====================================');
+      console.log(123);
+      console.log('====================================');
+      updateStatus(values.accountID, values.isActived, setSubmitting);
     },
   });
   /* Giải thích: 
@@ -102,15 +105,16 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-tablet">
+{member && (
+              <form onSubmit={formik.handleSubmit} className="space-y-3">
         <DialogHeader>
           <DialogTitle>Thông tin người dùng</DialogTitle>
           <DialogDescription>
             Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái của người dùng!
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-96 px-10 py-5 shadow-inner ">
+        <ScrollArea className="h-96 px-10 py-5 shadow-inner">
           <div className="flex flex-col gap-5">
-            
             {/* Show avatar người dùng */}
             <div className="flex">
               <div className="grid flex-1 gap-2">
@@ -180,18 +184,18 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                   <Badge variant={"outline"}>
                     {member
                       ? format(
-                          new Date(member?.createdAt),
-                          "dd/MM/yyyy, h:mm:ss a"
-                        )
+                        new Date(member?.createdAt),
+                        "dd/MM/yyyy, h:mm:ss a"
+                      )
                       : ""}
                   </Badge>
                   <CopyButton
                     code={
                       member
                         ? format(
-                            new Date(member?.createdAt),
-                            "dd/MM/yyyy, h:mm:ss a"
-                          )
+                          new Date(member?.createdAt),
+                          "dd/MM/yyyy, h:mm:ss a"
+                        )
                         : ""
                     }
                   />
@@ -208,9 +212,8 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                 </div>
               </div>
             </div>
-            {member && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
-                {/*  */}
+            
+                {/* Switch trạng thái */}
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="isActived"
@@ -223,31 +226,33 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     <Label htmlFor="isActived">Dừng hoạt động</Label>
                   )}
                 </div>
-              </form>
-            )}
+                
+            
           </div>
         </ScrollArea>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Đóng
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    type="submit"
+                    disabled={formik.isSubmitting}
+                    variant="green_theme_primary"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="animate-spin flex items-center justify-center w-full" />
+                      </>
+                    ) : (
+                      "Xác nhận"
+                    )}
+                  </Button>
+                </DialogFooter>
+  </form>
+    
+)}
       </DialogContent>
     </Dialog>
   );

@@ -34,7 +34,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   const description = campaigns?.campaign?.description ? (campaigns?.campaign?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có";
 
 
-  const updateStatus = async (data) => {
+  const updateStatus = async (data, setSubmitting) => {
     try {
       setLoading(true);
       const response = await axiosPrivate.put(UPDATEAPPROVECAMPAIGNREQUEST, {
@@ -70,6 +70,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
     } finally {
       onOpenChange(false);
       setLoading(false);
+      setSubmitting(false)
     }
   };
 
@@ -78,8 +79,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
       isApproved: campaigns ? campaigns.isApproved : false,
     },
     onSubmit: (values, { setSubmitting }) => {
-      updateStatus(values);
-      setSubmitting(false);
+      updateStatus(values, setSubmitting);
     },
   });
 
@@ -108,240 +108,241 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
-        <DialogHeader>
-          <DialogTitle>Thông tin đơn duyệt chiến dịch</DialogTitle>
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của chiến dịch!
-          </DialogDescription>
-        </DialogHeader>
+        {campaigns && (
+          <form onSubmit={formik.handleSubmit} className="space-y-3">
+            <DialogHeader>
+              <DialogTitle>Thông tin đơn duyệt chiến dịch</DialogTitle>
+              <DialogDescription>
+                Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của chiến dịch!
+              </DialogDescription>
+            </DialogHeader>
 
-        <ScrollArea className="h-[65vh] shadow-inner">
-          <div className="flex flex-col p-5 gap-5">
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="name">Tên chiến dịch</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="name"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.name : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : "Không có"} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="targetAmount">Mục tiêu</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
-                  </Badge>
-                  <CopyButton
-                    code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="image">Ảnh nền</Label>
-                <div className="w-1/3 mx-auto">
-                  <img
-                    src={campaigns?.campaign ? campaigns.campaign?.image : "Không có"}
-                    alt="ảnh-nền"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {campaigns?.campaign && campaigns.campaign?.image && (
-                  <a href={campaigns.campaign?.image} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="description">Mô tả</Label>
-                <div className="flex items-center space-x-2 text-sm">
-                  <div variant={"outline"}>
-                    <div dangerouslySetInnerHTML={{ __html: isExpanded ? description : description?.substring(0, 500) + '...' }} />
-                    <Button variant="link" onClick={toggleDescription}>
-                      {isExpanded ? "Thu gọn" : "Xem thêm"}
-                    </Button>
+            <ScrollArea className="h-[65vh] shadow-inner">
+              <div className="flex flex-col p-5 gap-5">
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="name">Tên chiến dịch</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="name"
+                        defaultValue={campaigns?.campaign ? campaigns.campaign?.name : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : "Không có"} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Plan stage chiến dịch */}
-
-            {(campaigns?.campaign?.campaignTier * 1) === 2 ? (
-              <div className="flex">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="processingPhase">Kế hoạch chi tiêu</Label>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <ol class="relative border-s border-gray-200 dark:border-gray-700">
-                      {
-                        campaigns?.campaign?.processingPhases && campaigns?.campaign?.processingPhases.map((stage) => {
-                          return (
-                            <li class="mb-10 ms-4">
-                              <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                              <span class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{stage?.percent + "%"}</span>
-                              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{stage?.name + " - " + formatAmount(stage?.currentMoney)}</h3>
-                            </li>
-                          )
-                        })
-                      }
-
-                    </ol>
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="targetAmount">Mục tiêu</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
+                      </Badge>
+                      <CopyButton
+                        code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : ""}
 
-
-
-
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="address">Địa chỉ</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="address"
-                    defaultValue={campaigns?.campaign ? campaigns.campaign?.address : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : "Không có"} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
-                <div className="w-1/3 mx-auto">
-                  <img
-                    src={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
-                    alt="ảnh-nền"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {campaigns?.campaign && campaigns.campaign?.applicationConfirmForm && (
-                  <a href={campaigns.campaign?.applicationConfirmForm} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )}
-              </div>
-
-
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="member"
-                    defaultValue={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_by_om">Tạo bởi quản lý tổ chức</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="create_by_om"
-                    defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="create_date">Ngày tạo chiến dịch</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  </Badge>
-                  <CopyButton
-                    code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="startDate">Ngày bắt đầu</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  </Badge>
-                  <CopyButton
-                    code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {(campaigns?.campaign?.campaignTier * 1) === 1 ? (
-              <div className="flex">
-                <div className="grid flex-1 gap-2">
-                  <Label htmlFor="expectedEndDate">Ngày kết thúc giai đoạn ủng hộ (dự kiến)</Label>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant={"outline"}>
-                      {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                    </Badge>
-                    <CopyButton
-                      code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                    />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="image">Ảnh nền</Label>
+                    <div className="w-1/3 mx-auto">
+                      <img
+                        src={campaigns?.campaign ? campaigns.campaign?.image : "Không có"}
+                        alt="ảnh-nền"
+                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                      />
+                    </div>
+                    {campaigns?.campaign && campaigns.campaign?.image && (
+                      <a href={campaigns.campaign?.image} download>
+                        <Button
+                          variant="outline"
+                          className="flex items-center space-x-1"
+                        >
+                          <ImageDown className="h-6 w-6" />
+                          Tải về
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 </div>
-              </div>
-            ) : ""}
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approved_by">Người duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-                    {campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
-                  />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="description">Mô tả</Label>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <div variant={"outline"}>
+                        <div dangerouslySetInnerHTML={{ __html: isExpanded ? description : description?.substring(0, 500) + '...' }} />
+                        <Button variant="link" onClick={toggleDescription}>
+                          {isExpanded ? "Thu gọn" : "Xem thêm"}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {campaigns && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                {/* Plan stage chiến dịch */}
+
+                {(campaigns?.campaign?.campaignTier * 1) === 2 ? (
+                  <div className="flex">
+                    <div className="grid flex-1 gap-2">
+                      <Label htmlFor="processingPhase">Kế hoạch chi tiêu</Label>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <ol class="relative border-s border-gray-200 dark:border-gray-700">
+                          {
+                            campaigns?.campaign?.processingPhases && campaigns?.campaign?.processingPhases.map((stage) => {
+                              return (
+                                <li class="mb-10 ms-4">
+                                  <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                                  <span class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{stage?.percent + "%"}</span>
+                                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{stage?.name + " - " + formatAmount(stage?.currentMoney)}</h3>
+                                </li>
+                              )
+                            })
+                          }
+
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                ) : ""}
+
+
+
+
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="address">Địa chỉ</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="address"
+                        defaultValue={campaigns?.campaign ? campaigns.campaign?.address : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : "Không có"} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex">
+
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="applicationConfirmForm">Đơn duyệt từ địa phương</Label>
+                    <div className="w-1/3 mx-auto">
+                      <img
+                        src={campaigns?.campaign ? campaigns.campaign?.applicationConfirmForm : ""}
+                        alt="ảnh-nền"
+                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                      />
+                    </div>
+                    {campaigns?.campaign && campaigns.campaign?.applicationConfirmForm && (
+                      <a href={campaigns.campaign?.applicationConfirmForm} download>
+                        <Button
+                          variant="outline"
+                          className="flex items-center space-x-1"
+                        >
+                          <ImageDown className="h-6 w-6" />
+                          Tải về
+                        </Button>
+                      </a>
+                    )}
+                  </div>
+
+
+                </div>
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="member">Tạo bởi tình nguyện viên</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="member"
+                        defaultValue={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="create_by_om">Tạo bởi quản lý tổ chức</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="create_by_om"
+                        defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="create_date">Ngày tạo chiến dịch</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      </Badge>
+                      <CopyButton
+                        code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="startDate">Ngày bắt đầu</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      </Badge>
+                      <CopyButton
+                        code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {(campaigns?.campaign?.campaignTier * 1) === 1 ? (
+                  <div className="flex">
+                    <div className="grid flex-1 gap-2">
+                      <Label htmlFor="expectedEndDate">Ngày kết thúc giai đoạn ủng hộ (dự kiến)</Label>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant={"outline"}>
+                          {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                        </Badge>
+                        <CopyButton
+                          code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : ""}
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="approved_by">Người duyệt</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+                        {campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -360,32 +361,32 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                     <Label htmlFor="isApproved">Từ chối</Label>
                   </div>
                 </div>
-              </form>
-            )}
-          </div>
-        </ScrollArea>
 
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+              </div>
+            </ScrollArea>
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Đóng
+                </Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                disabled={formik.isSubmitting}
+                variant="green_theme_primary"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

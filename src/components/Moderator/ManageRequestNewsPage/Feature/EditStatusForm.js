@@ -38,7 +38,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   const description = posts?.post?.description ? (posts?.post?.description?.replace(/(?:\r\n|\r|\n)/g, "<br>")) : "Không có";
 
 
-  const updateStatus = async (data) => {
+  const updateStatus = async (data, setSubmitting) => {
     try {
       setLoading(true)
 
@@ -61,23 +61,23 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
       if (error.response && error.response.data) {
         const serverMessage = error?.response?.data?.message;
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: serverMessage,
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: serverMessage,
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    } else {
+      } else {
         toast({
-            variant: "destructive",
-            title: "Đã xảy ra lỗi!",
-            description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
-            action: <ToastAction altText="undo">Ẩn</ToastAction>,
+          variant: "destructive",
+          title: "Đã xảy ra lỗi!",
+          description: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+          action: <ToastAction altText="undo">Ẩn</ToastAction>,
         });
-    }
+      }
     } finally {
       onOpenChange(false);
       setLoading(false)
-
+      setSubmitting(false)
     }
   }
   console.log(posts);
@@ -88,8 +88,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
     },
     onSubmit: (values, { setSubmitting }) => {
       console.log(values);
-      updateStatus(values)
-      setSubmitting(false);
+      updateStatus(values, setSubmitting)
     },
   });
   /* Giải thích: 
@@ -116,174 +115,175 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-laptop mobile:h-[90vh] h-full">
-        <DialogHeader>
-          <DialogTitle>Chi tiết bài viết</DialogTitle>
-          <DialogDescription>
-            Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của bài viết!
-          </DialogDescription>
-        </DialogHeader>
+        {posts && (
+          <form onSubmit={formik.handleSubmit} className="space-y-3">
+            <DialogHeader>
+              <DialogTitle>Chi tiết bài viết</DialogTitle>
+              <DialogDescription>
+                Lưu ý: Bạn chỉ có thể chỉnh sửa trạng thái xác thực của bài viết!
+              </DialogDescription>
+            </DialogHeader>
 
-        <ScrollArea className="h-[65vh]  shadow-inner ">
-          <div className="flex flex-col p-5 gap-5">
+            <ScrollArea className="h-[65vh]  shadow-inner ">
+              <div className="flex flex-col p-5 gap-5">
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="title">Tiêu đề</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="title"
-                    defaultValue={posts?.post ? posts.post?.title : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={posts?.post ? posts.post?.title : "Không có"} />
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="cover">Ảnh nền</Label>
-                <div className=" w-2/3  mobile:w-1/3  mx-auto">
-                  <img
-                    src={posts?.post ? posts.post?.cover : ""}
-                    alt="cover"
-
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {posts?.post && posts.post?.cover && (
-                  <a href={posts.post?.cover} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )}
-              </div>
-            </div>
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="content">Nội dung chính</Label>
-                <div className="flex items-center space-x-2 text-sm">
-                  <div variant={"outline"}>
-                    <div dangerouslySetInnerHTML={{ __html: isExpandedContent ? content : content?.substring(0, 500) + '...' }} />
-                    <Button variant="link" onClick={toggleContent}>
-                      {isExpandedContent ? "Thu gọn" : "Xem thêm"}
-                    </Button>
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="title">Tiêu đề</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="title"
+                        defaultValue={posts?.post ? posts.post?.title : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={posts?.post ? posts.post?.title : "Không có"} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="cover">Ảnh nền</Label>
+                    <div className=" w-2/3  mobile:w-1/3  mx-auto">
+                      <img
+                        src={posts?.post ? posts.post?.cover : ""}
+                        alt="cover"
 
-
-
-
-
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="image">Ảnh chính</Label>
-                <div className=" w-2/3  mobile:w-1/3 mx-auto">
-                  <img
-                    src={posts?.post ? posts.post?.image : ""}
-                    alt="image_volunteer"
-
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
-                  />
-                </div>
-                {posts?.post && posts.post?.image && (
-                  <a href={posts.post?.image} download>
-                    <Button
-                      variant="outline"
-                      className="flex items-center space-x-1"
-                    >
-                      <ImageDown className="h-6 w-6" />
-                      Tải về
-                    </Button>
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="content">Nội dung kết</Label>
-                <div className="flex items-center space-x-2 text-sm">
-                  <div variant={"outline"}>
-                    <div dangerouslySetInnerHTML={{ __html: isExpandedDescription ? description : description?.substring(0, 500) + '...' }} />
-                    <Button variant="link" onClick={toggleDescription}>
-                      {isExpandedDescription ? "Thu gọn" : "Xem thêm"}
-                    </Button>
+                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                      />
+                    </div>
+                    {posts?.post && posts.post?.cover && (
+                      <a href={posts.post?.cover} download>
+                        <Button
+                          variant="outline"
+                          className="flex items-center space-x-1"
+                        >
+                          <ImageDown className="h-6 w-6" />
+                          Tải về
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="member">Tình nguyện viên</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="member"
-                    defaultValue={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"} />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="content">Nội dung chính</Label>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <div variant={"outline"}>
+                        <div dangerouslySetInnerHTML={{ __html: isExpandedContent ? content : content?.substring(0, 500) + '...' }} />
+                        <Button variant="link" onClick={toggleContent}>
+                          {isExpandedContent ? "Thu gọn" : "Xem thêm"}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="organizationManager">Quản lý tổ chức</Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="organizationManager"
-                    defaultValue={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"}
-                    disabled
-                  />
-                  <CopyButton code={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"} />
+
+
+
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="image">Ảnh chính</Label>
+                    <div className=" w-2/3  mobile:w-1/3 mx-auto">
+                      <img
+                        src={posts?.post ? posts.post?.image : ""}
+                        alt="image_volunteer"
+
+                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale block"
+                      />
+                    </div>
+                    {posts?.post && posts.post?.image && (
+                      <a href={posts.post?.image} download>
+                        <Button
+                          variant="outline"
+                          className="flex items-center space-x-1"
+                        >
+                          <ImageDown className="h-6 w-6" />
+                          Tải về
+                        </Button>
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="createDate">Ngày tạo</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-
-                    {posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  </Badge>
-                  <CopyButton
-                    code={posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
-                  />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="content">Nội dung kết</Label>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <div variant={"outline"}>
+                        <div dangerouslySetInnerHTML={{ __html: isExpandedDescription ? description : description?.substring(0, 500) + '...' }} />
+                        <Button variant="link" onClick={toggleDescription}>
+                          {isExpandedDescription ? "Thu gọn" : "Xem thêm"}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Show Ngày duyệt */}
-            <div className="flex">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="approvedDate">Ngày duyệt</Label>
-                <div className="flex items-center space-x-2">
-                  <Badge variant={"outline"}>
-
-                    {posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  </Badge>
-                  <CopyButton
-                    code={posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
-                  />
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="member">Tình nguyện viên</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="member"
+                        defaultValue={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
 
-            {posts && (
-              <form onSubmit={formik.handleSubmit} className="space-y-3">
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="organizationManager">Quản lý tổ chức</Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="organizationManager"
+                        defaultValue={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"}
+                        disabled
+                      />
+                      <CopyButton code={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="createDate">Ngày tạo</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+
+                        {posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      </Badge>
+                      <CopyButton
+                        code={posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Show Ngày duyệt */}
+                <div className="flex">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="approvedDate">Ngày duyệt</Label>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={"outline"}>
+
+                        {posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      </Badge>
+                      <CopyButton
+                        code={posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
+
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -302,32 +302,32 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                     <Label htmlFor="isApproved">Từ chối</Label>
                   </div>
                 </div>
-              </form>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-            variant="green_theme_primary"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="  animate-spin flex items-center justify-center w-full" />
 
-              </>
-            ) : (
-              "Xác nhận"
-            )}
-          </Button>
-        </DialogFooter>
+              </div>
+            </ScrollArea>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Đóng
+                </Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                disabled={formik.isSubmitting}
+                variant="green_theme_primary"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="  animate-spin flex items-center justify-center w-full" />
+
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog >
   );

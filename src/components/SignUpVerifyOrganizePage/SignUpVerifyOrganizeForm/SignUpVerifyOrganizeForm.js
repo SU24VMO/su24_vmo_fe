@@ -17,7 +17,7 @@ export default function SignUpVerifyOrganizeForm() {
 
   const navigate = useNavigate()
 
-  const verifyOrganizationManager = async (data, resetForm) => {
+  const verifyOrganizationManager = async (data, resetForm, setSubmitting) => {
     try {
       setLoading(true)
       const response = await axiosPrivate.post(VERIFYORGANIZATIONMANAGER, {
@@ -59,6 +59,7 @@ export default function SignUpVerifyOrganizeForm() {
       }
     } finally {
       setLoading(false)
+      setSubmitting(false)
     }
   }
 
@@ -76,7 +77,7 @@ export default function SignUpVerifyOrganizeForm() {
         }}
         validate={(values) => {
           const errors = {};
-          const cleanedTaxCode = values.personalTaxCode.replace(/\s+/g, '');
+          const cleanedTaxCode = values?.personalTaxCode ? values.personalTaxCode.replace(/\s+/g, '') : '';
           // name validation
           if (!values.name) {
             errors.name = "Không được để trống!";
@@ -119,8 +120,7 @@ export default function SignUpVerifyOrganizeForm() {
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
         
-          verifyOrganizationManager(values, resetForm)
-          setSubmitting(false);
+          verifyOrganizationManager(values, resetForm, setSubmitting)
         }}
       >
         {({

@@ -91,9 +91,10 @@ const ConfirmEnableDisable = ({ isOpen, onOpenChange, row, onSubmitSuccess }) =>
             </Button>
           </DialogClose>
           <Button
-            type="button"
+            type="submit"
             onClick={() => onUpdateEnableDisable(row?.campaignID)}
             variant="green_theme_primary"
+            disabled={loading}
           >
             {loading ? (
               <>

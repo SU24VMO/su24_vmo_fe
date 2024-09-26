@@ -27,7 +27,7 @@ const ConfirmReportCampaign = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  const updateStatusReport = async (data) => {
+  const updateStatusReport = async (data, setSubmitting) => {
     try {
       setLoading(true);
       const response = await axiosPrivate.put(UPDATESTATUSREPORTCAMPAIGN, {
@@ -77,6 +77,7 @@ const ConfirmReportCampaign = ({
     } finally {
       onOpenChange(false);
       setLoading(false);
+      setSubmitting(false)
     }
   };
 
@@ -90,8 +91,7 @@ const ConfirmReportCampaign = ({
       isTransparent: campaigns?.campaign ? campaigns?.campaign?.isTransparent : false,
     },
     onSubmit: (values, { setSubmitting }) => {
-      updateStatusReport(values);
-      setSubmitting(false);
+      updateStatusReport(values, setSubmitting);
     },
   });
 
@@ -111,6 +111,8 @@ const ConfirmReportCampaign = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="mobile:max-w-screen-mobile">
+      {campaigns && (
+            <form onSubmit={formik.handleSubmit} className="space-y-3">
         <DialogHeader>
           <DialogTitle>Cập nhật trạng thái minh bạch</DialogTitle>
           <DialogDescription>
@@ -126,8 +128,7 @@ const ConfirmReportCampaign = ({
         </DialogHeader>
 
         <div>
-          {campaigns && (
-            <form onSubmit={formik.handleSubmit} className="space-y-3">
+         
               <div className="flex flex-col gap-3">
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -143,8 +144,7 @@ const ConfirmReportCampaign = ({
                   )}
                 </div>
               </div>
-            </form>
-          )}
+        
         </div>
 
         <DialogFooter>
@@ -154,9 +154,8 @@ const ConfirmReportCampaign = ({
             </Button>
           </DialogClose>
           <Button
-            type="button"
+            type="submit"
             disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
             variant="green_theme_primary"
           >
             {loading ? (
@@ -168,6 +167,8 @@ const ConfirmReportCampaign = ({
             )}
           </Button>
         </DialogFooter>
+        </form>
+          )}
       </DialogContent>
     </Dialog>
   );

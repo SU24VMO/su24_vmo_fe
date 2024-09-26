@@ -19,7 +19,7 @@ export default function SignUpVerifyUserForm() {
     const navigate = useNavigate()
 
 
-    const verifyVolunteer = async (data, resetForm) => {
+    const verifyVolunteer = async (data, resetForm, setSubmitting) => {
         try {
             setLoading(true);
             const response = await axiosPrivate.post(VERIFYVOLUNTEER, {
@@ -66,6 +66,7 @@ export default function SignUpVerifyUserForm() {
             }
         } finally {
             setLoading(false);
+            setSubmitting(false)
         }
     };
     
@@ -138,8 +139,7 @@ export default function SignUpVerifyUserForm() {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                verifyVolunteer(values, resetForm)
-                setSubmitting(false);
+                verifyVolunteer(values, resetForm, setSubmitting)
             }}
         >
             {({

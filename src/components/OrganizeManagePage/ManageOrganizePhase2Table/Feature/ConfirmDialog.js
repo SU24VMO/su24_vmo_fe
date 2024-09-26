@@ -92,9 +92,10 @@ const ConfirmDialog = ({ isOpen, onOpenChange, row, onSubmitSuccess }) => {
             </Button>
           </DialogClose>
           <Button
-            type="button"
+            type="submit"
             onClick={() => onUpdateStatusPhase(row?.processingPhases[0]?.processingPhaseId)}
             variant="green_theme_primary"
+            disabled={loading} 
           >
             {loading ? (
               <>
