@@ -136,7 +136,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                         defaultValue={posts?.post ? posts.post?.title : "Không có"}
                         disabled
                       />
-                      <CopyButton code={posts?.post ? posts.post?.title : "Không có"} />
+                      <CopyButton type="button" code={posts?.post ? posts.post?.title : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -154,6 +154,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                     {posts?.post && posts.post?.cover && (
                       <a href={posts.post?.cover} download>
                         <Button
+                         type="button"
                           variant="outline"
                           className="flex items-center space-x-1"
                         >
@@ -170,7 +171,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                     <div className="flex items-center space-x-2 text-sm">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpandedContent ? content : content?.substring(0, 500) + '...' }} />
-                        <Button variant="link" onClick={toggleContent}>
+                        <Button  type="button" variant="link" onClick={toggleContent}>
                           {isExpandedContent ? "Thu gọn" : "Xem thêm"}
                         </Button>
                       </div>
@@ -197,6 +198,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                     {posts?.post && posts.post?.image && (
                       <a href={posts.post?.image} download>
                         <Button
+                         type="button"
                           variant="outline"
                           className="flex items-center space-x-1"
                         >
@@ -214,7 +216,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                     <div className="flex items-center space-x-2 text-sm">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpandedDescription ? description : description?.substring(0, 500) + '...' }} />
-                        <Button variant="link" onClick={toggleDescription}>
+                        <Button  type="button" variant="link" onClick={toggleDescription}>
                           {isExpandedDescription ? "Thu gọn" : "Xem thêm"}
                         </Button>
                       </div>
@@ -231,7 +233,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                         defaultValue={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={posts?.member ? (posts.member?.firstName + " " + posts.member?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -246,7 +248,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                         defaultValue={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={posts?.organizationManager ? (posts.organizationManager?.firstName + " " + posts.organizationManager?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -259,7 +261,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
                         {posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={posts ? format(new Date(posts?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -275,7 +277,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
 
                         {posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={posts?.approvedDate ? format(new Date(posts?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>

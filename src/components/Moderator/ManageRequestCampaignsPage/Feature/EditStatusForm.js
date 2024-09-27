@@ -128,7 +128,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                         defaultValue={campaigns?.campaign ? campaigns.campaign?.name : "Không có"}
                         disabled
                       />
-                      <CopyButton code={campaigns?.campaign ? campaigns.campaign?.name : "Không có"} />
+                      <CopyButton type="button" code={campaigns?.campaign ? campaigns.campaign?.name : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                       <Badge variant={"outline"}>
                         {campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={campaigns?.campaign ? formatAmount(campaigns.campaign?.targetAmount) : "Không có"}
                       />
                     </div>
@@ -160,6 +160,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                     {campaigns?.campaign && campaigns.campaign?.image && (
                       <a href={campaigns.campaign?.image} download>
                         <Button
+                        type="button"
                           variant="outline"
                           className="flex items-center space-x-1"
                         >
@@ -177,7 +178,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                     <div className="flex items-center space-x-2 text-sm">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpanded ? description : description?.substring(0, 500) + '...' }} />
-                        <Button variant="link" onClick={toggleDescription}>
+                        <Button  type="button" variant="link" onClick={toggleDescription}>
                           {isExpanded ? "Thu gọn" : "Xem thêm"}
                         </Button>
                       </div>
@@ -224,7 +225,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                         defaultValue={campaigns?.campaign ? campaigns.campaign?.address : "Không có"}
                         disabled
                       />
-                      <CopyButton code={campaigns?.campaign ? campaigns.campaign?.address : "Không có"} />
+                      <CopyButton type="button" code={campaigns?.campaign ? campaigns.campaign?.address : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -243,6 +244,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                     {campaigns?.campaign && campaigns.campaign?.applicationConfirmForm && (
                       <a href={campaigns.campaign?.applicationConfirmForm} download>
                         <Button
+                         type="button"
                           variant="outline"
                           className="flex items-center space-x-1"
                         >
@@ -265,7 +267,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                         defaultValue={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={campaigns?.member ? (campaigns.member?.firstName + " " + campaigns.member?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -279,7 +281,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                         defaultValue={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={campaigns?.organizationManager ? (campaigns.organizationManager?.firstName + " " + campaigns.organizationManager?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -291,7 +293,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                       <Badge variant={"outline"}>
                         {campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={campaigns ? format(new Date(campaigns?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -305,7 +307,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                       <Badge variant={"outline"}>
                         {campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={campaigns?.campaign ? format(new Date(campaigns.campaign?.startDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -320,7 +322,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                         <Badge variant={"outline"}>
                           {campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                         </Badge>
-                        <CopyButton
+                        <CopyButton type="button"
                           code={campaigns?.campaign ? format(new Date(campaigns.campaign?.expectedEndDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                         />
                       </div>
@@ -335,7 +337,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                       <Badge variant={"outline"}>
                         {campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={campaigns?.moderator ? (campaigns.moderator?.firstName + " " + campaigns.moderator?.lastName) : "Chưa có"}
                       />
                     </div>

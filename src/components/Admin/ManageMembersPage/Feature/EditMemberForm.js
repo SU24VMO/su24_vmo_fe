@@ -141,7 +141,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     defaultValue={member ? member?.accountID : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member?.accountID : ""} />
+                  <CopyButton type="button" code={member ? member?.accountID : ""} />
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     defaultValue={member ? member?.username : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member?.username : ""} />
+                  <CopyButton type="button" code={member ? member?.username : ""} />
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                     defaultValue={member ? member?.email : ""}
                     disabled
                   />
-                  <CopyButton code={member ? member?.email : ""} />
+                  <CopyButton type="button" code={member ? member?.email : ""} />
                 </div>
               </div>
             </div>
@@ -190,6 +190,7 @@ const EditMemberForm = ({ isOpen, onOpenChange, member, onSubmitSuccess }) => {
                       : ""}
                   </Badge>
                   <CopyButton
+                  type="button"
                     code={
                       member
                         ? format(

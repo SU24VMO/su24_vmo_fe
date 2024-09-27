@@ -42,7 +42,7 @@ const CustomActionButtonCampaign = ({ data, campaignId, campaignTier }) => {
                         defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier1/${campaignId}`}
                         disabled
                       />
-                      <CopyButton
+                      <CopyButton type="button"
                         code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier1/${campaignId}`}
                       />
                     </>
@@ -53,7 +53,7 @@ const CustomActionButtonCampaign = ({ data, campaignId, campaignTier }) => {
                         defaultValue={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier2/${campaignId}`}
                         disabled
                       />
-                      <CopyButton
+                      <CopyButton type="button"
                         code={`https://su24-vmo-fe.vercel.app/viewCampaigns/campaignDetail/tier2/${campaignId}`}
                       />
                     </>

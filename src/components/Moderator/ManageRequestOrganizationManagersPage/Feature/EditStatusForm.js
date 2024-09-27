@@ -121,7 +121,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.name : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.name : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.name : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -135,7 +135,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.phoneNumber : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.phoneNumber : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.phoneNumber : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.email : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.email : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.email : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.address : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.address : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.address : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -180,7 +180,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.citizenIdentification : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.citizenIdentification : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.citizenIdentification : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -195,7 +195,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                         defaultValue={organizationManager ? organizationManager?.personalTaxCode : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager?.personalTaxCode : "Không có"} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager?.personalTaxCode : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
 
                         {organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organizationManager?.createDate ? format(new Date(organizationManager?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -223,7 +223,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                       <Badge variant={"outline"}>
                         {organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organizationManager?.approvedDate ? format(new Date(organizationManager?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>
@@ -237,7 +237,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organizationManager, onSubmitSuc
                       <Badge variant={"outline"}>
                         {organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organizationManager?.moderator ? (organizationManager?.moderator?.firstName + " " + organizationManager?.moderator?.lastName) : "Chưa có"}
                       />
                     </div>

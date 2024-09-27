@@ -117,7 +117,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.memberName ? volunteer?.memberName : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.memberName ? volunteer?.memberName : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.memberName ? volunteer?.memberName : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.email ? volunteer?.email : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.email ? volunteer?.email : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.email ? volunteer?.email : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.memberAddress ? volunteer?.memberAddress : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.memberAddress ? volunteer?.memberAddress : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.memberAddress ? volunteer?.memberAddress : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.phoneNumber ? volunteer?.phoneNumber : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.phoneNumber ? volunteer?.phoneNumber : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.phoneNumber ? volunteer?.phoneNumber : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.citizenIdentification ? volunteer?.citizenIdentification : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.citizenIdentification ? volunteer?.citizenIdentification : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.citizenIdentification ? volunteer?.citizenIdentification : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -191,7 +191,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
 
                         {volunteer?.birthday ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={volunteer?.birthday ? format(new Date(volunteer?.birthday), 'dd/MM/yyyy') : "Không có"}
                       />
                     </div>
@@ -208,7 +208,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                   defaultValue={volunteer ? volunteer.organization_tax_code : ""}
                   disabled
                 />
-                <CopyButton code={volunteer ? volunteer.organization_tax_code : ""} />
+                <CopyButton type="button" code={volunteer ? volunteer.organization_tax_code : ""} />
               </div>
             </div>
           </div> */}
@@ -223,7 +223,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer ? volunteer.socialMediaLink : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer ? volunteer.socialMediaLink : "Không có"} />
+                      <CopyButton type="button" code={volunteer ? volunteer.socialMediaLink : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer ? volunteer.clubName : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer ? volunteer.clubName : "Không có"} />
+                      <CopyButton type="button" code={volunteer ? volunteer.clubName : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -251,7 +251,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         {volunteer?.roleInClub ? (volunteer.roleInClub === 0 ? "Sáng lập" : volunteer.roleInClub === 1 ? "Chủ nhiệm" : "Không có") : "Không có"}
 
                       </Badge>
-                      <CopyButton code={volunteer ? volunteer.roleInClub : ""} />
+                      <CopyButton type="button" code={volunteer ? volunteer.roleInClub : ""} />
                     </div>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.achievementLink ? volunteer.achievementLink : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.achievementLink ? volunteer.achievementLink : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.achievementLink ? volunteer.achievementLink : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                         defaultValue={volunteer?.detailDescriptionLink ? volunteer.detailDescriptionLink : "Không có"}
                         disabled
                       />
-                      <CopyButton code={volunteer?.detailDescriptionLink ? volunteer.detailDescriptionLink : "Không có"} />
+                      <CopyButton type="button" code={volunteer?.detailDescriptionLink ? volunteer.detailDescriptionLink : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -297,7 +297,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                     defaultValue={volunteer ? volunteer.achievement_link : ""}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.achievement_link : ""} />
+                  <CopyButton type="button" code={volunteer ? volunteer.achievement_link : ""} />
                 </div>
               </div>
             </div> */}
@@ -310,7 +310,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                     defaultValue={volunteer ? volunteer.authorization_documents : ""}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.authorization_documents : ""} />
+                  <CopyButton type="button" code={volunteer ? volunteer.authorization_documents : ""} />
                 </div>
               </div>
             </div> */}
@@ -323,7 +323,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
 
                         {volunteer?.createDate ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={volunteer?.createDate ? format(new Date(volunteer?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -338,7 +338,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
 
                         {volunteer?.approvedDate ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={volunteer?.approvedDate ? format(new Date(volunteer?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>
@@ -352,7 +352,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess }) =>
                       <Badge variant={"outline"}>
                         {volunteer?.moderator ? (volunteer.moderator?.firstName + " " + volunteer.moderator?.lastName) : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={volunteer?.moderator ? (volunteer.moderator?.firstName + " " + volunteer.moderator?.lastName) : "Chưa có"}
                       />
                     </div>

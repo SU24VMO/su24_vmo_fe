@@ -140,7 +140,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                     defaultValue={moderator ? moderator.accountID : ""}
                     disabled
                   />
-                  <CopyButton code={moderator ? moderator.accountID : ""} />
+                  <CopyButton type="button" code={moderator ? moderator.accountID : ""} />
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                     defaultValue={moderator ? moderator.username : ""}
                     disabled
                   />
-                  <CopyButton code={moderator ? moderator.username : ""} />
+                  <CopyButton  type="button" code={moderator ? moderator.username : ""} />
                 </div>
               </div>
             </div>
@@ -168,7 +168,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                     defaultValue={moderator ? moderator.email : ""}
                     disabled
                   />
-                  <CopyButton code={moderator ? moderator.email : ""} />
+                  <CopyButton type="button" code={moderator ? moderator.email : ""} />
                 </div>
               </div>
             </div>
@@ -182,7 +182,7 @@ const EditModeratorForm = ({ isOpen, onOpenChange, moderator, onSubmitSuccess })
                   <Badge variant={"outline"}>
                     {moderator ? format(new Date(moderator?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   </Badge>
-                  <CopyButton
+                  <CopyButton type="button"
                     code={moderator ? format(new Date(moderator?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   />
                 </div>

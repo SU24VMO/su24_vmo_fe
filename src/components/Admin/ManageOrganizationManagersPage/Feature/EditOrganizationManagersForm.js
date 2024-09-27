@@ -141,7 +141,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
                         defaultValue={organizationManager ? organizationManager.accountID : ""}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager.accountID : ""} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager.accountID : ""} />
                     </div>
                   </div>
                 </div>
@@ -155,7 +155,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
                         defaultValue={organizationManager ? organizationManager.username : ""}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager.username : ""} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager.username : ""} />
                     </div>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
                         defaultValue={organizationManager ? organizationManager.email : ""}
                         disabled
                       />
-                      <CopyButton code={organizationManager ? organizationManager.email : ""} />
+                      <CopyButton type="button" code={organizationManager ? organizationManager.email : ""} />
                     </div>
                   </div>
                 </div>
@@ -183,7 +183,7 @@ const EditOrganizationManagersForm = ({ isOpen, onOpenChange, organizationManage
                       <Badge variant={"outline"}>
                         {organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organizationManager ? format(new Date(organizationManager?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                       />
                     </div>

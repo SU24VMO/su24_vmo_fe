@@ -194,7 +194,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                         defaultValue={activities ? activities.activity?.title : "Không có"}
                         disabled
                       />
-                      <CopyButton code={activities ? activities.activity?.title : "Không có"} />
+                      <CopyButton type="button" code={activities ? activities.activity?.title : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -207,7 +207,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                         defaultValue={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={activities?.member ? (activities.member?.firstName + " " + activities.member?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                         defaultValue={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={activities?.organizationManager ? (activities.organizationManager?.firstName + " " + activities.organizationManager?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -232,7 +232,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
 
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpanded ? content : content?.substring(0, 500) + '...' }} />
-                        <Button variant="link" onClick={toggleDescription}>
+                        <Button  type="button" variant="link" onClick={toggleDescription}>
                           {isExpanded ? "Thu gọn" : "Xem thêm"}
                         </Button>
                       </div>
@@ -313,7 +313,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                       <Badge variant={"outline"}>
                         {activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={activities ? format(new Date(activities?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>
@@ -328,7 +328,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                       <Badge variant={"outline"}>
                         {activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={activities?.approvedDate ? format(new Date(activities?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>
@@ -343,7 +343,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, activities, onSubmitSuccess }) =
                       <Badge variant={"outline"}>
                         {activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={activities?.updateDate ? format(new Date(activities?.updateDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>

@@ -163,6 +163,7 @@ const EditBankingCampaignForm = ({
                         disabled
                       />
                       <CopyButton
+                      type="button"
                         code={
                           banking?.campaignID ? banking?.campaignID : "Chưa có"
                         }
@@ -180,6 +181,7 @@ const EditBankingCampaignForm = ({
                         disabled
                       />
                       <CopyButton
+                      type="button"
                         code={banking?.name ? banking?.name : "Chưa có"}
                       />
                     </div>
@@ -197,6 +199,7 @@ const EditBankingCampaignForm = ({
                         disabled
                       />
                       <CopyButton
+                      type="button"
                         code={
                           banking?.bankingName ? banking?.bankingName : "Chưa có"
                         }
@@ -216,6 +219,7 @@ const EditBankingCampaignForm = ({
                         disabled
                       />
                       <CopyButton
+                      type="button"
                         code={
                           banking?.accountName ? banking?.accountName : "Chưa có"
                         }
@@ -237,6 +241,7 @@ const EditBankingCampaignForm = ({
                         disabled
                       />
                       <CopyButton
+                      type="button"
                         code={
                           banking?.bankingAccountNumber
                             ? banking?.bankingAccountNumber
@@ -254,6 +259,7 @@ const EditBankingCampaignForm = ({
                         {banking ? formatAmount(banking?.amount) : ""}
                       </Badge>
                       <CopyButton
+                      type="button"
                         code={banking ? formatAmount(banking?.amount) : ""}
                       />
                     </div>

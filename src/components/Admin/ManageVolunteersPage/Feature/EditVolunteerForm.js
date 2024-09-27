@@ -141,7 +141,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
                     defaultValue={volunteer ? volunteer.accountID : ""}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.accountID : ""} />
+                  <CopyButton type="button" code={volunteer ? volunteer.accountID : ""} />
                 </div>
               </div>
             </div>
@@ -155,7 +155,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
                     defaultValue={volunteer ? volunteer.username : ""}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.username : ""} />
+                  <CopyButton type="button" code={volunteer ? volunteer.username : ""} />
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
                     defaultValue={volunteer ? volunteer.email : ""}
                     disabled
                   />
-                  <CopyButton code={volunteer ? volunteer.email : ""} />
+                  <CopyButton type="button" code={volunteer ? volunteer.email : ""} />
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@ const EditVolunteerForm = ({ isOpen, onOpenChange, volunteer, onSubmitSuccess })
                   <Badge variant={"outline"}>
                     {volunteer ? format(new Date(volunteer?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   </Badge>
-                  <CopyButton
+                  <CopyButton type="button"
                     code={volunteer ? format(new Date(volunteer?.createdAt), 'dd/MM/yyyy, h:mm:ss a') : ""}
                   />
                 </div>

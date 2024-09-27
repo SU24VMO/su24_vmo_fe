@@ -129,6 +129,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                   {organize?.organization && organize.organization?.logo && (
                     <a href={organize.organization?.logo} download>
                       <Button
+                       type="button"
                         variant="outline"
                         className="flex items-center space-x-1"
                       >
@@ -150,7 +151,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.organizationName : "Không cóKhông có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.organizationName : "Không cóKhông có"} />
+                      <CopyButton type="button" code={organize ? organize?.organizationName : "Không cóKhông có"} />
                     </div>
                   </div>
                 </div>
@@ -164,7 +165,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.organizationManagerEmail : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.organizationManagerEmail : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.organizationManagerEmail : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -178,7 +179,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.organizationTaxCode : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.organizationTaxCode : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.organizationTaxCode : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -190,7 +191,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                       <Badge variant={"outline"}>
                         {organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organize ? format(new Date(organize?.foundingDate), 'dd/MM/yyyy') : "Không có"}
                       />
                     </div>
@@ -206,7 +207,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.socialMediaLink : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.socialMediaLink : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.socialMediaLink : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -220,7 +221,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.areaOfActivity : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.areaOfActivity : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.areaOfActivity : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -233,7 +234,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.address : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.address : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.address : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -243,7 +244,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                     <div className="flex items-center space-x-2 text-sm">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpanded ? planInformation : planInformation?.substring(0, 500) + '...' }} />
-                        <Button variant="link" onClick={toggleDescription}>
+                        <Button  type="button" variant="link" onClick={toggleDescription}>
                           {isExpanded ? "Thu gọn" : "Xem thêm"}
                         </Button>
                       </div>
@@ -259,7 +260,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize ? organize?.achievementLink : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize ? organize?.achievementLink : "Không có"} />
+                      <CopyButton type="button" code={organize ? organize?.achievementLink : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -272,7 +273,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                     defaultValue={organize ? organize?.authorizationDocuments : ""}
                     disabled
                   />
-                  <CopyButton code={organize ? organize?.authorizationDocuments : ""} />
+                  <CopyButton type="button" code={organize ? organize?.authorizationDocuments : ""} />
                 </div>
               </div>
             </div> */}
@@ -290,6 +291,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                     {organize && organize?.authorizationDocuments && (
                       <a href={organize?.authorizationDocuments} download>
                         <Button
+                         type="button"
                           variant="outline"
                           className="flex items-center space-x-1"
                         >
@@ -310,7 +312,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                         defaultValue={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : "Không có"}
                         disabled
                       />
-                      <CopyButton code={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : "Không có"} />
+                      <CopyButton type="button" code={organize?.organizationManager ? (organize.organizationManager?.firstName + organize.organizationManager?.lastName) : "Không có"} />
                     </div>
                   </div>
                 </div>
@@ -322,7 +324,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                       <Badge variant={"outline"}>
                         {organize?.createDate ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organize?.createDate ? format(new Date(organize?.createDate), 'dd/MM/yyyy, h:mm:ss a') : "Không có"}
                       />
                     </div>
@@ -336,7 +338,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, organize, onSubmitSuccess }) => 
                       <Badge variant={"outline"}>
                         {organize?.approvedDate ? format(new Date(organize?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       </Badge>
-                      <CopyButton
+                      <CopyButton type="button"
                         code={organize?.approvedDate ? format(new Date(organize?.approvedDate), 'dd/MM/yyyy, h:mm:ss a') : "Chưa có"}
                       />
                     </div>
