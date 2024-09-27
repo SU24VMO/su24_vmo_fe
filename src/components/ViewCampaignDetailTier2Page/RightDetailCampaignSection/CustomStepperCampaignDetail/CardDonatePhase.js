@@ -29,7 +29,7 @@ const CardDonatePhase = ({ data }) => {
           </div>
           <div>
             {data.donatePhase.endDate
-              ? `Ngày bắt đầu: ${format(
+              ? `${format(
                   new Date(data.donatePhase.endDate),
                   "dd/MM/yyyy, h:mm:ss a"
                 )}`

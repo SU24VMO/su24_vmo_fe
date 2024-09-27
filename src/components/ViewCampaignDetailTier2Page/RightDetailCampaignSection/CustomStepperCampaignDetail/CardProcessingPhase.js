@@ -29,7 +29,7 @@ const CardProcessingPhase = ({ data }) => {
           </div>
           <div>
             {data.actualEndDate
-              ? `Ngày bắt đầu: ${format(
+              ? `${format(
                   new Date(data.actualEndDate),
                   "dd/MM/yyyy, h:mm:ss a"
                 )}`
