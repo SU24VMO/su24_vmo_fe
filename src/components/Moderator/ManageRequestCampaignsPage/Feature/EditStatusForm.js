@@ -175,7 +175,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                 <div className="flex">
                   <div className="grid flex-1 gap-2">
                     <Label htmlFor="description">Mô tả</Label>
-                    <div className="flex items-center space-x-2 text-sm">
+                    <div className="flex items-center space-x-2 text-sm break-all">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpanded ? description : description?.substring(0, 500) + '...' }} />
                         <Button  type="button" variant="link" onClick={toggleDescription}>
@@ -192,7 +192,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, campaigns, onSubmitSuccess }) =>
                   <div className="flex">
                     <div className="grid flex-1 gap-2">
                       <Label htmlFor="processingPhase">Kế hoạch chi tiêu</Label>
-                      <div className="flex items-center space-x-2 text-sm">
+                      <div className="flex items-center space-x-2 text-sm break-all">
                         <ol class="relative border-s border-gray-200 dark:border-gray-700">
                           {
                             campaigns?.campaign?.processingPhases && campaigns?.campaign?.processingPhases.map((stage) => {

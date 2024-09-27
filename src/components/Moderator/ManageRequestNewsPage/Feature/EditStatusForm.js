@@ -168,7 +168,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex">
                   <div className="grid flex-1 gap-2">
                     <Label htmlFor="content">Nội dung chính</Label>
-                    <div className="flex items-center space-x-2 text-sm">
+                    <div className="flex items-center space-x-2 text-sm break-all">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpandedContent ? content : content?.substring(0, 500) + '...' }} />
                         <Button  type="button" variant="link" onClick={toggleContent}>
@@ -213,7 +213,7 @@ const EditStatusForm = ({ isOpen, onOpenChange, posts, onSubmitSuccess }) => {
                 <div className="flex">
                   <div className="grid flex-1 gap-2">
                     <Label htmlFor="content">Nội dung kết</Label>
-                    <div className="flex items-center space-x-2 text-sm">
+                    <div className="flex items-center space-x-2 text-sm break-all">
                       <div variant={"outline"}>
                         <div dangerouslySetInnerHTML={{ __html: isExpandedDescription ? description : description?.substring(0, 500) + '...' }} />
                         <Button  type="button" variant="link" onClick={toggleDescription}>
