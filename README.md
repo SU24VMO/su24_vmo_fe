@@ -53,15 +53,15 @@ VMO is a web application designed to connect charities and participants, enhanci
 2. Follow the instructions in the `Installation Guides` section of the documentation.
 
 ## Project Team
-- **Leader**: Châu Nhật Trường
+- **Leader**: Châu Nhật Trường (SE161225)
 - **Members**:
-  - Trương Đinh Đăng Khoa
-  - Nguyễn Văn Dũng
-  - Nguyễn Tiến Phát
+  - Trương Đinh Đăng Khoa (SE161228)
+  - Nguyễn Văn Dũng (SE160223)
+  - Nguyễn Tiến Phát (SE160374)
 - **Supervisor**: Vũ Thị Thuỳ Dương
 
 ## Documentation
-Comprehensive documentation is available in the [Project Report](./2633_SU24SE014_GSU32_2ND_DEFENSE_VMO_Final_Project_Report.pdf).
+Comprehensive documentation is available in the [Project Report](https://drive.google.com/file/d/16MtwJI10RyJYnQpDZXHKtGEeE0d1IPzs/view?usp=sharing).
 
 ## License
 This project is licensed under the MIT License.
