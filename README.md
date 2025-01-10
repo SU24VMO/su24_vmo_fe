@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Volunteer Model for People in Difficult Circumstances (VMO)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+VMO is a web application designed to connect charities and participants, enhancing transparency in financial transactions and promoting social trust. It enables users to participate in campaigns, donate funds, and manage activities with various roles such as Guest, Member, Volunteer, Organization Manager, Admin, and Moderator.
 
-## Available Scripts
+## Features
+### General Features:
+- **Guest**: 
+  - View campaigns and news.
+  - Search campaigns.
 
-In the project directory, you can run:
+- **Member**: 
+  - Donate money to campaigns.
+  - View donation history.
+  - Share campaigns.
 
-### `npm start`
+- **Volunteer**:
+  - Create, manage, and delete campaigns, news, and activities.
+  - Upload and manage donation documents.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Organization Manager**:
+  - Manage organizations, campaigns, news, and activities.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Admin**:
+  - View dashboards and manage all accounts and transactions.
 
-### `npm test`
+- **Moderator**:
+  - Approve or reject requests for campaigns, activities, organizations, and news.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech Stack
+- **Frontend**: ReactJS
+- **Backend**: C# with .NET Core
+- **Database**: Microsoft SQL Server
+- **Hosting**: 
+  - Frontend: Vercel
+  - Backend: Microsoft Azure
 
-### `npm run build`
+## System Requirements
+### Hardware
+- Processor: 2 GHz or higher.
+- RAM: 4 GB or higher.
+- Disk Space: At least 10 GB.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Software
+- Node.js (for frontend).
+- Visual Studio (for backend).
+- Git.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
+1. Clone the repositories:
+   - Frontend: [su24_vmo_fe](https://github.com/SU24VMO/su24_vmo_fe)
+   - Backend: [su24_vmo_be](https://github.com/SU24VMO/su24_vmo_be_2)
+2. Follow the instructions in the `Installation Guides` section of the documentation.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project Team
+- **Leader**: Châu Nhật Trường
+- **Members**:
+  - Trương Đinh Đăng Khoa
+  - Nguyễn Văn Dũng
+  - Nguyễn Tiến Phát
+- **Supervisor**: Vũ Thị Thuỳ Dương
 
-### `npm run eject`
+## Documentation
+Comprehensive documentation is available in the [Project Report](./2633_SU24SE014_GSU32_2ND_DEFENSE_VMO_Final_Project_Report.pdf).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is licensed under the MIT License.
