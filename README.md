@@ -61,7 +61,7 @@ VMO is a web application designed to connect charities and participants, enhanci
 - **Supervisor**: Vũ Thị Thuỳ Dương
 
 ## Documentation
-Comprehensive documentation is available in the [Project Report](https://drive.google.com/file/d/16MtwJI10RyJYnQpDZXHKtGEeE0d1IPzs/view?usp=sharing).
+Comprehensive documentation is available in the [Project Report](https://drive.google.com/file/d/1ft_MAs_KX8plprY3f7EhbWJFWo0zWc27/view?usp=sharing).
 
 ## License
 This project is licensed under the MIT License.
